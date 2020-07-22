@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color circle</title>
+  <style>
+    div{
+      width: 500px;
+      height: 500px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+    }
+    /* #canvas {
+      width: 500px;
+      height: 500px;
+    } */
+  </style>
+</head>
+
+<body>
+  <div>
+    <canvas id="canvas" width="500" height="500"></canvas>
+  </div>
+  <script>
+    /** @type {HTMLCanvasElement} */
+    var canvas = document.querySelector("#canvas").getContext("2d");
+    var rgb = canvas.createRadialGradient(250, 250, 10, 250, 250, 250);
+    rgb.addColorStop(0, "aqua");
+    rgb.addColorStop(.2, "pink");
+    rgb.addColorStop(.4, "#0000fc");
+    rgb.addColorStop(.6, "#0ff");
+    rgb.addColorStop(.8, "#ff0");
+    rgb.addColorStop(1, "#fff");
+    canvas.fillStyle = rgb;
+    // canvas.lineWidth = "1";
+    canvas.strokeStyle = "#fff";
+    canvas.moveTo(0, 0);
+    canvas.lineTo(500, 0);
+    canvas.lineTo(500, 500);
+    canvas.lineTo(0, 500);
+    canvas.closePath();
+    canvas.fill();
+    canvas.stroke();
+  </script>
+</body>
+
+</html>
