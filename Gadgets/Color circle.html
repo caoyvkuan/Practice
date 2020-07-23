@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Color circle</title>
   <style>
-    div{
+    div {
       width: 500px;
       height: 500px;
       position: absolute;
@@ -16,6 +16,7 @@
       left: 0;
       margin: auto;
     }
+
     /* #canvas {
       width: 500px;
       height: 500px;
@@ -40,11 +41,13 @@
     canvas.fillStyle = rgb;
     // canvas.lineWidth = "1";
     canvas.strokeStyle = "#fff";
-    canvas.moveTo(0, 0);
-    canvas.lineTo(500, 0);
-    canvas.lineTo(500, 500);
-    canvas.lineTo(0, 500);
-    canvas.closePath();
+    canvas.arc(250, 250, 248, 0, Math.PI * 2);
+    // canvas.moveTo(0, 0);
+    // canvas.lineTo(500, 0);
+    // canvas.lineTo(500, 500);
+    // canvas.lineTo(0, 500);
+    // canvas.closePath();
+    // canvas.strokeStyle = "red";
     canvas.fill();
     canvas.stroke();
   </script>
