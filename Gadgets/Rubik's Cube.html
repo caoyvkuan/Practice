@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>魔方</title>
+  <style>
+    *{
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+    }
+    html,body{
+      width: 100%;
+      height: 100%;
+      
+    }
+    html,
+    body,
+    #square,
+    .surface > div{
+      display: flex;
+      justify-content: center;
+      align-items:center;
+    }
+    #square{
+      width: 500px;
+      height: 500px;
+      transform-style: preserve-3d;
+      animation: rotate 10s infinite linear alternate-reverse;
+    }
+    #square:hover{
+      /* 暂停 */
+      animation-play-state: paused;
+    }
+    #square > .surface{
+      width: 420px;
+      height: 420px;
+      position: absolute;
+      display: flex;
+      flex-wrap: wrap;
+      background-color: transparent;
+    }
+    .surface > div{
+      width: 120px;
+      height: 120px;
+      margin: 10px;
+      border-radius: 30px;
+      font-size: 3rem;
+      font-weight: bold;
+      /* 过度效果 */
+      transition: background-color 2s linear;
+    }
+    /* 魔方立体 */
+    .positive{
+      transform: translateZ(220px);
+    }
+    .negative{
+      transform: translateZ(-220px);
+    }
+    .top{
+      transform: rotateX(90deg) translateZ(220px);
+    }
+    .right{
+      transform: rotateY(90deg) translateZ(220px);
+    }
+    .bottom{
+      transform: rotateX(90deg) translateZ(-220px);
+    }
+    .left{
+      transform: rotateY(90deg) translateZ(-220px);
+    }
+    /* 翻转动画 */
+    @keyframes rotate{
+      0%{
+        transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+      }
+      20%{
+        transform: rotateX(72deg) rotateY(72deg) rotateZ(72deg);
+      }
+      40%{
+        transform: rotateX(144deg) rotateY(144deg) rotateZ(144deg);
+      }
+      60%{
+        transform: rotateX(216deg) rotateY(216deg) rotateZ(216deg);
+      }
+      80%{
+        transform: rotateX(288deg) rotateY(288deg) rotateZ(288deg);
+      }
+      100%{
+        transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+      }
+    }
+    /* 变色动画 */
+    .positive div{
+      animation: positive 15s infinite linear alternate-reverse;
+    }
+    @keyframes positive{
+      0%{background-color: springgreen;}
+      20%{background-color: pink;}
+      40%{background-color: red;}
+      60%{background-color: yellow;}
+      80%{background-color: aqua;}
+      100%{background-color: royalblue;}
+    }
+    .negative div{
+      animation: negative 15s infinite linear alternate-reverse;
+    }
+    @keyframes negative{
+      0%{background-color: pink;}
+      20%{background-color: red;}
+      40%{background-color: yellow;}
+      60%{background-color: aqua;}
+      80%{background-color: royalblue;}
+      100%{background-color: springgreen;}
+    }
+    .top div{
+      animation: topanm 15s infinite linear alternate-reverse;
+    }
+    @keyframes topanm{
+      0%{background-color: red;}
+      20%{background-color: yellow;}
+      40%{background-color: aqua;}
+      60%{background-color: royalblue;}
+      80%{background-color: springgreen;}
+      100%{background-color: pink;}
+    }
+    .right div{
+      animation: rightanm 15s infinite linear alternate-reverse;
+    }
+    @keyframes rightanm{
+      0%{background-color: yellow;}
+      20%{background-color: aqua;}
+      40%{background-color: royalblue;}
+      60%{background-color: springgreen;}
+      80%{background-color: pink;}
+      100%{background-color: red;}
+    }
+    .bottom div{
+      animation: bottomanm 15s infinite linear alternate-reverse;
+    }
+    @keyframes bottomanm{
+      0%{background-color: aqua;}
+      20%{background-color: royalblue;}
+      40%{background-color: springgreen;}
+      60%{background-color: pink;}
+      80%{background-color: red;}
+      100%{background-color: yellow;}
+    }
+    .left div{
+      animation: leftanm 15s infinite linear alternate-reverse;
+    }
+    @keyframes leftanm{
+      0%{background-color: royalblue;}
+      20%{background-color: springgreen;}
+      40%{background-color: pink;}
+      60%{background-color: red;}
+      80%{background-color: yellow;}
+      100%{background-color: aqua;}
+    }
+  </style>
+</head>
+<body>
+  <div id="square">
+    <div class="surface positive">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+    </div>
+    <div class="surface negative">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+    </div>
+    <div class="surface top">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+    </div>
+    <div class="surface right">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+    </div>
+    <div class="surface bottom">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+    </div>
+    <div class="surface left">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+    </div>
+  </div>
+</body>
+</html>
