@@ -2,7 +2,103 @@
 
 ## 结构与布局
 
+#### 自适应内部元素
 
++ `width:min-content;`	取值为容器内单词、图片的最大宽度
++ `width:max-content:clip`
+
+#### 精确控制表格列宽
+
++ `table-layout:fixed;`
++ `overflow:hidden;text-overflow:heaide`
+
+#### 根据兄弟元素的数量来设置样式
+
++ ```css
+  :nth-child(4) ~ li	选中第4项以及后面所有
+  :only-child 等效于	:first-child:last-child(4)
+  :nth-child(n+4)
+  li:first-child:nth-last-child(n+4),
+  li:first-child:nth-last-child(n+4) ~ li
+  /*会在正好只有4项的时候选中第一个*/
+  
+  li:first-child:nth-last-child(4),
+  li:first-child:nth-last-child(4) ~ li {
+   /* 当列表正好包含四项时，命中所有列表项 */
+  }
+  li:first-child:nth-last-child(-n+4),
+  li:first-child:nth-last-child(-n+4) ~ li {
+   /* 当列表最多包含四项时，命中所有列表项 */
+  }
+  ```
+
+#### 满幅的背景,定宽的内容
+
++ ```css
+  footer {
+   padding: 1em;
+   padding: 1em calc(50% - 450px);
+   background: #333;
+  }
+  当内边距是 50% - 450px 时，只可能给内容留出 900px（2×450px）的可用空间。
+  只有把 width 显式地设置为 900px 之外（或大或小）的其他值，我们才有可能看出区别
+  利用padding达到内容居中定宽背景铺满的效果
+  而不用两层元素来实现
+  ```
+
+#### 垂直居中
+
++ ```css
+  main {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+  }
+  利用tranform的位移属性translate实现居中
+  内容高度过高会被裁切掉
+  在某些浏览器显示模糊的问题可以用transform-style:preserve-3d;来修复
+  
+  main {
+   width: 18em;
+   padding: 1em 1.5em;
+   margin: 50vh auto 0;
+   transform: translateY(-50%);
+  }
+  只适用于窗口居中
+  ```
+
++ 基于flexbox的解决方案
+
++ ```css
+  body {
+   display: flex;
+   min-height: 100vh;
+   margin: 0;
+  }
+  main {
+   margin: auto;
+  }
+  Flexbox 中的margin:auto; 不仅在水平上将元素居中,垂直方向上同样如此
+  
+  不用布局也能居中
+  align-self: center;
+  ```
+
+#### 紧贴底部的页脚
+
++ ```css
+  body {
+   display: flex;
+   flex-flow: column;
+   min-height: 100vh;
+  }
+  /*	贴近页脚的元素这样设置		高度会一直保持让页脚不动	*/
+  利用了flex的垂直布局方式和flex的比例设置实现固定住页脚
+  main{ flex:1;}
+  ```
+
+  
 
 ## CSS技巧
 
@@ -178,14 +274,13 @@
     background: url(code-pirate.svg) no-repeat bottom right #58a;
     background-position: right 20px bottom 10px;
     
-padding: 10px;
-    background: url("code-pirate.svg") no-repeat #58a
-     bottom right; /* 或 100% 100% */
-    /*	改变背景图片的默认定位方式	*/
-    background-origin: content-box;
+    padding: 10px;
+        background: url("code-pirate.svg") no-repeat #58a
+         bottom right; /* 或 100% 100% */
+        /*	改变背景图片的默认定位方式	*/
+        background-origin: content-box;
     ```
-    
-  
+
 + calc()方案
 
   + ```css
