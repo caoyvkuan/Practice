@@ -1,0 +1,120 @@
+{
+  "VScode": {
+    "常用插件": [
+      "Common plugins",
+      {
+        "辅助类": [
+          "Auxiliary",
+          {
+            "name": "Chinese (Simplified) Language",
+            "description": "简体中文",
+            "imgsrc": "img/Chinese (Simplified) Language.png"
+          },
+          {
+            "name": "Auto Close Tag",
+            "description": "自动闭合HTML/XML标签",
+            "imgsrc": "img/Auto Close Tag .png"
+          },
+          {
+            "name": "Auto Rename Tag",
+            "description": "自动完成另一侧标签的同步修改",
+            "imgsrc": "img/Auto Rename Tag.png"
+          },
+          {
+            "name": "Bracket Pair Colorizer",
+            "description": "给括号加上不同的颜色，便于区分不同的区块，使用者可以定义不同括号类型和不同颜色",
+            "imgsrc": "img/Bracket Pair Colorizer.png"
+          },
+          {
+            "name": "indent-rainbow",
+            "description": "缩进彩虹方便阅读",
+            "imgsrc": "img/indent-rainbow.png"
+          },
+          {
+            "name": "Indenticator",
+            "description": "突出显示您当前的缩进深度",
+            "imgsrc": "img/Indenticator.png"
+          },
+          {
+            "name": "Beautify",
+            "description": "格式化对齐 html js css 代码",
+            "imgsrc": "img/Beautify .png"
+          },
+          {
+            "name": "Debugger for Chrome",
+            "description": "映射vscode上的断点到chrome上，方便调试",
+            "imgsrc": "img/Debugger for Chrome .png"
+          },
+          {
+            "name": "Path Intellisense",
+            "description": "自动提示文件路径，支持各种快速引入文件",
+            "imgsrc": "img/Path Intellisense.png"
+          },
+          {
+            "name": "open in browser",
+            "description": "vscode不像IDE一样能够直接在浏览器中打开html,而该插件支持快捷键与鼠标右键快速在浏览器中打开html文件，支持自定义打开指定的浏览器，包括：Firefox，Chrome，Opera，IE以及Safari",
+            "imgsrc": "img/open in browser.png"
+          },
+          {
+            "name": "HTMLHint",
+            "description": "静态检查规则",
+            "imgsrc": "img/HTMLHint.png"
+          },
+          {
+            "name": "Dracula Official",
+            "description": "一款主题风格",
+            "imgsrc": "img/Dracula Official.png"
+          },
+          {
+            "name": "filesize",
+            "description": "查看文件大小,在软件底部显示文件大小",
+            "imgsrc": "img/filesize.png"
+          },
+          {
+            "name": "GitLens",
+            "description": "方便查看git日志，git重度使用者必备",
+            "imgsrc": "img/GitLens.png"
+          }
+        ],
+        "语法提示": [
+          "prompt",
+          {
+            "name": "HTML CSS Support",
+            "description": "智能提示CSS类名以及id",
+            "imgsrc": "img/HTML CSS Support.png"
+          },
+          {
+            "name": "HTML Snippets",
+            "description": "智能提示HTML标签，以及标签含义",
+            "imgsrc": "img/HTML Snippets.png"
+          },
+          {
+            "name": "Class autocomplete for HTML",
+            "description": "智能提示HTML class =“”属性",
+            "imgsrc": "img/Class autocomplete for HTML .png"
+          },
+          {
+            "name": "IntelliSense for CSS class names in HTML",
+            "description": "HTML类属性的CSS类名称完成基于您的工作空间中找到的定义。",
+            "imgsrc": "img/IntelliSense for CSS class names in HTML.png"
+          },
+          {
+            "name": "JavaScript(ES6) code snippets",
+            "description": "ES6语法智能提示，以及快速输入，不仅仅支持.js，还支持.ts，.jsx，.tsx，.html，.vue,省去了配置其支持各种包含js代码文件的时间",
+            "imgsrc": "img/JavaScript(ES6) code snippets.png"
+          },
+          {
+            "name": "Vetur",
+            "description": "Vue多功能集成插件，包括：语法高亮，智能提示，emmet，错误提示，格式化,自动补全，debugger。vscode官方钦定Vue插件.",
+            "imgsrc": "img/Vetur .png"
+          },
+          {
+            "name": "ESLint",
+            "description": "js语法纠错，可以自定义配置，不过配置较为复杂，建议使用网上一些广泛使用的eslint配置",
+            "imgsrc": "img/ESLint .png"
+          }
+        ]
+      }
+    ]
+  }
+}

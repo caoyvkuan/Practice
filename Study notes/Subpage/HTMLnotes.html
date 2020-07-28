@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ok</title>
+    <style>
+        iframe,
+        .bg {
+            visibility: visible;
+            opacity: 0.5;
+            z-index: -1;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0rem;
+            left: 0px;
+            border: 0;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+        div marquee{
+            width: 100px;
+            height: 21px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content">
+        <!-- 背景 -->
+        <div class="bg" style="background-color: aqua;opacity: 0.1;"></div>
+        <iframe src="bg/background.html" frameborder="0" style="z-index:-2;"></iframe>
+        <h1>HTML</h1>
+        <h2 id="form">表单元素</h2>
+        <ol>
+            <li>
+                <strong>文本框:</strong>
+                <input type="text" name="email" size="40" maxlength="50" list="browsers" placeholder="灰色提示文本">
+            </li>
+            <li>
+                <strong>密码 :</strong>
+                <input type="password">
+            </li>
+            <li>
+                <strong>复选框:</strong>
+                <input type="checkbox" checked="checked">
+            </li>
+            <li>
+                <strong>radio-单选按钮</strong>
+                <p>···lable-可以用for属性关联id使用,也可直接放里面,点击lable的文本相当与点击关联的控件</p>
+                <p>
+                        <label for="label">letble里:<input type="radio" checked="checked" id="label" name="radio"></label>
+                        <label for="la"> letbl外:</label><input type="radio" id="la" name="radio">
+                </p>
+            </li>
+            <li>
+                <strong>fieldset标签可以将表单内的相关元素分组绘制边框</strong>
+                <p>···form="form_id"-规定 fieldset 所属的一个或多个表单</p>
+                <p>&lt;legend&gt; 标签为 &lt;fieldset&gt; 元素定义标题</p>
+                <form action="">
+                    <fieldset oninput="x.value=parseFloat(a.value)+parseFloat(b.value)">
+                        0<input type="range" id="a" value="50">100
+                        +<input type="number" id="b" value="50">
+                        =<output name="x" for="a b"></output>
+                        <legend>Personalia:</legend>
+                        <ol>
+                            <li>
+                                <strong>提交按钮:</strong>
+                                <input type="submit" value="Send">
+                            </li>
+                            <li>
+                                <strong>重置:</strong>
+                                <input type="reset">
+                            </li>
+                            <li>
+                                <strong>隐藏域:</strong>
+                                <input type="hidden">
+                            </li>
+                        </ol>
+                    </fieldset>
+                </form>
+            </li>
+            <li>
+                <strong>下拉列表:</strong>
+                <select>
+                    <!-- 分组,lable描述 -->
+                    <optgroup label="水果">
+                        <option value="苹果">苹果</option>
+                        <option selected="selected">香蕉</option>
+                        <option value="樱桃">樱桃</option>
+                    </optgroup>
+                    <optgroup label="游戏" disabled="disabled">
+                        <option value="GTA5">GTA5</option>
+                        <option value="LOL">LOL</option>
+                    </optgroup>
+                </select>
+            </li>
+            <li>
+                <strong>datalist:</strong>
+                <input list="browsers">
+                <datalist id="browsers">
+                    <option value="Internet Explorer"></option>
+                    <option value="Firefox"></option>
+                    <option value="Chrome"></option>
+                    <option value="Opera"></option>
+                    <option value="Safari"></option>
+                </datalist>
+                &lt;datalist&gt; 标签规定了 &lt;input&gt; 元素可能的选项列表 用&lt;input&gt;的属性list来绑定
+            </li>
+            <li>
+                <strong>文本域/多行文本框:</strong>
+                <textarea name="comment" rows="5" cols="20" id="loa"></textarea>
+            </li>
+        </ol>
+        <h2 id="element">常用元素</h2>
+        <ul>
+            <li>disabled属性可以应用实现禁用</li>
+            <li>
+                <strong>a元素：</strong>
+                <a href="//www.runoob.com" target="iframe_a">RUNOOB.COM</a>
+                <p>target属性可指向a链接的加载位置 _blank 默认每次都在新窗口打开</p>
+                <!-- 可实现不换网页切换内容效果 -->
+                <iframe src=" " name="iframe_a"></iframe>
+            </li>
+            <li>
+                <strong>img元素：</strong>
+                <img src="#" alt="图片不见了">
+            </li>
+            <li>
+                <strong>滚动:</strong>
+                    <marquee direction="up">命运石之门</marquee>
+                    <marquee direction="right">命运石之门</marquee>
+                    <marquee direction="down">命运石之门</marquee>
+                    <marquee direction="left">命运石之门</marquee>
+            </li>
+            <li>
+                <strong>列表</strong>
+                <p>
+                    unordered list = ul <br>
+                    ordered list = ol <br>
+                    list item = li
+                </p>
+            </li>
+        </ul>
+        <h2 id="special">特殊元素</h2>
+        <ul>
+            <li>
+                <strong>Void元素</strong>
+                <ul>
+                    <li><strong>hr水平线</strong><hr></li>
+                    <li>br换</li><br>行
+                    <li>img也是Void元素</li>
+                </ul>
+            </li>
+            <li>
+                <strong>文本格式化</strong>
+                <ul>
+                    <li>
+                        <q>表示短引用</q>
+                    </li>
+                    <li>
+                        <blockquote>长引用,会进行缩进</blockquote>
+                    </li>
+                    <li>
+                        <b>粗体文本</b>
+                    </li>
+                    <li>
+                        <em>强调文本</em>
+                    </li>
+                    <li>
+                        <code>计算机代码</code>
+                    </li>
+                    <li>
+                        <pre>预格式化文本</pre>
+                    </li>
+                    <li>
+                        <i>斜体文本</i>
+                    </li>
+                    <li>
+                        <kbd>键盘输入</kbd>
+                    </li>
+                    <li>
+                        <small>更小的文本</small>
+                    </li>
+                    <li>
+                        <strong>重要的文本</strong>
+                    </li>
+                    <li>
+                        <abbr> （缩写）</abbr>
+                    </li>
+                    <li>
+                        <address> （联系信息）</address>
+                    </li>
+                    <li>
+                        <bdo> （文字方向）</bdo>
+                    </li>
+                    <li>
+                        <blockquote> （从另一个源引用的部分）</blockquote>
+                    </li>
+                    <li>
+                        <cite> （工作的名称）</cite>
+                    </li>
+                    <li>
+                        <del> （删除的文本）</del>
+                    </li>
+                    <li>
+                        <ins> （插入的文本）</ins>
+                    </li>
+                    <li>
+                        <sup> （上标文本）</sup>
+                    </li>
+                    <li>
+                        <sub> （下标文本）</sub>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <strong>符号实体</strong>
+                <ul>
+                    <li>空格&nbsp;: &amp;nbsp;</li>
+                    <li>小于号 ：&lt; &amp;lt;</li>
+                    <li>大于号 : &gt; &amp;gt;</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+        <!--URL示例-->
+        <p style="display: none;">
+            scheme://host.domain:port/path/filename
+            scheme - 定义因特网服务的类型。最常见的类型是 http-超文本传输协议//https-安全超文本传输协议//ftp-文件传输协议
+            host - 定义域主机（http 的默认主机是 www）
+            domain - 定义因特网域名，比如 runoob.com
+            :port - 定义主机上的端口号（http 的默认端口号是 80）
+            path - 定义服务器上的路径（如果省略，则文档必须位于网站的根目录中）。
+            filename - 定义文档/资源的名称
+        </p>
+</body>
+
+</html>

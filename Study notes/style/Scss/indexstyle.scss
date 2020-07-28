@@ -1,0 +1,29 @@
+body {
+    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+}
+
+#sidebar {
+    background-color: #545c64;
+
+    .sidebar {
+        a {
+            font-size: 1.3em;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            // display: block;
+            width: 100%;
+            color: inherit;
+
+            &:hover {
+                color: inherit;
+                text-decoration: none;
+            }
+        }
+
+        span {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    }
+}
