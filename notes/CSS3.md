@@ -200,6 +200,8 @@ background-clip：  	 规定背景的绘制区域。
 background-size：wdith height;   		/*规定背景图片的尺寸。*/
 	☞ cover			/* 将背景图片按原来的缩放比将整个容器铺满	可等比例缩小*/
 	☞ contain		/* 将背景图片按照原来的缩放比，完整的显示到容器中 	不确定是否会将容器填充满*/
+
+background-attachment: fixed;背景固定
 ```
 
 #### 边框
