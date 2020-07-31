@@ -119,6 +119,10 @@
 + ```javascript
   window.onload = function () { }
   window.onload = 方法
+  window.onscroll	滚动监听
+  	滚动条滚动时，到顶部的距离
+  	document.documentElement.scrollTop||document.body.scrollTop;
+  window.onresize 缩放监听
   ```
 
 
@@ -345,8 +349,8 @@
   网页可见区域高：document.body.offsetHeight (包括边线的宽) 
   网页正文全文宽：document.body.scrollWidth 
   网页正文全文高：document.body.scrollHeight 
-  网页被卷去的高：document.body.scrollTop 
-  网页被卷去的左：document.body.scrollLeft 
+  网页被卷去的高：document.documentElement.scrollTop 
+  网页被卷去的左：document.documentElement.scrollLeft 
   网页正文部分上：window.screenTop 
   网页正文部分左：window.screenLeft 
   屏幕分辨率的高：window.screen.height 
@@ -355,3 +359,4 @@
   ```
 
   
+

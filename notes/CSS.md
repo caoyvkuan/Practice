@@ -1,5 +1,41 @@
 # CSS
 
+## 选择器
+
++ **继承：**即子类元素继承父类的样式;
++ **优先级：**是指不同类别样式的权重比较;
++ **层叠：**是说当数量相同时，通过层叠(后者覆盖前者)的样式。
+
+#### 选择器分类
+
++ 标签选择器
++ 类选择器
++ ID选择器
++ 全局选择器(如：*号)
++ 后代选择器 (如：#head .nav ul li 从父集到子孙集的选择器)
++ 群组选择器 div,span,img 即具有相同样式的标签分组显示
++ 伪类选择器
++ 字符串匹配的属性选择符(^ $ *三种，分别对应开始、结尾、包含)
++ 子选择器 (如：div>p)
++ CSS 相邻兄弟选择器器 (如：h1+p)
+
+#### 优先级
+
++ 优先级相等	应用后写的
++ 行内 > 内部样式表 > 外联样式表
+
+1. !important 	慎用。
+2.  行内样式      作为style属性写在元素内的样式
+3. id选择器
+4. 类选择器
+   1. 属性
+   2. 伪类
+5. 类型选择器 ( 例如:  h1  or ` ::before`   )
+6. 通配符选择器
+7. 浏览器自定义或继承
+
++ **通配选择符**（universal selector）（[`*`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Universal_selectors)）**关系选择符**（combinators）（[`+`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Adjacent_sibling_combinator), [`>`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Child_combinator), [`~`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/General_sibling_combinator), ['` `'](https://developer.mozilla.org/en-US/docs/Web/CSS/Descendant_combinator), [`||`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Column_combinator)）和 **否定伪类**（negation pseudo-class）（[`:not()`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:not)）对优先级没有影响。（但是，在 `:not()` 内部声明的选择器会影响优先级）。
+
 ## 布局 ##
 
 1. 保持缩放比问题
