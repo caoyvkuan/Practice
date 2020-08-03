@@ -1,19 +1,247 @@
-# HTML
+# HTML5
 
-## 元素
+## 常用知识
 
-#### 块级元素与行内元素
+### 路径
+
++ 相对路径
++ 绝对路径
+  + 出于安全考虑不能通过磁盘直接访问磁盘中的文件
+
+### 块级元素与行内元素
 
 + block		inline
 
-## 标签作用
+### 全局属性
 
-```html
-<meta>
-用于定义页面描述
-```
++ **disabled**属性可以应用实现禁用
 
-## 自定义元素
+## 标签
+
++ 超链接**a**
+
+  + target属性可指向a链接的加载位置 		_blank 默认每次都在新窗口打开
+
++ 图片**img**
+
+  + alt  图片加载失败时的文字提示
+
++ 列表标签
+
+  + `unordered list = ul`
+  + `ordered list = ol`
+  +  `list item = li`
+
++ Void元素
+
+  + **<hr>**
+  + **br**
+  + **<img>**
+
++ 字符实体
+
+  + ```html
+    空格&nbsp;: &amp;nbsp;
+    小于号 ：&lt; &amp;lt;
+    大于号 : &gt; &amp;gt;
+    &符号 : &amp;
+    ```
+
+    
+
+### head中的标签
+
++ **<meta>**
+
+  + 用于定义页面描述
+
+  + 辅助响应式布局   主要针对移动端
+
+    + ```html
+      <meta name="viewport" content="width=device-width"> 
+      按照设备宽度来渲染页面内容
+      <meta name="viewport" content="initial-scale=2.0,width=device-width"/> 
+      content:
+      initial-scale=2.0	把内容放大为实际的两倍大小
+      width=device-width	页面宽度等于设备宽度
+      maximum-scale=3	允许用户将页面放大到设备宽度的三倍
+      minimun-scale=0.5	最小可将页面缩小至设备宽度的一半
+      user-scalable=no	禁止用户缩放
+      
+      <meat name="viewport" content="width=device-width,initial-scale=1">
+      大多数情况都可以使用这个
+      
+      使用max-width:100%;而不使用width:100%;
+      有利于元素考虑之身宽度不被拉伸
+      ```
+
++ **<link>**
+
+  + 1
+
+  + 媒体查询
+
+    + ```html
+      在CSS2中
+      <link rel="style sheet" type="text/css" media="screen" href="screenstyles. css">
+      /*	不仅仅可以判断屏幕类型还能区分屏幕是否是垂直方向	*/
+      <link rel="stylesheet" media="screen and (orientation: portrait)" href="portrait-screen.css" />
+      
+      <link rel="stylesheet" media="screen and (orientation: portrait) and 
+      (min-width: 800px)" href="800wide-portrait-screen.css" /> 
+      
+      media="screen and (orientation: portrait) and(min-width: 800px),projection"
+      projection后不接条件表示支持具备任何特性的该媒体类型,适配所有投影机
+      ```
+
+      
+
+### 语义标签
+
++ **<header>**元素
+  
+  + 在<article>元素中用作某个区块的引介区。它可以在一个页面中出现多次
+  + 比如页面中每个<sectioin>中都可以有一个<header>
+  
++ **<main>**元素
+  
+  + 包裹页面主要内容	且只有一个
+  
++ **<footer>**元素同<header>一样
+
++ **<section>**元素        定义文档中的节
+
+  + section元素用于定义文档或应用中一个通用的区块。例如，可以用section包装联系信息、新闻源，等等
+  + 一般会用section包装可见组件。这样可以清楚地知道一个组件的开始和结束
+
++ **<nav>**元素
+
+  + -<nav>元素用于包装指向其他页面或同一页面中不同部分的主导航链接
+  + 如果你通常使用无序列表（<ul>）和列表标签（<li>）来写导航，那最好改成用nav嵌套多个a标签
+
++ **<article>**元素
+
+  + -<article>用于包含一个独立的内容块。
+
+  + 明显可以放到article元素中的内容有博客正文和新闻报道
+  + 对于嵌套<article>而言，内部的<article>应该与外部<article>相关
+
++ **<aside>**元素
+
+  + **<aside>**元素用于包含与其旁边内容不相关的内容
+  + 包装侧边栏
+  + 这个元素也适合包装突出引用、广告和导航元素
+  + 基本上任何与主内容无直接关系的，都可以放在这里边
+
++ **<figure>**和**<figcaption>**元素
+
+  + 如果图片或代码需要一个小标题，那么这个元素非常合适
+
++ **<details>**和**<summary>**元素
+
+  + ```HTML
+    <!--	展开收起的摘要部件	-->
+    <details> 	<!--	显示的摘要	-->
+     <summary>I ate 15 scones in one day</summary> 
+     <p>Of course I didn't. It would probably kill me if I did. What a 
+    way to go. Mmmmmm, scones!</p> 
+    </details>
+    <!--	禁用部件的默认样式	-->
+    summary::-webkit-details-marker { 
+     display: none; 
+    } 
+    ```
+
++ **<address>**元素
+
+  + *<address>*元素明显用于标记联系人信息，为最接近的<article>或<body>所用
+  + 不过有一点不好理解，它并不是为包含邮政地址准备的（除非该地址确实是相关内容的联系地址）。邮政地址以及其他联系信息应该放在传统的<p>标签里。
+
++ **h1** 到 **h6**
+
+  + h1到h6元素不能用于标记副标题、字幕、广告语，除非想把它们用作新区块或子区块的标题
+  
++ ```html
+  <mark>定义重要的或强调的文本</mark>
+  
+  <meter>定义度量衡。仅用于已知最大和最小值的度量。</meter>
+  
+  <progress>定义任何类型的任务的进度</progress>
+  	<progress value="当前进度" max="最大进度值"></progress>
+  
+  <ruby>定义 ruby 注释（中文注音或字符）</ruby>
+  
+  <rt>定义字符（中文注音或字符）的解释或发音。</rt>
+  
+  <rp>在 ruby 注释中使用，定义不支持 ruby 元素的浏览器所显示的内容</rp>
+  
+  <wbr>规定在文本中的何处适合添加换行符。</wbr>
+  	<!-- 可以用来定义HTML文档中需要进行换行的位置，与<br>标签不同，如果浏览器窗口的宽度足够，则不换行；反之，则在添加了 <wbr> 标签的位置进行换行 -->
+  
+  <time>定义日期/时间。</time>
+  <bdi>允许您设置一段文本，使其脱离其父元素的文本方向设置。</bdi>
+  
+  <command>定义命令按钮，比如单选按钮、复选框或按钮</command>
+  
+  <dialog>定义对话框，比如提示框</dialog>
+  
+  语义标签兼容低版本
+      <style>
+          header, section, footer, aside, nav, main, article, figure {
+              display: block; 
+          }
+      </style>
+  第一种解决方案
+  <script>
+     //创建nav自定义标签使页面内的nav标签起作用-然后display:block;
+  	document.createElement("nav");
+  </script>
+  第二种解决方案		引用js插件
+  最佳	在什么版本下执行该段代码	在低于ie 8或等于ie 8版本才会执行
+  <!--[if lte IE 8]>
+  		<script type="text/javascript" src="HTML/语义标签兼容处理/html5shiv.min.js"></script>
+  <![endif]-->
+      
+  <!--[if lt IE 9]
+  <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js">
+  </script>
+  <![endif]-->
+      
+  <!--[if lt IE 9]>
+      <script src="http://cdn.static.runoob.com/libs/html5shiv/3.7/html5shiv.min.js">
+      </script>
+  <![endif]-->
+  无语义标签
+  <div></div>
+  ```
+
+### 文本级标签/文本格式化
+
++ **<b>**元素不能用它来包围一大段其他标记
+
++ *<em>*em元素表示内容中需要强调的部分
+
++ **<i>**元素    它不仅仅用于把文本标为斜体。比如，可以用它在文本中标记出罕用的名字：
+
++ ```html
+  <code>计算机代码</code>
+  <pre>预格式化文本</pre>
+  <strong>重要的文本</strong>
+  <sup> （上标文本）</sup>
+  <sub> （下标文本）</sub>
+  <q>表示短引用</q>
+  <small>更小的文本</small>
+  <blockquote>长引用,会进行缩进</blockquote>
+  <kbd>键盘输入</kbd>
+  <abbr> （缩写）</abbr>
+  <bdo> （文字方向）</bdo>
+  <blockquote> （从另一个源引用的部分）</blockquote>
+  <cite> （工作的名称）</cite>
+  <del> （删除的文本）</del>
+  <ins> （插入的文本）</ins>
+  ```
+
+### 自定义元素
 
 ```html
 myHero {
@@ -27,7 +255,165 @@ myHero {
 
 
 
-## 新多媒体元素
+## Form表单
+
++ **form**的属性
+
+  + `action=""`表单提交地址
+  +  ` method="post"`请求方式
+  + `autocomplete="on | off"`	自动完成输入
+  + `novalidate`	关闭智能校验
+
++ 表单元素的属性
+  + **placeholder**属性   占位符（提示信息）输入框使用
+
+  + ```CSs
+    可以用placeholder-shown伪类选择器来为placeholder属性添加样式
+    input:placeholder-shown { 
+        color: #333; 
+    } 
+    ```
+
+  + **required**属性
+
+    + 添加required属性表述必填项
+    + range、color、button和hidden类型的输入元素不能使用required,因为这几种输入类型几
+      乎都有默认值
+
+  + **autofocus**属性
+
+    + 页面加载时默认选中
+    + 使用autofocus属性的时候，要确保只在表单中使用一次，并且了解对那些使用空格滚动的用户的影响
+
+  + **autocomplete**属性
+
+    + 禁用自动补全	on	||	off
+
+  + **list** 及对应的 **datalist** 元素
+
+    + 给list属性值为datalist元素id的输入框候选列表
+
+    + ```css
+      <datalist>定义选项列表</datalist>
+      <input type="text" list="abc"/>
+      <datalist id="abc">
+          <option value="123">12312</option>
+          <option value="123">12312</option>
+          <option value="123">12312</option>
+          <option value="123">12312</option>
+      </datalist>
+      ```
+
+  + **multiple** 是列表选择可以实现多选
+
+  + **form="ID"** 提交目标的表单的id
+
+#### 表单元素
+
++ input元素
+
+  + 一般配合lable标签使用
+    
+    + `<lable for="da">游戏</lable>	<input type="checkebox" id="da" >`
+    
+  + button 标签 按钮	默认为提交按钮
+
+  + `patter=""`	正则表达式限制
+
+  + `maxlength="50"` 最大长度
+
+  + `type=""` 取值
+
+  + ```html
+    <input type="number" min="0" max="20">	控制数值的大小范围
+    <input type="range" step="5" value="5">	滑动条 同样可控制数值大小 step 指定值的间隔	初始值5
+    <input type="password">	密码
+    <input type="submit" value="Send">	提交按钮	value 按钮上显示的文字
+    <input type="reset">	重置按钮
+    <input type="hidden">	隐藏域
+    type="email"	邮箱地址	只能输入合法的电子邮箱
+    type="url"		网址
+    type="tel"		电话
+    type="search" 	普通文本类型	type="text"
+    type="color"	颜色选择器
+    type="date"		日期选择控件
+    	type="month"	显示月份	type="week"		显示第几周		type="time"		显示时间
+    radio:	单选
+    	属性:
+    		name让单选形成一组,发挥单选的作用,每组的name属性值一样
+    		
+    checkbox  复选框	checked	默认选中<input type="checkbox" checked >
+    ```
+
++ **select**下拉列表
+
+  + **optgroup**分组
+    + 属性:`lable="分组标题"`
+  + **option**
+    + 属性:`value="选项对应的值"`
+    + `selected` 默认被选中
+
++ **textarea** 文本域/多行文本框
+
++ **fieldset**标签可以将表单内的相关元素分组绘制边框
+
+  + `form="form_id"`规定 fieldset 所属的一个或多个表单
+  + &lt;legend&gt; 标签为 &lt;fieldset&gt; 元素定义标题
+
++ **keygen**
+
+  + 规定用于表单的密钥对生成器字段。
+
++ **output**
+
+  + 定义不同类型的输出，比如脚本的输出。
+
++ 自定义验证提示文本
+
+  + ```html
+    自定义required的提示文本
+        oninvalid="setCustomValidity('提示内容')" ： 固定写法-->自定义提示内容
+    	//oninput 当用户输入时触发
+        oninput="setCustomValidity('')"： 固定写法-->清空上一次提交所输入的内容
+    	<form action="1.php" method="get">
+    		<input type="text" name="uname" pattern="^\d{4,11}" required class="uname">
+    		<input type="submit" name="">
+    	</form>
+    	<script type="text/javascript">
+            var input=document.querySelector(".uname");
+            //oninvalid 当验证不通过时触发
+            input.oninvalid=function(){
+                //validity input 验证属性
+                //validity 中的patternMismatch 正则表达式验证是否成功
+                if(this.validity.patternMismatch===true){
+                    this.setCustomValidity("请输入4到11为数字");
+                }else{
+                    this.setCustomValidity("");
+                }
+            }
+    	</script>
+    ```
+
+    
+
+#### 使用CSS美化表单
+
++ 显示必填项
+
+  + `input:required{}`
+
+  + 可以设定输入域上的border或者outline
+
+  + `input:focus:required{}`
+
+  + ```css
+    如果输入元素中的值是非法的
+    input:invalid
+    如果输入元素中输入的合法的
+    input:valid
+    ```
+
+## 媒体元素
 
 ```html
 <audio>	音频</audio>
@@ -43,89 +429,35 @@ myHero {
 </video>
 ```
 
-## 语义标签
+### Video
 
 ```html
-<nav>导航</nav>
-
-<header>头部页眉</header>
-
-<footer>页脚</footer>
-
-<main>规定文档的主内容。</main>
-
-<section>定义文档中的节</section>
-
-<mark>定义重要的或强调的文本</mark>
-
-<meter>定义度量衡。仅用于已知最大和最小值的度量。</meter>
-
-<progress>定义任何类型的任务的进度</progress>
-	<progress value="当前进度" max="最大进度值"></progress>
-
-<ruby>定义 ruby 注释（中文注音或字符）</ruby>
-
-<rt>定义字符（中文注音或字符）的解释或发音。</rt>
-
-<rp>在 ruby 注释中使用，定义不支持 ruby 元素的浏览器所显示的内容</rp>
-
-<wbr>规定在文本中的何处适合添加换行符。</wbr>
-	<!-- 可以用来定义HTML文档中需要进行换行的位置，与<br>标签不同，如果浏览器窗口的宽度足够，则不换行；反之，则在添加了 <wbr> 标签的位置进行换行 -->
-
-<time>定义日期/时间。</time>
-
-<aside>元素页面主内容之外的某些内容（比如侧栏并不是侧导航）</aside>
-
-<article>元素规定独立的自包含内容。</article>
-
-<address>定义地址、签名或者文档的作者身份</address>
-
-<bdi>允许您设置一段文本，使其脱离其父元素的文本方向设置。</bdi>
-
-<command>定义命令按钮，比如单选按钮、复选框或按钮</command>
-
-<summary>定义 <details> 元素的可见标题。</summary>
+Video的属性
+<video src="" controls autoplay muted></video>
+<video>实现多种浏览器多媒体格式支持
+    <source src=""><source src=""><source src="">
+</video>
+<source>
+</source>标签可以为<picture>、<audio>或<video>元素指定一个或者多个的媒体资源
     
-<details>定义用户能够查看或隐藏的额外细节</details>
-    
-<details>用于描述文档或文档某个部分的细节</details>
+controls 布尔值  是否为播放器添加内置控件 浏览器种类
+src 视频链接地址
+preload 控制如何加载视频 auto 让浏览器来决定
+autoplay 加载完毕是否自动播放		自动播放多数浏览器 只支持静音状态下自动播放
+muted	静音
+poster="url" 规定视频下载时显示的图像，或者在用户点击播放按钮前显示的图像
+loop 循环播放
 
-<dialog>定义对话框，比如提示框</dialog>
-
-<figure>规定自包含内容，比如图示、图表、照片、代码清单等。</figure>
-    
-<figcaption>定义 <figure> 元素的标题</figcaption>
-    
-
-语义标签兼容低版本
-    <style>
-        header, section, footer, aside, nav, main, article, figure {
-            display: block; 
-        }
-    </style>
-第一种解决方案
+多媒体操作
 <script>
-   //创建nav自定义标签使页面内的nav标签起作用-然后display:block;
-	document.createElement("nav");
+var video=document.querySelector("video")
+video.play();	播放
+video.pause();	暂停
+video.playbackRate=2; 	2倍播放速度
 </script>
-第二种解决方案		引用js插件
-最佳	在什么版本下执行该段代码	在低于ie 8或等于ie 8版本才会执行
-<!--[if lte IE 8]>
-		<script type="text/javascript" src="HTML/语义标签兼容处理/html5shiv.min.js"></script>
-<![endif]-->
-    
-<!--[if lt IE 9]
-<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js">
-</script>
-<![endif]-->
-    
-<!--[if lt IE 9]>
-    <script src="http://cdn.static.runoob.com/libs/html5shiv/3.7/html5shiv.min.js">
-    </script>
-<![endif]-->
-无语义标签
-<div></div>
 ```
+
+
 
 ## 拖放
 
@@ -179,90 +511,11 @@ myHero {
       - 代码解释：
 
         - 调用 preventDefault() 来避免浏览器对数据的默认处理（drop 事件的默认行为是以链接形式打开）
-
         - 通过 dataTransfer.getData("Text") 方法获得被拖的数据。该方法将返回在 setData() 方法中设置为相同类型的任何数据。
-
         - 被拖数据是被拖元素的 id ("drag1")
-
         - 把被拖元素追加到放置元素（目标元素）中
 
-## Form
-
-```html
- ◆form属性：
-    action="" 表单提交地址
-    method="post" 请求方式
-    autocomplete="on | off"	自动完成
-    novalidate	关闭只能校验
-
-◆input元素
-<input type="number" min="0" max="20">	控制数值的大小范围
-<input type="range" step="5">	滑动条 同样可控制数值大小 step 指定值的间隔
-    type="color"	颜色选择器	type="date" 	日期选择控件
-    type还有一些如
-    email	只能输入合法的电子邮箱
-    tel  	电话
-    url		网址
-    number： 只能输入数字
-    range： 滑块
-    color： 拾色器
-    date： 显示日期
-    month： 显示月份
-    week ： 显示第几周
-    time：  显示时间
-	search:
-	calendar:
-<input>属性:
-    *autofocus	自动获取焦点
-    *placeholder ： 占位符  （提示信息）
-    *required：    必填项
-自定义required的提示文本
-    oninvalid="setCustomValidity('提示内容')" ： 固定写法-->自定义提示内容
-	//oninput 当用户输入时触发
-    oninput="setCustomValidity('')"： 固定写法-->清空上一次提交所输入的内容
-	<form action="1.php" method="get">
-		<input type="text" name="uname" pattern="^\d{4,11}" required class="uname">
-		<input type="submit" name="">
-	</form>
-	<script type="text/javascript">
-        var input=document.querySelector(".uname");
-        //oninvalid 当验证不通过时触发
-        input.oninvalid=function(){
-            //validity input 验证属性
-            //validity 中的patternMismatch 正则表达式验证是否成功
-            if(this.validity.patternMismatch===true){
-                this.setCustomValidity("请输入4到11为数字");
-            }else{
-                this.setCustomValidity("");
-            }
-        }
-	</script>
-
-    form:  提交目标的表单id
-    list
-    multiple：	 实现多选效果
-```
-
-#### 新表单元素
-
-```html
-<datalist>定义选项列表</datalist>
-<input type="text" list="abc"/>
-<datalist id="abc">
-    <option value="123">12312</option>
-    <option value="123">12312</option>
-    <option value="123">12312</option>
-    <option value="123">12312</option>
-</datalist>
-
-<keygen>规定用于表单的密钥对生成器字段。</keygen>
-
-<output>定义不同类型的输出，比如脚本的输出。</output>
-```
-
-
-
-#### 文件读取
+## 文件读取
 
 + ```javascript
   var input_file=document.querySelector("input");
@@ -318,34 +571,3 @@ myHero {
   ```
 
   
-
-## Video ##
-
-```html
-audio标签支持音频		写法同video标签
-Video的属性
-<video src="" controls autoplay muted></video>
-<video>实现多种浏览器多媒体格式支持
-    <source src=""><source src=""><source src="">
-</video>
-<source>
-</source>标签可以为<picture>、<audio>或<video>元素指定一个或者多个的媒体资源
-    
-controls 布尔值  是否为播放器添加内置控件 浏览器种类
-src 视频链接地址
-preload 控制如何加载视频 auto 让浏览器来决定
-autoplay 加载完毕是否自动播放		自动播放多数浏览器 只支持静音状态下自动播放
-muted	静音
-poster="url" 规定视频下载时显示的图像，或者在用户点击播放按钮前显示的图像
-loop 循环播放
-
-多媒体操作
-<script>
-var video=document.querySelector("video")
-video.play();	播放
-video.pause();	暂停
-video.playbackRate=2; 	2倍播放速度
-</script>
-更多方法参考手册
-```
-
