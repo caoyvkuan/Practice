@@ -10,11 +10,37 @@
 
 ### 块级元素与行内元素
 
-+ block		inline
++ block
+  + 可以设置宽高
+  + 宽度默认和父元素一样宽
++ inline
+  + 无法设置宽高
+  + 宽高靠内容撑起来
+  + `text-align:center;`可以让标签中的行内元素和文本居中,行内块
++ 行内块模式
+  + img   表单元素
 
 ### 全局属性
 
 + **disabled**属性可以应用实现禁用
++ **hidden**隐藏
++ **accesskey**设置访问元素的键盘快捷键
+  + `accesskey="h"`
+  + 不同浏览器使用的快捷键方法不同：
+  + IE, Chrome, Safari, Opera 15+:          [ALT] + *accesskey*
+  + Opera prior version 15:              [SHIFT] [ESC] + *accesskey*
+  + Firefox:              [ALT] [SHIFT] + *accesskey*
++ **contenteditable**规定是否可编辑元素的内容。
+  + `contenteditable="true|false"`
++ **data-name**用于存储页面的自定义数据
++ **dir** 设置元素中内容的文本方向。`dir = " ltr | rtl | auto"`
++ **draggable**指定某个元素是否可以拖动`draggable="true|false|auto"`
++ **dropzone**当被拖动的数据在拖放到元素上时，是否被复制、移动或链接
+  + `dropzone="copy|move|link"`
++ **lang**设置元素中内容的语言代码。
++ **spellcheeck** 检测元素是否拼写错误`spellcheck="true|false"`
++ **tabindex**  设置元素的 Tab 键控制次序。
++ **translate** 指定是否一个元素的值在页面载入时是否需要翻译`translate="yes|no"`
 
 ## 标签
 

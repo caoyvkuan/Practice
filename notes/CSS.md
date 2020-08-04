@@ -1,4 +1,4 @@
-# CSS
+#  CSS
 
 ## 选择器
 
@@ -10,9 +10,9 @@
 + **双冒号:** 伪元素
   + 如: `::after` 伪元素
 
-#### 优先级
+### 优先级
 
-+ 行内 > 内部样式表 > 外联样式表
++ 内部样式表   和   外联样式表	同样看顺序
 + 选择器级别(a,b,c,d)
   + a:行内        b:ID       c:类	 d:类型
   + 每用一个就相应的位置加1
@@ -30,9 +30,9 @@
 
 + 同一级别中后写入的会覆盖先写的样式
 + 同一级别css的引入方式不同,优先级不同
-+ **通配选择符**（universal selector）（[`*`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Universal_selectors)）**关系选择符**（combinators）（[`+`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Adjacent_sibling_combinator), [`>`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Child_combinator), [`~`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/General_sibling_combinator), ['` `'](https://developer.mozilla.org/en-US/docs/Web/CSS/Descendant_combinator), [`||`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Column_combinator)）和 **否定伪类**（negation pseudo-class）（[`:not()`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:not)）对优先级没有影响。（但是，在 `:not()` 内部声明的选择器会影响优先级）
++ **通配选择符**（universal selector）（`*` **关系选择符**（combinators）（`+`, `>`, `~`, '` `', `||`)和 **否定伪类**（negation pseudo-class）（`:not()`）对优先级没有影响。（但是，在 `:not()` 内部声明的选择器会影响优先级）
 
-#### 选择器分类
+### 选择器分类
 
 + 标签选择器
 
@@ -67,15 +67,8 @@
           .Item:nth-child(4n+1):nth-last-child(-n+4) ~ .Item
       	
       ☞ 其他选择器：
-          如果输入元素中的值是非法的
-          input:invalid
-          如果输入元素中输入的合法的
-          input:valid
-           :target   /*被锚链接指向的时候会触发该选择器		
-           锚链接被点击跳转过去后		当另一个被链接时,才会取消当前的*/
-           ::selection	     当被鼠标选中的时候的样式
-           ::first-line	 选中第一行
-           ::first-letter	 选中第一个字符
+          
+          
       
       CSS Selectors Level4
            :not 排除	:not(.not-me)	选中不包含(.not-me)
@@ -84,6 +77,21 @@
            :is()	即将能用
            :is(header, main):hover{}	等价于 header:hover,main:hover{}
       ```
+      
+    + **::first-line**	 选中第一行
+
+    + **::first-letter**	 选中第一个字符
+
+    + **::selection**           当被鼠标选中的时候或处于高亮状态的部分
+
+    + **p:only-child**      选择每个p元素是其父级的唯一子元素
+
+    + **:target**
+
+      + 被锚链接指向的时候会触发该选择器	锚链接被点击跳转过去后		
+      + 当另一个被链接时,才会取消当前的
+
+    + **:root**           选择文档的根元素
 
     + **:empty**
 
@@ -101,7 +109,41 @@
         a:not(:has(figcaption))
         ```
 
-        
+    + 可输入元素
+
+      + **input:invalid**
+        + 如果输入元素中的值是非法的
+      + **input:valid**
+        + 如果输入元素中输入的合法的   
+      + **:focus**
+        + 获取焦点时
+      + **:enabled**
+        + 选择每一个已启用的输入元素
+      + **:checked**
+        + 被选中的元素的输入元素
+      + **:optional**
+        + 用于匹配可选的输入元素
+      + **:required**
+        + 用于匹配设置了 "required" 属性的元素
+      + **:out-of-range  |  :in-range**
+        + 匹配值在指定区间之外或之内
+      + **:read-write  |  read-noly**
+        + 用于匹配可读及可写的元素  or 	用于匹配设置 "readonly"（只读） 属性的元素
+
+    + **:disabled**
+
+      + 选择每一个禁用的输入元素
+
+    + 
+
+    + a链接
+
+      + **:link**      未被访问的链接
+      + **:visited**      被访问过的链接
+
+    + **:active**       鼠标按住
+
+    + **:hover**    鼠标悬浮
 
   + 针对只有一项的选择符**:only-child**和唯一一个当前标签的选择符**:only-of-type**
 
@@ -113,8 +155,8 @@
            [属性名=值] {}
            [属性名] {}	   匹配对应的属性即可
            [属性名^=值] {}    以值开头
-           [属性名*=值] {}    包含
-           [属性名$=值] {}	   以值结束
+           [属性名*=值] {}    包含	[属性名~=值]
+           [属性名$=值] {}	   以值结束	[属性名|=值] 
       ```
 
     + 字符串匹配的属性选择符(^ $ *三种，分别对应开始、结尾、包含)
@@ -127,11 +169,25 @@
 
 + 层次选择器
 
-  + 后代选择器 
-    + (如：`#head ul li` 选中包含在#head里的所有ui li    子孙级都选中)
+  + 后代选择器 `#head ul li 选中包含在#head里的所有ui li    子孙级都选中`
   + 子选择器 (如：`div>p  |  div#a > h2` 选中盒子id为a的h2子标签)
   + CSS 相邻兄弟选择器器 (如:`div+h1`)
     +  h2 ~ div	匹配h2后跟着的所有兄弟div
+  + 
+
+### 伪元素
+
++ `::before  和  ::after`共同特效
+  + `content:"";`   只有拥有这个属性才能显示
+    + 属性值 `content:" "attr(class)" "`  可以获取元素的class属性追加元素的文本两侧
+  + 都是行内元素
+  + 配合**:empty**可实现占位符效果
+    + `p:empty::before{ cotent:"提示文本"}`
+
++ **::before**
+  + 在元素前插入内容和样式
++ **:after**
+  + 在元素后插入内容和样式
 
 ## 布局
 
@@ -383,6 +439,7 @@
 
 1. ```css
    overflow-wrap: break-word;	解决文本不会换行问题
+   flex-basis:80;		设置弹性盒子子元素的基本宽度
    ☞ 设置父元素为伸缩盒子【直接父元素】
        display： flex
    	宽度超出会被压缩			高度超出会溢出	overflow
@@ -421,13 +478,13 @@
    ```
 
 + *伸缩比*
-+ 子盒子设置	flex:1;	分1份	flex:1  1(0禁止压缩)  width(auto)
-+ 子项的flex属性	flex: 1(伸展)  1(收缩)	100px(基准);
-+ 由三个结合flex-grow、flex-shrink、flex-basis
-  + flex-grow（传给flex的第一个值）是相对于其他伸缩项，当前伸缩项在空间允许的情
-      况下可以伸展的量。
-  + flex-shrink是在空间不够的情况下，当前伸缩项相对于其他伸缩项可以收缩的量
-  +  flex-basis（传给flex的最后一个值）是伸缩项伸缩的基准值。
+  + 子盒子设置	flex:1;	分1份	flex:1  1(0禁止压缩)  width(auto)
+  + 子项的flex属性	flex: 1(伸展)  1(收缩)	100px(基准);
+  + 由三个结合flex-grow、flex-shrink、flex-basis
+    + flex-grow（传给flex的第一个值）是相对于其他伸缩项，当前伸缩项在空间允许的情
+        况下可以伸展的量。
+    + flex-shrink是在空间不够的情况下，当前伸缩项相对于其他伸缩项可以收缩的量
+    + flex-basis（传给flex的最后一个值）是伸缩项伸缩的基准值。
 + order可改变排列次序
   +  order:-1;就是要排在最前面
   + 其他改变需要给每个元素增加排列序号
@@ -457,6 +514,11 @@ column-rule: thin dotted #999;
   + 别把display:table和display:table-cell与对应的HTML元素搞混！
   + CSS表格布局的很多实用之处。比如，跨平台绝对一致，而且能做到一个元素在另一个元素内垂直居中
   + 也不可能把设置为display:table-cell的项目包到多行上
+
++ **table-layout: fixed;**  设置表格布局算法
+
+  + fixed : 列宽由表格宽度和列宽度设定
+  + automatic : 默认。列宽度由单元格内容设定。
 
 + ```css
   display:table-row;	行
@@ -652,6 +714,13 @@ column-rule: thin dotted #999;
   document.documentElement.style.setProperty('--view-height', vh+'px');
   操作自定义属性
   ```
+
+### 其他实用属性
+
++ `box-decoration-break`(盒子装饰断裂)
+  + 文字换行时有圆角属性背景会出现明显的断裂
+  + 值设置为`clone`可以修复这种断裂    默认值(slice)
+  + 可影响的属性有:`background border border-image box-shado border-radius clip-path margin padding`
 
 ### 过度
 
