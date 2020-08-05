@@ -13,9 +13,9 @@
 ### 优先级
 
 + 内部样式表   和   外联样式表	同样看顺序
-+ 选择器级别(a,b,c,d)
-  + a:行内        b:ID       c:类	 d:类型
-  + 每用一个就相应的位置加1
++ 选择器级别权重(a,b,c,d)
+  + a:行内( 1,0,0,0 )        b:ID( 0,1,0,0 )       c:类( ,0,01,0 )	 d:类型( 0,0,0,1 )
+  + 每用一个就相应的位置加1     100个标签选择器也不会大于一个类选择器
   + div#box (0,1,0,1)
 
 1. !important 	慎用。
@@ -25,14 +25,19 @@
    1. 属性
    2. 伪类
 5. 类型选择器 ( 例如:  h1  or ` ::before`   )
-6. 通配符选择器
-7. 浏览器自定义或继承
+6. 通配符选择器(`*`)
+7. 标签默认样式(浏览器自定义) 
+8. 继承
+   1. (有关于文本的属性可以继承)(`text-align  line-height`)
+   2. 布局相关的不会被继承
 
 + 同一级别中后写入的会覆盖先写的样式
 + 同一级别css的引入方式不同,优先级不同
 + **通配选择符**（universal selector）（`*` **关系选择符**（combinators）（`+`, `>`, `~`, '` `', `||`)和 **否定伪类**（negation pseudo-class）（`:not()`）对优先级没有影响。（但是，在 `:not()` 内部声明的选择器会影响优先级）
 
 ### 选择器分类
+
++ 选择器尽量写3层以内,太多不利于代码优化
 
 + 标签选择器
 
@@ -41,7 +46,7 @@
   + 伪类选择器
 
     + ```css
-      ☞ 结构伪类选择器：
+      ☞ 结构伪类选择器：li:nth-of-type(2)  如果第二个2不是li则不会有效果
            ui li:nth-child(2){} 得用li 而不是ul	/*Arrly Li[1,2,3]*/
            :first-child {}     选中父元素中第一个子元素
       		:first-of-type
@@ -51,6 +56,8 @@
            :nth-last-child(n) {}    选中父元素中倒数第n个子元素
            	:nth-of-type(n)
            	:nth-last-of-type(n)
+      	p:only-child      选择每个p元素是其父级的唯一子元素时才生效
+      	p:only-of-type   当父元素只有一个p子元素生效,不管其他子元素有多少
       		.span-class:nth-of-type(-2n+3)
               虽然所有元素都有相同的类span-class，
               但这里只会选择带有该类的span元素（因为第一个选中的元素的类型是span）。
@@ -84,14 +91,14 @@
 
     + **::selection**           当被鼠标选中的时候或处于高亮状态的部分
 
-    + **p:only-child**      选择每个p元素是其父级的唯一子元素
-
     + **:target**
 
       + 被锚链接指向的时候会触发该选择器	锚链接被点击跳转过去后		
       + 当另一个被链接时,才会取消当前的
 
     + **:root**           选择文档的根元素
+
+      + 同时也用于定义变量
 
     + **:empty**
 
@@ -138,12 +145,16 @@
 
     + a链接
 
-      + **:link**      未被访问的链接
+      + **:link**      未被访问的链接(默认状态 )
       + **:visited**      被访问过的链接
 
     + **:active**       鼠标按住
 
     + **:hover**    鼠标悬浮
+
+    + `:link | :visited | :hover |:active`
+
+      + 这四个伪类在使用时应按照顺序使用,否则会存在覆盖的情况
 
   + 针对只有一项的选择符**:only-child**和唯一一个当前标签的选择符**:only-of-type**
 
@@ -188,6 +199,76 @@
   + 在元素前插入内容和样式
 + **:after**
   + 在元素后插入内容和样式
+
+## 常用知识
+
+### CSS初始化
+
++ 默认样式
+  + 没有默认样式的:`div span`
+  + 有默认样式:`body h1-6 ul li p a`
+
++ ```css
+  *{/*	缺点:这种初始化会影响效率 | 性能	     优点:简单快捷*/
+      margin:0;
+      padding:0;
+  }
+  ul{list-style:none;}  a{text-decoration:none; color:#666;} img{display:block;}
+  /*	工作种初始化应使用并列的方法仅初始化用到的	*/
+  h1,ul,li,ol,p{
+      margin:0;
+      padding:0;
+  }
+  一个网站写布局效果时
+  1.写结构
+  2.css重置样式(初始化 | 基础设置)
+  3.(风格设置)
+  4.写具体样式
+  ```
+
+### 流和盒子的显示方式
+
++ 行内元素
+  + 垂直方向的外边距无效
+  + 内边距会对其他元素造成影响
++ 行内元素和行内块元素设置内外边距都会对其他元素造成影响 
++ 浮动布局则不会对其他元素造成影响
++ 行内块与空白
++ 使用行内块（inline-block）来布局的最大问题，就是它会在HTML元素间渲染空白。这不是bug
+
+#### **float**  浮动
+
++ 任何元素设置浮动后设置宽高都起作用
++ 会半脱离标准的文档流,显示在普通文档流之上
++ 浮动会导致父盒子高度塌陷
+  + 清除塌陷方法:  给父盒子固定高度
+  + 给父盒子设置:`overflow:hidden;`  因为有2种效果所以不完美
+  + 给父盒子设置伪类: `:afte{clear:both;}`
++ 浮动会影响其后同级的块级元素    所以一般会在浮动布局外套个盒子
++ 上为行内块(inline-block)显示方式            下为浮动显示方式
++ ![img](images\ZQG0T7ZBI%XR(]H8)JLBW]5.png)
+
+### 层叠性
+
++ 复合属性
+  + 单属性一定要写在复合属性后面
+  + 在复合属性前设置单属性会被覆盖掉
+
+### 其他
+
++ 行内元素水平居中给父元素设置   `text-align:center;`
++ 块元素水平居中给自己设置       `margin:0 auto;`
++ img元素底部留白  `display:block;` 解决   原因:内联元素是延基线对齐
+  + 解决方式2: `vertical-algin: bottom`  
+
+
+
++ 排版对齐方式
+  + `vertical-algin: bottom  | baseline`(默认基线)
+
++ 文本分4条线  顶线	中线		基线	底线
+  + 以W为例,  最上面为顶线  -- 中间为中线  --  底部为基线 --  在往下一点才是底线
+  + 就好比4条线的拼音格
 
 ## 布局
 
@@ -259,6 +340,17 @@
 
 ### 布局技巧
 
+#### 导航
+
++ 导航为什么要用ul li包裹
+  + 因为seo搜索引擎优化  会认为叠在一起的a标签是在作弊,关键词堆砌
+
+#### 最大最小宽高
+
++ `min-width | min-height`
++ `max-width | max-height`
++ 让宽高可以不固定,自动适应
+
 #### 页面布局
 
 + background-size: cover	背景图片需要完整地铺满一个容器
@@ -281,9 +373,6 @@
     右边	=	 100/960	10.41%
     ```
 
-+ 行内块与空白
-
-  + 使用行内块（inline-block）来布局的最大问题，就是它会在HTML元素间渲染空白。这不是bug
 
 1. 颜色单位	
 
@@ -438,7 +527,6 @@
 ### flex弹性布局
 
 1. ```css
-   overflow-wrap: break-word;	解决文本不会换行问题
    flex-basis:80;		设置弹性盒子子元素的基本宽度
    ☞ 设置父元素为伸缩盒子【直接父元素】
        display： flex
@@ -531,14 +619,25 @@ column-rule: thin dotted #999;
 
 ## 盒子模型
 
++ **margin**外边距合并
+  + 垂直排列的两个块元素外边距会合并,外边距等于大的一方
++ 外边距塌陷(也叫**margin**传递问题)出现在嵌套结构种且只有**margin-top**会发生传递
+  + 嵌套的两个块元素,当给子元素设置向上的外边距时,此时父盒子会跟着掉下来
+  + 解决方案:
+    + 给父盒子:`overflow:hidden;`
+    + 给父盒子设置上边框
++ **centent-box** 
+  + 该模式的块元素不设置宽度的情况下除非padding和border大与父盒子宽度才会把盒子撑大
+
 + ```css
   /* 通过box-sizing这个样式我们可以改变这种宽度计算方式，
   它的属性值有两个：content-box和border-box。*/
   默认值为content-box，也就是标准的盒子模型，此时的计算公式为:
-  盒子总宽度 = width+padding+border
-  content = width		padding 和 border 需要额外计算
+  width | height = centent
+  padding  和  border  需要单独计算
   
-  border-box计算方式
+  border-box计算方式:
+  width | height = centent+padding+border
   width 和 height	计算包括	padding 和 border	不需要额外计算
   
   另一个属性为border-box，它的width和height属性包括内容，内边距和边框:
@@ -715,12 +814,20 @@ column-rule: thin dotted #999;
   操作自定义属性
   ```
 
+### 属性
+
++ **overflow**  溢出
+  + visible 可见(默认)     hidden (隐藏)   scroll (显示滚动条)   auto
++ **opacity**  透明度(`0(透明)~1(不透明)`)
+  + 元素内所有内容都会透明
+
 ### 其他实用属性
 
 + `box-decoration-break`(盒子装饰断裂)
   + 文字换行时有圆角属性背景会出现明显的断裂
   + 值设置为`clone`可以修复这种断裂    默认值(slice)
   + 可影响的属性有:`background border border-image box-shado border-radius clip-path margin padding`
++ **cursor**  鼠标样式
 
 ### 过度
 
@@ -852,6 +959,12 @@ transform: rotateX(180deg) translate3d(0, 0, -120px);/*	translate3d(X, Y, Z)	*/
 
 ### 背景
 
++ **background**
+  + `background: color  image(url()) repeat position;`
+  + `repeat: (默认: 平铺) no-repeat | repeat-x | -y` 是否平铺
+  + `position: left(默认)/center/right top(默认)/center/bottom;`图片的位置
+    + `position:right 20px bottom 20px`
+
 ```css
 /*默认盒子的背景图片是在盒子的内边距左上角对齐设置的*/
 background: pink url("1.png") no-repeat;/*不平铺时*/
@@ -958,6 +1071,13 @@ background: radial-gradient(12rem circle at bottom, yellow, orange, red);
 
 ### 边框
 
++ **border**
+  + `border: width style color`
+  + width (默认:3px)      style(默认:无)    color(默认:black)
+  + style :  solid 实线   |   dashed  虚线  |  dotted  点状线
++ **outline**
+  + 轮廓线  `outline:none;` 去除轮廓线
+
 ```css
 border-radius: 10px;	/* 圆角*/
 /* 阴影 */
@@ -972,6 +1092,11 @@ border-image-slice: 20;
 border-image-repeat: round;		/* 平铺 细节优化 */
 /*  border-image-repeat: repeat; 平铺   细节不好 */
 border-image-width: 20px;
+
+/*	一定长度的边框		*/
+border-top: 1em solid transparent;
+border-image: 100% 0 0 linear-gradient(90deg,
+currentColor 80%,transparent 0);
 ```
 
 #### 半透明边框
@@ -1029,6 +1154,21 @@ border-image-width: 20px;
 
 ### 文本
 
++ **font**  复合属性
+  + `font: style weight size/lineHeight family ;`
+  + font 简写必需要有字号和字体  size | family
+  + **font-style** 
+    + normal	正常
+    + *italic*   倾斜
++ **text-indent** 首行缩进只对文本起作用
++ **text-decoration: none ;**无
+  + underline  下划线
+  + overline     上划线
+  + line-through    中划线
++ 过多字母连在一起会被认为是一个单词,不会换行
+  + `word-break:break-all` 	强制换行
+  + `overflow-wrap: break-word;`	解决换行问题
+
 ```css
 /*	断字	*/
 word-wrap:break-word;
@@ -1074,7 +1214,24 @@ white-space: no-wrap;
 background: conic-gradient(red, yellow, lime, aqua, blue, fuchsia, red);
 ```
 
-## CSS使用小技巧
+## CSS实用小技巧
+
+1. 表格边框
+
+   1. ```css
+      table{
+          border: 1px solid #000;
+          /* 单元格与单元格之间的距离 */
+          border-spacing:0;
+          /* 边框重叠折叠  1px边框 */
+          border-collapse:collapse;
+      }
+      td{
+          border:1px solid #000;
+      }
+      ```
+
+      
 
 + 行内本质是不可以设置宽高的，但是在当前元素脱离文档流之后就可以设置宽高
 + （当前元素在页面上不占位）

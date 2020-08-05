@@ -351,12 +351,19 @@
   网页正文全文高：document.body.scrollHeight 
   网页被卷去的高：document.documentElement.scrollTop 
   网页被卷去的左：document.documentElement.scrollLeft 
+  滚动条高度    :document.documentElement.scrollHeight
+  				document.documentElement.clientHeight
+  				document.documentElement.offsetHeight
+  
+  浏览器视觉视口高度(包括滚动条):window.innerHeight
+  获取整个浏览器的高(包括浏览器边框):window.outerHeight
+
   网页正文部分上：window.screenTop 
   网页正文部分左：window.screenLeft 
   屏幕分辨率的高：window.screen.height 
   屏幕分辨率的宽：window.screen.width 
   屏幕可用工作区高度：window.screen.availHeight
   ```
-
+  
   
 
