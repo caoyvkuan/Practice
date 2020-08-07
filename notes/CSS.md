@@ -7,8 +7,11 @@
 + **层叠：**是说当数量相同时，通过层叠(后者覆盖前者)的样式。
 + **单冒号:** 伪类
   + 如:  `:hover` 选择器
+    + 弥补常规CSS选择器的不足,通常表示获取不存在与DOM树中的信息
 + **双冒号:** 伪元素
   + 如: `::after` 伪元素
+    + 伪元素本质是创造了一个有内容的虚拟容器,这个容器不包含任何DOM元素,
+    + 但是可以包含内容,还可以为伪元素定制样式
 
 ### 优先级
 
@@ -85,21 +88,15 @@
            :is(header, main):hover{}	等价于 header:hover,main:hover{}
       ```
       
-    + **::first-line**	 选中第一行
-
-    + **::first-letter**	 选中第一个字符
-
-    + **::selection**           当被鼠标选中的时候或处于高亮状态的部分
-
     + **:target**
 
       + 被锚链接指向的时候会触发该选择器	锚链接被点击跳转过去后		
-      + 当另一个被链接时,才会取消当前的
-
-    + **:root**           选择文档的根元素
-
-      + 同时也用于定义变量
-
+  + 当另一个被链接时,才会取消当前的
+  
++ **:root**           选择文档的根元素
+  
+  + 同时也用于定义变量
+    
     + **:empty**
 
       + 选中空元素           有空格不算空元素,只有注释算空元素
@@ -107,23 +104,24 @@
     + **:has**伪类
 
       + ```css
-        暂时不能用
+    暂时不能用
         a:has(figcaption) { 
-         padding: 1rem; 
+     padding: 1rem; 
         } 
-        这条规则可以给一个包含figcaption的a标签添加内边距。组合使用“取反”伪类，可以
+    这条规则可以给一个包含figcaption的a标签添加内边距。组合使用“取反”伪类，可以
         反转选择范围：
         a:not(:has(figcaption))
         ```
-
+    
     + 可输入元素
-
+    
       + **input:invalid**
         + 如果输入元素中的值是非法的
       + **input:valid**
-        + 如果输入元素中输入的合法的   
+    + 如果输入元素中输入的合法的   
+      
       + **:focus**
-        + 获取焦点时
+    + 获取焦点时
       + **:enabled**
         + 选择每一个已启用的输入元素
       + **:checked**
@@ -136,22 +134,22 @@
         + 匹配值在指定区间之外或之内
       + **:read-write  |  read-noly**
         + 用于匹配可读及可写的元素  or 	用于匹配设置 "readonly"（只读） 属性的元素
-
+    
     + **:disabled**
-
+    
       + 选择每一个禁用的输入元素
-
-    + 
-
-    + a链接
-
+    
++ 
+    
++ a链接
+    
       + **:link**      未被访问的链接(默认状态 )
-      + **:visited**      被访问过的链接
-
-    + **:active**       鼠标按住
-
-    + **:hover**    鼠标悬浮
-
+  + **:visited**      被访问过的链接
+  
++ **:active**       鼠标按住
+  
++ **:hover**    鼠标悬浮
+  
     + `:link | :visited | :hover |:active`
 
       + 这四个伪类在使用时应按照顺序使用,否则会存在覆盖的情况
@@ -161,17 +159,17 @@
   + 属性
 
     + ```css
-      img[alt]	包含alt属性
+    img[alt]	包含alt属性
       img[width="300"]	width属性等于300
-           [属性名=值] {}
+         [属性名=值] {}
            [属性名] {}	   匹配对应的属性即可
-           [属性名^=值] {}    以值开头
+         [属性名^=值] {}    以值开头
            [属性名*=值] {}    包含	[属性名~=值]
            [属性名$=值] {}	   以值结束	[属性名|=值] 
       ```
-
+  
     + 字符串匹配的属性选择符(^ $ *三种，分别对应开始、结尾、包含)
-
+  
 + ID选择器
 
 + 全局选择器(如：*号)
@@ -194,11 +192,14 @@
   + 都是行内元素
   + 配合**:empty**可实现占位符效果
     + `p:empty::before{ cotent:"提示文本"}`
-
 + **::before**
   + 在元素前插入内容和样式
-+ **:after**
++ **::after**
   + 在元素后插入内容和样式
++ **::first-line**	 选中第一行
++ **::first-letter**	 选中第一个字符
+
++ **::selection**           当被鼠标选中的时候或处于高亮状态的部分
 
 ## 常用知识
 
@@ -226,6 +227,15 @@
   4.写具体样式
   ```
 
+### 设计方式
+
++ 渐进增强
+  + 优先保证低版本浏览器构建页面,保证基本功能
+  + 在对高版本浏览器进行用户体验优化
++ 优雅降级
+  + 先实现所有效果
+  + 在对低版本浏览器进行兼容
+
 ### 流和盒子的显示方式
 
 + 行内元素
@@ -236,8 +246,30 @@
 + 行内块与空白
 + 使用行内块（inline-block）来布局的最大问题，就是它会在HTML元素间渲染空白。这不是bug
 
+#### 定位
+
++ **position**`: static;(默认值跟随文档流)`
+  + 属性`absolute`   绝对定位  脱离文档流 相对于已经定位的父元素进行定位  默认相对于浏览器窗口
+  
+  + ` relative`   相对定位,  相对于当前位置进行定位   一般设置在父标签配合子元素的绝对定位
+  
+  + ` fixed`   固定定位   永远都是相对于 浏览器窗口
+  
+  + ` sticky`  粘性定位   默认保持不动, 如设置`top:0;` 则在滚动条下拉到该元素后,该元素会粘在`top:0;` 的位置,不会被滚动条划走
+  
+  + ` page`    与absolute一致。元素在分页媒体或者区域块内，元素的包含块始终是初始包含块，否则取决于每个absolute模式。
+  
+  + `z-index`  层级   默认为0   越大层级越高
+    
+    + 先按照同级进行比较,  父盒子比同级的盒子低      那么子盒子层级在高也还是在父盒子同级的下面     如果父级不写层级  就按照子盒子的层级进行比较
+    
+  + 绝对定位垂直居中
+  
+    
+
 #### **float**  浮动
 
++ 浮动可实现文本环绕   图片浮动压在盒子上  但是盒子的里的文字会显示出来,不会被压住
 + 任何元素设置浮动后设置宽高都起作用
 + 会半脱离标准的文档流,显示在普通文档流之上
 + 浮动会导致父盒子高度塌陷
@@ -254,23 +286,151 @@
   + 单属性一定要写在复合属性后面
   + 在复合属性前设置单属性会被覆盖掉
 
+### CSS Hack
+
++ 用来解决浏览器兼容性问题,为不同版本的浏览器定制编写不同的CSS效果 ,使用每隔浏览器单独识别的样式代码 ,控制浏览器的显示样式
+
++ Hack分类
+
+  + CSS属性前缀法
+
+    + |        前缀         |    浏览器    |
+      | :-----------------: | :----------: |
+      |          _          |     IE6      |
+      |      + or   *       | IE6  -  IE7  |
+      | \9     加在值的后面 | IE6  ~  IE9  |
+      | \0     加在值的后面 | IE8  ~  IE11 |
+
+  + 选择器前缀法
+
+    + `*html .box`   IE6
+    + `*+html .box` IE7
+    + `:root .box`    IE9  及以上
+
+  + IE条件注释法
+
+    + ```html
+      <!--[if IE]
+      <div class="box"><div>
+      <![endif]-->
+      IE10及以上不支持条件注释法
+      <!--[if IE 7]  针对IE7   可以用  ! 非
+      <div class="box"><div>
+      <![endif]-->
+      <!--[if lte IE 7]   小于等于IE7   get  大于等于
+      <div class="box"><div>
+      <![endif]-->
+      ```
+
+  + IE低版本常见BUG
+
+    + 透明度    `opacity`   iE 8及以下不识别
+      + 解决:`filter:alpha(opacity=50)` 兼容写发
+    + 双边距
+      + IE6   在有margin-left的块元素浮动的情况下,margin-left会变成2倍
+      + 解决 `_display:inline;`
+    + 最小高度   IE 6
+      + 最小高度是19px
+      + 解决:`overflow:hidden;`
+    + 图片边框  IE9及已下
+      + 给img加链接的情况
+      + 解决:`border:none;`
+
 ### 其他
 
 + 行内元素水平居中给父元素设置   `text-align:center;`
 + 块元素水平居中给自己设置       `margin:0 auto;`
 + img元素底部留白  `display:block;` 解决   原因:内联元素是延基线对齐
-  + 解决方式2: `vertical-algin: bottom`  
+  + 解决方式2: `vertical-align: bottom`  
 
 
 
 + 排版对齐方式
-  + `vertical-algin: bottom  | baseline`(默认基线)
+  + `vertical-align: bottom  | baseline`(默认基线)
 
 + 文本分4条线  顶线	中线		基线	底线
   + 以W为例,  最上面为顶线  -- 中间为中线  --  底部为基线 --  在往下一点才是底线
   + 就好比4条线的拼音格
 
 ## 布局
+
+### PC端布局
+
++ 通栏和版心
++ 通栏 : 自适应浏览器的宽度
++ 版心 : 固定一个宽度,并且让容器居中
+
+#### 等高布局
+
++ 多列布局情况 高度相等
+
++ 原理: 
+
+  + 父元素: `overflow:hidden;` 
+  +  `margin-bottom:-2000px;    padding-bottom:2000px;` 
+  + 通过`margin 和 padding` 让盒子的背景实际很高,但是溢出隐藏
+  + 然后在内容撑高盒子时   实现等高
+
++ 实现:  
+
++ ```html
+  <style>
+      /*	实现最大等高2000px	*/
+      .box{overflow:hidden;}
+      .box1{float:left; width:100px; background:red; 
+          margin-bottom:-2000px; padding-bottom:2000px;}
+      .box2{float:right; width:100px; background:blue; 
+          margin-bottom:-2000px; padding-bottom:2000px;}
+  </style>
+  <div class="box">
+      <div class="box1"></div>
+      <div class="box2"></div>
+  </div>
+  ```
+
+#### 双飞翼布局和圣杯布局
+
++ 左右固定   中间自适应
++ 同样利用 margin 负值   和浮动
++ ![实现](./images/双飞翼布局.png)
+
++ 圣杯
++ ![圣杯布局](./images/圣杯布局.png)
+
+### 移动端布局
+
++ 模拟器切换平台后,要重新刷新
+
++ 一般大网站开发  ,  PC端一套代码  ,  移动端一套代码
+
++ 百分比布局  也叫流式布局
+
+  + 好处 大屏幕下显示更多内容
+  + 坏处 宽屏比例会有一些不协调
+
++ 等比缩放布局   也叫 rem布局
+
+  #### viewport视口
+
+  + visual viewport     可视视口  一般就是屏幕大小
+
+  + layout viewport    布局视口默认980px
+
+  + 一般显示会把很大的`layout viewport  ` 缩小倒 `visual viewport` 中,所以会显示得很小
+
+  + ```html
+    移动端布局设置 html
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    width 设置layout viewport 的宽度特定值     device-width设备宽度
+    height 设置layout viewport 高度特定值 一般不设置
+    initila-scale   设置页面初始缩放
+    minimun-scale   设置页面最小缩放
+    maximun-scale   设置页面最大缩放
+    user-scalable   设置页面能否缩放   on / off
+    viewport-fit-cover 针对苹果设备  将浏览器覆盖在功能键
+    ```
+
+    
 
 ### @符号
 
@@ -324,9 +484,20 @@
 
 #### 字体设置
 
++ 字体图标
+  + 方便改变大小和颜色
+  + 放大后不失真
+  + 减少请求次数和提高加载速度
+  + 简化网页布局
+  + 减少设计师和前端工程师的工作量
+  + 可以提供计算机没提供的字体
++ 像 .woff等文件都是做兼容平台处理的
++ 主要文件为css和svg为文件
+
 ```css
+字体以及字体图标引入
 @font-face { 
-    font-family: 'robotoregular'; 
+    font-family: 'robotoregular'; /*	名字 自定义 : name	*/
     src: url('Roboto-Regular-webfont.eot'); 
     src: url('Roboto-Regular-webfont.eot?#iefix') format('embeddedopentype'), 
         url('Roboto-Regular-webfont.woff') format('woff'), 
@@ -335,265 +506,231 @@
     font-weight: normal; 
     font-style: normal; 
 }
+
+引入
+.gouwuche::after{ content:"对应字体图标"}
+div{
+    font-family:name;
+}
+<div>添加字体图标对应的字</div>
 与提供商前缀的机制很类似，浏览器也会依次尝试属性列表中的样式，忽略不能识别的内容（属性值越靠下，优先级越高）
 ```
 
-### 布局技巧
-
-#### 导航
-
-+ 导航为什么要用ul li包裹
-  + 因为seo搜索引擎优化  会认为叠在一起的a标签是在作弊,关键词堆砌
-
-#### 最大最小宽高
-
-+ `min-width | min-height`
-+ `max-width | max-height`
-+ 让宽高可以不固定,自动适应
-
-#### 页面布局
-
-+ background-size: cover	背景图片需要完整地铺满一个容器
-+ 移动网页中通过 CSS 把一张大图缩小显示往往是不太明智的
-+ 视口的宽度来决定列的数量
-  + 弹性盒布局（即 Flexbox）或者 display: inline-block加上常规的文本折行行为，都可以实现这一点。
-+ 在 使 用 多 列 文 本 时， 指 定 column-width（ 列 宽 ） 而 不 是 指 定column-count（列数），这样它就可以在较小的屏幕上自动显示为单列布局
-
-#### 灵活使用单位
-
-+ 将固定的像素大小转换为弹性比例
-
-  + 结果 = 目标/上下文
-
-  + ```css
-    一个布局宽度为960px的三栏布局
-    左侧栏200px	中间区域660px		右侧栏100px
-    那么左侧栏就=200/960	也就是20.83%
-    中间区域=	660/960		68.75%
-    右边	=	 100/960	10.41%
-    ```
-
-
-1. 颜色单位	
-
-   1. currentColor		当前颜色
-   2. rgba()
-   3. hsla()
-
-2. 少用绝对值
-
-3. 绝对值不容易维护
-
-4. ```css
-   /*只需覆盖background-color既可得到不同颜色的样式*/
-   padding: .3rem .8rem;
-   border: 1px solid rgba(0,0,0,.1);
-   background: #58a linear-gradient(hsla(0,0%,100%,.2),
-   transparent);
-   border-radius: .2rem;
-   box-shadow: 0 .05rem .25rem rgba(0,0,0,.5);
-   color: white;
-   text-shadow: 0 -.05rem .05rem rgba(0,0,0,.5);
-   ```
-
-#### 代码维护
-
-+ 合理使用简写
-
-+ ```css
-  border-width: 10px 10px 10px 0;
-  /*	相对于上面的方式虽然代码辆增加了但跟容易阅读和修改	*/
-  border-width: 10px;
-  border-left-width: 0;
-  ```
-
-+ ```css
-  而当你使用简写属性时，解析器需要在没有属性名提示的情况下弄清楚 50% 50% 到底指什么。这就是需要引入斜杠的原因。
-  background: url(tr.png) no-repeat top right / 2em 2em,
-               url(br.png) no-repeat bottom right / 2em 2em,
-               url(bl.png) no-repeat bottom left / 2em 2em;
-  /*把公共部分抽出来写成扩展式属性*/
-  background: url(tr.png) top right,
-               url(br.png) bottom right,
-               url(bl.png) bottom left;
-  background-size: 2em 2em;
-  background-repeat: no-repeat;
-  ```
-
-#### 自适应内部元素
-
-+ `width:min-content;`	取值为容器内单词、图片的最大宽度
-+ `width:max-content:clip`
-
-1. 保持缩放比问题
-
-   + 合理使用宽高单位
-+ 采用rem 可控制全局大小
-   + vw、vh、vmax、vmin
-   + 可轻松保持缩放比例
-
-#### 精确控制表格列宽
-
-+ `table-layout:fixed;`
-+ `overflow:hidden;text-overflow:heaide`
-
-#### 根据兄弟元素的数量来设置样式
-
-+ ```css
-  :nth-child(4) ~ li	选中第4项以及后面所有
-  :only-child 等效于	:first-child:last-child(4)
-  :nth-child(n+4)
-  li:first-child:nth-last-child(n+4),
-  li:first-child:nth-last-child(n+4) ~ li
-  /*会在正好只有4项的时候选中第一个*/
-  
-  li:first-child:nth-last-child(4),
-  li:first-child:nth-last-child(4) ~ li {
-   /* 当列表正好包含四项时，命中所有列表项 */
-  }
-  li:first-child:nth-last-child(-n+4),
-  li:first-child:nth-last-child(-n+4) ~ li {
-   /* 当列表最多包含四项时，命中所有列表项 */
-  }
-  ```
-
-#### 满幅的背景,定宽的内容
-
-+ ```css
-  footer {
-   padding: 1em;
-   padding: 1em calc(50% - 450px);
-   background: #333;
-  }
-  实现内容最大宽度900的居中效果;
-  当内边距是 50% - 450px 时，只可能给内容留出 900px（2×450px）的可用空间。
-  只有把 width 显式地设置为 900px 之外（或大或小）的其他值，我们才有可能看出区别
-  利用padding达到内容居中定宽背景铺满的效果而不用两层元素来实现
-  ```
-
-#### 垂直居中
-
-+ ```css
-  main {
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-  }
-  利用tranform的位移属性translate实现居中
-  内容高度过高会被裁切掉
-  在某些浏览器显示模糊的问题可以用transform-style:preserve-3d;来修复
-  
-  main {
-   width: 18em;
-   padding: 1em 1.5em;
-   margin: 50vh auto 0;
-   transform: translateY(-50%);
-  }
-  只适用于窗口居中
-  ```
-
-+ 基于flexbox的解决方案
-
-+ ```css
-  body {
-   display: flex;
-   min-height: 100vh;
-   margin: 0;
-  }
-  main {
-   margin: auto;
-  }
-  Flexbox 中的margin:auto; 不仅在水平上将元素居中,垂直方向上同样如此
-  
-  不用布局也能居中
-  align-self: center;
-  ```
-
-#### 紧贴底部的页脚
-
-+ ```css
-  body {
-   display: flex;
-   flex-flow: column;
-   min-height: 100vh;
-  }
-  /*	贴近页脚的元素这样设置		高度会一直保持让页脚不动	*/
-  利用了flex的垂直布局方式和flex的比例设置实现固定住页脚
-  main{ flex:1;}
-  ```
-
-
 ### flex弹性布局
 
-1. ```css
-   flex-basis:80;		设置弹性盒子子元素的基本宽度
-   ☞ 设置父元素为伸缩盒子【直接父元素】
-       display： flex
-   	宽度超出会被压缩			高度超出会溢出	overflow
-   
-       为什么在伸缩盒子中，子元素会在一行上显示？
-       1. 子元素是按照伸缩盒子中主轴方向显示
-       2. 只有伸缩盒子才有主轴和侧轴
-       3. 主轴： 默认水平从左向右显示
-       4. 侧轴： 始终要垂直于主轴
-   
-   	简写:flex-flow: flex-dirextion flex-wrap ;
-   ☞ 设置伸缩盒子主轴方向（flex-direction）
-       flex-direction: row; 【默认值】
-   	取值: row-reverse 反转	| column | column-reverse	|
-   
-       ☞ 设置元素是否换行显示（flex-wrap）
-       1. 在伸缩盒子中所有的元素默认都会在一行上显示
-       2. 如果希望换行： flex-wrap: wrap | nowrap;
-   
-   ☞ 设置元素在主轴的对齐方式( justify-content)
-   /* 设置子元素在主轴方向的对齐方式 */
-       justify-content: flex-start;
-       取值: flex-end | center | space-between | space-around/*	环绕	*/
-       justify-content: space-between;	/*	两端对齐中间自适应	*/
-   
-   ☞ 设置元素在侧轴的对齐方式 （align-items）	align-self	子元素单独决定对齐方式
-       align-items: flex-start;
-       取值: flex-end | center | stretch(默认值)(拉伸至父元素一样大)
-   	规定align-items属性值baseline，规定基线对齐。
-   	也就是元素中的文本都以第一个元素的文本的基线对齐。
-   
-   ☞ 设置元素换行后的对齐方式（ align-content)
-       align-content: flex-start;
-   	取值: flex-end | center | space-aroud | space- between
-       /* 换行后的默认值 */	align-content: stretch;
-   ```
++ `flex` 容器属性
+  + `flex-direction   |  flex-wrap  |  flex-flow  |  justify-content  |  align-items  |  align-content`
++ `flex` 子项属性
+  + `order  |  flex-grow  |  flex-shrink  |  flex-basis  |  flex  |  align-self`
+  + order  子项的排序位置 ,所以子项默认order 属性值为 0   所以给一个子项设置-1可以排在最前面
+  + flex-grow  伸展,扩展子项所占据的宽度, 默认为 0 
+    + 如果一个子项设置为 一 那么就会侵占所有空白位置
+    + 如歌两个子项设置为 一 那么就会平分空白空间
+    + 传给`flex`的第一个值是相对于其他伸缩项，当前伸缩项在空间允许的情况下可以伸展的量
+  + `flex-shrink`  收缩 ,  主要处理当`flex`容器空间不足时,单个元素的收缩比例   默认为 1    (0为不收缩)
+    + 是在空间不够的情况下，当前伸缩项相对于其他伸缩项可以收缩的量
+  + `flex-basis:80;`	定义了在分配剩余空间之前的默认大小   可以为  auto
+    + 传给`flex`的最后一个值是伸缩项伸缩的基准值。
+  + `flex: flex-grow flex-shrink flex-basis `
+  + `align-self` 单独控制一个子项 的垂直对齐方式
 
-+ *伸缩比*
-  + 子盒子设置	flex:1;	分1份	flex:1  1(0禁止压缩)  width(auto)
-  + 子项的flex属性	flex: 1(伸展)  1(收缩)	100px(基准);
-  + 由三个结合flex-grow、flex-shrink、flex-basis
-    + flex-grow（传给flex的第一个值）是相对于其他伸缩项，当前伸缩项在空间允许的情
-        况下可以伸展的量。
-    + flex-shrink是在空间不够的情况下，当前伸缩项相对于其他伸缩项可以收缩的量
-    + flex-basis（传给flex的最后一个值）是伸缩项伸缩的基准值。
-+ order可改变排列次序
-  +  order:-1;就是要排在最前面
-  + 其他改变需要给每个元素增加排列序号
+1. **flex容器**
+   
+   + ```css
+     ☞ 设置父元素为伸缩盒子【直接父元素】
+         display： flex
+     	宽度超出会被压缩			高度超出会溢出	overflow
+     
+         为什么在伸缩盒子中，子元素会在一行上显示？
+         1. 子元素是按照伸缩盒子中主轴方向显示
+         2. 只有伸缩盒子才有主轴和侧轴
+         3. 主轴： 默认水平从左向右显示
+         4. 侧轴： 始终要垂直于主轴
+     
+     	简写:flex-flow: flex-dirextion flex-wrap ;
+     ☞ 设置伸缩盒子主轴方向（flex-direction）
+         flex-direction: row; 【默认值】
+     	取值: row-reverse 反转	| column | column-reverse	|
+     
+         ☞ 设置元素是否换行显示（flex-wrap）
+         1. 在伸缩盒子中所有的元素默认都会在一行上显示
+         2. 如果希望换行： flex-wrap: wrap | nowrap | wrap-reverse(反向换行);
+     
+     ☞ 设置子元素在主轴的对齐方式( justify-content)
+     /* 设置子元素在主轴方向的对齐方式 */
+         justify-content: flex-start;
+         取值: flex-end | center | space-between | space-around/*	环绕	*/ 
+     				| space-evenly /*匀称 每个子项两边空白完全相等*/
+         justify-content: space-between;	/*	两端对齐中间自适应	*/
+     
+     ☞ 设置子元素在侧轴的对齐方式 （align-items）	align-self	子元素单独决定对齐方式
+         align-items: flex-start;
+         取值: flex-end | center | stretch(默认值)(拉伸至父元素一样大)
+     	规定align-items属性值baseline，规定基线对齐。
+     	也就是元素中的文本都以第一个元素的文本的基线对齐。
+     
+     ☞ 设置子元素换行后的对齐方式（ align-content)
+         align-content: flex-start;
+     	取值: flex-end | center | space-around | space-between | space-evenly
+         /* 换行后的默认值 */	align-content: stretch;
+     ```
 
 ### grid网格布局
 
++ grid布局是一个二维布局方法
+
++ 设为网格布局以后，容器子元素（项目）的
+
++ `float`、`display: inline-block`、`display: table-cell`、`vertical-align`和`column-*`等设置都将失效
+
++ 父项属性
+
+  + `gird-template-columns 列    和 grid-template-rows  行`
+
+    + 对网格进行二维划分  可以是像素 ,百分比, 自适应  以及  fr单位(网格剩余空间比例单位)
+
+    + ` grid-auto-columns 属性， grid-auto-rows 属性`
+
+      + 浏览器自动创建的多余网格的列宽和行高 `grid-auto-rows: 50px;`
+
+    + 有时候网格的划分是很规律的, 如果要添加多个纵横网格时 ,可以利用`repeat()`语法进行简化
+
+    + `minmax()`函数产生一个长度范围，表示长度就在这个范围之中。它接受两个参数，分别为最小值和最大值。
+
+      + `grid-template-columns: 1fr 1fr minmax(100px, 1fr);` 
+      + `minmax(100px, 1fr)表示列宽不小于 100px，不大于1fr`
+
+    + ```css
+      为了方便表示比例关系，网格布局提供了fr关键字（fraction 的缩写，意为"片段"）。如果两列的宽度分别为1fr和2fr，就表示后者是前者的两倍。
+      /*	三行四列布局	*/
+      display: grid;
+              /*	每行的行高	*/		/*	1fr 1fr  平分为 2行	*/
+      grid-template-rows: 100px auto 25%;
+      grid-template-rows: repeat(3,1fr);/*平均的3行 	*/
+      					/*	每列的列宽	*/
+      grid-template-columns: 100px 100px 200px 100px;
+      
+      grid-template-columns: repeat(2, 100px 20px 80px); /* 重复设置模式 */
+      grid-template-columns: repeat(auto-fill, 100px); /* auto-fill关键字表示自动填充 */
+      
+      /*grid-template-columns属性和grid-template-rows属性里面，
+      还可以使用方括号，指定每一根网格线的名字，方便以后的引用。*/
+      .container {
+        display: grid;
+        grid-template-columns: [c1] 100px [c2] 100px [c3] auto [c4];
+        grid-template-rows: [r1] 100px [r2] 100px [r3] auto [r4];
+      }
+      ```
+
+  + `grid-template-areas 和 grid-template`
+
+    + area 是区域的意思,`grid-template-areas` 就是给网格划分区域的. 
+
+    + 此时grid子项要使用`grid-area`属性指定其隶属于那个区
+
+    + `grid-template` 是 `gird-template-columns grid-template-rows grid-template-areas` 的缩写
+
+    + ```css
+      grid-template-rows: repeat(5,1fr);
+      grid-template-columns: repeat(5,1fr);
+      grid-template-areas: 
+      "a1 a1 a1" 
+      "a2 a2 a3" 
+      "a2 a2 a3";
+      如果某些区域不需要利用，则使用"点"（.）表示。
+      grid-template-areas: 'a . c'
+                           'd . f'
+                           'g . i';
+      /*注意，区域的命名会影响到网格线。每个区域的起始网格线，
+      会自动命名为区域名-start，终止网格线自动命名为区域名-end。
+      
+      比如，区域名为header，则起始位置的水平网格线和垂直网格线叫做header-start，
+      终止位置的水平网格线和垂直网格线叫做header-end。*/
+      /*	区域划分只能分长方形或正方形  其他图像无效   区域名字随便命名	*/
+      grid-template: 
+      		"a1 a1 a1" 1fr
+      		"a2 a2 a3" 1fr
+      		"a2 a2 a3" 1fr
+      		/1fr 1fr 1fr;
+      	}
+      ```
+
+  + `grid-auto-flow` 网格排列顺序  默认是 row 即"先行后列" 也可以将它设成`column`，变成"先列后行"。
+
+    + 还可以设成`row dense`和`column dense`。这两个值主要用于，某些项目指定位置以后，剩下的项目怎么自动放置
+    + 像第一图的情况  修改设置，设为`row dense`，表示"先行后列"，并且尽可能紧密填满，尽量不出现空格。
+    + ![bg2019032513](./images/bg2019032513.png) ![bg2019032514](./images/bg2019032514.png)
+
+  + `grid-column-gap 和grid-row-gap`
+
+    + 用来定义网格间隙的尺寸
+
+    + `grid-gap` 属性是`grid-row-gap 和 grid-column-gap` 的简写
+
+      + ```css
+        grid-gap: <grid-row-gap> <grid-column-gap>;
+        ```
+
+  + `justify-items 和 align-items`
+
+    + `justify-items 水平方向   align-items 垂直方向`
+    + 网格的内容 相对于网格的位置
+    + 属性: `stretch |  Start  |  end  |  center `
+    + 简写 : ` place-items: align-items justify-items;`
+
+  + `justify-content  和 align-content` 
+
+    + `justify-content 水平方向   align-content 垂直方向`
+    + 是整个内容区域在容器里面的位置    在网格没有铺满容器的情况下有效
+    + 取值: `stretch(默认) | start | end | center | space-between | space-around | space-evenly`
+    + 简写 :`place-content: <align-content> <justify-content>`
+
++ 子项属性
+
+  + n行m列的父网格容器右 n+1根水平网格线   m+1根垂直网格线
+  + `grid-column-start:2;` 和 `grid-column-end:3;`  决定列的起始位置和结束位置
+  + `grid-row-start:2;` 和 `grid-row-end:3;`         决定行的起始位置和结束位置
+  + `grid-column-end 和 grid-row-end`    这2个属性有  `span 1` 值    表示要占几个网格
+  + `grid-column: 2 / 3 ; 是 grid-column-start:2;  和 grid-column-end:3;`  的简写
+  + `grid-row: 2 / span 1; 是 grid-row-start:2; 和 grid-row-end: span 1;`  的简写
+  + `grid-area:3 / 2 / 4 / 4 ;` 
+    + 第一个值是水平的起始位置
+    + 第二个值是垂直的起始位置
+    + 第三个值是水平的结束位置
+    + 第四个值是垂直的结束位置
+    + 还能指定区域名字
+  + `justify-self 从左至右 和 align-self 从上至下 ` 针对单独一个网格位置调整
+  + 简写`place-self: align  justify ;` 
+
++ 简写  先找行在找列
+
+### 分栏布局
+
++ 像报纸一样的排版
+
+  + 栏数和宽度只能设置一个
+  + 改变viewport宽度会动态改变列数
+
++ columu-count : 分栏的个数
+
++ columu-width :  每栏的宽度
+
++ columu-gap:     分栏的间距
+
++ columu-rule:     分栏的边线
+
++ columu-span:    合并分栏
+
++ ```css
+  column-width: 12em;
+  固定列数可变宽度
+  column-count: 4;
+  分割线
+  column-gap: 2em; 
+  column-rule: thin dotted #999; 
+  ```
+
 ### 其他布局
-
-#### 多列布局
-
-```css
-改变viewport宽度会动态改变列数
-column-width: 12em;
-
-固定列数可变宽度
-column-count: 4;
-
-分割线
-column-gap: 2em; 
-column-rule: thin dotted #999; 
-```
 
 #### 表格布局
 
@@ -620,6 +757,7 @@ column-rule: thin dotted #999;
 ## 盒子模型
 
 + **margin**外边距合并
+  
   + 垂直排列的两个块元素外边距会合并,外边距等于大的一方
 + 外边距塌陷(也叫**margin**传递问题)出现在嵌套结构种且只有**margin-top**会发生传递
   + 嵌套的两个块元素,当给子元素设置向上的外边距时,此时父盒子会跟着掉下来
@@ -627,8 +765,9 @@ column-rule: thin dotted #999;
     + 给父盒子:`overflow:hidden;`
     + 给父盒子设置上边框
 + **centent-box** 
-  + 该模式的块元素不设置宽度的情况下除非padding和border大与父盒子宽度才会把盒子撑大
-
+  
++ 该模式的块元素不设置宽度的情况下除非padding和border大与父盒子宽度才会把盒子撑大
+  
 + ```css
   /* 通过box-sizing这个样式我们可以改变这种宽度计算方式，
   它的属性值有两个：content-box和border-box。*/
@@ -665,33 +804,48 @@ column-rule: thin dotted #999;
 
 ##  css单位的区别与使用
 
-+ calc() 函数用于动态计算长度值
+### 计算单位
 
++ calc() 函数用于动态计算长度值
   + 需要注意的是，运算符前后都需要保留一个空格，例如：`width: calc(100% - 10px)`；
   + 任何长度值都可以使用calc()函数进行计算；
-  + calc()函数支持 "+", "-", "*", "/" 运算；
+  + calc()函数支持 "`+`", "`-`", "`*`", "`/`" 运算；
   + calc()函数使用标准的数学运算优先级规则；
++ **`filter:blur(20px)`** 设置模糊属性
 
-+ 颜色单位	
++ `width:min-content;`	取值为容器内单词、图片的最大宽度
++ `width:max-content;`
 
-  1. currentColor		当前颜色
+1. 保持缩放比问题
 
-  2. color()          暂不支持
+   + 合理使用宽高单位
 
-     1. ```css
-        color:color(var(--mytheme-p-color) a(50%) hue(+30deg));
-        /*p元素dom数组集合中，每个元素的hue递增30deg，等同于hue += 30*/
-        ```
++ 采用rem 可控制全局大小
+  + vw、vh、vmax、vmin
+  + 可轻松保持缩放比例
 
-  3. rgba()
+### 颜色单位
 
-  4. hsla(H,S,L,A)
+1. currentColor		当前颜色  指的是color  而不是背景色
 
-     1. hsla() 函数使用色相、饱和度、亮度、透明度来定义颜色。
-     2. **色相（H）**是色彩的基本属性，就是平常所说的颜色名称，如红色、黄色等    取(0-360)
-     3. **饱和度（S）**是指色彩的纯度，越高色彩越纯，低则逐渐变灰，取 0-100% 的数值。
-     4. **亮度（L）** 取 0-100%，增加亮度，颜色会向白色变化；减少亮度，颜色会向黑色变化。
-     5. **透明度（A）** 取值 0~1 之间， 代表透明度。
+2. color()          暂不支持
+
+   1. ```css
+      color:color(var(--mytheme-p-color) a(50%) hue(+30deg));
+      /*p元素dom数组集合中，每个元素的hue递增30deg，等同于hue += 30*/
+      ```
+
+3. rgba()
+
+4. hsla(H,S,L,A)
+
+   1. hsla() 函数使用色相、饱和度、亮度、透明度来定义颜色。
+   2. **色相（H）**是色彩的基本属性，就是平常所说的颜色名称，如红色、黄色等    取(0-360)
+   3. **饱和度（S）**是指色彩的纯度，越高色彩越纯，低则逐渐变灰，取 0-100% 的数值。
+   4. **亮度（L）** 取 0-100%，增加亮度，颜色会向白色变化；减少亮度，颜色会向黑色变化。
+   5. **透明度（A）** 取值 0~1 之间， 代表透明度。
+
+### 常用单位
 
 1. PX
 
@@ -831,6 +985,9 @@ column-rule: thin dotted #999;
 
 ### 过度
 
++ 速度曲线[cubic-bezier](https://cubic-bezier.com/#)
++ 过度属性添加在自身样式中, 不要添加在hover之类的样式中
+
 + ```css
   transition: property duration timing-function delay ;
   
@@ -840,7 +997,7 @@ column-rule: thin dotted #999;
   		取值:none |all |property;	值为指定的css属性应用过渡效果，多个属性用逗号隔开
   
       transition-duration ：规定完成过渡效果需要多少秒或毫秒
-  		此属性为0不会产生过度效果
+  		此属性为0不会产生过度效果  
   
       transition-timing-function ：指定过渡函数，规定速度效果的速度曲线
   		取值:linear | ease | ease-in | ease-out | ease-in-out | chbic-bezier(n,n,n,n)
@@ -848,6 +1005,7 @@ column-rule: thin dotted #999;
   			ease-in-out:先加速后减速
   
       transition-delay ：指定开始出现的延迟时间  1s  就是触发后延迟1秒在执行
+  					负值提前过度
   
   	默认值分别为：all 0 ease 0 
   	transition: tarnsform 2s;	过度属性 完成tarnsform动画需要2秒
@@ -864,43 +1022,53 @@ column-rule: thin dotted #999;
 
 ### 2D转换3D转换
 
++ 复合写法  可以同时添加多个变形操作
+  + 执行是有顺序的,先执行后面的操作,再执行前面的操作
+  + translate会受到 rotate、scale、skew 的影响
+
 ```css
 /* 2d转换位移： 改变元素位置 */无法控制行内元素只能控制块级元素
+		变形操作不会影响其他元素
 ☞ 位移
 	transform: translate(X,Y);			transform: translate(100px,100px);
+        translateX()		translateY()		translateZ(3d)
 	备注：
 		位移是相对元素自身的位置发生位置改变
-☞ 缩放
+☞ 缩放	简写scale(1) 宽高都是1     scale(-1) 会倒过来  能做到镜像效果
 	transform: scale(W,H);				transform: scale(0.5,1);
+		scaleX()		scaleY()		scaleZ(3d)
     备注：
     	取值为倍数关系，缩小大于0小于1，放大设置大于1
 ☞ 旋转
     transform: rotate(60deg);
+		rotateX(3d)		rotateY(3d)		rotateZ(正值顺时针旋转 ,赋值逆时针旋转)
     备注：
 		取值为角度
 ☞ 倾斜
     transform: skew(30deg,30deg);
     备注：
-        第一个值代表沿着x轴方向倾斜
-        第二个值代表沿着y轴方向倾斜
+        第一个值代表沿着x轴方向倾斜		正向左   负向右
+        第二个值代表沿着y轴方向倾斜		
 
 	matrix：允许你以像素精度来控制变形效果
 		matrix(1.678, -0.256, 1.522, 2.333, -51.533, -1.989)
 
-    transform-origin 属性
-    使用transform-origin，可以修改变形原点。
+    transform-origin:X Y Z; 属性  z轴不支持单词
+    使用transform-origin，可以修改变形原点（基点） 默认是(`transform-origin: center center -50px;)。
 
 /*	3D	*/
 /* 透视: 在网页中实现近大远小的立体效果 */
-perspective: 1000px;	/* 一般600px ~ 1000px */
-☞ 位移
-    transform: translateX()  translateY()   translateZ()
+perspective: 1000px;	/* 一般600px ~ 1000px   景深   */
+perspective-origin:center;  /* 景深的基点	相机的位置*/  
+/*	相当于相机	*/
+☞ 位移									正值向相机靠近
+    transform: translateX()  translateY()   translateZ()  		translate3d(0,0,100px);
 
-☞ 旋转
-    transform: rotateX(60deg)  rotateY(60deg)  rotateZ(60deg);
+☞ 旋转		x正值向上翻转    y正值向右翻转   z正值顺时针旋转     前三个值为0或1表示是否旋转,
+    transform: rotateX(60deg)  rotateY(60deg)  rotateZ(60deg)  		rotate3d(0,0,1,30deg);
 
-☞ 缩放
-    transform: scaleX(0.5)  scaleY(1)  scaleZ(1);
+☞ 缩放							  立体元素的厚度
+    transform: scaleX(0.5)  scaleY(1)  scaleZ(1)  				scale3d(1,1,1);
 
 ☞ 倾斜
     transform: skewX(30deg) skewY();
@@ -909,21 +1077,29 @@ transform: rotateX(180deg) translate3d(0, 0, -120px);/*	translate3d(X, Y, Z)	*/
 
     ☞ transform-style: preserve-3d;
 	将平面图形转换为立体图形	这告诉浏览器，当我们要为这个元素创造变形效果时，它的子元素也保持3D效果
+/* 背面隐藏   在半透明时隐藏后面 */
+backface-visibility: hidden;
 ```
 
-
++ 在做变形特效时
+  + 先定好位置  在通过`transform`移走  溢出隐藏
+  + 在鼠标移入后还原`transform` 位置   加上过度效果  
 
 ### 动画
 
++ [动画库](https://daneden.github.io/animate.css/)
+
 1. ```css
+   /* 连写	时间 第一个是执行时间	第二个是延迟执行时间 */
+   animation: name 2s infinite linear alternate 1s forwards;
+   
    /* 调用  动画名称 */
    animation-name: rotate;
-   /* 连写	时间 第一个是执行时间	第二个是延迟执行时间 */
-   animation:rotate 2s infinite linear alternate 1s forwards;
-   /* 设置动画时间 */
+   
+   /* 设置动画持续时间 */
    animation-duration: 2s;
    
-   /* 设置动画执行的次数:  infinite 无限执行; */
+   /* 设置动画执行的次数:  infinite 无限执行; 默认为1  */
    animation-iteration-count: infinite;
    
    /* 动画执行的速度类型	同过度速度类型一样 */
@@ -931,14 +1107,15 @@ transform: rotateX(180deg) translate3d(0, 0, -120px);/*	translate3d(X, Y, Z)	*/
    
    /* 设置动画逆波 	动画结束后从结尾回放到开头	*/
    /*	alternate:正常回放	alternate-reverse:交替反向	reverse:倒放	*/
-   animation-direction: alternate;	normal | reverse | alternate | alternatereverse; 
+   animation-direction: alternate;	normal | reverse | alternate | alternate-reverse; 
    
-   /* 设置动画延时 */
+   /* 设置动画延时 	负数提前执行,持续3s  延迟-1	就是跳过前1s从第二秒开始执行持续2s*/
    animation-delay: 1s;
    
    /* 设置动画结束时候的状态 	不是无限执行时有效
-   forwards:停在动画结束状态		backwards:回到开始动画状态	*/
-   animation-fill-mode: forwards;	none | forwards | backwards | both; 
+   forwards:停在动画结束状态		
+   backwards:回到开始动画状态有延迟时间时会在延迟之前就执行0%的帧	*/
+   animation-fill-mode: forwards;	none | forwards | backwards | both(具备backwards和forwards的特点); 
    
    /* 动画暂停 */
    animation-play-state: paused; | running
@@ -973,7 +1150,7 @@ background-origin：   规定背景图片的定位区域。
 	☞ padding-box    背景图像相对内边距定位（默认值）
 	☞ border-box	 背景图像相对边框定位【以边框左上角为参照进行位置设置】
 	☞ content-box    背景图像相对内容区域定位【以内容区域左上角为参照进行位置设置】
-/*平铺时	背景裁切  精灵图 */
+/*平铺时	背景裁切方式*/
 background-clip：  	 规定背景的绘制区域。
 	background-color	默认值	border-box
 	☞ border-box	 背景被裁切到边框盒子位置 【将背景图片在整个容器中显示】
@@ -985,7 +1162,7 @@ background-size：wdith height;   		/*规定背景图片的尺寸。*/
 	☞ contain		/* 将背景图片按照原来的缩放比，完整的显示到容器中 	不确定是否会将容器填充满*/
 
 background-attachment: fixed;背景固定
-/*	背景定位	*/
+/*	背景定位	  精灵图*/
 background-position
 ```
 
@@ -1026,7 +1203,7 @@ background-position
 在渐变前添加前缀repeagting重复渐变效果	repeagting-linear-gradient()
 
 background:  linear-gradient(
-    to right,/*	方向支持deg	*/
+    to right,/*	方向支持deg  0deg在下  正值顺时针旋转	*/
     red -20%,/* 从不可见的位置就开始 */
     blue 20%
 );
@@ -1058,7 +1235,7 @@ at top right表示径向渐变的中心在右上方
 at right 100px top 20px表示径向渐变的中心在距右边框100像素、上边框20像素处
 at center left表示径向渐变的中心在左边框中间处
 
-background: radial-gradient(12rem circle at bottom, yellow, orange, red); 
+background: radial-gradient(12rem circle at bottom, yellow 25%, orange 50%, red 75%); 
 
 为响应式而生的关键字
  closest-side：在渐变形状为圆形的情况下，渐变形状会与距离中心最近的边框相切；在椭圆形的情况下，则会与距离中心最近的两个边框相切。
@@ -1161,10 +1338,14 @@ currentColor 80%,transparent 0);
     + normal	正常
     + *italic*   倾斜
 + **text-indent** 首行缩进只对文本起作用
++ **text-align** 水平对齐方式
 + **text-decoration: none ;**无
   + underline  下划线
   + overline     上划线
   + line-through    中划线
++ **direction:rtl;** 文字方向
++ **vertical-align** 行内元素对齐方式
++ **unicode-bidi:bidi-override;** 编码方式
 + 过多字母连在一起会被认为是一个单词,不会换行
   + `word-break:break-all` 	强制换行
   + `overflow-wrap: break-word;`	解决换行问题
@@ -1180,19 +1361,45 @@ white-space: no-wrap;
 ☞word-break: break-all;	自动换行
 ```
 
-### 阴影
+### 阴影倒影
 
 + 盒子阴影
 
+  + 只能制作矩形阴影
+
   + ```css
-    box-shadow: 0px 3px 5px #444;
-    
-    内阴影
-    box-shadow: inset 0 0 40px #000;
+    box-shadow: X Y blur spread color inset;
+     X  Y偏移量
+    blur模糊度
+    spread 扩散范围
+    inset 内阴影
+    outset 设置外阴影不起作用  默认就是外阴影
     同样可使用多重
     还能用负值
+    
+    做起伏效果  阴影配合位移  top
     ```
 
++ 盒子倒影
+
+  + **box-reflect**
+  
+    + `-webkit-box-reflect:`
+  
+    + `方向:above上  below 下   left     right`
+  
+  + 距离
+  
+    + 第三个参数支持 遮罩 或 渐变()
+  
+    + 渐变:只是针对透明度的渐变 ,不支持颜色的渐变
+  
+    + ```Css
+      -webkit-box-reflect: below 20px linear-gradient( rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 1) );
+      ```
+  
+      
+  
 + 文字
 
   + ```css
@@ -1202,11 +1409,33 @@ white-space: no-wrap;
                     4px 4px 0px #dad7d7;
     ```
 
-    
+### 遮罩
 
++ **mask**
+  + 值 : `url     repeat     X    Y   W   H    多遮罩`
+  + 暂时未标准化,需要加浏览器前缀
+  + 默认X  Y  都平铺
+  + 遮罩使用各种形状的图片  透明区域隐藏    实体区域显示,形成遮罩
 
++ ```css
+  -webkit-mask:url('') no-pepeat center center / 100px 100px;
+  ```
+
+  
 
 ## CSS兼容
+
++ 浏览器兼容前缀
+  + -ms-   IE
+  + -moz-   Firefox
+  + -o-     opera
+  + -webkit-  chrome/safari
++ 浏览器内核
+  + Trident     iE
+  + Gecko      Firefox
+  + Presto      Opear
+  + webkit       Safari / Chrome
+  + Blink          Chrome / Opear
 
 ```css
 /*	谷歌支持	火狐暂不支持	*/
@@ -1412,3 +1641,169 @@ background: conic-gradient(red, yellow, lime, aqua, blue, fuchsia, red);
   }
   ```
 
+## 布局技巧
+
+#### 导航
+
++ 导航为什么要用ul li包裹
+  + 因为seo搜索引擎优化  会认为叠在一起的a标签是在作弊,关键词堆砌
+
+#### 最大最小宽高
+
++ `min-width | min-height`
++ `max-width | max-height`
++ 让宽高可以不固定,自动适应
+
+#### 页面布局
+
++ background-size: cover	背景图片需要完整地铺满一个容器
++ 移动网页中通过 CSS 把一张大图缩小显示往往是不太明智的
++ 视口的宽度来决定列的数量
+  + 弹性盒布局（即 Flexbox）或者 display: inline-block加上常规的文本折行行为，都可以实现这一点。
++ 在 使 用 多 列 文 本 时， 指 定 column-width（ 列 宽 ） 而 不 是 指 定column-count（列数），这样它就可以在较小的屏幕上自动显示为单列布局
+
+#### 灵活使用单位
+
++ 将固定的像素大小转换为弹性比例
+
+  + 结果 = 目标/上下文
+
+  + ```css
+    一个布局宽度为960px的三栏布局
+    左侧栏200px	中间区域660px		右侧栏100px
+    那么左侧栏就=200/960	也就是20.83%
+    中间区域=	660/960		68.75%
+    右边	=	 100/960	10.41%
+    ```
+
+
+1. 少用绝对值
+
+2. 绝对值不容易维护
+
+3. ```css
+   /*只需覆盖background-color既可得到不同颜色的样式*/
+   padding: .3rem .8rem;
+   border: 1px solid rgba(0,0,0,.1);
+   background: #58a linear-gradient(hsla(0,0%,100%,.2),
+   transparent);
+   border-radius: .2rem;
+   box-shadow: 0 .05rem .25rem rgba(0,0,0,.5);
+   color: white;
+   text-shadow: 0 -.05rem .05rem rgba(0,0,0,.5);
+   ```
+
+#### 代码维护
+
++ 合理使用简写
+
++ ```css
+  border-width: 10px 10px 10px 0;
+  /*	相对于上面的方式虽然代码辆增加了但跟容易阅读和修改	*/
+  border-width: 10px;
+  border-left-width: 0;
+  ```
+
++ ```css
+  而当你使用简写属性时，解析器需要在没有属性名提示的情况下弄清楚 50% 50% 到底指什么。这就是需要引入斜杠的原因。
+  background: url(tr.png) no-repeat top right / 2em 2em,
+               url(br.png) no-repeat bottom right / 2em 2em,
+               url(bl.png) no-repeat bottom left / 2em 2em;
+  /*把公共部分抽出来写成扩展式属性*/
+  background: url(tr.png) top right,
+               url(br.png) bottom right,
+               url(bl.png) bottom left;
+  background-size: 2em 2em;
+  background-repeat: no-repeat;
+  ```
+
+#### 精确控制表格列宽
+
++ `table-layout:fixed;`
++ `overflow:hidden;text-overflow:heaide`
+
+#### 根据兄弟元素的数量来设置样式
+
++ ```css
+  :nth-child(4) ~ li	选中第4项以及后面所有
+  :only-child 等效于	:first-child:last-child(4)
+  :nth-child(n+4)
+  li:first-child:nth-last-child(n+4),
+  li:first-child:nth-last-child(n+4) ~ li
+  /*会在正好只有4项的时候选中第一个*/
+  
+  li:first-child:nth-last-child(4),
+  li:first-child:nth-last-child(4) ~ li {
+   /* 当列表正好包含四项时，命中所有列表项 */
+  }
+  li:first-child:nth-last-child(-n+4),
+  li:first-child:nth-last-child(-n+4) ~ li {
+   /* 当列表最多包含四项时，命中所有列表项 */
+  }
+  ```
+
+#### 满幅的背景,定宽的内容
+
++ ```css
+  footer {
+   padding: 1em;
+   padding: 1em calc(50% - 450px);
+   background: #333;
+  }
+  实现内容最大宽度900的居中效果;
+  当内边距是 50% - 450px 时，只可能给内容留出 900px（2×450px）的可用空间。
+  只有把 width 显式地设置为 900px 之外（或大或小）的其他值，我们才有可能看出区别
+  利用padding达到内容居中定宽背景铺满的效果而不用两层元素来实现
+  ```
+
+#### 垂直居中
+
++ ```css
+  main {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+  }
+  利用tranform的位移属性translate实现居中
+  内容高度过高会被裁切掉
+  在某些浏览器显示模糊的问题可以用transform-style:preserve-3d;来修复
+  
+  main {
+   width: 18em;
+   padding: 1em 1.5em;
+   margin: 50vh auto 0;
+   transform: translateY(-50%);
+  }
+  只适用于窗口居中
+  ```
+
++ 基于flexbox的解决方案
+
++ ```css
+  body {
+   display: flex;
+   min-height: 100vh;
+   margin: 0;
+  }
+  main {
+   margin: auto;
+  }
+  Flexbox 中的margin:auto; 不仅在水平上将元素居中,垂直方向上同样如此
+  
+  不用布局也能居中
+  align-self: center;
+  ```
+
+#### 紧贴底部的页脚
+
++ ```css
+  body {
+   display: flex;
+   flex-flow: column;
+   min-height: 100vh;
+  }
+  /*	贴近页脚的元素这样设置		高度会一直保持让页脚不动	*/
+  利用了flex的垂直布局方式和flex的比例设置实现固定住页脚
+  main{ flex:1;}
+  ```

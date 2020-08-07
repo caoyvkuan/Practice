@@ -10,13 +10,26 @@
 
 ### 块级元素与行内元素
 
++ BFC规范   块级格式化上下文
+  + 触发BFC
+    + 浮动(除了none)  定位( `absolute ,  fixed` )
+    + `display: inline-block | table-cells | flex`
+    + `overflow:hidden | auto | scroll`
+  + 触发BFC规范的容器可以形成一个独立的容器,不受外界的影响,从而解决一些布局问题
+    + 解决margin叠加问题(发生在上下布局)
+    + 解决margin传递问题(发生在嵌套)
+    + 解决浮动问题(父盒子塌陷)
+    + 解决覆盖问题(浮动叠加被覆盖的) (一列固定一列自适应布局效果)
+
 + block
   + 可以设置宽高
   + 宽度默认和父元素一样宽
++ IFC规范    内联
 + inline
   + 无法设置宽高
   + 宽高靠内容撑起来
   + `text-align:center;`可以让标签中的行内元素和文本居中,行内块
+  + 行内元素在脱离文档流后可以设置宽高
 + 行内块模式
   + img   表单元素
 
@@ -81,6 +94,15 @@
 
   + 用于定义页面描述
 
+  + <meta charset="utf-8">  编码
+    <meta name="description" content="描述信息 seo优化">
+    <meta name="keywords" content=" 关键字">
+    <meta name="renderer" content="webkit"> 针对双内核浏览器 选择内核
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+
+    <meta http-equiv="refresh" content="3" url="">刷新3秒后跳转链接
+    <meta http-equiv="expires" content=""/>缓存处理
+
   + 辅助响应式布局   主要针对移动端
 
     + ```html
@@ -103,10 +125,14 @@
 
 + **<link>**
 
-  + 1
+  + `<link rel="stylesheet" href="">` 样式引入
 
+  + `<link rel="icon" type="image/x-icon" href="">`  网页标题图标引入
+
+  + `<link rel="dns-prefetch" href="">`  dns预解析
+  
   + 媒体查询
-
+  
     + ```html
       在CSS2中
       <link rel="style sheet" type="text/css" media="screen" href="screenstyles. css">
@@ -115,11 +141,11 @@
       
       <link rel="stylesheet" media="screen and (orientation: portrait) and 
       (min-width: 800px)" href="800wide-portrait-screen.css" /> 
-      
+    
       media="screen and (orientation: portrait) and(min-width: 800px),projection"
       projection后不接条件表示支持具备任何特性的该媒体类型,适配所有投影机
       ```
-
+  
       
 
 ### 语义标签
@@ -194,6 +220,7 @@
   
   <progress>定义任何类型的任务的进度</progress>
   	<progress value="当前进度" max="最大进度值"></progress>
+  <meter min="0" max="100" value="20" low="10" high="60"> 测量</meter>
   
   <ruby>定义 ruby 注释（中文注音或字符）</ruby>
   
@@ -204,6 +231,7 @@
   <wbr>规定在文本中的何处适合添加换行符。</wbr>
   	<!-- 可以用来定义HTML文档中需要进行换行的位置，与<br>标签不同，如果浏览器窗口的宽度足够，则不换行；反之，则在添加了 <wbr> 标签的位置进行换行 -->
   
+  <hgroup> 标题组合</hgroup>>
   <time>定义日期/时间。</time>
   <bdi>允许您设置一段文本，使其脱离其父元素的文本方向设置。</bdi>
   
@@ -251,7 +279,7 @@
 
 + ```html
   <code>计算机代码</code>
-  <pre>预格式化文本</pre>
+  <pre>预格式化文本  (会保留元素中的空格和换行符 )</pre>
   <strong>重要的文本</strong>
   <sup> （上标文本）</sup>
   <sub> （下标文本）</sub>
@@ -260,11 +288,26 @@
   <blockquote>长引用,会进行缩进</blockquote>
   <kbd>键盘输入</kbd>
   <abbr> （缩写）</abbr>
-  <bdo> （文字方向）</bdo>
+  <bdo dir="ltr" dir="rtl"> （文字方向）</bdo>
   <blockquote> （从另一个源引用的部分）</blockquote>
   <cite> （工作的名称）</cite>
   <del> （删除的文本）</del>
   <ins> （插入的文本）</ins>
+  
+  <map> 定义一个客户端图像映射  指带有可点击区域的一幅图像 </map>
+  	name属性关联img       img的usemap属性=`#name`
+  <area>  嵌套在map元素中  定义图像的映射区域  点击区域    </area>
+  	属性 href   shape 属性定义区域形状    coords  定义点击区域坐标  alt
+  	shape = "rect" 长方形   coords="x y x y" 2个点的位置, 左上角和右下角
+  	         ciec   圆              x y 半径   圆心位置  半径大小
+  			poly  多边形           x y x y   多个点的x y位置连在一起
+  
+  <embed> 与 <object>
+  都能嵌入多媒体,如flash动画插件
+      <embed src=""  type="">
+      <object>
+          <param name="movie" value="url">
+      </object>
   ```
 
 ### 自定义元素
@@ -360,10 +403,10 @@ myHero {
     type="email"	邮箱地址	只能输入合法的电子邮箱
     type="url"		网址
     type="tel"		电话
-    type="search" 	普通文本类型	type="text"
+    type="search" 	搜索框 普通文本类型	type="text"
     type="color"	颜色选择器
     type="date"		日期选择控件
-    	type="month"	显示月份	type="week"		显示第几周		type="time"		显示时间
+    type="month"	年和月份	type="week"	年和第几周		type="time"		显示时间
     radio:	单选
     	属性:
     		name让单选形成一组,发挥单选的作用,每组的name属性值一样
@@ -438,6 +481,21 @@ myHero {
     如果输入元素中输入的合法的
     input:valid
     ```
+
++ ```html
+  <style>
+      lable input{ display:none}    
+      /*通过div来替换input的原始样式*/
+      lable input:checked + div{background-position:0,0}
+      lable div{ width:28px; height:28px; background:url() 0 -28px;}
+  </style>
+  <lable>
+      <input type="checkbox" >
+      <div></div>
+  </lable>
+  ```
+
+  
 
 ## 媒体元素
 
