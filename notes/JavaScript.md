@@ -1507,15 +1507,15 @@ function Cat(name){
     ```js
         var parent={ age:18,gender:"男"};
         var student=Object.create(parent);
+    	在不使用构造函数的情况下拷贝对象
         //student.__proto__===parent
     ```
 
 + 使用方式：
 
   - 空对象：Object.create(null)
-  - 
-
-  ```js
+  
+```js
       var o1={ say:function(){} }
       var o2=Object.create(o1);
   ```
@@ -1535,7 +1535,13 @@ function Person(name,age,gender,say){
     this.name=name;
     this.age=age;
     this.gender=gender;
-
+    //这段代码调用错误   为什么错误？
+    //因为这种函数的调用方式，函数内部的this只能指向window
+	//Animal(name,age,gender);
+    
+    //目的：将Animal函数内部的this指向Person的实例
+    //Animal.call(this,name,age,gender)
+    //-->等价于：Animal.apply(this,[name,age,gender])
     this.say=function(){
 
     }
@@ -1552,14 +1558,19 @@ function Animal(name,age){
     this.age=age;
 }
 function Person(name,age,address){
-    Animal.call(this,name);
+    Animal.call(this,name,age);
+    //Animal.apply(this,[name,age])
     //this.name=name;
     //this.age=age;
     this.address=address;
 }
 ```
 
+### 其他继承方式
+
 + 寄生继承、寄生组合继承
+
+## this的指向以及函数的四种调用模式
 
 ## 原型链(家族族谱)
 
@@ -1567,23 +1578,25 @@ function Person(name,age,address){
 
 + 根本：继承
 
-  - 属性：对象中几乎都会有一个__proto__属性，指向他的父对象
-    -意义：可以实现让该对象访问到父对象中相关属性
+  - 属性：对象中几乎都会有一个`__proto__`属性，指向他的父对象
+    - 意义：可以实现让该对象访问到父对象中相关属性
 
 + 根对象：Object.prototype
 
   - var arr=[1,3,5]
-  - arr.__proto__：Array.prototype
-  - arr.__proto__.__proto__找到了根对象
+  - `arr.__proto__ === Array.prototype` true
+  - `arr.__proto__.__proto__`找到了根对象
 
   ```js
       function Animal(){}
       var cat=new Animal();
-      //cat.__proto__：Animal.prototype
+      //cat.__proto__ ：Animal.prototype
       //cat.__proto__.__proto__:根对象
   ```
 
 + 错误的理解：万物继承自Object？
+
+  + 因为万物都继承自Object.prototype
 
 ## 闭包
 
