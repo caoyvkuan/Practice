@@ -1327,7 +1327,8 @@ console.log("是数组的实例吗？",pro instanceof Array);//true
 //所有对象最终都继承自Object		但是并不是直接创建的
 ```
 
-### 继承的第一种方式：原型链继承1
+### 继承的第一种方式：原型链继承方式一
+
 ```js
     Person.prototype.say=function(){
         console.log("你好")
@@ -1346,7 +1347,8 @@ console.log("是数组的实例吗？",pro instanceof Array);//true
 ```
 + 缺点：添加1、2个方法无所谓，但是如果方法很多会导致过多的代码冗余
 
-### 继承的第二种方式：原型链继承2
+### 继承的第二种方式：原型链继承方式二
+
 ```js
     Person.prototype={
         constructor:Person,
