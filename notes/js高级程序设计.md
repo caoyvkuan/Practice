@@ -1825,9 +1825,37 @@ div.onclick = null；
 
 ## 事件类型
 
-+ UI（Userrr Interface,用户界面）事件，当用户与页面上的元素交互时发生
++ UI（Userrr Interface,用户界面）事件，当用户与页面上的元素交互时发生；
++ 焦点事件，当元素获得或失去焦点时触发；
++ 鼠标事件，当用户通过鼠标在页面上执行操作时触发；
++ 滚轮事件，
++ 文本事件，在文档中输入文本时触发
++ 键盘事件，
++ 合成事件，当为IME（input Method Editor,输入法编辑器）输入字符时触发；
++ 变动（mutation）事件，当底层DOM结构发生变化时触发
 
+### UI事件
 
++ load ： 当页面完全加载后在window上触发，在框架都加载完毕时在框架上面触发，图片加载完毕时在<img>元素上触发，当嵌入内容加载完毕时<object>元素上面触发
++ unload ： 当页面完全卸载后在window上面触发，同load事件
++ ![UI事件](./images/UI事件.png)
++ load事件
++ unload 事件 ， 用户从一个页面切换到另一个页面就会触发，多用来清除引用，避免内存泄漏
+
+### 焦点事件
+
++ 可以利用这些事件与document.hasFocus()方法及document.activeElement属性配合
++ blur ： 失去焦点时触发。这个事件不会冒泡
++ focus ： 获取焦点时触发。不会冒泡
++ focusin ： 支持冒泡
++ focusout ： 支持冒泡
+
+### 鼠标与滚轮事件
+
++  click ： 一般为鼠标左键单机，或键盘回车触发
++ dblclick ： 一般为鼠标左键双击
++ mousedown ： 按下任意鼠标按钮时触发，不能通过键盘触发
++ mouseenter ：
 
 
 
