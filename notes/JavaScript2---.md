@@ -314,9 +314,8 @@
   //将一个给定父元素里的一个字节点替换为另外一个节点 如果new是现有节点,将被删除在插入到oldChild里
   replaceChild(newChild,oldChild); 
   ```
-```
-  
-+ ```javascript
+```js
+
   //获取对象的子节点 返回数组:Array  
   //例:<p>文本<span></span></p>  Array[0] 返回的是[本文值],而不是span节点
   Object.ChildNodes  
