@@ -1836,7 +1836,7 @@ div.onclick = null；
 
 ### UI事件
 
-+ load ： 当页面完全加载后在window上触发，在框架都加载完毕时在框架上面触发，图片加载完毕时在<img>元素上触发，当嵌入内容加载完毕时<object>元素上面触发
++ load ： 当页面完全加载后在window上触发，在框架都加载完毕时在框架上面触发，图片加载完毕时在\<img>元素上触发，当嵌入内容加载完毕时\<object>元素上面触发
 + unload ： 当页面完全卸载后在window上面触发，同load事件
 + ![UI事件](./images/UI事件.png)
 + load事件
@@ -1852,14 +1852,265 @@ div.onclick = null；
 
 ### 鼠标与滚轮事件
 
-+  click ： 一般为鼠标左键单机，或键盘回车触发
-+ dblclick ： 一般为鼠标左键双击
-+ mousedown ： 按下任意鼠标按钮时触发，不能通过键盘触发
-+ mouseenter ：
++ 事件
+  + click ： 一般为鼠标左键单机，或键盘回车触发
+  + dblclick ： 一般为鼠标左键双击
+  + mousedown ： 按下任意鼠标按钮时触发，不能通过键盘触发
+  + mouseenter ：鼠标悬浮事件,不冒泡,且移动到后代元素不触发，鼠标移入
+  + mouseleave ：鼠标移出事件，不冒泡
+  + mousemove ：鼠标在元素内部移动时重复触发，不能通过键盘触发
+  + mouseout ：鼠标指针位于一个元素上方，然后将其移入另一个元素时触发，另一个元素可能位于前一个元素外部，也可能是子元素
+  + mouseover ： 鼠标位于一个元素外部，然后用户将其首次移入另一个元素边界内时触发
+  + mouseup ： 释放鼠标按钮时触发
+
++ 注意
+
+  + 页面上的所有元素都支持鼠标事件
+
+  + 除了mouseenter 和 mouseleave 所有鼠标事件都会冒泡
+
+  + 在同一个元素上相继触发mousedown 和 mouseup事件，才会触发click事件，如果其中一个被取消就不会触发click事件
+
+  + dblclick双击事件需要触发两次click后才会触发
+
+  + 触发顺序
+
+  + ```js
+    mousedomw
+    mouseup
+    click
+    mousedown
+    mouseup
+    click
+    dalclick
+    ```
+
++ 客户端坐标位置
+
+  + 保存在事件对象的`clientX 和 clientY` 属性中
+  + 值为鼠标相对于视口的位置
+  + 通过滚动条也可计算出鼠标相对于页面的位置
+  + `event.clientY + (document.body.scrollTop || document.documentElement.scrollTop);`
+
++ 页面坐标位置
+
+  + 保存在事件对象的 `pageX 和 pageY` 属性中
+  + 值为事件在页面中发生的位置，也就是鼠标相对页面中的位置
+
++ 屏幕坐标位置
+
+  + 保存在事件对象的 `screenX 和 screenY` 属性中
+  + 鼠标相对于电脑屏幕的位置
+
++ 修改键
+
+  + 判断按下鼠标的时候是否有按键被按下
+
+  + meta（相当于window的window键，苹果的cmd键）
+
+  + 按下的键会为true，否者为false
+
+  + ```js
+    let div = document.querySelector(".c");
+    div.addEventListener("click",function(){
+        let keys = new Array();
+        if(event.shiftKey){
+            keys.push("shift");
+        }
+        if(event.ctrlKey){
+            keys.push("ctrl");
+        }
+        if(event.altKey){
+            keys.push("alt");
+        }
+        if(event.metaKey){
+            keys.push("meta");
+        }
+        alert("Keys:" + keys.join(","));
+    ```
+
++ 相关元素
+
+  + 在发生mouseover 和 mouseout，还会涉及更多元素
+  + 对于mouseover 事件而言，事件的主目标是获得光标的元素，而相关元素就是失去光标的元素
+  + 对面mouseout刚好相反
+  + event对象的relatedTarget属性提供了相关元素的信息
+
++ 鼠标按钮
+
+  + 只有在主鼠标被单击（或回车键被按下）是才会触发click事件，因此检测按钮的信息并不是必要的，
+  + 但对于mousedown 和 mouseup 事件来说，在其event对象存在一个button属性
+  + 属性值有三个
+    + 0 ：表示鼠标主键（左键）
+    + 1 ： 表示鼠标中间 （滚轮）
+    + 2 ： 表示鼠标次键 （右键）
+
++ 更多事件信息
+
+  + event 对象还提供了 detail 属性
+  + 对于鼠标事件来说， detail 中包含了一个值，表示在给定位置上发生了多少次单击
+  + 在同一个元素上相继发生一次 mousedown 和 mouseup 事件算一次单击 ，detail 属性从 1 开始计数，如果鼠标在 mousedown 和 mouseup 之间移动了位置，则会重置为0
+  + `offsetX 和 offsetY` 光标相对于目标元素边界的位置
+
++ 鼠标滚轮事件
+
+  + mousewheel 事件，页面垂直方向（向上或向下）都会触发，在任何元素上触发冒泡到document或window对象，
+  + event对象中包含特殊的 wheelDelta 属性，当滚动滚轮时，该属性是120的倍数
+  + 先前滚动为 120    向后滚动为  -120
+
++ 触摸设备
+
+  + 不支持dblclick事件
+  + 轻击元素会触发mousemove事件，如果此事件导致内容变化，将不再有其他事件发生，如果无变化，依次发生 mousedown 、mouseup、click事件
+  + mousemove 事件也会触发 mouseover 、 mouseout事件
+  + 两个手指放在屏幕上且页面随手指移动而滚动时会触发mousewheel、scroll事件
+
++ 无障碍
+
+### 键盘于文本事件
+
++ keydown ： 按下键盘任意按键 ，按住不放会重复触发
++ keypress ： 按下键盘字符键，按住不放同样会重复触发
++ keyup ： 释放键盘按键
++ 事件对象event的 key 、char属性
+  + key为按下键的名称
+  + char为按下的字符名称，非字符时为null，
++ 发生keydown 和 keyup事件时，event对象的keyCode 属性会包含一个代码，于键盘上的一个特定键对应
++ ![keyCode](./images/keyCode.png)
++ event对象的location
+
++ textInput 事件
+  + 在可编辑区域输入时就会触发
+  + 且只有能够实际输入字符的键才会触发
+  + event对象包含data属性，为用户输入的字符
+  + event对象还有inputMethod 属性 表示把文本输入到文本框中的方法
+    + 0 ： 表示浏览器不确定输入方式
+    + 1 ：键盘输入
+    + 2 ：粘贴
+    + 3 ：拖放
+    + 4 ： 使用IME输入
+    + 5 ： 通过表单选择某一项输入
+    + 6 ： 手写
+    + 7 ： 语音
+    + 8 ： 几种方式组合输入
+    + 9 ： 脚本输入
+
+### 复合事件
+
++ ![复合事件](./images/复合事件.png)
 
 
 
+### 变动事件
 
++ ![变动事件](./images/变动事件.png)
+
+### HTML5 事件
+
++ contextmenu 事件
+  + 鼠标右键上下文菜单
+  + 属于鼠标事件，所以事件对象包含于光标有关的属性
+  + 事件对象event的 `event.preventDefalut()` 方法用于取消默认的上下文菜单
++ beforunload 事件
+  + 在浏览器卸载页面之前触发，通过它来取消卸载并继续使用原有页面，不能彻底取消这个事件，因为那相当于让用户无法离开当前页面了
+  + 通过将 event.returnValue 设置为要显示给用户看的字符串，在离开页面前给用户提示
++ DOMContentLoaded 事件
+  + 不同于load事件在加载完成后触发，该事件只要DOM树完整形成就会触发，不管图像、脚本、样式是否加载完成
++ readystatechange 事件
+  + 提供文档或元素的加载状态信息
+  + 事件对象的readyState属性
+    + `uninitialized` ：对象存在但未初始化
+    + loading ：对象数据加载中
+    + loaded ：对象数据加载完成
+    + interactive ：可以操作对象了，但还没有完全加载
+    + complete ：对象已经加载完毕
++ pageshow 和 pageghide  事件
++ hashchange 事件
+  + 在URL的参数列表（URL中#号后面的）发生改变时触发
+  + 该事件必需添加给window对象
+  + event中包含额外的两个属性
+    + oldURL 改变前完整的URL
+    + newURL
+
+
+
+### 设备事件
+
++ deviceorientation 事件  移动设备
+  + 在window对象上触发
+  + 设备的摆放方向，X、Y、Z 轴来表示 水平放置时都为0
+  + 事件对象中包含以下属性
+    + alpha ：围绕Z轴旋转时（即左右旋转时），Y轴的度数差，介于0~360之间的浮点数
+    + beta ：围绕X轴（前后翻转），Z轴的度数差，介于-180 ~180 之间的浮点数
+    + gamma ：围绕Y轴（扭转设备时），Z轴的度数差，介于-90~90之间的浮点数
+    + absolute ：布尔值，表示设备是否返回一个绝对值
+    + compassCalibrated ：布尔值，表示设备的指南针是否校准过
++ devicemotion 事件
+  + 该事件告诉开发人员设备什么时候移动，不仅仅是设备方向如何改变，能够检测到设备是不是在往下掉，或者是不是被走着的人拿在手上
+  + 事件对象中包含
+    + acceleration ：包含X、Y、Z、属性的对象，在不考虑重力的情况下，告诉你每个方向上的加速度
+
+### 触摸与手势事件
+
++ ![触摸与手势事件](./images/触摸与手势事件.png)
+
+## 内存和性能
+
++ 事件处理程序添加太多会占用内存影响性能
+
+### 事件委托
+
++ 解决"事件处理程序过多" 问题的方法就是事件委托,事件委托利用了事件冒泡,只指定一个事件处理程序,就可以管理某一个类型的所有事件,例如.click事件会一直冒泡到document层次,也就是说可以为整个页面指定一个onclick事件处理程序,而不必给每个可单击的元素分别添加事件处理程序,
++ ```js
+    <ul id="myLinks">
+      <li data-id="1"> 需添加点击事件</li>
+      <li data-id="2"> 需添加点击事件</li>
+      <li data-id="3"> 需添加点击事件</li>
+    </ul>
+    //利用事件委托
+    //将子元素的事件都通过冒泡委托给父元素处理
+    let list = document.querySelector("#myLinks");
+    list.addEventListener("click",function(){
+      //获取被点击的目标元素的自定义属性ID
+      let elementID = parseInt(event.target.dataset.id);
+      //判断是哪个子元素被点击了,处理该元素的对应触发事件
+      switch(elementID){
+        case 1:{
+          //触发事件的功能代码
+        }
+          break;
+        case 2:{
+          //触发事件的功能代码
+        }
+          break;
+        case 3:{
+          //触发事件的功能代码
+        }
+          break;
+        default:
+          alert("没有委托");
+          break;
+      }
+    },false);
+    ```
++ document 添加一个事件处理程序,将特定的事件委托给它,
+  + 由于document 对象很快就可以访问,而且可以在页面的生命周期的任何时间点为它添加事件处理程序,也就是说只要可单击的元素呈现在页面上,就可以立刻具备适当的功能
+  + 在页面中设置事件处理程序所需的时间更少,只添加一个时间处理程序所需的DOM引用更少,所花时间也更短
+  + 整个页面占用内存空间更少,能够提升整体性能
+
+### 移除时间处理程序
++ 在带有事件处理程序的元素被删除时,先移除该元素的事件处理程序,
++ 删除按钮也能阻止事件冒泡,目标元素在文档中是事件冒泡的前提
++ 在页面卸载前通过,onunload事件移除所有事件处理程序
+
+## 模拟事件
+
+### DOM中的事件模拟
++ 在document对象上使用createEvent()方法创建event对象,这个方法接收一个参数,即表示要创建的事件类型的字符串
++ ![模拟事件](./images/模拟事件.png)
++ ![模拟鼠标事件](./images/模拟鼠标事件.png)
++ ![模拟鼠标事件2](./images/模拟鼠标事件2.png)
++ 其他事件模拟大致相同
 
 
 
