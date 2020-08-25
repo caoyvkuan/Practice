@@ -975,6 +975,10 @@ div{
   + visible 可见(默认)     hidden (隐藏)   scroll (显示滚动条)   auto
 + **opacity**  透明度(`0(透明)~1(不透明)`)
   + 元素内所有内容都会透明
++ **vertical-align**  子元素相对于父元素的垂直对齐方式 middle为中部
++ **pointer-events** 鼠标点击是否穿透  
+  + 默认all 不穿透
+  + none  穿透，也就相当于点不到
 
 ### 其他实用属性
 

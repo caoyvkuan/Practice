@@ -1970,7 +1970,7 @@ div.onclick = null；
 ### 键盘于文本事件
 
 + keydown ： 按下键盘任意按键 ，按住不放会重复触发
-+ keypress ： 按下键盘字符键，按住不放同样会重复触发
++ keypress ： 按下键盘字符键，按住不放同样会重复触发   ，有字符输入时发生
 + keyup ： 释放键盘按键
 + 事件对象event的 key 、char属性
   + key为按下键的名称
