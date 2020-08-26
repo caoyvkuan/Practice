@@ -979,6 +979,7 @@ div{
 + **pointer-events** 鼠标点击是否穿透  
   + 默认all 不穿透
   + none  穿透，也就相当于点不到
++ **list-style** 项目符号样式
 
 ### 其他实用属性
 
@@ -1027,6 +1028,19 @@ div{
    transition: all 1s; 
   } 
   ```
+
+### 分段过度
+
+```css
+transition: 1s steps(3); /* 分段过度 */
+animation: paly 1s steps(3); /* 分段动画 */
+雪碧图,帧动画
+steps();
+steps(动画帧数,执行方式start 或 end);
+将过度分段执行,而不是持续
+```
+
+
 
 ### 2D转换3D转换
 
@@ -1140,6 +1154,7 @@ backface-visibility: hidden;
    }
    注意：
    1. 如果设置动画集使用的是百分比，那么记住百分比是相对整个动画执行时间的。
+   
    ```
 
 ### 背景
@@ -1345,15 +1360,41 @@ currentColor 80%,transparent 0);
   + **font-style** 
     + normal	正常
     + *italic*   倾斜
+  
 + **text-indent** 首行缩进只对文本起作用
+
++ **letter-spacing** 字符间距
+
++ **writing-mode** 文本方向
+
++ **text-orientation** 
+
++ **line-height** 行高
+
++ **white-space** 文本换行
+
 + **text-align** 水平对齐方式
+
 + **text-decoration: none ;**无
   + underline  下划线
   + overline     上划线
   + line-through    中划线
+  
++ ```css
+  文本省略
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  ```
+
+  
+
 + **direction:rtl;** 文字方向
+
 + **vertical-align** 行内元素对齐方式
+
 + **unicode-bidi:bidi-override;** 编码方式
+
 + 过多字母连在一起会被认为是一个单词,不会换行
   + `word-break:break-all` 	强制换行
   + `overflow-wrap: break-word;`	解决换行问题
