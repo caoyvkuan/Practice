@@ -929,6 +929,10 @@
     
     //配合使用原型链或寄生组合可以解决这个问题   在创建构造函数前使用
     Rectangle.prototype = new Polygon();
+    
+    let rect = new Rectangle(5, 10);
+    alert(rect.sides);		//2
+    //但是此时rect的constructor属性指向 Polygon 而不是 Rectangle
     ```
 
 + 惰性载入函数
