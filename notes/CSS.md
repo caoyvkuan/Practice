@@ -910,6 +910,11 @@ div{
 
    1. **%**（百分比）
 
+      1. 参照父元素宽度的元素: `padding  margin  width  text-indent`
+      2. 参照父元素高度 : height
+      3. 参照父元素属性:font-size line-height
+      4. 特殊：相对定位的时候，top(bottom) left(right)参照的是父元素的内容区域的高度与宽度，而绝对定位的时候参照的是最近的定位元素包含padding的高度与宽度
+
    2. 一般来说就是相对于父元素
 
       1、对于普通定位元素就是我们理解的父元素
@@ -1372,6 +1377,8 @@ currentColor 80%,transparent 0);
 + **line-height** 行高
 
 + **white-space** 文本换行
+
++ **word-break** 可以让浏览器实现在任意位置的换行
 
 + **text-align** 水平对齐方式
 
