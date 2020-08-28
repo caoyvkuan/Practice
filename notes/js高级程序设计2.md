@@ -885,54 +885,504 @@
     let isNativeJSON = window.JOSN && Object.prototype.toString.call(JSON) === "[object JSON]";
     ```
 
-+ 作用域安全的构造函数
+### 作用域安全的构造函数
 
-  + 使用 new 关键字创建的实例, this会指向该实例
++ 使用 new 关键字创建的实例, this会指向该实例
 
-  + 如果不适用 new 关键字创建实例,  使用 this 赋值的属性在全局作用域中调用,会把属性添加在window对象上
++ 如果不适用 new 关键字创建实例,  使用 this 赋值的属性在全局作用域中调用,会把属性添加在window对象上
+
++ ```js
+  //使用这个模式就锁定了可以调用构造函数的环境,不会应为忘记new关键字导致的赋值错误
+  function Person(name, age, job) {
+  	if (this instanceof Person) {
+  		this.name = name;
+  		this.age = age;
+  		this.jon = job;
+  	} else {
+  		return new Person(name, age, job);
+  	}
+  }
+  //使用构造函数窃取模式的继承且不适用原型链,那么这个继承很可能被破坏;例如:
+  function Polygon(sides) {
+  	if (this instanceof Polygon) {
+  		this.sides = sides;
+  		this.getArea = function () {
+  			return 0;
+  		};
+  	} else {
+  		return new Polygon(sides);
+  	}
+  }
+  function Rectangle(width, height) {
+  	Polygon.call(this, 2);
+  	this.width = width;
+  	this.height = height;
+  	this.getArea = function () {
+  		return this.width * this.height;
+  	};
+  }
+  
+  let rect = new Rectangle(5, 10);
+  alert(rect.sides);		//undefined
+  //因为Polygon的作用域是安全的,所以利用Polygon.call();获取到的并不是属性,而是Polygon的实例,    所以在Rectangle的实例中并没有sides属性
+  //Rectangle构造函数中的this并没有得到增长,Polygon.call();返回的值也没有用到
+  
+  //配合使用原型链或寄生组合可以解决这个问题   在创建构造函数前使用
+  Rectangle.prototype = new Polygon();
+  
+  let rect = new Rectangle(5, 10);
+  alert(rect.sides);		//2
+  //但是此时rect的constructor属性指向 Polygon 而不是 Rectangle
+  ```
+
+### 惰性载入函数
+
++ 因为浏览器的差异大多于用if语句来做跨浏览器兼容,导致代码中包含了大量的if语句
+
++ 该该方法主要用来避免重复执行不必要的代码
+
++ ```js
+  //第一种实现惰性载入方式
+  function createXHR() {
+      if (typeof XMLHttpRequest != "undefined") {
+          createXHR = function () {
+              return new XMLHttpRequest();
+          };
+      }else if (typeof ActiveXObject != "undefined") {
+          createXHR = function () {
+              if (typeof arguments.callee.activeXString != "string") {
+                  let versions = ["MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0", "MSXML2.XMLHttp"],
+                      i, len;
+                  for (i = 0, len = versions.length; i < len; i++){
+                      try {
+                          new ActiveXObject(versions[i]);
+                          arguments.callee.activeXString = versions[i];
+                          break;
+                      } catch (ex) {
+                          //skip
+                      }
+                  }
+              }
+              return new ActiveXObject(arguments.callee.activeXString);
+          };
+      } else {
+          createXHR = function () {
+              throw new Error("NO XHR object available.");
+          };
+      }
+      return createXHR();
+  }
+  //在这个惰性载入的createXHR()中,每个分支都会为createXHR变量赋值,有效覆盖了原有的函数.当调用后createXHR会被新的函数覆盖,那么之后在调用的话,就不会在执行if判断了,
+  
+  
+  //第二种方式
+  //创建一个匿名的自执行的函数,用以确定用哪一个函数实现
+  let createXHR = (function () {
+      if (typeof XMLHttpRequest != "undefined") {
+          return function () {
+              return new XMLHttpRequest();
+          }
+      } else if (typeof ActiveXObject != "undefined") {
+          return function () {
+              if (typeof arguments.callee.activeXString != "string") {
+                  let versions = ["MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0", "MSXML2.XMLHttp"],
+                      i, len;
+                  for (i = 0, len = versions.length; i < len; i++) {
+                      try {
+                          new ActiveXObject(versions[i]);
+                          arguments.callee.activeXString = versions[i];
+                          break;
+                      } catch (ex) {
+                          //skip
+                      }
+                  }
+              }
+              return new ActiveXObject(arguments.callee.activeXString);
+          };
+      } else {
+          return function () {
+              throw new Error("NO XHR object available.");
+          };
+      }
+  })();
+  ```
+
+### 函数绑定
+
++ 函数绑定要创建一个函数,可以在特定的this环境中已指定参数调用另一个函数,该技巧常常和回调函数于事件处理程序一起使用,以便在将函数作为变量传递的同时保留代码执行环境
+
++ ```js
+  //这个事件触发的提示为 undefined  而不是 "Event Handled",因为this指向的是按钮
+  //而不是handler   所以需要保存handler.handleClick 的环境
+  let handler = {
+      message: "Event Handled",
+  
+      handleClick: function (e) {
+          alert(this.message);
+      }
+  };
+  
+  let btn = document.querySelector("my-btu");
+  //直接将方法赋值给按钮
+  btn.addEventListener("click", handler.handleClick, false);
+  
+  //这个解决方案  使用了一个闭包直接调用handler.handleClick().
+  btn.addEventListener("click", function(event){
+      //间接调用该方法
+      handler.handleClick(event)
+  }, false);
+  
+  //控制台版
+  let handler = {
+      message: "Event Handled",
+      handleClick: function (e) {
+          console.log(this.message);
+      }
+  };
+  
+  let func = handler.handleClick;
+  func(); //undefined
+  let func = function (event) {
+      handler.handleClick(event);
+  };
+  func();	//"Event Handled"
+  ```
+
++ 创建多个闭包可能会令代码变得难于理解和调试
+
++ 使用bind()方法,接收一个函数和一个环境
 
   + ```js
-    //使用这个模式就锁定了可以调用构造函数的环境,不会应为忘记new关键字导致的赋值错误
-    function Person(name, age, job) {
-    	if (this instanceof Person) {
-    		this.name = name;
-    		this.age = age;
-    		this.jon = job;
-    	} else {
-    		return new Person(name, age, job);
-    	}
-    }
-    //使用构造函数窃取模式的继承且不适用原型链,那么这个继承很可能被破坏;例如:
-    function Polygon(sides) {
-    	if (this instanceof Polygon) {
-    		this.sides = sides;
-    		this.getArea = function () {
-    			return 0;
-    		};
-    	} else {
-    		return new Polygon(sides);
-    	}
-    }
-    function Rectangle(width, height) {
-    	Polygon.call(this, 2);
-    	this.width = width;
-    	this.height = height;
-    	this.getArea = function () {
-    		return this.width * this.height;
+    function bind(fn, context) {
+    	return function () {
+    		return fn.apply(context, arguments);
     	};
     }
+    //在 bind() 中创建了一个闭包, 闭包使用apply()调用传入的函数,并给apply()传递context对象和参数, 这里使用的  arguments 对象是内部函数的,而非bind方法的,当调用返回的函数时,它会在给定环境中执行被传入的函数并给出所有参数
+    btn.addEventListener("click", bind(handler.handleClick, handler), false);
     
-    let rect = new Rectangle(5, 10);
-    alert(rect.sides);		//undefined
-    //因为Polygon的作用域是安全的,所以利用Polygon.call();获取到的并不是属性,而是Polygon的实例,    所以在Rectangle的实例中并没有sides属性
-    //Rectangle构造函数中的this并没有得到增长,Polygon.call();返回的值也没有用到
+    //ES5原生的bind方法
+    btn.addEventListener("click", handler.handleClick.bind(handler), false);
     
-    //配合使用原型链或寄生组合可以解决这个问题   在创建构造函数前使用
-    Rectangle.prototype = new Polygon();
-    
-    let rect = new Rectangle(5, 10);
-    alert(rect.sides);		//2
-    //但是此时rect的constructor属性指向 Polygon 而不是 Rectangle
+    //会占用更多内存,同时也因为多重函数调用速度会慢一点
     ```
 
-+ 惰性载入函数
+### 函数柯里化
+
++ 用于创建已经设置好了一个或多个参数的函数,基本方法于函数绑定一样,利用闭包,
+
++ 创建一个或多个参数固定的函数
+
++ 区别在于,被函数调用时,返回的函数还需要设置一些传入的参数
+
++ ```js
+  function add(num1, num2) {
+      return num1 + num2;
+  }
+  
+  function curriedAdd(unm2) {
+      return add(5, num2);
+  }
+  //这段代码定义了两个函数: add ()和curriedAdd()。后者本质上是在任何情况下第一个参数为5的add()版本。尽管从技术上来说curriedAdd()并非柯里化的函数,但它很好地展示了其概念。柯里化函数通常由以下步骤动态创建:调用另一个函数并为它传人要柯里化的函数和必要参数。
+  //下面是创建柯里化函数的通用方式。
+  function curry(fn) {
+      //截取索引为1以后的      获取第一个参数之后的所有参数
+      //args 包含了来自外部函数的参数
+      let args = Array.prototype.slice.call(arguments, 1);
+      return function () {
+          //空数组        内部函数的参数数组包含了传入的参数
+          let innerArgs = Array.prototype.slice.call(arguments);
+          //拼接外部固定参数和内部传入参数
+          let finalArgs = args.concat(innerArgs);
+          //不改变this指向,向fn传入finalArgs参数数组
+          //不考虑执行环境
+          return fn.apply(null, finalArgs);
+      };
+  }
+  curry函数的主要工作就是将被返回函数的参数进行排序,curry()第一个参数是要进行柯里化的函数,其他参数是要传入的值,
+  
+  function add(num1, num2) {
+  	return num1 + num2;
+  }
+  var curriedAdd = curry(add, 5);
+  //curriedAdd 此时是curry方法返回的匿名函数, 执行的方法和第一个参数已经固定
+  console.log(curriedAdd(7));	//12
+  
+  //Array.prototype.slice.call(); 方法  arguments 为Array.prototype.slice方法执行的对象, 后面接的是参数
+  function test(a,b,c,d) { 
+      var arg = Array.prototype.slice.call(arguments, 1,2); 
+      console.log(arguments);
+      console.log(arg);
+  } 
+  test("a","b","c","d"); //b
+  
+  ```
+
+### 结合函数绑定和柯里化
++ ```js
+	function bind(fn, context) {
+	    let args = Array.prototype.slice.call(arguments, 2);
+	    return function () {
+	        let innerArgs = Array.prototype.slice.call(arguments);
+	        let finalArgs = args.concat(innerArgs);
+	        return fn.apply(context, finalArgs);
+	    };
+}
+	btn.addEventListener("click", bind(handler.handleClick, handler, "my-btn"), false);
+	
+	//ES5原生的bind方法     ES5的bind函数也实现了柯里化
+	btn.addEventListener("click", handler.handleClick.bind(handler, "my-btn"), false);
+	
+	
+	```
+
+### 防篡改对象
+
++ 手工设置对象的属性
+
+  + ```js
+    [[Configurable]]
+    [[Writable]]
+    [[Enumerable]]
+    [[Value]]
+    [[Get]]
+    [[Set]]
+    ```
+
++ 一旦把对象设定为防篡改就无法撤销
+
++ 不可扩展对象
+  + `Object.preventExtensions(obj)` 方法可以禁止给对象添加属性和方法
+  + 在严格模式下给不可扩展对象添加属性或方法会报错
+  + 但可以修改和删除已经存在的对象成员
++ 密封的对象
+  + 密封对象,将已有的成员的 `[[Configurable]]`  属性设置为`false`, 这意味着不能删除属性和方法,因为不能使用`Object.defineProperty()`把数据属性修改为访问器属性,或者相反,属性值是可以修改的.
+  + 密封对象 `Object.seal(obj)`方法
+  + 在严格模式下添加删除都会报错
+  + 使用`Object.isSealed()` 确定对象是否被密封
+  + `Object.isExtensible()` 检测密封对象也会返回 `false`  因为密封对象不可扩展
++ 冻结的对象
+  + 最严格的防篡改级别是冻结对象( frozen object),冻结的对象既不可扩展，又是密封的，而且对象数据属性的`[[Writable]]`特性会被设置为`false`。
+  + 如果定义`[[Set]]`函数,访问器属性仍然是可写的。
+  + EC5定义的`object.freeze(obj)`方法可以用来冻结对象。
+  + `Object.isFrozen()` 方法用于检测冻结对象
+
+### 高级定时器
+
++ 因为js是单线程的运行环境
+  + js在执行时,会有一个执行队列,需要执行的代码都会被加入执行队列中等待执行
++ 所以定时器定在150ms后执行,这只是在150ms后将代码插入到了执行队列中,并不是立刻就会执行
+  + 这也是导致js定时器并不准确的原因
++ 定时器指定是时间表示何时将代码插入执行队列,而不是实际执行代码
+
++ 重复的定时器
+
+  + 使用`setInterval ()`创建的定时器确保了定时器代码规则地插入队列中。这个方式的问题在于,定时器代码可能在代码再次被添加到队列之前还没有完成执行,结果导致定时器代码连续运行好几次，而之间没有任何停顿。幸好，JavaScript 引擎够聪明，能避免这个问题。当使用`setInterval()`时,仅当没有该定时器的任何其他代码实例时，才将定时器代码添加到队列中。这确保了定时器代码加人到队列中的最小时间间隔为指定间隔
+
+  + 缺点有二
+
+    + 某些间隔会被跳过
+    + 多个定时器的代码执行之间的间隔可能会比预期的小
+
+  + 避免缺点  使用链式`setTimeout()`
+
+    + ```js
+      //这种方式确保了在代码执行完前不会向队列插入新的定时器代码,确保不会有任何缺失的间隔,而且还可以保证在下次定时器代码执行前,至少要等待指定的间隔,避免了连续的运行
+      setTimeout(function () {
+      	setTimeout(arguments.callee, interval);
+      }, interval);
+      
+      ```
+
++ `Yielding Processes`
+
+  + js一旦超过浏览器限制的执行时间或特定的语句数量,就会给用户警告,是否继续执行代码
+
+  + 定时器是绕开此限制的方法之一
+
+  + 一般脚本长时间运行的问题通常是由:过长的 ,过深嵌套的函数调用或是大量处理的循环导致的
+
+    + 由于js执行是一个阻塞操作,脚本运行时间越长,用户无法于页面交互的时间也越长
+
+    + 在展开循环前,的问题
+
+      + 该处理是否必需同步完成
+      + 数据是否必需按顺序完成
+
+    + 如果不必需就可以使用定时器分割这个循环,数组分块技术
+
+      + ```js
+        setTimeout(function () {
+        	//取除下一个条目并处理
+        	let item = array.shift();
+        	process(item);//处理
+        
+        	//若还有条目,再设置另一个定时器
+        	if (array.length > 0) {
+        		setTimeout(arguments.callee, 100);
+        	}
+        }, 100);
+        
+        //封装函数  三个参数:要处理的项目的数组,用于处理项目的函数, 以及可选的该函数的执行环境
+        //这样就不会因为循环时间过长而影响用户操作或报错
+        function chunk(array, process, context) {
+        	setTimeout(function () {
+                //此操作在改变数组的条目,想保持数组不变,需将该数组的克隆传入
+        		let item = array.shift();
+        		process.call(context, item);
+        		if (array.length > 0) {
+        			setTimeout(arguments.callee, 100);
+        		}
+        	}, 100);
+        }
+        //可利用数组的concat()方法克隆数组
+        chunk(data.concat(),func);
+        ```
+
++ 函数节流
+
+  + DOM操作比起DOM交互需要更多的内存和CPU时间,过多的DOM相关操作可能会导致浏览器挂起,甚至崩溃
+
+  + 比如在浏览器调整大小时操作DOM元素,可能就会崩溃
+
+  + 可以使用定时器对该函数进行节流
+
+    + 基本思想,某些代码不可以在没有间断的情况下连续重复执行
+    + 第一次调用函数创建一个定时器
+    + 第二次调用清除前一次的定时器,并设置另一个
+    + 如果前一个定时器尚未执行,就替换为一个新的定时器
+    + 目的是只有在执行函数的请求停止了一段时间才后执行
+
+  + ```js
+    let processor = {
+        timeoutId: null,
+        //实际执行处理的方法
+        performProcessing: function () {
+            //实际执行的代码
+        },
+        
+        //初始处理调用的方法
+        process: function () {
+            clearTimeout(this.timeoutId);
+            let that = this;
+            this.timeoutId = setTimeout(function () {
+                that.performProcessing();
+            }, 100);
+        }
+    }
+    //这就实现了在100ms内不管调用多少次process方法performProcessing方法都只会执行一遍
+    
+    //利用函数进行优化   两个参数: 要执行的函数,以及在哪个作用域种执行
+    function throttle(method, context) {
+    	clearTimeout(method.tId);
+    	method.tId = setTimeout(function () {
+    		method.call(context);
+    	}, 100);
+    }
+    ```
+
+## 自定义事件
+
++ 观察者设计模式
+  + 观察者模式由两类对象组成:主体和观察者。主体负责发布事件，同时观察者通过订阅这些事件来观察该主体。
+  + 该模式的一个关键概念是主体并不知道观察者的任何事情,也就是说它可以独自存在并正常运作即使观察者不存在。从另一方面来说,观察者知道主体并能注册事件的回调函数(事件处理程序).
+  + 涉及DOM上时，DOM元素便是主体，你的事件处理代码便是观察者。
+
++ 自定义事件的概念是创建一个管理事件的对象,让其他对象监听那些事件.实现此功能的基本模式可以如下定义
+
+  + ​		
+
+    ```js
+    //自定义事件
+    function EventTarget() {
+        this.handlers = {};//用于储存事件处理程序
+    }
+    
+    EventTarget.prototype = {
+        constructor: EventTarget,
+        //用于注册给定类型的事件处理程序
+        //接收两个参数:事件类型,用于处理该事件的函数
+        addHandler: function (type, handler) {
+            //查看是否由针对该类型的数组
+            if (typeof this.handlers[type] == "undefined") {
+                //没有则创建新数组
+                this.handlers[type] = [];
+            }
+            //将事件事件处理程序添加到数组末尾
+            this.handlers[type].push(handler);
+        },
+        //用于触发一个事件
+        //该方法接收一个单独的参数,是一个至少包含type属性的对象,还可以在event上定义额外信息
+        fire: function (event) {
+            if (!event.target) {
+                //没有target属性,就设置target属性
+                event.target = this;
+            }
+            if (this.handlers[event.type] instanceof Array) {
+                //有事件数组
+                let handlers = this.handlers[event.type];
+                for (let i = 0, len = handlers.length; i < len; i++) {
+                    //触发事件数组中的所有事件
+                    handlers[i](event);
+                }
+            }
+        },
+        //用于注销某个事件类型的事件处理程序
+        //接收两个参数:事件类型,用于处理该事件的函数
+        removeHandler: function (type, handler) {
+            if (this.handlers[type] instanceof Array) {
+                let handlers = this.handlers[type];
+                let i = 0;
+                for (let len = handlers.length; i < len; i++) {
+                    if (handlers[i] === handler) {
+                        break;
+                    }
+                }
+                handlers.splice(i, 1);
+            }
+        }
+    };
+    //使用自定义事件
+    function handleMessage(event) {
+    	console.log("Message received:", event.message);
+    }
+    //创建一个对象
+    let target = new EventTarget();
+    //添加一个事件处理程序
+    target.addHandler("message", handleMessage);
+    //触发事件
+    target.fire({ type: "message", message: "Hello world!" });
+    //删除事件处理程序
+    target.removeHandler("message", handleMessage);
+    //再次触发,应没有处理程序
+    target.fire({ type: "message", message: "Hello world!" });
+    
+    
+    //继承EventTarget
+    function Person(name, age) {
+        EventTarget.call(this);
+        this.name = name;
+        this.age = age;
+    }
+    inheritPrototype(Person, EventTarget)
+    Person.prototype.say = function (message) {
+        this.fire({ type: "message", message: message });
+    };
+    
+    function Message(event) {
+        console.log(event.target.name + " says:" + event.message);
+    }
+    //创建新person
+    let person = new Person("My", 20);
+    //添加事件处理程序
+    person.addHandler("message", Message);
+    //在该对象上调用
+    person.say("Hi threr.");
+    
+    //自定义事件有助于解耦相关对象,保持功能的隔绝,使触发事件的代码和监听事件的代码完全分离,易于维护
+    ```
+
+## 拖放
+
++ 
+

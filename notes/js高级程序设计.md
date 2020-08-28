@@ -520,8 +520,10 @@
             + ![sort数组排序函数](./images/sort数组排序函数.png)
 + 操作方法
     + `concat()` 方法在数组的基础上创建一个副本，
+        + 连接一个或多个数组
         + 如果传递参数，就会将参数加在数组末尾，不影响原数组
     + `slice()`方法数组截取，数组位数同样从0开始计数
+        + 不会修改原数组
         + 一个参数，返回起始位置到数组末尾的项组成新的数组
         + 两个参数，返回起始位置到结束位置**前**的项
         + `arr.slice(1,4);` 截取1到4位，但不包括4，也就是说返回1-3；
@@ -537,6 +539,8 @@
     + ES5 中新增了两个缩小数组的方法： `reduce()`和 `reduceRight()`.这两个方法都会迭代数组的所有项
     + 一个从头开始迭代，一个从末尾开始迭代
     + 都接收4个参数：前一个值，当前值，项的索引，和数组对象
+    + 第一次的前一个值为索引0的值   当前值为索引 1 的值
+    + 往后的迭代前一个值为上次的返回值,如无返则为`undefined`
     + ![数组缩小方法](./images/数组缩小方法.png)
     
 ## Date类型
@@ -1124,7 +1128,7 @@
     /* 这种原型继承模式，要求必须有一个对象可以作为另一个对象的基础
      * ES5 新增的Object.create()方法规范了原型式继承，接受两个参数，
      * 一个作为新对象的原型，一个为新对象定义额外属性的对象
-     * 在传入一个参数情况下，Object.create()与object()方法的行为相同
+     * 在传入一个参数情况下，Object.create()与Object()方法的行为相同
      */
     ```
 
@@ -1157,7 +1161,7 @@
   + 不必伪类指定子类型的原型而调用超类型的构造函数
 + ```js
     function inheritPrototype(subType, superType){
-      let prototype = object(superType.prototype);     //创建对象
+      let prototype = Object(superType.prototype);     //创建对象
       prototype.constructor = subType;                //增强对象
       subType.prototype = prototype;          //指定对象
     }
