@@ -1170,8 +1170,10 @@
 ### 高级定时器
 
 + 因为js是单线程的运行环境
+  
   + js在执行时,会有一个执行队列,需要执行的代码都会被加入执行队列中等待执行
 + 所以定时器定在150ms后执行,这只是在150ms后将代码插入到了执行队列中,并不是立刻就会执行
+  
   + 这也是导致js定时器并不准确的原因
 + 定时器指定是时间表示何时将代码插入执行队列,而不是实际执行代码
 
@@ -1384,5 +1386,743 @@
 
 ## 拖放
 
-+ 
++ 拖放配合自定义事件的使用,可以实现更多的功能
 
++ ```js
+  document.addEventListener("mousedown", function(e){
+      let target = e.target;
+      switch (target.id) {
+          case "1":
+          case "2":
+              move(e,target);
+              break;
+  
+          default:
+              break;
+      }
+  }, false);
+  function move(e,target) {
+      let StartY = e.clientY;
+      let StartX = e.clientX;
+      if(event.button === 0){
+          // let Y = StartY - (parseInt(box1.style.top) ? parseInt(box1.style.top) : 0);
+          // let X = StartX - (parseInt(box1.style.left) ? parseInt(box1.style.left) : 0);
+          let Y = StartY - target.offsetTop;
+          let X = StartX - target.offsetLeft;
+          document.onmousemove = function(event){
+              event = event || window.event;
+              target.style.top = (event.clientY - Y) + "px";
+              target.style.left = (event.clientX - X) + "px";
+          };
+      }
+      //松开时取消移动
+      document.onmouseup = function(){
+          document.onmousemove = null;
+      };
+      target.onmouseup = function(ev){
+          //鼠标移动超出范围则不触发点击事件
+          let i = Math.sqrt((ev.clientY - StartY) * (ev.clientY - StartY) + (ev.clientX - StartX) * (ev.clientX - StartX))
+          // if(ev.clientY < (StartY + 5) && ev.clientY > (StartY - 5) && ev.clientX < (StartX + 5) && ev.clientX > (StartX - 5) ){
+          // console.log(i);
+          if(i <= 5){
+              target.onclick = function(){
+                  if(this.style.background === "blue"){
+                      this.style.background = "red";
+                  }else{
+                      this.style.background = "blue";
+                  }
+              };
+          }else{
+              target.onclick = null;
+          }
+      };
+  }
+  //取消默认拖放行为,解决检测不到鼠标松开事件的问题
+  document.ondragstart = function(ev){
+      ev.preventDefault();
+  };
+  document.ondragend = function(ev){
+      ev.preventDefault();
+  };
+  ```
+
++ ```js
+  //可开启关闭的拖放, 需要拖放元素只需设置开启的属性
+  let DragDrop = (function () {
+      let dragging = null,
+          diffX = 0,
+          diffY = 0;
+  
+      function handleEvent(event) {
+          //获取事件和目标
+          event = event || window.event;
+          let target = event.target;
+          //缺定事件类型
+          switch (event.type) {
+              case "mousedown":
+                  {
+                      if (target.className.indexOf("draggable") > -1) {
+                          dragging = target;
+                          diffX = event.clientX - target.offsetLeft;
+                          diffY = event.clientY - target.offsetTop;
+                      }
+                      break;
+                  }
+              case "mousemove":
+                  {
+                      if (dragging !== null) {
+                          //assign location
+                          dragging.style.left = (event.clientX - diffX) + "px";
+                          dragging.style.top = (event.clientY - diffY) + "px";
+                      }
+                      break;
+                  }
+              case "mouseup":
+                  {
+                      dragging = null;
+                      break;
+                  }
+              default:
+                  break;
+          }
+      }
+      return {
+          enable: function () {
+              document.addEventListener("mousedown", handleEvent, false);
+              document.addEventListener("mousemove", handleEvent, false);
+              document.addEventListener("mouseup", handleEvent, false);
+          },
+          disable: function () {
+              document.removeEventListener("mousedown", handleEvent, false);
+              document.removeEventListener("mousemove", handleEvent, false);
+              document.removeEventListener("mouseup", handleEvent, false);
+          }
+      }
+  })();
+  document.ondragstart = function (ev) {
+      ev.preventDefault();
+  };
+  document.ondragend = function (ev) {
+      ev.preventDefault();
+  };
+  DragDrop.enable();
+  ```
+
+# 离线应用与客户端存储
+
++ 离线检测
+
+  + `navigator.onLine` 属性为 true 表示设备能上网
+  + `window` 对象事件
+    + `online`  从离线变为在线触发
+    + `offline`  网络断开触发
+
++ 应用缓存
+
+  + 简称 appcache
+
+  + 想要在缓冲区中保存数据,可以使用一个描述文件(manifest file)
+
+  + ```
+    CACHE MANIFEST
+    #Comment
+    file.js
+    file.css
+    描述列出需要下载的支援,以备离线时使用
+    关联描述文件
+    <html manifest="/offline.manifest">
+    ```
+
+  + js API     核心对象`applicationCache` 有一个status属性
+    + 0 : 无缓存,既没有与页面相关的应用缓存
+    + 1 : 闲置,即应用缓存未得到更新
+	  + 2 : 检查中,即正在下载描述文件并检查更新
+	  + 3 : 下载中,即应用缓存正在下载描述文件中指定的资源
+	  + 4 : 更新完成,资源已经下载完毕, 可以通过 swapCache()来使用了
+	  + 5 : 废弃,即应用缓存的描述文件已经不存在,因此页面无法在访问应用缓存
+  
+  + 事件 
+	  + checking : 在浏览器为应用缓存查找更新时触发
+	  + error : 检查更新或下载资源期间发生错误
+	  + noupdate : 在描述文件发现文件无变化时触发
+	  + downloading : 在开始下载应用缓存资源时触发
+	  + progress : 在文件下载应用缓存的过程中持续不断的触发
+	  + updateready : 在页面新的应用缓存下载完毕且可以通过swapCache()使用时触发
+	  + cached : 在应用缓存完整可以时触发
+  
+  + 主动触发
+	  + `applicationCache.update();`  检查更新应用缓存
+	  + `applicationCache.swapCache()` 启用应用缓存
+
+## 数据存储
+
+### Cookie
++ HTTP Cookie 通常直接叫 Cookie
++ 该标准要求服务器对任意HTTP请求发送 Set-Cookie HTTP 头作为响应的一部分,其中包含会话信息
++ ```js
+    HTTP/1.1 200 OK
+    Content-type:text/html
+    Set-Cookie:name=vlaue
+    Other-header:other-header-value
+    //浏览器会存储这样的会话信息,并在这之后,通过为每个请求添加 Cookie HTTP头将信息发送回服务器
+    GET /index.html HTTP/1.1
+    Cookie:name=value
+    Other-header:other-header-value
+    ```
+
++ 限制
+  + cookie在性质上是绑定在特定的域名下的
+  + cookie有条数限制,为确保不占用太多磁盘空间
+  + 超过限制后浏览器回清除以前设置的cookie
+  + 单个cookie的长度限制为4096b
+
++ cookie的构成
+  + 名称 : 一个唯一确定cookie的名称 不区分大小写,cookie的名称必须2是经过URL编码的
+  + 值 : 储存在cookie中的字符串,值必须被URL编码
+  + 域 : cookie对于那个域是有效的
+  + 路径 : 可以指定cookie域中的路径
+  + 失效时间 : 表示cookie何时应该被删除的时间戳,默认情况,在浏览器会话结束就回删除所有cookie,可以设定删除时间让cookie保存在用户机器上
+  + 安全标志 : 指定后,cookie只有在使用SSL连接的时候才发送到服务器
+
++ JavaScript中的cookie
+  + `document.cookie`属性
+  + 这个属性的独特之处在于它会因为使用它的方式不同而表现出不同的行为。当用来获取属性值时,document. cookie返回当前页面可用的( 根据cookie的域、路径、失效时间和安全设置)所有cookie的字符串,一系列由分号隔开的键值对
+  + `name1=value1 ; name2=value2 ; name3=value3`
+  + 所有名字和值都是经过URL编码的，所以必须使用decodeURIComponent ()来解码。
+  + 当用于设置值的时候，document . cookie属性可以设置为一个新的cookie字符串。这个cookie字符串会被解释并添加到现有的cookie集合中。设置document . cookie并不会覆盖cookie,除非设置的cookie的名称已经存在。设置cookie的格式如下，和Set-Cookie头中使用的格式一样。
+  + `name=:value; expires=expiration_time; path=domain_path; domain=domain_name; secure`
+  + 参数中只有cookie的名字是必须的
+  + 设置cookie时需要用`encodeURIComponent()` 方法进行编码
+  + 操作简化函数
+  + ```js
+      let CookieUtil = {
+        get: function (name) {
+          let cookieName = encodeURIComponent(name) + "=",
+            cookieStart = document.cookie.indexOf(cookieName),
+            cookieValue = null;
+          
+          if (cookieStart > -1) {
+            let cookieEnd = document.cookie.indexOf(";", cookieStart);
+            if (cookieEnd == -1) {
+              cookieEnd = document.cookie.length;
+            }
+            cookieValue = decodeURIComponent(document.cookie.substring(cookieStart + cookieName.length, cookieEnd));
+          }
+          return cookieValue;
+        },
+      //参数: cookie的名称和值,指定的删除时间,可选的路径,可选的域,是否添加secuer标准的布尔值
+        set: function (name, value, expires, path, domain, secure) {
+          let cookieText = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+          if (expires instanceof Date) {
+            cookieText += "; expires=" + expires.toUTCString();
+          }
+          if (path) {
+            cookieText += "; path=" + path;
+          }
+          if (domain) {
+            cookieText += "; domain=" + domain;
+          }
+          if (secure) {
+            cookieText += "; secure=" + secure;
+          }
+          document.cookie = cookieText;
+        },
+      //参数: 要删除cookie的名称,可选的路径参数,可选的域参数,可选的安全参数
+        unset: function (name, path, domain, secure) {
+          //没有直接删除cookie的方法,所以要通过重新设置的方式
+          this.set(name, "", new Date(0), path, domain, secure);
+        }
+      };
+      //使用
+      CookieUtil.set("name", "Nicholas");
+      CookieUtil.set("book", "Professional javaScript");
+      //读取值
+      CookieUtil.get("name");
+      CookieUtil.get("book");
+      //删除cookie
+      CookieUtil.unset("name");
+      CookieUtil.unset("book");
+      //设置cookie,包括它的路径,域,失效日期
+      CookieUtil.set("name", "Nicholas", new Date(2020 - 8 - 8), "/books/projs/", "www.wrox.com")
+      //删除刚设置的cookie
+      CookieUtil.unset("name", "/books/projs/", "www.wrox.com");
+      //设置安全的cookie
+      CookieUtil.set("name", "Nicholas", null, null, null, true);
+      ```
++ 子cookie
+  + 为了绕开单域名下的cookie数限制,而产生的子cookie概念
+  + 使用cookie值来存储多个键值对
+  + `name=name1=value1&name2=value2&name3=value3&name4=value4&name5=value5`
+  + 子cookie一般也以查询字符串的格式进行格式化,然后这些值可以使用单个cookie进行储存和访问
+  + 子cookie解析函数
+```js
+  let SubCookieUtil = {
+    get: function (name, subName) {
+      let subCookie = this.getAll(name);
+      if (subCookie) {
+        return subCookie[subName];
+      } else {
+        return null;
+      }
+    },
+    getAll: function (name) {
+      let cookieName = encodeURIComponent(name) + "=",
+        cookieStart = document.cookie.indexOf(cookieName),
+        cookieValue = null,
+        cookieEnd,
+        subCookies,
+        i,
+        len,
+        parts,
+        result = {};
+      if (cookieStart) {
+        cookieEnd = document.cookie.indexOf(";", cookieStart);
+        if (cookieEnd == -1) {
+          cookieEnd = document.cookie.length;
+        }
+        cookieValue = document.cookie.substring(cookieStart + cookieName.length, cookieEnd);
+        if (cookieValue.length > 0) {
+          subCookies = cookieValue.split("&");
+          for (i = 0, len = subCookies.length; i < len; i++) {
+            parts = subCookies[i].split("=");
+            result[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+          }
+          return result;
+        }
+      }
+      return null;
+    },
+    //参数: cookie名称,子cookie名称,子cookie值,可选的cookie失效时间,可选的路径,可选的域,是否添加secuer标准的布尔值
+    set: function (name, subName, value, expires, path, domain, secure) {
+      let subCookies = this.getAll(name) || {};
+      subCookies[subName] = value;
+      this.setAll(name, subCookies, expires, path, domain, secure);
+    },
+    //参数: cookie名称,包含所有子cookie的对象以及和set中一样的4个可选参数
+    setAll: function (name, subCookies, expires, path, domain, secure) {
+      let cookieText = encodeURIComponent(name) + "=",
+        subCookieParts = new Array(),
+        subName;
+      for (subName in subCookies) {
+        if (subName.length > 0 && subCookies.hasOwnProperty(subName)) {
+          subCookieParts.push(encodeURIComponent(subName) + "=" + encodeURIComponent(subCookies[subName]));
+        }
+      }
+      if (subCookieParts.length > 0) {
+        cookieText += subCookieParts.join("&");
+        if (expires instanceof Date) {
+          cookieText += "; expires=" + expires.toUTCString();
+        }
+        if (path) {
+          cookieText += "; path=" + path;
+        }
+        if (domain) {
+          cookieText += "; domain=" + domain;
+        }
+        if (secure) {
+          cookieText += "; secure=" + secure;
+        }
+      } else {
+        cookieText += ";expires=" + (new Date(0)).toUTCString();
+      }
+      document.cookie = cookieText;
+    },
+    unset: function (name, subName, path, domain, secure) {
+      let subCookies = this.getAll(name);
+      if (subCookies) {
+        delete subCookies[subName];
+        this.setAll(name, subCookies, null, path, domain, secure);
+      }
+    },
+    unsetAll: function (name, path, domain, secure) {
+      this.setAll(name, null, new Date(0), path, domain, secure);
+    }
+  };
+  ```
++ 因为所有的cookie都会由浏览器作为请求头发送,所以cookie信息越大,完成对服务器的请求时间也越长
+
+### Web储存机制
+  + localStorage
+  + sessionStorage
+  + globalStorage
+
++ Storage类型
+  + 该类型提供最大的储存空间(因浏览器而异)来储存键值对
+  + `clear()` : 删除所有值
+  + `getItem(name)` : 根据指定的名字name获取对应的值
+  + `key(index)` : 获取index位置的值
+  + `removeItem(name)` : 删除由name指定的键值对
+  + `setItem(name, value)` : 为指定的name设置一个对应的值
+  + getItem()、removeItem()、和setItem()方法可以直接调用，也可以通过Storage对象调用，每个项目都是作为属性存储在该对象上，所以可以通过点语法和方括号语法访问属性来取值，设置也一样，通过delete也能执行删除操作
+  + 通过length属性可以判断有多少键值对存放在该对象上，但无法判断大小
+
++ sessionStorage
+  + 储存会话数据,在浏览器关闭后消失,可以跨页面刷新而存在,如果浏览器支持,也可以在浏览器崩溃重启之后依然可用
+  + 绑定于某个服务器会话,所以本地运行时不可用,数据只能由最初给对象存储数据的页面访问
+  + sessionStorage对象是Storage的一个实例,可用用Storage的方法来储存数据
+  + delete无法在WebKit中删除数据
+
++ globalStorage
+  + 数据长期保留，除非删除或浏览器清除缓存
+  + 跨越会话存储数据,但需要指定那些域可用访问
+  + `globalStorage["wrox.com"].name = "Nichplas";`
+  + `let name = globalStorage["wrox.com"].name;`
+  + globalStorage对象不是Storage的实例而具体的globalStorage["wrox.com"]
+  + 这个空间对于wrox.com及其所有子域都是可用访问的
+  + 可用这样指定子域名
+  + globalStorage["www.wrox.com"].name = "Nicholas";
+  + 任何人都可用访问——最好不要这样
+  + globalStorage[""].name = "name";
+  + 让任何可用.net结尾的域名访问——最好不要这样
+  + globalStorage[".net"].name = "name";
+  + 不同协议不同端口的域名就算一样也无法相互访问
+
++ localStorage
+  + 数据长期保留，除非删除或浏览器清除缓存
+  + 访问数据页面必须来自同一个域名（子域名无效），使用同一种协议，在同一个端口上
+  + localStorage对象是Storage的实例，使用方法一样
+
++ Storage事件
+  + 对Storage对象进行任何修改，都会触发Storage事件
+  + 事件对象event由以下属性
+    + domain ：发生变化的储存空间的域名
+    + key ：设置或删除的键名
+    + newValue ：如果是设置值，则是新值，如果是删除键，则是null
+    + oldValue ：键被修改之前的值
+  + 限制不同版本不同平台数据储存大小都不同
+
+### IndexedDB
+
++ 浏览器中保存结构化数据的一种数据库API
++ 设计的操作方式为异步进行，因此大多数操作会议请求的方式进行
++ 每次操作都需要注册onerror 或 onsuccess事件处理程序，以确保适当地处理结果
++ `let indexedDB = window.indexedDB;`  获取API宿主对象，兼容可能需要添加前缀
+
+1. 数据库
+   + 使用对象来保存数据，而不是使用表格，以个IndexedDB数据库，就是一组位于相同命名空间下的对象集合
+   + 使用第一步，用`indexedDB.open()` 打开需要指定的数据库，指定数据库如果不存在，就回发送一个创建并打开的请求
+   + 打开后回返回一个 IDBRequest对象，在这个对象上可用添加onerror和onsuccess事件处理程序
+```js
+  let request, database;
+  request = indexedDB.open("admin");
+  request.onerror = function(event){
+    console.log("Error");
+  };
+  request.onsuccess = function(event){
+    database = event.target.result;
+  };
+  ```
+  + 这两个事件处理程序中，event.target都指向request对象，请求成功event.target.result中将由一个数据库实例对象
+  + 请求失败event.target.errorCode中将有错误码，表示问题的性质
+  + ![错误码](./images/IndexedDB错误码.png)
+  + 使用setVersion()方法可用为数据库指定版本号，同样会发生请求，需要处理
+
+# 最佳实践
+
+## 可维护性
+
++ 代码的可维护性
+  + 可理解性————其他人可以接 手代码并理解它的意图和一般途径， 而无需原开发人员的完整解释。
+  + 直观性————代码中的东西- 看就能明白，不管其操作过程多么复杂。
+  + 可适应性————代码以一种数据上的变化不要求完全重写的方法撰写。
+  + 可扩展性————在代码架构 上已考虑到在未来允许对核心功能进行扩展。
+  + 可调试性————当有地方出错时，代码可以给予你足够的信息来尽可能直接地确定问题所在。
+
++ 代码约定
+
+  + 可读性
+    + 函数和方法————每个函数或方法都应该包含一个注释,描述其目的和用于完成任务所可能使用的算法。陈述事先的假设也非常重要,如参数代表什么，函数是否有返回值
+    + 大段代码————用于完成单个任务的多行代码应该在前面放一个描述任务的注释。
+    + 复杂的算法————如果使用了一种独特的方式解决某个问题，则要在注释中解释你是如何做的。这不仅仅可以帮助其他浏览你代码的人，也能在下次你自已查阅代码的时候帮助理解。
+    + Hack————因为存 在浏览器差异，JavaScript 代码一般会包含一些hack。不要假设其他人在看代码的时候能够理解hack所要应付的浏览器问题。如果因为某种浏览器无法使用普通的方法，所以你需要用一些不同的方法,那么请将这些信息放在注释中。这样可以减少出现这种情况的可能性:有人偶然看到你的hack,然后“修正”了它，最后重新引人了你本来修正了的错误。
+    + 缩进和注释可以带来更可读的代码，在未来则更容易维护。
+
+  + 变量和函数命
+    + 变量名应为名词如car或person。
+    + 函数名应该以动词开始，如getName()。 返回布尔类型值的函数一般以is' 开头，如isEnable();
+    + 变量和函数都应使用合乎逻辑的名字，不要担心长度。长度问题可以通过后处理和压缩来缓解。
+
+  + 变量类型透明
+    + 方法一初始化变量，暗示变量类型 `let found = false;  //布尔类型`
+    + 方法二注释法，
+    + 方法三使用typesript
+
+  + 松散耦合
+    + 只要应用的某个部分过分依赖于另一部分, 代码就是耦合过紧,难于维护。典型的问题如:对象直接引用另一个对象,并且当修改其中一个的同时需要修政另外一个。紧密耦合的软件难于维护并且需要经常重写。
+    + 解耦HTML/JavaScript
+      + 不在页面内联javascript代码
+      + 不使用HTML属性绑定事件
+      + 避免在JavaScript中创建大量的HTML
+    + 解耦CSS/Javascript
+      + 尽量不使用js改变css样式
+      + 使用动态更改样式类名
+    + 解耦应用逻辑/事件处理程序
+      + 不将事件处理和业务逻辑混合书写，应将业务逻辑分离为函数在事件处理中调用
+      + 请勿将event对象传递给其他方法；只传递来之event对象中所需要的数据
+      + 任何可用在应用成眠的动作都因该可用在不执行任何事件处理程序的情况下进行
+      + 任何事件处理程序都应该处理事件，然后将处理转交给应用逻辑
+
+  + 编程实践
+    + 尊重对象所有权
+      + 不要对不是自己负责或创建的对象进行修改
+        + 不要为实例或原型添加属性或方法；
+        + 不要重定义以及存在的方法
+      + 创建包含所需功能的新对象，并用它与相关对象进行交互；
+      + 创建自定义类型，继承需要修改的类型。然后可用为自定义类型添加额外功能
+    + 避免全局变量
+      + 不直接在全局创建变量或函数，把它们包裹在一个对象中，只有一个全局变量
+      + 相当于命名空间
+      ```js
+        //创建全局对象
+        let Wy = {}；
+        //为Professional JavaScript创建命名空间
+        Wy.ProJs = {};
+        //将常用对象附加上去
+        Wy.ProJS.EventUtil = {};
+        Wy.ProJS.CCCCookieUtil = {};
+        //每个人都创建自己的命名空间，就不用担心会重写他人的代码
+        ```
+    + 避免与null进行比较
+      + 必须按照所期望了变量类型进行比较，而不是通过null
+      + `value instanceof Array`
+      + 用以下技术代替与null比较的代码
+      + 引用类型用 instanceof 检查其构造函数
+      + 基本类型，使用typeof 检查其类型；
+    + 使用常量
+      + 重复值————任何在多处用到的值都应该抽取为一个常量
+      + 用户界面字符串从————显示给用户的字符串，抽取出来方便国际化
+      + URLs————用一个公共地方存放所有的URL
+      + 任意可能会更改的值————在使用时固定但在未来可用会更改在值
+
+## 性能
+
++ 注意作用域
+  + 随着作用域链的作用域数量的增加，访问当前作用域以外的变量的时间也在增加
+  + 减少花费在作用域链上的时间，就能增加脚本的整体性能
+
+  + 避免全局查找
+    + 将常用的全局对象存在局部变量中减少对全局对象的引用
+    + `let doc = doucment;`
+  + 避免with语句
+    + 因为会延迟作用域链，且严格模式禁止使用
+
++ 选中正确方法
+  + 避免不必要的属性查找
+    + 在计算机科学中，算法的复杂难度是使用O符号来表示的，
+    + O(1) 常熟 不管多少值，执行时间恒定，一般表示简单值和储存在变量中的值
+    + O(log n) 对数   总的执行时间和值的数量相关,但是要完成算法并不- -定要获取每个值。例如:二分查找
+    + O(n)  线性    总执行时间和值的数量直接相关。例如:遍历某个数组中的所有元素
+    + O(n^2)  平方    总执行时间和值的数量有关，每个值至少要获取n次。例如:插人排序
+    ```js
+      //这段代码中，有6次属性查询
+      let query = window.location.href.substring(window.location.href.indexOf("?"));
+      //优化成只有4次属性查询
+      let url = window.location.href;
+      let query = url.substring(url.indexOf("?"));
+      ```
+  + 优化循环
+    + 减值迭代————大多数循环使用一个从0开始、增加到某个特定值的迭代器。在很多情况下，从最大值开始，在循环中不断减值的迭代器更加高效。
+    + 简化终止条件————由于每次循环过程都会计算终止条件，所以必须保证它尽可能快。也就是说避免属性查找或其他O(n)的操作。
+    + 简化循环体————循环体是执行最多的，所以要确保其被最大限度地优化。确保没有某些可以被很容易移出循环的密集计算。
+    + 使用后测试循环————最常用for循环和while循环都是前测试循环。而如do-while这种后测试循环，可以避免最初终止条件的计算，因此运行更快。
+    ```js
+      let values = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+      for (let i = 0; i < values.length; i++){
+        process(values[i]);
+      }
+      //优化
+      for (let i = values.length - 1; i >= 0; i--){
+        process(values[i]);
+      }
+      //优化为后测试循环
+      let i = values.length - 1;
+      if (i > -1) {
+        do {
+          process(values[i]);
+        } while (--i >= 0);
+      }
+      ```
+    + 展开循环
+      + 当循环次数是确定的，消除循环并使用多次函数调用往往更快
+      ```js
+        /*
+        * 如果循环中的迭代次数不确定，可用使用Duff装置的技术
+        * 通过计算迭代次数是否为8的倍数将一个循环展开为一系列语句
+        * 处理大数据，小数据反而得不偿失
+        */
+        //假设 values.length > 0
+        let iteration = Math.ceil(Values.length / 8); //计算迭代次数，向上取整
+        let startAt = Values.length % 8;  //取余保证所有的数都会被迭代到
+        let i = 0;
+        do {
+          switch (startAt) {
+            case 0: process(Values[i++]);
+            case 7: process(Values[i++]);
+            case 6: process(Values[i++]);
+            case 5: process(Values[i++]);
+            case 4: process(Values[i++]);
+            case 3: process(Values[i++]);
+            case 2: process(Values[i++]);
+            case 1: process(Values[i++]);
+          }
+          startAt = 0;
+        } while (--iteration > 0);
+
+        //更快的Duff装置
+        let iteration = Math.floor(Values.length / 8);
+        let leftover = Values.length % 8;
+        let i = 0;
+        if (leftover > 0) {
+          do {
+            process(Values[i++]);
+          } while (--leftover > 0);
+        }
+        do {//对于小于8条数据的应该用while循环，但是小数据不推荐使用
+          process(Values[i++]);
+          process(Values[i++]);
+          process(Values[i++]);
+          process(Values[i++]);
+          process(Values[i++]);
+          process(Values[i++]);
+          process(Values[i++]);
+          process(Values[i++]);
+          process(Values[i++]);
+        } while (--iteration > 0);
+        ```
+    + 避免双重解释
+      + 当JavaScript代码想解析JavaScript的时候就会存在双重解释惩罚。当使用eval() 函数或者是Funct ion构造函数以及使用setTimeout ()传一个字符串参数时都会发生这种情况。下面有一些例子:
+      + `eval("alert('Hello World!')");`
+      + `let sayHi = new Function("alert('Hello World!')");`
+      + `setTimeout("alert('Hello World!')", 500);`
+      + 这样写导致了解释这些代码的时候需要在启动一个解释器来解析字符串包含的代码
+    + 性能其他注意事项
+      + 原生方法较快————因为原生方法是通过C/C++之类的编译型语言写出来的
+      + Switch语句较快————if-else语句可用优化成Switch语句
+      + 位运算较快
+
++ 最小化语句数
+  + 多个变量声明，用一个代替
+  + 插入迭代值
+    + 迭代值可用写在使用时，如：`process( arr[i++] );`
+  + 使用数组和对象字面量
+    + 只用一条语句创建和初始化数组或对象等
+
++ 优化DOM交互
+  + 最小化现场更新
+    + 不要立即更新DOM元素，而是等一段操作完成后在更新
+  + 使用innerHTML
+    + 同样在不要频繁操作，而是在一段操作完成后更新
+  + 使用事件代理
+    + 为文档级别附加事件处理可用处理整个文档的可冒泡事件
+  + 注意HTMLCollection
+    + 优化for循环中的对象长度访问特别是元素长度，因为每次访问都是动态更新的，如果在for循环中增加元素长度，可能会导致无限循环
+    + `for(let i = 0, len = element.length; i < len; i++)` 应把长度提取出来
+    + 发生以下情况时会返回 HTMLCollection对象
+      + 进行了对 getElementsByTagName()的调用；
+      + 获取了元素的 childNodes 属性
+      + 获取了元素的 attributes 属性
+      + 访问了特殊的集合，如 document.forms、document.images 等
+    + 尽量减少访问
+
+## 部署
+
++构建过程
+  + 代码不应该原封不动的放入服务器运行
+  + 部署时应该清除注释，合并文件，减少文件大小
+  + 自动化构建工具
+
++ 验证
+  + 验证代码的语法是否错误，或是不恰当的使用
+
++ 压缩
+  + 文件压缩：删除额外的空白，删除注释，缩短变量名
+  + HTTP压缩
+
+# API
+
+## Page Visibility 可见性API
++ document.hidden:表示页面是否隐藏的布尔值。页面隐藏包括页面在后台标签页中或者浏览器最小化。
++ document.visibilityState:表示下列4个可能状态的值。
+  + 页面在后台标签页中或浏览器最小化。
+  + 页面在前台标签页中。
+  + 实际的页面已经隐藏,但用户可以看到页面的预览(就像在Windows7中，用户把鼠标移动到任务栏的图标上，就可以显示浏览器中当前页面的预览)。
+  + 页面在屏幕外执行预渲染处理。
++ visibilitychange事件:当文档从可见变为不可见或从不可见变为可见时，触发该事件。
++ 浏览器兼容前缀问题
+
+## File API
++ files集合中的File对象属性
+  + name : 文件名
+  + size : 文件字节大小
+  + type : 字符串，文件MIME类型
+  + lastModifiedDate : 文件上次被修改的事件
++ 可用通过change事件监听可用指定每个文件的信息
+
++ FileReaderr类型
+  + 该类型实现的是一种异步文件读取机制
+  + 方法
+    + readAsText(file, encoding) : 以纯文本形式读取文件，将读取到的文本保存在result属性中。第二个参数用于指定编码类型，是可选的。
+    + readAsDataURL(file):读取文件并将文件以数据URI的形式保存在result属性中。
+    + readAsBinaryString(file):读取文件并将一个字符串保存在result属性中,字符串中的每个字符表示一字节。
+    + readAsArrayBuffer(file):读取文件并将一个包含文件内容的ArrayBuffer 保存在，result属性中。
+  + 事件
+    + progress 每过50ms就会触发一次
+      + 与XHR相同的事件属性 lengthComputable、loaded和total
+      + 每次都要通过FileReader的result属性读取到文件内容
+    + error 读取失败触发  事件对象只有一个code属性，错误编码
+      + 1 ：表示未找到文件
+      + 2 ：安全性错误
+      + 3 ：读取中断
+      + 4 ：文件不可读取
+      + 5 ：编码错误
+    + load 文件成功加载触发
+
++ 读取部分类容
+  + File对象还支持一个slice()方法，参数为起始字节，和要读取的字节数，返回一个Blob的实例，Blob是File类型的父类型
+  + 该类型有一个size属性和type属性，同样支持slice()方法
+  + FileReader也可以从Blob中读取数据
+
++ 对象URL
+  + 也被称为blob URL 指的是引用保存在File或Blob中数据的URL，使用对象URL可以不必把文件内容读取到JavaScript中而直接使用文件内容
+  + 使用 `window.URL.createObjectURL(blob);` 方法
+```js
+  //读取input.file选中的图片并显示
+  let file = document.querySelector("#file");
+  file.addEventListener("change",function(event) {
+    let url = window.URL.createObjectURL(file.files[0]);
+    document.querySelector("#img").innerHTML += `<img src="${url}">`;
+  },false)
+  ```
+
++ 读取拖放文件
+  + 自定义放置目标
+  + 把桌面文件拖放到浏览器中也会触发drop事件，而且可以在event.dataTransfer.files中读取到被放置的文件
+  + 同样需要取消dragenter、dragover、drop的默认行为
+
++ 使用XHR上传文件
+  + 可以直接把文件内容放到send()方法中通过POST上传，也可以通过表单的方式使用FormData类型做到
+```js
+  let data = new FormData();
+  //每个文件对应(file0)(file1)...   一次上传多个文件
+  data.append("file" + i, files[i]);
+  xhr.send(data);
+  ```
+
+## Web计时
++ 核心对象是window.performance对象，包含了所有对页面的度量信息
++ performance.navigation 对象已被弃用
++ performance.timing 对象已被弃用
+
+## Web Workers
++ 使js在后台运行
++ 使用 Worker
+  + `let worker = new Worker("stufftodo.js");`
+  + 这段代码会导致浏览器下载stufftodo.js，但只有Worker接收到消息才会实际执行文件中的代码，可以使用postMMessage()方法给Worker传递消息
+  + `worker.postMessage("start!");` 消息内容可以是任何能够被序列化的值，可以传递对象数据
+  + Worker是通过message和error事件与页面通信的
+    + 数据保存在event.data中
+    + 无法完成任务时触发error事件
+      + 事件对象中包含三个属性filename、lineno、message
+      + 发生错误的文件名、代码行号、完整的错误消息
++ Worker全局作用域
+  + 不是所有的JS功能都可以在Workez中使用，只能使用支持的
