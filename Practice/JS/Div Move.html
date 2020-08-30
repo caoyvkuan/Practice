@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Div Move</title>
+		<style type="text/css">
+			html,body{
+				width: 100%;
+				height: 100%;
+				padding: 0;
+				margin: 0;
+				/* overflow: hidden; */
+			}
+			.box{
+				width: 100px;
+				height: 100px;
+				position: absolute;
+			}
+			.b1{
+				background-color: red;
+			}
+			.b2{
+				top: 100px;
+				left: 100px;
+				background-color: yellow;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box b1" id="1"><!-- draggable="false" -->
+			
+		</div>
+		<div class="box b2" id="2">
+			
+		</div>
+		<script type="text/javascript">
+			//当鼠标拖成静止标志后松开鼠标无法正常取消移动事件
+			// let box2 = document.querySelector(".b2");
+			document.addEventListener("mousedown", function(e){
+				let target = e.target;
+				switch (target.id) {
+					case "1":
+					case "2":
+						move(e,target);
+						break;
+				
+					default:
+						break;
+				}
+			}, false);
+			function move(e,target) {
+				let StartY = e.clientY;
+				let StartX = e.clientX;
+				if(event.button === 0){
+					// let Y = StartY - (parseInt(box1.style.top) ? parseInt(box1.style.top) : 0);
+					// let X = StartX - (parseInt(box1.style.left) ? parseInt(box1.style.left) : 0);
+					let Y = StartY - target.offsetTop;
+					let X = StartX - target.offsetLeft;
+					document.onmousemove = function(event){
+						event = event || window.event;
+						target.style.top = (event.clientY - Y) + "px";
+						target.style.left = (event.clientX - X) + "px";
+					};
+				}
+				//松开时取消移动
+				document.onmouseup = function(){
+						document.onmousemove = null;
+				};
+				target.onmouseup = function(ev){
+					//鼠标移动超出范围则不触发点击事件
+					let i = Math.sqrt((ev.clientY - StartY) * (ev.clientY - StartY) + (ev.clientX - StartX) * (ev.clientX - StartX))
+					// if(ev.clientY < (StartY + 5) && ev.clientY > (StartY - 5) && ev.clientX < (StartX + 5) && ev.clientX > (StartX - 5) ){
+						// console.log(i);
+						if(i <= 5){
+						target.onclick = function(){
+							if(this.style.background === "blue"){
+								this.style.background = "red";
+							}else{
+								this.style.background = "blue";
+							}
+						};
+					}else{
+						target.onclick = null;
+					}
+				};
+			}
+			//取消默认拖放行为,解决检测不到鼠标松开事件的问题
+			document.ondragstart = function(ev){
+				ev.preventDefault();
+			};
+			document.ondragend = function(ev){
+				ev.preventDefault();
+			};
+		</script>
+	</body>
+</html>
