@@ -1,160 +1,11 @@
-# HTML5
+# 标签
 
-## 常用知识
-
-### 路径
-
-+ 相对路径
-+ 绝对路径
-  + 出于安全考虑不能通过磁盘直接访问磁盘中的文件
-
-### 块级元素与行内元素
-
-+ BFC规范   块级格式化上下文
-  + 触发BFC
-    + 浮动(除了none)  定位( `absolute ,  fixed` )
-    + `display: inline-block | table-cells | flex`
-    + `overflow:hidden | auto | scroll`
-  + 触发BFC规范的容器可以形成一个独立的容器,不受外界的影响,从而解决一些布局问题
-    + 解决margin叠加问题(发生在上下布局)
-    + 解决margin传递问题(发生在嵌套)
-    + 解决浮动问题(父盒子塌陷)
-    + 解决覆盖问题(浮动叠加被覆盖的) (一列固定一列自适应布局效果)
-
-+ block
-  + 可以设置宽高
-  + 宽度默认和父元素一样宽
-+ IFC规范    内联
-+ inline
-  + 无法设置宽高
-  + 宽高靠内容撑起来
-  + `text-align:center;`可以让标签中的行内元素和文本居中,行内块
-  + 行内元素在脱离文档流后可以设置宽高
-+ 行内块模式
-  + img   表单元素
-
-### 全局属性
-
-+ **disabled**属性可以应用实现禁用
-+ **hidden**隐藏
-+ **accesskey**设置访问元素的键盘快捷键
-  + `accesskey="h"`
-  + 不同浏览器使用的快捷键方法不同：
-  + IE, Chrome, Safari, Opera 15+:          [ALT] + *accesskey*
-  + Opera prior version 15:              [SHIFT] [ESC] + *accesskey*
-  + Firefox:              [ALT] [SHIFT] + *accesskey*
-+ **contenteditable**规定是否可编辑元素的内容。
-  + `contenteditable="true|false"`
-+ **data-name**用于存储页面的自定义数据
-+ **dir** 设置元素中内容的文本方向。`dir = " ltr | rtl | auto"`
-+ **draggable**指定某个元素是否可以拖动`draggable="true|false|auto"`
-+ **dropzone**当被拖动的数据在拖放到元素上时，是否被复制、移动或链接
-  + `dropzone="copy|move|link"`
-+ **lang**设置元素中内容的语言代码。
-+ **spellcheeck** 检测元素是否拼写错误`spellcheck="true|false"`
-+ **tabindex**  设置元素的 Tab 键控制次序。
-+ **translate** 指定是否一个元素的值在页面载入时是否需要翻译`translate="yes|no"`
-
-## 标签
-
-+ 超链接**a**
-
-  + target属性可指向a链接的加载位置 		_blank 默认每次都在新窗口打开
-
-+ 图片**img**
-
-  + alt  图片加载失败时的文字提示
-
-+ 列表标签
-
-  + `unordered list = ul`
-  + `ordered list = ol`
-  +  `list item = li`
-
-+ Void元素
-
-  + **<hr>**
-  + **br**
-  + **<img>**
-
-+ 字符实体
-
-  + ```html
-    空格&nbsp;: &amp;nbsp;
-    小于号 ：&lt; &amp;lt;
-    大于号 : &gt; &amp;gt;
-    &符号 : &amp;
-    ```
-
-    
-
-### head中的标签
-
-+ **<meta>**
-
-  + 用于定义页面描述
-
-  + <meta charset="utf-8">  编码
-    <meta name="description" content="描述信息 seo优化">
-    <meta name="keywords" content=" 关键字">
-    <meta name="renderer" content="webkit"> 针对双内核浏览器 选择内核
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-
-    <meta http-equiv="refresh" content="3" url="">刷新3秒后跳转链接
-    <meta http-equiv="expires" content=""/>缓存处理
-
-  + 辅助响应式布局   主要针对移动端
-
-    + ```html
-      <meta name="viewport" content="width=device-width"> 
-      按照设备宽度来渲染页面内容
-      <meta name="viewport" content="initial-scale=2.0,width=device-width"/> 
-      content:
-      initial-scale=2.0	把内容放大为实际的两倍大小
-      width=device-width	页面宽度等于设备宽度
-      maximum-scale=3	允许用户将页面放大到设备宽度的三倍
-      minimun-scale=0.5	最小可将页面缩小至设备宽度的一半
-      user-scalable=no	禁止用户缩放
-      
-      <meat name="viewport" content="width=device-width,initial-scale=1">
-      大多数情况都可以使用这个
-      
-      使用max-width:100%;而不使用width:100%;
-      有利于元素考虑之身宽度不被拉伸
-      ```
-
-+ **<link>**
-
-  + `<link rel="stylesheet" href="">` 样式引入
-
-  + `<link rel="icon" type="image/x-icon" href="">`  网页标题图标引入
-
-  + `<link rel="dns-prefetch" href="">`  dns预解析
-  
-  + 媒体查询
-  
-    + ```html
-      在CSS2中
-      <link rel="style sheet" type="text/css" media="screen" href="screenstyles. css">
-      /*	不仅仅可以判断屏幕类型还能区分屏幕是否是垂直方向	*/
-      <link rel="stylesheet" media="screen and (orientation: portrait)" href="portrait-screen.css" />
-      
-      <link rel="stylesheet" media="screen and (orientation: portrait) and 
-      (min-width: 800px)" href="800wide-portrait-screen.css" /> 
-    
-      media="screen and (orientation: portrait) and(min-width: 800px),projection"
-      projection后不接条件表示支持具备任何特性的该媒体类型,适配所有投影机
-      ```
-  
-      
-
-### 语义标签
+## 语义化标签
 
 + **<header>**元素
-  
   + 在<article>元素中用作某个区块的引介区。它可以在一个页面中出现多次
   + 比如页面中每个<sectioin>中都可以有一个<header>
-  
+
 + **<main>**元素
   
   + 包裹页面主要内容	且只有一个
@@ -212,179 +63,140 @@
 + **h1** 到 **h6**
 
   + h1到h6元素不能用于标记副标题、字幕、广告语，除非想把它们用作新区块或子区块的标题
-  
-+ ```html
-  <mark>定义重要的或强调的文本</mark>
-  
-  <meter>定义度量衡。仅用于已知最大和最小值的度量。</meter>
-  
-  <progress>定义任何类型的任务的进度</progress>
-  	<progress value="当前进度" max="最大进度值"></progress>
-  <meter min="0" max="100" value="20" low="10" high="60"> 测量</meter>
-  
-  <ruby>定义 ruby 注释（中文注音或字符）</ruby>
-  
-  <rt>定义字符（中文注音或字符）的解释或发音。</rt>
-  
-  <rp>在 ruby 注释中使用，定义不支持 ruby 元素的浏览器所显示的内容</rp>
-  
-  <wbr>规定在文本中的何处适合添加换行符。  单标签
-  	<!-- 可以用来定义HTML文档中需要进行换行的位置，与<br>标签不同，如果浏览器窗口的宽度足够，则不换行；反之，则在添加了 <wbr> 标签的位置进行换行 -->
-  
-  <hgroup> 标题组合</hgroup>>
-  <time>定义日期/时间。</time>
-  <bdi>允许您设置一段文本，使其脱离其父元素的文本方向设置。</bdi>
-  
-  <command>定义命令按钮，比如单选按钮、复选框或按钮</command>
-  
-  <dialog>定义对话框，比如提示框</dialog>
-  
-  语义标签兼容低版本
-      <style>
-          header, section, footer, aside, nav, main, article, figure {
-              display: block; 
-          }
-      </style>
-  第一种解决方案
-  <script>
-     //创建nav自定义标签使页面内的nav标签起作用-然后display:block;
-  	document.createElement("nav");
-  </script>
-  第二种解决方案		引用js插件
-  最佳	在什么版本下执行该段代码	在低于ie 8或等于ie 8版本才会执行
-  <!--[if lte IE 8]>
-  		<script type="text/javascript" src="HTML/语义标签兼容处理/html5shiv.min.js"></script>
-  <![endif]-->
-      
-  <!--[if lt IE 9]
-  <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js">
-  </script>
-  <![endif]-->
-      
-  <!--[if lt IE 9]>
-      <script src="http://cdn.static.runoob.com/libs/html5shiv/3.7/html5shiv.min.js">
-      </script>
-  <![endif]-->
-  无语义标签
-  <div></div>
-  ```
 
-### 文本级标签/文本格式化
 
-+ **<b>**元素不能用它来包围一大段其他标记
+```html
+<code>计算机代码</code>
+<pre>预格式化文本  (会保留元素中的空格和换行符 )</pre>
 
-+ *<em>*em元素表示内容中需要强调的部分
+<mark>定义重要的或强调的文本</mark>
 
-+ **<i>**元素    它不仅仅用于把文本标为斜体。比如，可以用它在文本中标记出罕用的名字：
+<meter>定义度量衡。仅用于已知最大和最小值的度量。</meter>
 
-+ ```html
-  <code>计算机代码</code>
-  <pre>预格式化文本  (会保留元素中的空格和换行符 )</pre>
-  <strong>重要的文本</strong>
-  <sup> （上标文本）</sup>
-  <sub> （下标文本）</sub>
-  <q>表示短引用</q>
-  <small>更小的文本</small>
-  <blockquote>长引用,会进行缩进</blockquote>
-  <kbd>键盘输入</kbd>
-  <abbr> （缩写）</abbr>
-  <bdo dir="ltr" dir="rtl"> （文字方向）</bdo>
-  <blockquote> （从另一个源引用的部分）</blockquote>
-  <cite> （工作的名称）</cite>
-  <del> （删除的文本）</del>
-  <ins> （插入的文本）</ins>
+<progress>定义任何类型的任务的进度</progress>
+<progress value="当前进度" max="最大进度值"></progress>
+<meter min="0" max="100" value="20" low="10" high="60"> 测量</meter>
+
+<ruby>定义 ruby 注释（中文注音或字符）</ruby>
+
+<rt>定义字符（中文注音或字符）的解释或发音。</rt>
+
+<rp>在 ruby 注释中使用，定义不支持 ruby 元素的浏览器所显示的内容</rp>
+
+<wbr>规定在文本中的何处适合添加换行符。  单标签
+<!-- 可以用来定义HTML文档中需要进行换行的位置，与<br>标签不同，如果浏览器窗口的宽度足够，则不换行；反之，则在添加了 <wbr> 标签的位置进行换行 -->
+
+<hgroup> 标题组合</hgroup>>
+<time>定义日期/时间。</time>
+<bdi>允许您设置一段文本，使其脱离其父元素的文本方向设置。</bdi>
+
+<command>定义命令按钮，比如单选按钮、复选框或按钮</command>
+
+<dialog>定义对话框，比如提示框</dialog>
+```
+
+
+
+```html
+<map> 定义一个客户端图像映射  指带有可点击区域的一幅图像 </map>
+name属性关联img       img的usemap属性=`#name`
+<area>  嵌套在map元素中  定义图像的映射区域  点击区域    </area>
+属性 href   shape 属性定义区域形状    coords  定义点击区域坐标  alt
+shape = "rect" 长方形   coords="x y x y" 2个点的位置, 左上角和右下角
+ciec   圆              x y 半径   圆心位置  半径大小
+poly  多边形           x y x y   多个点的x y位置连在一起
   
-  <map> 定义一个客户端图像映射  指带有可点击区域的一幅图像 </map>
-  	name属性关联img       img的usemap属性=`#name`
-  <area>  嵌套在map元素中  定义图像的映射区域  点击区域    </area>
-  	属性 href   shape 属性定义区域形状    coords  定义点击区域坐标  alt
-  	shape = "rect" 长方形   coords="x y x y" 2个点的位置, 左上角和右下角
-  	         ciec   圆              x y 半径   圆心位置  半径大小
-  			poly  多边形           x y x y   多个点的x y位置连在一起
-  
-  <embed> 与 <object>
-  都能嵌入多媒体,如flash动画插件
-      <embed src=""  type="">
-      <object>
-          <param name="movie" value="url">
-      </object>
-  ```
 
-### 自定义元素
+
+媒体标签
+<embed> 与 <object></object>
+    都能嵌入多媒体,如flash动画插件
+<embed src=""  type="">
+<object>
+    <param name="movie" value="url">
+</object>
+```
+
+## 文本级标签/文本格式化
+
++ <**b**>元素不能用它来包围一大段其他标记
++ <**em**>em元素表示内容中需要强调的部分
++ <**i**>元素  它不仅仅用于把文本标为斜体。比如，可以用它在文本中标记出罕用的名字：
+
+```html
+<strong>重要的文本</strong>
+<sup> （上标文本）</sup>
+<sub> （下标文本）</sub>
+<q>表示短引用</q>
+<small>更小的文本</small>
+<blockquote>长引用,会进行缩进</blockquote>
+<kbd>键盘输入</kbd>
+<abbr> （缩写）</abbr>
+<bdo dir="ltr" dir="rtl"> （文字方向）</bdo>
+<blockquote> （从另一个源引用的部分）</blockquote>
+<cite> （工作的名称）</cite>
+<del> （删除的文本）</del>
+<ins> （插入的文本）</ins>
+```
+
+
+
+## 自定义元素
 
 ```html
 myHero {
-    display: block;
-    background-color: #ddd;
-    padding: 50px;
-    font-size: 30px;
+  display: block;
+  background-color: #ddd;
+  padding: 50px;
+  font-size: 30px;
 }
 <myHero>我的第一个新元素</myHero>
 ```
 
 
 
-## Form表单
+## 语义标签兼容低版本
 
-+ **form**的属性
+```html
+<style>
+    header, section, footer, aside, nav, main, article, figure {
+        display: block; 
+    }
+</style>
+第一种解决方案
+<script>
+    //创建nav自定义标签使页面内的nav标签起作用-然后display:block;
+    document.createElement("nav");
+</script>
+第二种解决方案		引用js插件
+最佳	在什么版本下执行该段代码	在低于ie 8或等于ie 8版本才会执行
+<!--[if lte IE 8]>
+<script type="text/javascript" src="HTML/语义标签兼容处理/html5shiv.min.js"></script>
+<![endif]-->
 
-  + `action=""`表单提交地址
-  +  ` method="post"`请求方式
-  + `autocomplete="on | off"`	自动完成输入
-  + `novalidate`	关闭智能校验
+<!--[if lt IE 9]
+<script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js">
+</script>
+<![endif]-->
 
-+ 表单元素的属性
-  + **placeholder**属性   占位符（提示信息）输入框使用
+<!--[if lt IE 9]>
+<script src="http://cdn.static.runoob.com/libs/html5shiv/3.7/html5shiv.min.js">
+</script>
+<![endif]-->
+无语义标签
+<div></div>
+```
 
-  + ```CSs
-    可以用placeholder-shown伪类选择器来为placeholder属性添加样式
-    input:placeholder-shown { 
-        color: #333; 
-    } 
-    ```
+# Form表单
 
-  + **required**属性
-
-    + 添加required属性表述必填项
-    + range、color、button和hidden类型的输入元素不能使用required,因为这几种输入类型几
-      乎都有默认值
-
-  + **autofocus**属性
-
-    + 页面加载时默认选中
-    + 使用autofocus属性的时候，要确保只在表单中使用一次，并且了解对那些使用空格滚动的用户的影响
-
-  + **autocomplete**属性
-
-    + 禁用自动补全	on	||	off
-
-  + **list** 及对应的 **datalist** 元素
-
-    + 给list属性值为datalist元素id的输入框候选列表
-
-    + ```css
-      <datalist>定义选项列表</datalist>
-      <input type="text" list="abc"/>
-      <datalist id="abc">
-          <option value="123">12312</option>
-          <option value="123">12312</option>
-          <option value="123">12312</option>
-          <option value="123">12312</option>
-      </datalist>
-      ```
-
-  + **multiple** 是列表选择可以实现多选
-
-  + **form="ID"** 提交目标的表单的id
-
-#### 表单元素
+## 表单元素
 
 + input元素
 
   + 一般配合lable标签使用
-    
+
     + `<lable for="da">游戏</lable>	<input type="checkebox" id="da" >`
-    
+
   + button 标签 按钮	默认为提交按钮
 
   + `patter=""`	正则表达式限制
@@ -439,33 +251,31 @@ myHero {
 
 + 自定义验证提示文本
 
-  + ```html
-    自定义required的提示文本
-        oninvalid="setCustomValidity('提示内容')" ： 固定写法-->自定义提示内容
-    	//oninput 当用户输入时触发
-        oninput="setCustomValidity('')"： 固定写法-->清空上一次提交所输入的内容
-    	<form action="1.php" method="get">
-    		<input type="text" name="uname" pattern="^\d{4,11}" required class="uname">
-    		<input type="submit" name="">
-    	</form>
-    	<script type="text/javascript">
-            var input=document.querySelector(".uname");
-            //oninvalid 当验证不通过时触发
-            input.oninvalid=function(){
-                //validity input 验证属性
-                //validity 中的patternMismatch 正则表达式验证是否成功
-                if(this.validity.patternMismatch===true){
-                    this.setCustomValidity("请输入4到11为数字");
-                }else{
-                    this.setCustomValidity("");
-                }
-            }
-    	</script>
-    ```
++ ```html
+  自定义required的提示文本
+  oninvalid="setCustomValidity('提示内容')" ： 固定写法-->自定义提示内容
+  //oninput 当用户输入时触发
+  oninput="setCustomValidity('')"： 固定写法-->清空上一次提交所输入的内容
+  <form action="1.php" method="get">
+      <input type="text" name="uname" pattern="^\d{4,11}" required class="uname">
+      <input type="submit" name="">
+  </form>
+  <script type="text/javascript">
+      var input=document.querySelector(".uname");
+      //oninvalid 当验证不通过时触发
+      input.oninvalid=function(){
+          //validity input 验证属性
+          //validity 中的patternMismatch 正则表达式验证是否成功
+          if(this.validity.patternMismatch===true){
+              this.setCustomValidity("请输入4到11为数字");
+          }else{
+              this.setCustomValidity("");
+          }
+      }
+  </script>
+  ```
 
-    
-
-#### 使用CSS美化表单
+## 使用CSS美化表单
 
 + 显示必填项
 
@@ -475,29 +285,29 @@ myHero {
 
   + `input:focus:required{}`
 
-  + ```css
-    如果输入元素中的值是非法的
-    input:invalid
-    如果输入元素中输入的合法的
-    input:valid
-    ```
-
-+ ```html
-  <style>
-      lable input{ display:none}    
-      /*通过div来替换input的原始样式*/
-      lable input:checked + div{background-position:0,0}
-      lable div{ width:28px; height:28px; background:url() 0 -28px;}
-  </style>
-  <lable>
-      <input type="checkbox" >
-      <div></div>
-  </lable>
++ ```css
+  如果输入元素中的值是非法的
+  input:invalid
+  如果输入元素中输入的合法的
+  input:valid
   ```
 
-  
+```html
+<style>
+    lable input{ display:none}    
+    /*通过div来替换input的原始样式*/
+    lable input:checked + div{background-position:0,0}
+    lable div{ width:28px; height:28px; background:url() 0 -28px;}
+</style>
+<lable>
+    <input type="checkbox" >
+    <div></div>
+</lable>
+```
 
-## 媒体元素
+
+
+# 媒体元素
 
 ```html
 <audio>	音频</audio>
@@ -513,7 +323,7 @@ myHero {
 </video>
 ```
 
-### Video
+## Video
 
 ```html
 Video的属性
@@ -541,47 +351,186 @@ video.playbackRate=2; 	2倍播放速度
 </script>
 ```
 
+# head中的标签
 
++ **<meta>**
+
+  + 用于定义页面描述
+  + <meta charset="utf-8">  编码
+    <meta name="description" content="描述信息 seo优化">
+    <meta name="keywords" content=" 关键字">
+    <meta name="renderer" content="webkit"> 针对双内核浏览器 选择内核
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <meta http-equiv="refresh" content="3" url="">刷新3秒后跳转链接
+    <meta http-equiv="expires" content=""/>缓存处理
+
+  + 辅助响应式布局   主要针对移动端
+  + ```html
+    <meta name="viewport" content="width=device-width"> 
+    按照设备宽度来渲染页面内容
+    <meta name="viewport" content="initial-scale=2.0,width=device-width"/> 
+    content:
+    initial-scale=2.0	把内容放大为实际的两倍大小
+    width=device-width	页面宽度等于设备宽度
+    maximum-scale=3	允许用户将页面放大到设备宽度的三倍
+    minimun-scale=0.5	最小可将页面缩小至设备宽度的一半
+    user-scalable=no	禁止用户缩放
+    
+    <meat name="viewport" content="width=device-width,initial-scale=1">
+    大多数情况都可以使用这个
+    
+    使用max-width:100%;而不使用width:100%;
+    有利于元素考虑之身宽度不被拉伸
+    ```
+
++ **<link>**
+
+  + `<link rel="stylesheet" href="">` 样式引入
+
+  + `<link rel="icon" type="image/x-icon" href="">`  网页标题图标引入
+
+  + `<link rel="dns-prefetch" href="">`  dns预解析
+  
+  + 媒体查询
+  
+    + ```html
+      在CSS2中
+      <link rel="style sheet" type="text/css" media="screen" href="screenstyles. css">
+      /*	不仅仅可以判断屏幕类型还能区分屏幕是否是垂直方向	*/
+      <link rel="stylesheet" media="screen and (orientation: portrait)" href="portrait-screen.css" />
+      
+      <link rel="stylesheet" media="screen and (orientation: portrait) and 
+      (min-width: 800px)" href="800wide-portrait-screen.css" /> 
+    
+      media="screen and (orientation: portrait) and(min-width: 800px),projection"
+      projection后不接条件表示支持具备任何特性的该媒体类型,适配所有投影机
+      ```
+
+# 常用标签
+
++ 超链接**a**
+
+  + target属性可指向a链接的加载位置 		_blank 默认每次都在新窗口打开
+
++ 图片**img**
+
+  + alt  图片加载失败时的文字提示
+
++ 列表标签
+
+  + `unordered list = ul`
+  + `ordered list = ol`
+  +  `list item = li`
+
++ Void元素 (单标签)
+
+  + **<hr>**
+  + **br**
+  + **<img>**
+
++ 字符实体
+
+  + ```html
+    空格&nbsp;: &amp;nbsp;
+    小于号 ：&lt; &amp;lt;
+    大于号 : &gt; &amp;gt;
+    &符号 : &amp;
+    ```
+
+# 基本知识
+
+## 全局属性
+
++ **disabled**属性可以应用实现禁用
++ **hidden**隐藏
++ **accesskey**设置访问元素的键盘快捷键
+  + `accesskey="h"`
+  + 不同浏览器使用的快捷键方法不同：
+  + IE, Chrome, Safari, Opera 15+:    [ALT] + *accesskey*
+  + Opera prior version 15:   [SHIFT] [ESC] + *accesskey*
+  + Firefox:    [ALT] [SHIFT] + *accesskey*
++ **contenteditable**规定是否可编辑元素的内容。
+  + `contenteditable="true|false"`
++ **data-name**用于存储页面的自定义数据
++ **dir** 设置元素中内容的文本方向。`dir = " ltr | rtl | auto"`
++ **draggable**指定某个元素是否可以拖动`draggable="true|false|auto"`
++ **dropzone**当被拖动的数据在拖放到元素上时，是否被复制、移动或链接
+  + `dropzone="copy|move|link"`
++ **lang**设置元素中内容的语言代码。
++ **spellcheeck** 检测元素是否拼写错误`spellcheck="true|false"`
++ **tabindex**  设置元素的 Tab 键控制次序。
++ **translate** 指定是否一个元素的值在页面载入时是否需要翻译`translate="yes|no"`
+
+## 路径
+
++ 相对路径
+  + `./HTML5.md`
+  + 相对于当前文件或电脑的位置
++ 绝对路径
+  + `https://cn.bing.com/this.png`
+  + 所有人都能通过同一个位置找到
++ 出于安全考虑不能通过磁盘直接访问磁盘中的文件
+
+# 语言规范
+
+## 块级元素与行内元素
+
++ BFC规范   块级格式化上下文
+  + 触发BFC   触发该规范,就可以使用block特性
+    + 浮动(除了none)  定位( `absolute ,  fixed` )
+    + `display: inline-block | table-cells | flex`
+    + `overflow:hidden | auto | scroll`
+  + 触发BFC规范的容器可以形成一个独立的容器,不受外界的影响,从而解决一些布局问题
+    + 解决margin叠加问题(发生在上下布局)
+    + 解决margin传递问题(发生在嵌套)
+    + 解决浮动问题(父盒子塌陷)
+    + 解决覆盖问题(浮动叠加被覆盖的) (一列固定一列自适应布局效果)
+
+
++ IFC规范    内联
+  + 
+
++ block 特性
+  + 可以设置宽高
+  + 宽度默认和父元素一样宽
++ inline 特性
+  + 无法设置宽高
+  + 宽高靠内容撑起来
+  + `text-align:center;`可以让标签中的行内元素和文本居中,行内块
+  + 行内元素在脱离文档流后可以设置宽高
++ 行内块模式
+  + img   表单元素
+
+
+
+# 其他
 
 ## 拖放
 
 + HTML5 拖放（Drag 和 Drop）
 
 + 设置元素为可拖放
-
   - 首先，为了使元素可拖动，把 draggable 属性设置为 true ：
-
   - <img draggable="true">
 
 + 拖动什么 - ondragstart 和 setData()
-
   - 然后，规定当元素被拖动时，会发生什么。
-
   - 在上面的例子中，ondragstart 属性调用了一个函数，drag(event)，它规定了被拖动的数据。
-
   - dataTransfer.setData() 方法设置被拖数据的数据类型和值
-
   - ```js
     function drag(ev){
         ev.dataTransfer.setData("Text",ev.target.id);
     }
     ```
-
     - 放到何处 - ondragover
-
       - ondragover 事件规定在何处放置被拖动的数据。
-
       - 默认地，无法将数据/元素放置到其他元素中。如果需要设置允许放置，我们必须阻止对元素的默认处理方式。
-
       - 这要通过调用 ondragover 事件的 event.preventDefault() 方法
       - `event.preventDefault()`
 
     - 进行放置 - ondrop
-
       - 当放置被拖数据时，会发生 drop 事件。
-
       - 在上面的例子中，ondrop 属性调用了一个函数，drop(event)：
-
       - ```js
         function drop(ev){
             ev.preventDefault();
@@ -590,10 +539,7 @@ video.playbackRate=2; 	2倍播放速度
         }
         ```
 
-        
-
       - 代码解释：
-
         - 调用 preventDefault() 来避免浏览器对数据的默认处理（drop 事件的默认行为是以链接形式打开）
         - 通过 dataTransfer.getData("Text") 方法获得被拖的数据。该方法将返回在 setData() 方法中设置为相同类型的任何数据。
         - 被拖数据是被拖元素的 id ("drag1")
@@ -654,4 +600,3 @@ video.playbackRate=2; 	2倍播放速度
   onprogress	读取中
   ```
 
-  

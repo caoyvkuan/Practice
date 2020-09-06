@@ -1,74 +1,3 @@
-# javaScript组成
-
-+ 核心 `ECMAScript`		提供核心语言功能
-+ 文档对象模型 `DOM`      提供访问和操作网页内容的方法和接口
-+ 浏览器对象模型 `BOM`   提供与浏览器交互的方法和接口
-
-# ECMAScript
-
-+ 规定了语法的组成部分
-    + 语法
-    + 类型
-    + 语句
-    + 关键字
-    + 保留字
-    + 操作符
-    + 对象
-    
-# 文档对象模型(DOM)
-
-+ 文档对象模型( `DOM`,Document Object Model )是针对HTML的应用编程接口(`API`,Application Programming interface).
-
-# 语法
-
-+ 严格模式
-  + `"use strict"`
-
-## 关键字保留字
-
-+ 不能用来变量命名或函数命名
-
-![关键字](./images/关键字.png)
-
-![保留字](./images/保留字.png)
-
-# 数据类型
-
-+ **typeof**操作符
-  + `undefined` 如果这个值未定义
-  + `boolean` 如果这个值是布尔值
-  + `string` 如果这个值是字符串
-  + `number` 如果这个值是数值
-  + `object` 如果这个值是对象或是null
-  + `function` 如果这个值是函数
-+ typeof 对初始化的变量使用会返回  `undefined` 
-  
-+ 对未声明的变量使用同样会返回 `undefined`
-  
-+ `null` 表示一个空的对象指针, 这也是使用`typeof` 检测会返回`object`的原因
-
-+ 如果定义的对象在将来准备用来保存对象,那么将该变量初始化未`null`而不算其他值,这样只要检测`null`值就可以知道相应的变量是否已经保存了一个对象的引用
-
-  ```js
-  if(car != null){
-      //
-  }
-  null == undefined  //true
-  ```
-
-## Boolean类型
-
-+ 可以使用`Boolean()`函数将任何类型转换为`Boolean`值 
-  + 转换为`true`
-    + 任何非空字符串
-    + 任何非零数值(包括无穷大)
-    + 任何对象
-  + 转换为`false`
-    + `""` 空字符串
-    + `0和NaN` 
-    + `null`
-    + `undefined`
-
 ## Number
 
 + js中可以存在`正零(+0) 和 负零(-0)  `被认为相等
@@ -192,10 +121,14 @@
         + 如果值有 `toString()`方法,则调用该方法(没有参数)并返回相应的结果
         + 如果是null 就返回 "null"
         + 如果是undefined 则返回 "undefined"
-    
 + `split()`
     + 传入一个字符串，按照传入的字符串将使用方法的字符串分割为数组并返回
++ `join`
+    + 传入一个字符,按照传入的字符将数组连接为字符串
++ `replace` 替换
+    + `replaceAll` 替换所有
 ## Object类型
+
 + 创建对象 `let o = new Object();`
     + `Constructor` 保存着创建当前对象的构造函数
     + `hasOwnproprety(propertyName)` 用于检车给定属性在当前对象的示例中是否存在,属性必须是字符串
@@ -510,13 +443,30 @@
     + 同时使用`unshift() 和 pop()` 方法可以从相反的方向来模拟队列
 + 重排序方法
     + `reverse() 和 sort()`
+        
         + `reverse()`可以反转数组项的顺序
+        
         + `sort()` 方法按升序排列数组项——即最小的值位于最前面,最大值排在后面
+          
+            + ```js
+                升序排列
+                arr.sort(function(a,b){return a - b});
+                降序排列
+                arr.sort(function(a,b){return b - a});
+                ```
+                
+                
+                
             + `sort()` 方法会调用每个数组项的 `toString()`转型方法，然后比较得到的字符串，即使数组的每一项都是数值，该方法比较的也是字符串
+            
             + ![例子](./images/数组的sort方法.png)
+            
             + 因此`sort()`方法可以接受一个比较函数作为参数
+            
             + ![sort的参数](./images/sort的参数.png)
+            
             + ![sort的参数例子](./images/sort的参数例子.png)
+            
             + ![sort数组排序函数](./images/sort数组排序函数.png)
 + 操作方法
     + `concat()` 方法在数组的基础上创建一个副本，

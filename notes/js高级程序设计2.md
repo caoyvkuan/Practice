@@ -1738,7 +1738,7 @@
       this.setAll(name, null, new Date(0), path, domain, secure);
     }
   };
-  ```
+```
 + 因为所有的cookie都会由浏览器作为请求头发送,所以cookie信息越大,完成对服务器的请求时间也越长
 
 ### Web储存机制
@@ -1811,7 +1811,7 @@
   request.onsuccess = function(event){
     database = event.target.result;
   };
-  ```
+```
   + 这两个事件处理程序中，event.target都指向request对象，请求成功event.target.result中将由一个数据库实例对象
   + 请求失败event.target.errorCode中将有错误码，表示问题的性质
   + ![错误码](./images/IndexedDB错误码.png)
@@ -1881,7 +1881,7 @@
         Wy.ProJS.EventUtil = {};
         Wy.ProJS.CCCCookieUtil = {};
         //每个人都创建自己的命名空间，就不用担心会重写他人的代码
-        ```
+      ```
     + 避免与null进行比较
       + 必须按照所期望了变量类型进行比较，而不是通过null
       + `value instanceof Array`
@@ -1919,7 +1919,7 @@
       //优化成只有4次属性查询
       let url = window.location.href;
       let query = url.substring(url.indexOf("?"));
-      ```
+    ```
   + 优化循环
     + 减值迭代————大多数循环使用一个从0开始、增加到某个特定值的迭代器。在很多情况下，从最大值开始，在循环中不断减值的迭代器更加高效。
     + 简化终止条件————由于每次循环过程都会计算终止条件，所以必须保证它尽可能快。也就是说避免属性查找或其他O(n)的操作。
@@ -1941,7 +1941,7 @@
           process(values[i]);
         } while (--i >= 0);
       }
-      ```
+    ```
     + 展开循环
       + 当循环次数是确定的，消除循环并使用多次函数调用往往更快
       ```js
@@ -1988,7 +1988,7 @@
           process(Values[i++]);
           process(Values[i++]);
         } while (--iteration > 0);
-        ```
+      ```
     + 避免双重解释
       + 当JavaScript代码想解析JavaScript的时候就会存在双重解释惩罚。当使用eval() 函数或者是Funct ion构造函数以及使用setTimeout ()传一个字符串参数时都会发生这种情况。下面有一些例子:
       + `eval("alert('Hello World!')");`
@@ -2092,7 +2092,7 @@
     let url = window.URL.createObjectURL(file.files[0]);
     document.querySelector("#img").innerHTML += `<img src="${url}">`;
   },false)
-  ```
+```
 
 + 读取拖放文件
   + 自定义放置目标
@@ -2106,7 +2106,7 @@
   //每个文件对应(file0)(file1)...   一次上传多个文件
   data.append("file" + i, files[i]);
   xhr.send(data);
-  ```
+```
 
 ## Web计时
 + 核心对象是window.performance对象，包含了所有对页面的度量信息

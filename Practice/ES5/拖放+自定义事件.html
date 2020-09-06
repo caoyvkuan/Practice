@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      /* overflow: hidden; */
+    }
+
+    div {
+      width: 100px;
+      height: 100px;
+      position: absolute;
+    }
+
+    .d1 {
+      background-color: aqua;
+      top: 100px;
+    }
+
+    .d2 {
+      background-color: red;
+      top: 150px;
+      left: 150px;
+    }
+
+    #status {
+      width: 300px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="status">开始</div>
+  <div id="1" class="d1 draggable"></div>
+  <div id="2" class="d2 draggable"></div>
+  <script>
+    function EventTarget() {
+      this.handlers = {};//用于储存事件处理程序
+    }
+
+    EventTarget.prototype = {
+      constructor: EventTarget,
+      //用于注册给定类型的事件处理程序
+      //接收两个参数:事件类型,用于处理该事件的函数
+      addHandler: function (type, handler) {
+        //查看是否由针对该类型的数组
+        if (typeof this.handlers[type] == "undefined") {
+          //没有则创建新数组
+          this.handlers[type] = [];
+        }
+        //将事件事件处理程序添加到数组末尾
+        this.handlers[type].push(handler);
+      },
+      //用于触发一个事件
+      //该方法接收一个单独的参数,是一个至少包含type属性的对象
+      fire: function (event) {
+        if (!event.target) {
+          //没有target属性,就设置target属性
+          event.target = this;
+        }
+        if (this.handlers[event.type] instanceof Array) {
+          //有事件数组
+          let handlers = this.handlers[event.type];
+          for (let i = 0, len = handlers.length; i < len; i++) {
+            //触发事件数组中的所有事件
+            handlers[i](event);
+          }
+        }
+      },
+      //用于注销某个事件类型的事件处理程序
+      //接收两个参数:事件类型,用于处理该事件的函数
+      removeHandler: function (type, handler) {
+        if (this.handlers[type] instanceof Array) {
+          let handlers = this.handlers[type];
+          let i = 0;
+          for (let len = handlers.length; i < len; i++) {
+            if (handlers[i] === handler) {
+              break;
+            }
+          }
+          handlers.splice(i, 1);
+        }
+      }
+    };
+
+    let DragDrop = (function () {
+      let dragdrop = new EventTarget(),
+        dragging = null,
+        diffX = 0,
+        diffY = 0;
+
+      function handleEvent(event) {
+        //获取事件和目标
+        event = event || window.event;
+        let target = event.target;
+        //缺定事件类型
+        switch (event.type) {
+          case "mousedown":
+            {
+              if (target.className.indexOf("draggable") > -1) {
+                dragging = target;
+                diffX = event.clientX - target.offsetLeft;
+                diffY = event.clientY - target.offsetTop;
+                dragdrop.fire({ type: "dargstart", target: dragging, x: event.clientX, y: event.clientY });
+              }
+              break;
+            }
+          case "mousemove":
+            {
+              if (dragging !== null) {
+                //assign location
+                dragging.style.left = (event.clientX - diffX) + "px";
+                dragging.style.top = (event.clientY - diffY) + "px";
+                dragdrop.fire({ type: "drag", target: dragging, x: event.clientX, y: event.clientY });
+              }
+              break;
+            }
+          case "mouseup":
+            {
+              dragdrop.fire({ type: "dragend", target: dragging, x: event.clientX, y: event.clientY });
+              dragging = null;
+              break;
+            }
+          default:
+            break;
+        }
+      }
+      // return {
+      //   enable: function () {
+      //     document.addEventListener("mousedown", handleEvent, false);
+      //     document.addEventListener("mousemove", handleEvent, false);
+      //     document.addEventListener("mouseup", handleEvent, false);
+      //   },
+      //   disable: function () {
+      //     document.removeEventListener("mousedown", handleEvent, false);
+      //     document.removeEventListener("mousemove", handleEvent, false);
+      //     document.removeEventListener("mouseup", handleEvent, false);
+      //   }
+      // }
+      dragdrop.enable = function () {
+        document.addEventListener("mousedown", handleEvent, false);
+        document.addEventListener("mousemove", handleEvent, false);
+        document.addEventListener("mouseup", handleEvent, false);
+      };
+      dragdrop.disable = function () {
+        document.removeEventListener("mousedown", handleEvent, false);
+        document.removeEventListener("mousemove", handleEvent, false);
+        document.removeEventListener("mouseup", handleEvent, false);
+      };
+      return dragdrop;
+    })();
+    document.ondragstart = function (ev) {
+      ev.preventDefault();
+    };
+    document.ondragend = function (ev) {
+      ev.preventDefault();
+    };
+    DragDrop.addHandler("dargstart", function (event) {
+      let status = document.querySelector("#status");
+      status.innerHTML = "开始拖拽元素id:" + event.target.id;
+    });
+    DragDrop.addHandler("drag", function (event) {
+      let status = document.querySelector("#status");
+      status.innerHTML += "<br/> 移动中元素id:" + event.target.id + "位置:(" + event.x + "," + event.y + ")";
+    });
+    DragDrop.addHandler("dragend", function (event) {
+      let status = document.querySelector("#status");
+      status.innerHTML += `<br/> 移动结束元素id: ${event.target.id} 位置:(X:${event.x},Y:${event.y})`;
+    });
+    DragDrop.enable();
+  </script>
+</body>
+
+</html>
