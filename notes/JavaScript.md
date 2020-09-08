@@ -1,4 +1,4 @@
-## 变量和常量
+# 变量和常量
 
 + 常量 (值不可以改变的) 和 变量
 + 变量
@@ -12,7 +12,7 @@
   + 常量一般用全大写，如 `const PI = 3.141592` ；
   + 使用易读的命名，比如 `userName` 或者 `shoppingCart`。
 
-### let 关键字 和 const 关键字
+## let 关键字 和 const 关键字
 
 + let命令用来声明变量，他的作用类似于var，
 
@@ -144,44 +144,7 @@
     2，函数里面的this，如果函数不是作为对象的方法运行，而是单纯作为函数运行，那么this会指向顶层对象，但是在严格模式下，this会返回undefined;
     ```
 
-## 运算符
-
-### 条件运算符：if 和 '?' 和 switch
-
-+  **if 语句**
-
-  + 当 if 语句当条件表达式，会将表达式转换为布尔值，当为 truthy 时执行里面代码。转换规则如：
-  + 数字 `0`、空字符串 `""`、`null`、`undefined` 和 `NaN` 都会被转换成 `false`。因为他们被称为 “falsy” 值。
-  + 其他值被转换为 `true`，所以它们被称为 “truthy”。
-
-+ **三元运算符**
-
-  + ```js
-    //A为条件结果为ture/false   B:A为ture就执行B否则就执行C    
-    //	A ？ B ：C (如果A为真执行B否则执行C)
-    var A = 1;
-    alert(A?B:C);
-    alert(A==1?A:"第三");	//输出1
-    ```
-
-+ **`switch`** 语句至少包含一个 `case` 代码块和一个可选的 `default` 代码块：
-
-  + ```js
-    let a = 2;
-    switch (a) {
-      case 1: // (*) 下面这两个 case 被分在一组
-      case 2:
-        console.log('case is 1 or 2!');
-        break;
-      case 3:{/* 包裹在大括号里可以避免 多个case中的let处于一个作用域内重复声明报错	*/
-        console.log('case is 3!');
-        break;
-      }
-      default:
-        console.log('The result is default.');
-        break;
-    }
-    ```
+# 运算符
 
 + 逻辑运算符
 

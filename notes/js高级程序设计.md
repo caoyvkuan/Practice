@@ -159,7 +159,9 @@
     + `-`主要用于表示负数
     + ![一元减](./images/一元减.png)
     
+
 ## 位操作符
+
 + 按位非（NOT）
     + 用一个 `~` 表示，执行的结果就是返回数值的反码
     + ![按位非](./images/按位非NOT.png)
@@ -259,45 +261,6 @@
 + 使用逗号除了可以在一条语句执行多个操作外
 + 还能用于赋值 ， 总是会返回表达式中的最后一项
 + `let num = (5, 1 ,4 ,8 ,0);  //num 的值为0`
-
-# 语句
-## if语句
-+ 在if语句中始终推荐使用代码块  即：{ code }
-## do-while
-+ 至少执行一次
-## while
-+ 先判断条件在执行
-## for语句
-+ for循环只是while循环的变体
-+ 将循环控制的表达式全部省略就会创建一个无线循环 `for(;;){ code }`
-+ 只给控制表达式实际上就把for循环转换成了while循环 `for(;i < count;){ code }`
-
-## for-in
-+ `for-in` 语句是一种精确的迭代语句，可以用来枚举对象的属性
-+ `for (property in expression) statement`
-+ `for(let propName in window){ document.write(propName) }`
-+ 在使用`for-in`循环前，先检测确认该对象的值不是`null`或`undefined`
-
-## lable语句
-+ ![lable](./images/lable.png)
-
-## break和continue
-+ `break和continue`语句用于在循环中精确的控制代码的执行
-    + `break` 会立即退出循环
-    + `continue` 会退出当前循环过程，返回循环顶部继续执行
-    
-## with语句
-+ 作用是将代码的作用域设置到一个特定的对象中
-+ 语法： `with (expression) statement;`
-+ ![with语句](./images/with语句.png)
-+ 严格模式下不允许使用
-+ 大量使用会导致性能下降，同时也会给代码调试造成滚男，因此在开发大型应用程序时，不建议使用
-
-## switch 语句
-+ ECMAScript中switch中可以使用任何数据类型，无论是字符串还是对象
-+ 每一个case的值不一定是常量，可以是变量，甚至是表达式
-+ ![switch1](./images/switch1.png)
-+ ![switch2](./images/switch2.png)
 
 # 函数
 + 在ECMAScript中函数在定义时不必指定是否返回值
@@ -443,7 +406,7 @@
     + 同时使用`unshift() 和 pop()` 方法可以从相反的方向来模拟队列
 + 重排序方法
     + `reverse() 和 sort()`
-        
+      
         + `reverse()`可以反转数组项的顺序
         
         + `sort()` 方法按升序排列数组项——即最小的值位于最前面,最大值排在后面
