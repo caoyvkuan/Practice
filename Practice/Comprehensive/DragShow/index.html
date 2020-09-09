@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DragShow</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body data-content="body">
+  <main>
+    <nav>
+      <!-- 文件选择按钮 -->
+      <div class="content-file">
+        <label for="file">
+          <p class="describe">选 择 显 示 文 件</p>
+          <p class="file-name">文件名:<span data-id="file-name"></span></p>
+        </label>
+        <input type="file" id="file" multiple >
+      </div>
+
+      <!-- 不知道放啥 -->
+      <div class="file-type">
+        
+      </div>
+
+      <!-- 功能菜单 -->
+      <div class="function">
+        <button class="list-show-direction" data-id="direction" title="下拉列表显示方向!">右</button>
+        <button type="button" data-id="dropswitch">功能:<span></span></button>
+        <div class="list"><!-- list-left -->
+          <button type="button" data-id="empty" title="清空">清空</button>
+          <button type="button" data-id="empty-background" title="清空背景">清空背景</button>
+          <button type="button" data-id="refresh" title="瀑布流刷新">瀑布流刷新</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 内容显示 -->
+    <div id="show" class="" data-content="view">
+      
+    </div>
+    <!-- 拖入提示 -->
+    <div class="dragshade" data-content="view"></div>
+
+    <!-- 消息提示框 -->
+    <div class="modal-box">
+      <h2 class="modal-title">标题</h2>
+      <p class="modal-content">内容</p>
+      <button type="button" class="but-Cancel" data-id="Cancel">Cancel</button>
+      <button type="button" class="but-ok" data-id="ok">OK</button>
+    </div>
+
+    <!-- 右键菜单 -->
+    <ul class="contextmenu">
+      <li data-id="set-background" title="设置盒子背景">设置盒子背景</li>
+      <li data-id="set-body-background" title="设置页面背景">设置页面背景</li>
+      <li data-id="empty" title="清空">清空</li>
+      <li data-id="empty-background" title="清空背景">清空背景</li>
+      <li data-id="refresh" title="瀑布流刷新">瀑布流刷新</li>
+    </ul>
+  </main>
+  <script src="./scipt.js"></script>
+  <script>
+    // let a = document.querySelector();
+    // a.style.backgroundImage
+    // window.onratechange
+  </script>
+</body>
+
+</html>
