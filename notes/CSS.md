@@ -1135,7 +1135,7 @@ filter: opacity(10%) blur(2px) sepia(35%);
 
 ### 常用单位
 
-1. PX
+1. PX    也叫css像素
 
    + px就是pixel像素的缩写，相对长度单位，网页设计常用的基本单位。像素px是相对于显示器屏幕分辨率而言的
 
@@ -1150,7 +1150,7 @@ filter: opacity(10%) blur(2px) sepia(35%);
           　　1. em的值并不是固定的；
                2. em会继承父级元素的字体大小
 
-3. rem
+4. rem
 
    + rem是CSS3新增的一个相对单位，rem是相对于HTML根元素的字体大小（font-size）来计算的长度单位
 
@@ -1175,7 +1175,7 @@ filter: opacity(10%) blur(2px) sepia(35%);
      - 如果这个属性根据它的font-size进行测量，则使用em
      - 其他的一切事物属性均使用rem
 
-4. vw、vh、vmax、vmin这四个单位都是基于视口
+5. vw、vh、vmax、vmin这四个单位都是基于视口
 
    1. vw是相对视口（viewport）的宽度而定的，长度等于视口宽度的`1/100`
 
@@ -1193,7 +1193,7 @@ filter: opacity(10%) blur(2px) sepia(35%);
       */
       ```
 
-5. 其他单位：
+6. 其他单位：
 
    1. **%**（百分比）
 
@@ -1220,7 +1220,7 @@ filter: opacity(10%) blur(2px) sepia(35%);
 
          缺点：兼容性差
 
-6. 常见问题
+7. 常见问题
 
    1. 假如使用em来设置文字大小要注意什么？
 
@@ -1784,7 +1784,7 @@ div{
 
 + 等比缩放布局   也叫 rem布局
 
-  #### viewport视口
++ viewport视口
 
   + visual viewport     可视视口  一般就是屏幕大小
 
@@ -1792,22 +1792,24 @@ div{
 
   + 一般显示会把很大的`layout viewport  ` 缩小倒 `visual viewport` 中,所以会显示得很小
 
-  + ```html
-    移动端布局设置 html
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
-    width 设置layout viewport 的宽度特定值     device-width设备宽度
-    height 设置layout viewport 高度特定值 一般不设置
-    initila-scale   设置页面初始缩放
-    minimun-scale   设置页面最小缩放
-    maximun-scale   设置页面最大缩放
-    user-scalable   设置页面能否缩放   on / off
-    viewport-fit-cover 针对苹果设备  将浏览器覆盖在功能键
-    ```
++ ```html
+  移动端布局设置 html
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+  width 设置layout viewport 的宽度特定值     device-width设备宽度
+  height 设置layout viewport 高度特定值 一般不设置
+  initila-scale   设置页面初始缩放
+  minimun-scale   设置页面最小缩放
+  maximun-scale   设置页面最大缩放
+  user-scalable   设置页面能否缩放   on / off
+  viewport-fit-cover 针对苹果设备  将浏览器覆盖在功能键
+  ```
 
 
 ## 媒体查询实现响应式
 
 ```css
+@media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2){
+    /*获取设备物理像素和设备独立像素的比值——主要用于适配移动设备*/}
 @media screen and (min-width: 50em){
     /*	@media 指令高数浏览器这是一个媒体查询
     	screen 告诉浏览器这里的规则只适用于屏幕类型而and(min-width) 这其中的规则只适用于50em以上的情况	*/
