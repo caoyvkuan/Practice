@@ -595,6 +595,11 @@
           startbut.onclick = function () {
             let m = ~~mine.value;
             let rc = ~~columns.value;
+            if(rc >= 40){
+              gameBox.style = 'place-content: start;';
+            }else{
+              gameBox.style = '';
+            }
             if (m <= 0) {
               game.clearMessage();
               game.messageAlert("一个地雷不要,你玩个锤子玩🔨!");
