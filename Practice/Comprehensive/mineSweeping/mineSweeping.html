@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ZH-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html, body { width: 100%; height: 100%; }
+    body, main, nav, div, img, button, p, label, ul, li, h1, h2, h3, h4, h5, h6, *::before, *::after { box-sizing: border-box; }
+    img { display: block; }
+    body, ul, li, p, h1, h2, h3, h4, h5, h6 { margin: 0; padding: 0 }
+    ul {list-style: none;}
+    :focus { outline: none;}
+
+
+    body{overflow: hidden;}
+    main {
+      max-width: 1500px;
+      margin: 30px auto;
+    }
+
+    nav {
+      height: 35px;
+      background-color: antiquewhite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+      font: 600 16px 'Fira Code','Source Code pro';
+
+      --height:30px;
+    }
+    .game-setting > label{
+      margin: 0 2px 0 5px;
+      user-select: none;
+    }
+    .game-input{
+      border:1px solid rgb(221, 183, 183);
+    }
+    #game-row,
+    #game-columns,
+    #mine{
+      width: 3rem;
+      height: calc(var(--height) - 5px);
+      font: inherit;
+      border: none;
+      background-color: transparent;
+    }
+    .game-start,
+    .game-over{
+      width: 100px;
+      height: var(--height);
+      margin-left: 20px;
+      font:inherit;
+      color:rgb(47, 0, 255);
+      border: none;
+      border-radius: 5px;
+      background-color: aqua;
+      box-shadow:0 0 5px 1px currentColor;
+      user-select: none;
+    }
+    .game-start:hover{
+      color:rgb(225, 0, 255);
+      background-color: rgb(251, 255, 0);
+    }
+    .game-over:hover{
+      color:rgb(233, 233, 121);
+      background-color: rgb(255, 0, 0);
+    }
+    .game-start:active,
+    .game-over:active{
+      box-shadow:inset 0 0 5px 2px currentColor;
+    }
+
+    /* 游戏盒子 */
+    .game-box {
+      max-height: 700px;
+      overflow: auto;
+      padding: 5px 20px;
+      display: grid;
+      gap: 5px;
+      grid-row: repeat;
+      place-content: start center;
+      place-items: center;
+      /* counter-increment: item; */
+      user-select: none;
+      font: 600 20px 'Dilan Whemsy';
+      border:5px solid;
+      border-image: linear-gradient(45deg, #CCFFFF, #FFCCCC) 10 30;
+    }
+    .game-box::-webkit-scrollbar-track{
+      background-color: red;
+    }
+
+    .game-box>div {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid black;
+      /* counter-increment: item-count; */
+      /* position: relative; */
+    }
+
+    .game-box>div:hover {
+      background-color: aqua;
+    }
+
+    /* .game-box>div::after {
+      width: auto;
+      display: block;
+      content: counter(item)'-'counter(item-count);
+      color: red;
+      position: absolute;
+      left: -600px;
+    } */
+    .game-box>div.zero,
+    .game-box>div.one,
+    .game-box>div.two,
+    .game-box>div.three,
+    .game-box>div.four,
+    .game-box>div.five,
+    .game-box>div.six,
+    .game-box>div.seven,
+    .game-box>div.eight{
+      border-color: #d9d9d9;
+      background-color: #d9d9d9;
+    }
+    .game-box>div.one{color:#0332fe;}
+    .game-box>div.two{color:#019f02;}
+    .game-box>div.three{color:#ff2600}
+    .game-box>div.four{color:#93208f;}
+    .game-box>div.five{color:#ff7f29;}
+    .game-box>div.six{color:#ff3fff;}
+    .game-box>div.seven{color:#3fffbf;}
+    .game-box>div.eight{color:#22ee0f;}
+    .game-box>div.mine{
+      border-color: #d9d9d9;
+      background: #d9d9d9 url('./mine.png') no-repeat;
+      background-position: center;
+      background-size: 20px 20px;
+    }
+    .game-box>div.click-mine{
+      background-color: red;
+    }
+    .flag{
+      background: url('./flag.png') no-repeat;
+      background-position: center;
+      background-size: 20px 20px;
+    }
+
+    /* 信息栏 */
+    .info{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 10px auto;
+    }
+    .game-state{
+      width: auto;
+      padding:5px;
+      margin-right: 60px;
+      border:5px solid;
+      border-image: linear-gradient(45deg, #CCFFFF, #FFCCCC);
+      border-image-slice: 10 30;
+      background-image: linear-gradient(45deg, #ff00ff, #00ffff,
+        #CCFFFF,  #FFCCCC, #6af5f5, #dbec76),
+        linear-gradient(45deg, #ff00ff, #00ffff,
+        #CCFFFF,  #FFCCCC, #6af5f5, #dbec76);
+      -webkit-background-clip: text;
+      background-clip: text,text;
+      background-size:200% 200%,200% 200%;
+      color: transparent;
+      font: bold 20px 'Dilan Whemsy';
+      user-select: none;
+      animation: backmove 1s infinite linear;
+    }
+    .game-state:hover{border-image: linear-gradient(45deg, #f00, #f0f) 10 30; }
+    @keyframes backmove {
+      0%{background-position: 0 0,200% 200%;}
+      100%{background-position: -200% 200%,0 0;}
+    }
+    .twinkle{
+      border-image: none;
+      animation: twinkle 1s infinite linear alternate;
+    }
+    @keyframes twinkle {
+      0%{border-color: #f00; color: #0f0;}
+      20%{border-color: #f0f; color: #00f;}
+      40%{border-color: #0ff; color: #ff0;}
+      60%{border-color: #ff0; color: #0ff;}
+      80%{border-color: #00f; color: #f0f;}
+      100%{border-color: #0f0; color: #f00;}
+      /* 0%{border-image-source: linear-gradient(45deg, #f00, #f0f);}
+      20%{border-image-source: linear-gradient(45deg, #0ff, #00f);}
+      40%{border-image-source: linear-gradient(45deg, #ff0, #0f0);}
+      60%{border-image-source: linear-gradient(45deg, #fff, #000);}
+      80%{border-image-source: linear-gradient(45deg, #fc0cac, #da3ebe);}
+      100%{border-image-source: linear-gradient(45deg, #d9d9d9, #ffc9c9);} */
+    }
+    .surplusMine {
+      width: max-content;
+      padding:5px;
+      border: 1px solid black;
+      text-align: center;
+      margin-left: 60px;
+    }
+  </style>
+  </head>
+  
+  <body>
+    <main id="game-ui">
+      <nav class="game-setting">
+        <label for="game-row">游戏规格:</label>
+        <div class="game-input">
+          <input type="text" id="game-row" value="10" list="row">
+          <datalist id="row">
+            <option value="10"></option>
+            <option value="15"></option>
+            <option value="20"></option>
+            <option value="25"></option>
+          </datalist>
+          <label for="game-columns">*</label>
+          <input type="text" id="game-columns" disabled value="10">
+        </div>
+        <label for="mine">地雷数量:</label>
+        <input type="text" id="mine" value="15">
+        <button type="button" class="game-start">重新开始</button>
+        <button type="button" class="game-over">放弃</button>
+      </nav>
+      <div class="game-box">
+  
+      </div>
+      <div class="info">
+        <div class="game-state">游戏进行中!</div>
+        <div class="surplusMine">剩余雷数:<span class="mineNum"></span></div>
+      </div>
+    </main>
+  
+    <script>
+      function Mine(rowColumn, mineNum) {
+        this.rowColumn = rowColumn; //行和列
+        this.mineNum = mineNum; //雷数
+
+        this.squares = []; //所有单元格的位置
+        this.mine = []; //雷的位置
+        this.cell = {};  //单元格对象
+        this.surplusMine = mineNum; //剩余雷数
+        this.flag = [];   //标中的旗子
+        this.allRight = false; //找出的是否全是雷
+        this.classColor = ['zero', 'one', 'two', 'three', 'four', 'five', 'six',
+          'seven', 'eight', 'mine', 'click-mine']; //颜色类数组
+
+        this.parent = document.querySelector('.game-box');
+        this.surplus = document.querySelector('.mineNum');
+      }
+      Mine.prototype = {
+        constructor: Mine,
+
+        //创建格子
+        createDom: function () {
+          let dom = '',
+            len = this.rowColumn;
+          //双重循环是为了取行和列
+          for (let i = 1; i <= len; i++) {
+            // this.squares[i-1] = [];
+            for (let j = 1; j <= len; j++) {
+              //保存行列坐标
+              this.squares.push(i + '-' + j);
+              dom += `<div data-id="${i}-${j}"></div>`;
+            }
+          };
+          //设置网格布局
+          // debugger
+          let str = `grid-template-rows: repeat(${this.rowColumn}, 32px);
+          grid-template-columns: repeat(${this.rowColumn}, 32px);`
+          // console.log(this.parent.style);
+          this.parent.style.cssText += str;
+          this.parent.innerHTML = dom;
+        },
+
+        //创建随机雷
+        createMine: function () {
+          //拷贝数组  不用拷贝
+          // let arr = Array.apply(null, this.squares);
+          //随机排序数组
+          this.squares.sort(function () { return 0.5 - Math.random() });
+          //截取雷的位置数组   并将元数组剔除雷
+          this.mine = this.squares.splice(0, this.mineNum);
+        },
+
+        //取得单元格旁边的八个单元格
+        calcEight: function (cell) {
+          let r = cell.row,
+            c = cell.column,
+            calcEight = [];
+          /*
+          *  r-1,c-1   r-1,c   r-1,c+1
+          * r,c-1     r,c     r,c+1
+          * r+1,c-1   r+1,c   r+1,c+1
+          */
+          // debugger;
+          for (let i = r - 1; i <= r + 1; i++) {
+            for (let j = c - 1; j <= c + 1; j++) {
+              let str = i + '-' + j;
+              //筛选存在且不为自身的
+              if (this.cell[str] && this.cell[str] != cell) {
+                calcEight.push(str);
+              }
+            }
+          }
+          cell.roundCell = calcEight;
+        },
+
+        //为单元格对象添加属性
+        cellAddProperty: function () {
+          //创建所有单元格的属性
+          for (let i = this.squares.length - 1; i >= 0; i--) {
+            let rc = this.squares[i].split('-');
+            this.cell[this.squares[i]] = { mine: false, value: 0, row: ~~rc[0], column: ~~rc[1], show: false };
+          }
+
+          //取得周围的格子,并获取自身对应的dom元素
+          for (let k in this.cell) {
+            this.calcEight(this.cell[k]);
+            let div = document.querySelector(`[data-id="${k}"]`);
+            div.classList.add
+            //隐藏位置信息
+            div.pos = div.dataset.id;
+            div.removeAttribute('data-id');
+            this.cell[k].dom = div;
+          }
+
+          //创建雷
+          this.createMine();
+
+          //更新单元格是否为雷
+          for (let i = this.mine.length - 1; i >= 0; i--) {
+            let cell = this.cell[this.mine[i]];
+            cell.mine = true;
+            //更新雷旁边单元格的数值
+            for (let j = cell.roundCell.length - 1; j >= 0; j--) {
+              this.cell[cell.roundCell[j]].value++;
+            }
+          }
+        },
+
+        //渲染数据用于检查
+        // showValue: function () {
+        //   for (let k in this.cell) {
+        //     if (this.cell[k].mine) {
+        //       this.cell[k].dom.innerText = '雷';
+        //     } else {
+        //       this.cell[k].dom.innerText = this.cell[k].value;
+        //     }
+        //   }
+        // },
+
+        //入口
+        init: function () {
+          //创建dom
+          this.createDom();
+
+          //创建单元格对象属性
+          this.cellAddProperty();
+
+          //更新游戏状态
+          Nice.gameState.innerText = '游戏进行中!'
+
+          //标识剩余雷数
+          this.surplus.innerText = this.surplusMine;
+          // this.showValue();
+          // console.log(this.mine);
+        },
+
+
+        //递归展开
+        zeroshow: function (cell) {
+          // debugger;
+          cell.dom.classList.add(this.classColor[cell.value]);
+          cell.show = true;
+          for (let i = cell.roundCell.length - 1; i >= 0; i--) {
+            let c = this.cell[cell.roundCell[i]];
+            if (c.mine || c.show || c.flag) { continue; }
+            if (c.value == 0) {
+              this.zeroshow(c);
+            } else {
+              c.show = true;
+              this.showNum(c);
+            }
+          }
+        },
+
+        //显示数字
+        showNum: function (cell) {
+          cell.dom.innerText = cell.value;
+          cell.dom.classList.add(this.classColor[cell.value]);
+        },
+
+        //显示雷
+        showMine: function () {
+          for (let i = this.mine.length - 1; i >= 0; i--) {
+            let c = this.cell[this.mine[i]];
+            c.show = true;
+            c.dom.className = this.classColor[this.classColor.length - 2];
+          }
+        },
+
+        //游戏结束
+        gameOver: function (cell) {
+
+          //显示所有的雷
+          this.showAll(true);
+
+          //点种的雷标红
+          if (cell) {
+            cell.dom.classList.add(this.classColor[this.classColor.length - 1]);
+          }
+          //停止游戏
+          Nice.gameOver = true;
+          //更新游戏状态
+          Nice.gameState.innerText = '游戏结束!';
+          Nice.clearMessage();
+          Nice.messageAlert('你失败了!');
+        },
+
+        //展开所有格子
+        showAll: function (showMine) {
+
+          //是否展开雷
+          if (showMine) {
+            this.showMine();
+          }
+
+          //展开所有格子
+          for (let i = this.squares.length - 1; i >= 0; i--) {
+            let c = this.cell[this.squares[i]];
+            if (c.mine || c.show) { continue; }
+            if (c.value == 0) {
+              c.dom.classList.add(this.classColor[c.value]);
+            } else {
+              this.showNum(c);
+            }
+          }
+        },
+
+        //点击事件
+        leftClick: function (domId) {
+          let cell = this.cell[domId];
+          if (cell.show || cell.flag) { return; }
+          cell.show = true;
+          if (cell.mine) {
+            this.gameOver(cell);
+          } else {
+            if (cell.value == 0) {
+              this.zeroshow(cell);
+            } else {
+              this.showNum(cell);
+            }
+          }
+          console.log(cell.dom);
+        },
+
+        rightClick: function (domId) {
+          let cell = this.cell[domId];
+          if (cell.show) { return; }
+          if (cell.flag) {
+            cell.flag = false;
+            //从旗子数组里面删除
+            this.flag.splice(this.flag.indexOf(domId), 1);
+            cell.dom.classList.remove('flag');
+            this.surplus.innerText = ++this.surplusMine;
+          } else {
+            cell.flag = true;
+            //加入旗子数组
+            this.flag.push(domId);
+            cell.dom.classList.add('flag');
+            // console.log(cell.dom);
+            this.surplus.innerText = --this.surplusMine;
+          }
+
+          //判断胜负
+          if (this.surplusMine == 0) {
+            for (let k in this.flag) {
+              if (!this.cell[this.flag[k]].mine) {
+                this.gameOver();
+                return;
+              }
+            }
+            this.showAll();
+            //停止游戏
+            Nice.gameOver = true;
+            //更新游戏状态
+            Nice.gameState.innerText = '游戏胜利!';
+            Nice.clearMessage();
+            Nice.messageAlert('你胜利了!');
+          }
+        }
+      };
+
+      let Nice = (function () {
+        let game = {};
+        game.gameOver = false;
+        let startbut = document.querySelector('.game-start'),
+          row = document.querySelector('#game-row'),
+          columns = document.querySelector('#game-columns'),
+          mine = document.querySelector('#mine'),
+          gameBox = document.querySelector('.game-box'),
+          gameOver = document.querySelector('.game-over');
+        game.gameState = document.querySelector('.game-state');
+        game.timeId = 0; //计时器id
+
+        function startGame(r, m) {
+          game.clearMessage();
+          game.play = new Mine(r, m);
+          game.play.init();
+        }
+
+        function play(ev) {
+          // console.log(ev.target);//事件目标
+          // console.dir(ev);//事件对象
+          // console.log('按下的键'+ev.which);
+          let target = ev.target;
+          switch (true) {
+            case ev.which == 1: {
+              if (target.pos) {
+                //游戏结束后事件不发生
+                if (game.gameOver) { return; }
+                game.play.leftClick(target.pos);
+              }
+              break;
+            }
+            case ev.which == 3: {
+              if (target.pos) {
+                //游戏结束后事件不发生
+                if (game.gameOver) { return; }
+                game.play.rightClick(target.pos);
+              }
+              break;
+            }
+          }
+        }
+
+        function change(ev) {
+          console.dir(ev);
+          // debugger;
+          if (ev.type == 'keypress') {
+            /\d/.test(ev.key) ? ev.key : ev.preventDefault();
+          }
+          switch (true) {
+            case ev.target == row: {
+              // debugger;
+              columns.value = row.value;
+              mine.value = ~~(columns.value * columns.value * 0.15);
+              break;
+            }
+            case ev.target == mine: {
+              if (mine.value > (columns.value * columns.value)) {
+                game.clearMessage();
+                game.messageAlert('地雷的数量不能大与游戏规格!');
+                mine.value = 15;
+              }
+              break;
+            }
+          }
+        }
+
+        //提示提前取消
+        game.clearMessage = function () {
+          clearTimeout(game.timeId);
+          this.gameState.classList.remove('twinkle');
+        };
+        //消息提示
+        game.messageAlert = function (str) {
+          // debugger;
+          this.gameState.classList.add('twinkle');
+          let message = this.gameState.innerText,
+            that = this;
+          if (str) {
+            this.gameState.innerText = str;
+          }
+
+          game.timeId = setTimeout(function () {
+            that.gameState.classList.remove('twinkle');
+            that.gameState.innerText = message;
+          }, 3000);
+        }
+
+        //事件
+        game.start = function () {
+          //开始游戏
+          startGame(10, 15);
+          startbut.onclick = function () {
+            let m = ~~mine.value;
+            let rc = ~~columns.value;
+            if (m <= 0) {
+              game.clearMessage();
+              game.messageAlert("一个地雷不要,你玩个锤子玩🔨!");
+              return;
+            }
+            startGame(rc, m);
+            game.gameOver = false;
+          };
+          //放弃游戏
+          gameOver.onclick = function () {
+            game.play.showAll(true);
+            game.gameState.innerText = '游戏结束';
+            game.gameOver = true;
+          }
+
+          //绑定事件
+          document.addEventListener('mousedown', play, false);
+          document.addEventListener('change', change, false);
+          document.addEventListener('keypress', change, false);
+          document.addEventListener('keyup', change, false);
+          //取消右键菜单
+          // document.addEventListener('contextmenu',function(e){e.preventDefault();},false);
+          document.oncontextmenu = function (e) { return false; };
+          document.ondragstart = function (e) { return false; };
+        }
+        return game;
+      })();
+      // let a = new Mine(10, 25);
+      // a.init();
+      Nice.start();
+    </script>
+  </body>
+  
+  </html>

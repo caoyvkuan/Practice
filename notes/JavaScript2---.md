@@ -154,6 +154,8 @@
 #### 自定义属性
 
 + ```HTML
+  style属性赋值加等用   style.cssTexy += 'pro';
+  
   ☞ 自定义属性  			（小案例分析体验自定义属性）
   data-自定义属性名
   备注：
@@ -180,9 +182,9 @@
   	 		 nav.dataset.test="abc";
   	 		 nav.dataset.TestAbc="123";	html中转化为 data-test-abc
   	 		 nav.dataset["hh"]="呵呵";	会互相转化
-  </script>
+</script>
   ```
-
+  
   
 
 #### 节点操作

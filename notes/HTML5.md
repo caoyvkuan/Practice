@@ -191,6 +191,28 @@ myHero {
 
 ## 表单元素
 
++ 表单域
+  + Action    
+    + 在表单收集到信息后，需要将信息传递给服务器进行处理，action属性用于指定接收并处理表单数据的服务器程序的url地址
+  + method
+    + 用于设置表单数据的提交方式，其取值为get或post
+  + name
+    + 用于指定表单的名称，以区分同一个页面中的多个表单
+
+```html
+<form action="url地址" method="提交方式" name="表单名称">
+  各种表单控件
+</form>
+```
+
++ 表单属性
+  + placeholder		占位符
+  + autofocus	  页面加载时元素应该自动获得焦点
+  + multiple	   多选
+  + autocomplete     自动完成功能
+  + required         必填项
+  + accesskey     规定激活（使元素获得焦点）元素的快捷键
+
 + input元素
 
   + 一般配合lable标签使用
@@ -212,12 +234,13 @@ myHero {
     <input type="submit" value="Send">	提交按钮	value 按钮上显示的文字
     <input type="reset">	重置按钮
     <input type="hidden">	隐藏域
+    <input type="radio" name="radio"> 单选按钮  需要name多个使用同一个name才能实现单选
     type="email"	邮箱地址	只能输入合法的电子邮箱
     type="url"		网址
     type="tel"		电话
     type="search" 	搜索框 普通文本类型	type="text"
     type="color"	颜色选择器
-    type="date"		日期选择控件
+    type="date"		日期选择控件   type="datetime"
     type="month"	年和月份	type="week"	年和第几周		type="time"		显示时间
     radio:	单选
     	属性:
@@ -248,6 +271,21 @@ myHero {
 + **output**
 
   + 定义不同类型的输出，比如脚本的输出。
+
++ **datalist**  候选列表  配合输入框使用
+
+  + ```html
+    <input list="browsers">
+    <datalist id="browsers">
+        <option value="Internet Explorer"></option>
+        <option value="Firefox"></option>
+        <option value="Chrome"></option>
+        <option value="Opera"></option>
+        <option value="Safari"></option>
+    </datalist>
+    ```
+
+    
 
 + 自定义验证提示文本
 
@@ -308,6 +346,8 @@ myHero {
 
 
 # 媒体元素
+
+## Audio
 
 ```html
 <audio>	音频</audio>
@@ -442,6 +482,9 @@ video.playbackRate=2; 	2倍播放速度
 ## 全局属性
 
 + **disabled**属性可以应用实现禁用
++ **title**  鼠标悬停提示文本
++ **style**  行内样式
++ **id  |  class**
 + **hidden**隐藏
 + **accesskey**设置访问元素的键盘快捷键
   + `accesskey="h"`
@@ -451,6 +494,7 @@ video.playbackRate=2; 	2倍播放速度
   + Firefox:    [ALT] [SHIFT] + *accesskey*
 + **contenteditable**规定是否可编辑元素的内容。
   + `contenteditable="true|false"`
++ **contextmenu**  规定元素的上下文菜单。上下文菜单在用户点击元素时显示。
 + **data-name**用于存储页面的自定义数据
 + **dir** 设置元素中内容的文本方向。`dir = " ltr | rtl | auto"`
 + **draggable**指定某个元素是否可以拖动`draggable="true|false|auto"`

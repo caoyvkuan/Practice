@@ -259,6 +259,12 @@
 + **filter**
   + **invert**：反转输入图像。值定义转换的比例。100%（或`1`）将完全转换：黑色变为白色，白色变为黑色，其它颜色类似。
   + **hue-rotate**：`hue-rotate`可以帮助我们处理非黑白的其它颜色，色调旋转180度，确保网页的颜色主题不改变，而只是削弱它的颜色。这种做法唯一的缺点是：它还会反转网页中所有的图像。因此，需要将页面中所有的图像添加相同的规则，以修复这个问题。
++ **counter**   计数器,主要配合`::before 和 ::after 的 content属性的counter()使用`
+  + `counter-reset`
+    + 重置计数器  `counter-reset:name 2;` 将name的计数器初始化为`2`,默认初始化值为 0 
+  + `counter-increment`
+    + 选择递增的计数器 `counter-increment:name 2;` 每次计数加2, 不写默认为  1
+  + 可实现为子元素计数的效果
 
 ## 过度
 
@@ -493,6 +499,13 @@ background-position
 2. 渐变的方向
 3. 渐变的范围
 在渐变前添加前缀repeagting重复渐变效果	repeagting-linear-gradient()
+background: repeating-linear-gradient(
+      45deg,
+      yellow 0px,
+      yellow 40px,
+      black 40px,
+      black 80px
+    );
 
 background:  linear-gradient(
     to right,/*	方向支持deg  0deg在下  正值顺时针旋转	*/
@@ -995,18 +1008,19 @@ filter: opacity(10%) blur(2px) sepia(35%);
 
     + `justify-content 水平方向   align-content 垂直方向`
     + 是整个内容区域在容器里面的位置    在网格没有铺满容器的情况下有效
-    + 取值: `stretch(默认) | start | end | center | space-between | space-around | space-evenly`
+      + 取值: `stretch(默认) | start | end | center | space-between | space-around | space-evenly`
     + 简写 :`place-content: <align-content> <justify-content>`
 
 + 子项属性
 
   + n行m列的父网格容器右 n+1根水平网格线   m+1根垂直网格线
-  + `grid-column-start:2;` 和 `grid-column-end:3;`  决定列的起始位置和结束位置
-  + `grid-row-start:2;` 和 `grid-row-end:3;`         决定行的起始位置和结束位置
-  + `grid-column-end 和 grid-row-end`    这2个属性有  `span 1` 值    表示要占几个网格
-  + `grid-column: 2 / 3 ; 是 grid-column-start:2;  和 grid-column-end:3;`  的简写
-  + `grid-row: 2 / span 1; 是 grid-row-start:2; 和 grid-row-end: span 1;`  的简写
-  + `grid-area:3 / 2 / 4 / 4 ;` 
+    + `grid-column-start:2;` 和 `grid-column-end:3;`  决定列的起始位置和结束位置
+    + `grid-row-start:2;` 和 `grid-row-end:3;`         决定行的起始位置和结束位置
+    + `grid-column-end 和 grid-row-end`    这2个属性有  `span 1` 值    表示要占几个网格
+    + `grid-column: 2 / 3 ; 是 grid-column-start:2;  和 grid-column-end:3;`  的简写
+    + `grid-row: 2 / span 1; 是 grid-row-start:2; 和 grid-row-end: span 1;`  的简写
+  + 子元素占据的位置一般由父元素规划区域子元素选择就好,
+  + `grid-area:3 / 2 / 4 / 4 ;`  这个比上面的方法好
     + 第一个值是水平的起始位置
     + 第二个值是垂直的起始位置
     + 第三个值是水平的结束位置
