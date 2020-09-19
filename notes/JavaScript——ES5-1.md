@@ -12,13 +12,37 @@
 # 数据类型
 
 + 基本类型
+  + `number` 
+  + `bigint` 
+  + `string` 
+  + `boolean` 
+  + `null` 
+  + `undefined` 
 + 引用类型
+  + `object`
 + 内置特殊类型
 + 相等性判断
++ 数据类型判断
+
++ 复杂数据类型
+  + Array
+  + RegExp
+  + Date
+  + Function
+
++ `symbol` 
+
++ JavaScript 是一种 **「弱类型」** 或者说 **「动态语言」**。这意味着你不用提前声明变量的类型，在程序运行过程中，类型会被自动确定。这也意味着你可以使用同一个变量保存不同类型的数据
 
 ## 基本类型
 
 + `Boolean、Number、String、null、undefined`
+
++ `number` 用于任何类型的数字：整数或浮点数，在 ±2 范围内的整数。
++ `string` 用于字符串：一个字符串可以包含一个或多个字符，所以没有单独的单字符类型。
++ `boolean` 用于 `true` 和 `false`。
++ `null` 用于未知的值 —— 只有一个 `null` 值的独立类型。
++ `undefined` 用于未定义的值 —— 只有一个 `undefined` 值的独立类型。
 
 + 前三种基本类型都有类型对象，既可以通过类型对象创建对应的数据类型
 
@@ -37,7 +61,7 @@
         + 任何对象
     
     + 转换为`false`
-        + `""` 空字符串
+        + `""` 空字符串  注意空格不属于空字符串
         + `0 和 NaN` 
         + `null`
         + `undefined`
@@ -118,25 +142,23 @@
 
 + 数值类型转换
 
+  + 一元运算符 `+`		`const age = +"22"; // 22`
   + `Number()`
+    + `const age = Number("22"); // 22`
+    + `Number.parseFloat("22");  // 22`
+    + `Number.parseInt("22");  // 22`
 
     + `Boolean`值,`true和false转换成 1 和 0`
-
+    + 转换日期 `Number(date) 和 date.getTime() 效果一样`
     + 如果是数值,只是简单的传入和返回
-
     + `null` 返回`0`
-
     + `undefined` 返回 `NaN`
-
     + 对象就调用  valueOf()方法    转换为NaN则调用对象的toString() 方法
-
     + 如果是字符串
-
       + 字符串只包含数字(包括前面带正号或符号的情况),按十进制转换,前导的0会被忽略
-
       + 小数转换为浮点数
-
       + 十六进制也会转化为相同大小的十进制数
+      + 自动转换 加号连接字符串 ， 减号转化数值计算
 
 ```js
   Number("Hello world!");    //NaN
@@ -190,12 +212,23 @@
     + `null和undefined`没有该方法
     + 大多数情况调用该方法不必传参数,但是在数字调用该方法时可以传递一个参数为进制数
   + `String()`   字符串转化
+    + 将 **「其他类型数据（任何类型的数字，字母，布尔值，对象）」** 转换为 String 类型
     + 在不知道值是不是 `null 或 undefined` 时可以调用该函数
     + 这个函数能将任何类型的值转换为字符串 
     + 规则如下:
       + 如果值有 `toString()`方法,则调用该方法(没有参数)并返回相应的结果
       + 如果是null 就返回 "null"
       + 如果是undefined 则返回 "undefined"
+```js
+  String(123);   // "123"
+  // Number方法toString()/toExponential()/toFixed()/toPrecision() 也有同样效果。
+  String(false); // "false"
+  // Boolean方法 toString() 也有同样效果。
+  String(new Date()); // "Sun Jun 07 2020 21:44:20 GMT+0800 (中国标准时间)"
+  // Date方法 toString() 也有同样效果。
+  String(leo);
+```
+
   + `split()`
     + 传入一个字符串，按照传入的字符串将使用方法的字符串分割为数组并返回
   + `join`
@@ -203,42 +236,145 @@
   + `replace` 替换
     + `replaceAll` 替换所有
 
+### null 与 undefined
++ 对于其他比较，它们会先转换位数字：`null` 转换为 `0` ， `undefied` 转换为 `NaN` 。
++ `unll 等于 undefined 但是不全等`
 
++ undefined类型		(变量或对象以声明但 	未被赋值 | 初始化	| 对象属性不存在)
 
-## Object类型
+## 引用类型
++ Object
++ Array
 
-+ 创建对象 `let o = new Object();`
-  + `Constructor` 保存着创建当前对象的构造函数
-  + `hasOwnproprety(propertyName)` 用于检车给定属性在当前对象的示例中是否存在,属性必须是字符串
-  + `isPrototypeOf(object)` 用于检查传入的对象是否是另一个对象的原型
-  + `propertyIsEnumerable(propertyName)` 用于检查给定属性是否能够使用 `for-in`语句来枚举,属性必须是字符串
-  + `toLocaleString()` 返回对象的字符串表达式,该字符串与执行环境的地区对应
-  + `toString()` 返回对象的字符串表示
-  + `valueOf()` 返回对象的字符串、数值或布尔值表示。通常与`toString()`方法的返回值一样
+### Object类型
 
-# 操作符
++ 创建对象 `let o = new Object();` 使用new关键字   Object的构造函数
++ `let person = { };`       使用对象字面量
+  + 括号里不写属性方法，可以定义包含默认属性和方法的对象
+  + 在使用字面量创建时不会调用object构造函数
 
-+ 数据类型判断操作符
-+ 一元操作符
-+ 1 + 2 运算式中包含 2 个运算元，因此也称该运算式中的加号  + 为 「二元运算符。」
-+ 在 +18 中的加号 + 对应只有一个运算元，则它是 「一元运算符」 。
-+ 运算优先级
++ `Constructor` 保存着创建当前对象的构造函数
++ `hasOwnproprety(propertyName)` 用于检车给定属性在当前对象的示例中是否存在,属性必须是字符串
++ `isPrototypeOf(object)` 用于检查传入的对象是否是另一个对象的原型
++ `propertyIsEnumerable(propertyName)` 用于检查给定属性是否能够使用 `for-in`语句来枚举,属性必须是字符串
++ `toLocaleString()` 返回对象的字符串表达式,该字符串与执行环境的地区对应
++ `toString()` 返回对象的字符串表示
++ `valueOf()` 返回对象的字符串、数值或布尔值表示。通常与`toString()`方法的返回值一样
 
-## 数据类型判断操作符
+### Array
 
-+ **typeof** 操作符
++ ECMAScript中数组是动态可调的，可以随着数据的添加自动增长以容纳新增数据
 
++ 创建方法
+
+  + `let colors = new Array()`  也可省略new关键字
+  + `let colors = ["red","blue","green"]` 使用数组字面量表示法
+    + 在使用字面量创建时不会调用Array构造函数
+
++ 特点
+
+  + 使用超过数组长度的索引时数组会自动增加到对应的长度
+  + length属性不是只读的，可以向数组末尾移除向或添加新项
+    + `arr.length = 4;` 设置数组的长度会把多的项删除，少的话就会新增空项undefined值
+  + 数组最多可以包含4294967295个项
+
++ 检测数组
+
+  + 对于一个网页或者一个全局作用域， `instanceof`操作符就能得到结果
+    + 但对于2个或以上，因为存在不同版本的Array构造函数就得不到想要的结果
+  + ES5 提供了 `Array.isArray()`方法检测某个值到底是不是数组，而不管是在那个全局环境创建的
+    + `Array.isArray(value)`
+
++ 转化方法
+
+  + 所有对象都具有 `toLocaleString()、toString()、valueOf()`方法
+    + 数组的 `toString()`方法会返回由数组中每个值的字符串拼接而成的一个以逗号分隔的字符串
+    + `valueOf()` 方法返回的还是数组
+    + `toLocaleString()`方法返回类似
+    + `join( " | " )` 方法可以设置分隔符
+
++ 栈方法
+
+  + ECMAScript为数组提供了 `push() 和 pop()`方法
+  + 栈的访问规则是LIFO(Last-In-First-Out,后进先出)的数据结构，也就是最新添加的项最早被移除
+  + 栈中项的插入（叫做推入）和移除（叫做弹出），只发生在一个位置——栈的顶部
+  + `push()` 可以接受任意数量的参数，把他们添加到数组结尾，并返回修改后数组的长度
+  + `pop()` 方法则从数组末尾移除最后一项，减少数组的length值，返回返回移除的项
+
++ 队列方法
+
+  + 队列的数据结构访问规则是FIFO(First-In-First-Out,先进先出)。队列在列表的末端添加项，从列表的前端移除项
+  + `push()`方法还是完成添加的工作
+  + `shift()` 方法移除数组的第一个项并返回该项
+  + `unshift()` 方法能在数组前端添加任意个项并返回数组长度。
+  + 同时使用`unshift() 和 pop()` 方法可以从相反的方向来模拟队列
+
++ 重排序方法
+
+  + `reverse() 和 sort()`
+
+    + `reverse()`可以反转数组项的顺序
+
+    + `sort()` 方法按升序排列数组项——即最小的值位于最前面,最大值排在后面
+      + 此方法可以接收一个比较函数作为参数
+      + 该函数 接收两个参数, 第一个参数位于应该位于第二个 `之前` 则返回一个负数,相等返回 0 , `之后` 返回一个正数
+
+```js
+  `sort()` 方法会调用每个数组项的 `toString()`转型方法，然后比较得到的字符串，即使数组的每一项都是数值，该方法比较的也是字符串
+  升序排列
+  arr.sort(function(a,b){return a - b});
+  //升序函数
+  function(a,b){
+    if(a < b){
+      return -1;
+    }else if(a > b){
+      return 1;
+    }else{
+      return 0;
+    }
+  }
+  降序排列
+  arr.sort(function(a,b){return b - a});
+```
+
+    + 
+
+## 内置特殊类型
++ Array
++ RegExp
++ Date
++ Function
+
+## 数据类型判断
+
++ typeof
+  + 主要用于判断基本类型
++ instanceof
+
+### typeof
+
++ **typeof** 操作符 **检测数据类型**
++ 两种形式：`typeof x` 或者 `typeof(x)`。		以字符串的形式返回类型名称，例如 `"string"`。
++ `typeof null` 会返回 `"object"` —— 这是 JavaScript 编程语言的一个错误，实际上它并不是一个 `object`。
   + 适用于基本数据类型判断
-  + `undefined` 如果这个值未定义
+  + `undefined` 如果这个值未定义  对初始化的变量使用会返回  `undefined` 
   + `boolean` 如果这个值是布尔值
   + `string` 如果这个值是字符串
   + `number` 如果这个值是数值
   + `object` 如果这个值是对象或是null
   + `function` 如果这个值是函数
 
-+ typeof 对初始化的变量使用会返回  `undefined` 
+```js
+  NaN 会返回 namber
+  typeof 10n   // "bigint"
+  typeof Symbol("id") // "symbol"
+  typeof [1,2,3,4]    // "object"
+  typeof Math  // "object"  (1) Math 是一个提供数学运算的内建 object。
+  typeof null  // "object"  (2) JavaScript 语言的一个错误，null 不是一个 object。null 有自己的类型，它是一个特殊值。
+  typeof alert // "function"  (3) alert 在 JavaScript 语言中是一个函数。
+```
 
-+ 对未声明的变量使用同样会返回 `undefined`
+
 
 + `null` 表示一个空的对象指针, 这也是使用`typeof` 检测会返回`object`的原因
 
@@ -247,6 +383,22 @@
 ```js
   null == undefined  /* true */
 ```
+
+### instanceof
+
++ 判断对象的构造函数 来确定类型
++ `result = letiable instanceof constructor`
++ 如果变量给定引用类型的实例，那么`instanceof`操作符就会返回`true`
++ 所有引用类型的值都是 Object 的实例， 所以判断 Object 是构造函数时都会返回 true
++ 判断基本类型始终会返回 false 因为基本类型不是对象
++ 但有两个全局作用域的情况判断不会很准确
+
+# 操作符
+
++ 一元操作符
++ 1 + 2 运算式中包含 2 个运算元，因此也称该运算式中的加号  + 为 「二元运算符。」
++ 在 +18 中的加号 + 对应只有一个运算元，则它是 「一元运算符」 。
++ 运算优先级
 
 ## 一元操作符
 
@@ -711,3 +863,34 @@ switch(true){
 + ![with语句](E:/Github/Practice/notes/images/with语句.png)
 + 严格模式下不允许使用
 + 大量使用会导致性能下降，同时也会给代码调试造成滚男，因此在开发大型应用程序时，不建议使用
+
+# 函数
+
++ 理解参数
++ 没有重载
+
++ 在ECMAScript中函数在定义时不必指定是否返回值
++ 函数在执行完 return 语句后会立刻停止退出 ， 位于之后的代码都不会被执行
++ 严格模式对函数有一些限制
++ 函数和参数都不能命名为 `eval、arguments`, 参数不能同名
+
+## 理解参数
+
++ ECMAScript函数不介意传递的参数有多少个，或是什么类型
++ 即便定义的函数只接收两个参数，在调用时未必一定要传两个参数，可以传递一个、三个甚至不传，而不会出现解析错误
++ 因为在ECMAScript中的参数在内部是用一个数组来表示的，函数接收的始终都是这个数组，而不关心数组中包含哪些参数
++ 在函数内部可以通过 `arguments`对象来访问这个数组，从而获取传递给函数的每一个参数
++ `arguments`对象只是与数组类似,并不是`array`的实例,因为可以使用方括号语法访问它的每一个元素,使用`length`属性来确定传进来多少个参数
++ `arguments`可以和命名参数一起使用
+  + 值永远同对应的命名参数保持一致
+  + 但是对应的内存空间是独立的,并不是同一个内存空间
+  + 如果只传入一个参数,`arguments[1]`设置的值并不会反应到命名参数中,因为`arguments`对象的长度是由传入参数个数决定的,不是由定义函数时的命名参数的个数决定的
+  + 没有传递值的命名参数将自动被赋予`undefined`值
++ 严格模式对`arguments`对象做出了限制
+  + 赋值无效
+  + 重写值会导致语法错误
+
+## 没有重载
+
++ 在两个函数名相同参数不同的情况下并不会有重载
++ 而是后定义的函数覆盖先前定义的函数
