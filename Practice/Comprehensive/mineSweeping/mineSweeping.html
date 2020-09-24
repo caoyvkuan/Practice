@@ -562,7 +562,7 @@
         }
 
         function change(ev) {
-          console.dir(ev);
+          // console.dir(ev);
           // debugger;
           if (ev.type == 'keypress') {
             /\d/.test(ev.key) ? ev.key : ev.preventDefault();
@@ -611,17 +611,18 @@
           //开始游戏
           startGame(10, 15);
           startbut.onclick = function () {
+            // debugger;
             let m = ~~mine.value;
             let rc = ~~columns.value;
+            if (m <= 0) {
+              game.clearMessage();
+              game.messageAlert("一个地雷不要,你玩个锤子玩🔨!");
+              return false;
+            }
             if(rc >= 40){
               gameBox.style = 'place-content: start;';
             }else{
               gameBox.style = '';
-            }
-            if (m <= 0) {
-              game.clearMessage();
-              game.messageAlert("一个地雷不要,你玩个锤子玩🔨!");
-              return;
             }
             startGame(rc, m);
             game.gameOver = false;

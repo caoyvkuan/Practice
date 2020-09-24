@@ -170,6 +170,608 @@
   + 另一种垃圾收集算法是‘引用计数’，这种算法的思想是跟踪记录所有值被引用的次数，目前这种算法不在使用
   + 解除变量的引用不仅有助于消除循环引用现象，而且对垃圾收集也有好处。为了确保有效地回收内存，应该及时解除不再使用全局对象、全局对象属性以及循环引用变量的引用
 
+# 面向对象的程序设计
+
++ 对象的基本操作
++ 理解对象
++ 属性类型 ES5
+  + 数据属性
+  + 访问器属性
+  + 读取属性特性
+
++ 构造函数
++ 对象的设计模式
++ 继承
+
+## 构造函数
+
++ 概念
+
+### 用构造函数的好处,以及创建构造函数
+
+```js
+var p1={age:100,gender:"女",say:function(){}}
+var p1={age:100,gender:"女",say:function(){}}
+var p1={age:100,gender:"女",say:function(){}}
+//上述代码，
+//a、存在很多冗余代码 
+//b、所有的人对象都有say方法，并且功能相似，但是他们占据了不同的内存
+//	-->会导致内存浪费（内存泄漏）
+
+//创建构造函数
+function Person(age,gender){
+    this.age=age;
+    this.gender=gender;
+    //此时的内存依然浪费了-->原型
+    this.say=function(){
+    }
+}
+//使用这种方式创建对象，代码整洁了很多
+var p1=new Person(5,"未知");    //实例
+//Person是p1的构造函数
+var p2=new Person(5,"未知");
+var p3=new Person(5,"未知");
+
+构造函数创建对象的例子:
+var xiaoming = new Object()     -->   var xiaoming = {};  
+var now = new Date() 
+var rooms = new Array(1,3,5)    -->   var rooms = [1,3,5]
+`var isMale=/123/;`   ==> `var isMale=new RegExp("123")`
+  isMale是通过RegExp构造函数创建出来的对象
+  isMale是RegExp构造函数的实例
+
+以上例子中，Object、Date、Array都是内置的构造函数
+```
+### 概念
+
++ 构造函数的概念
+  + 任何函数都可以当成构造函数  一般构造函数首字母大写
+  + 只要把一个函数通过new的方式来进行调用，我们就把这一次函数的调用方式称之为：构造函数的调用
+  + 通过 new 调用的方法是构造函数
+  + 直接调用的不是构造函数
+
++ 构造函数的执行过程
+  + `var p1=new Person();`
+  + 1、创建一个对象 (我们把这个对象称之为Person构造函数的实例)—— `p1`
+  + 2、创建一个内部对象，`this`，将this指向该实例—— `p1`
+  + 3、执行函数内部的代码，其中，操作this的部分就是操作了该实例 `p1`
+  + 4、返回值：
+    - a、如果函数没有返回值(没有return语句)，那么就会返回构造函数的实例 `p1`
+    - b、如果函数返回了一个基本数据类型的值，那么本次构造函数的返回值是该实例 `p1`
+    - c、如果函数返回了一个复杂数据类型的值，那么本次函数的返回值就是该值
+```js
+//如何判断一个数据是否是复杂数据类型？
+  //使用排除法：
+  //a、看它的值是不是：数字、字符串、布尔值、null、undefined，
+  //b、如果不是以上5种值，那就是复杂数据类型
+
+function F1() {
+  this.name = 'f1';
+}
+console.log(new F1()); // {name: "f1"} 返回实例, 委托原型
+console.log(new F1().name); // f1
+console.log(F1()); // undefined
+
+function F2() {
+  this.name = 'f2';
+  return {};
+}
+
+console.log(new F2()); // 引用类型值, 返回该值{} 
+console.log(new F2().name); // undefined
+
+// 这种情况，使用new调用就与调用正常函数一致
+console.log(F2()); // {} 常规函数调用
+console.log(F2().name); // undefined
+
+function fn2(){
+  return "abc";
+}
+var f2=new fn2();   //f2是fn2构造函数的实例
+
+关于new Object()
+new Object()等同于对象字面量{ }	跟构造函数不一样
+```
+### 理解构造函数返回值
+```js
+//为什么要理解构造函数的返回值？
+//String是一个内置函数
+//a、String(100)		"100"	字符串类型
+//b、new String(100)		String("100")	对象类型
+
+//结论：一个函数通过new调用，或者不通过new调用，很多时候会有截然不同的返回值
+
+//我如何分辨出一个对象到底是不是某个构造函数的实例？	instanceof 判断一个是否是一个构造函数的实例
+    //a、var isTrue=xxx instanceof Person
+function Person(){}
+var p1=new Person();
+console.log(p1 instanceof Person);//true，p1 就是 Person 的实例
+
+function Student(){
+  return 100;
+}
+var s1=new Student();
+console.log(s1 instanceof Student);//true，s1 就是 Student 的实例
+
+function Programmer(){
+  return [1,3,5];
+}
+var pro=new Programmer();//pro并不是Programmer的实例
+console.log(pro instanceof Programmer);//false
+console.log("是数组的实例吗？",pro instanceof Array);//true
+
+//小技巧：如何通过肉眼识别xxx对象时哪个构造函数的实例？
+    //xxx.__proto__属性，也是对象，该对象中一般都会有一个constructor属性，这个只要指向PPP函数，那么就可以认为：xxx是PPP构造函数的实例
+
+//typeof运算符，只能判断：数字、字符串、布尔值、undefined、函数
+
+//切记：千万不能使用typeof运算符来判断对象的构造函数
+
+//typeof null === "object"
+//typeof {}  === "object"
+//typeof []  === "object"
+//typeof function(){} === "function"
+//typeof /abc/     === "object"
+```
+
+## 设计模式
+
++ 工厂模式
++ 构造函数模式
++ 原型模式
++ 组合使用构造函数模式和原型模式
++ 动态原型模式
++ 寄生构造函数模式
++ 稳妥构造函数模式
+
+### 工厂模式
+
+```js
+//对象标识问题，即新创建的对象是什么类型
+function createPerson(name, age, job) {
+    let o = new Object();
+    o.name = name;
+    o.age = age;
+    o.job = job;
+    o.sayName = function () {
+        console.log(this.name);
+    };
+    return o;
+}
+```
+
+### 构造函数模式
+
++ 创建 构造函数 的实例， 必须使用 new 操作符， 以这种方式调用构造函数会经历以下步骤
+  1. 创建一个新对象
+  2. 将构造函数的作用域赋给新对象（因此 this 就指向了这个新对象）
+  3. 执行构造函数中的代码（为这个对象添加属性）
+  4. 返回新对象
+
++ 对象的 construction 属性最初是用来标识对象类型的，但是在检查对象类型上 instanceof 操作符更可靠
++ 创建自定义的构造函数意味着将来可以将它的实例标识为一种特定的类型，这也是构造函数模式胜过工厂模式的原因
+
++ 构造函数与其他函数的唯一区别，就在与调用他们的方式不同，任何函数，只要通过 new 操作符来调用，那它就可以作为构造函数，反之也一样
+  + 但是在以普通函数的调用方式调用构造函数时需要注意 函数内 this 的指向
+
++ 构造函数的问题
+  + 同一个构造函数的两个实例，两个实例继承到的同一个方法并不是同一个Function的实例
+  + 因为js中函数是对象，每定义一个函数都是实例化了一个对象
+  + 因此在构造函数内定义方法反而浪费，还不如定义在外面，然后赋值给函数内的属性，这样会出现新问题，会定义多个全局函数然后由对象来调用，导致自定义的引用类型没有封装性可言了
+  + 但是这样还是有问题，可以用原型的方式来解决
+
+### 原型模式
+
++ 每一个函数都有 `prototype(原型)属性`，这个属性是一个指针，指向一个对象，而这个对象的用途就是包含可以由特定类型的所有实例共享的属性和方法
++ `function Person(){}     Person.prototype = { constructor:Person，  name:"name"}`
+  + 重写`constructor`属性是因为这样构建相当于重新创建了构造函数的`prototype`原型对象，默认自动获取的`constructor`属性指向的构造函数也变成了指向`Object`构造函数，所以需要重新给`constructor`属性赋值为，原来的构造函数
+
++ 理解原型对象
+  + 每创建一个新函数，就会为该函数创建一个 `prototype`属性，指向函数的原型对象，所有原型对象都会获取一个 `constructor` （构造函数）属性，这个属性包含一个指向 `prototype` 属性所在函数的指针
+
+  + 虽然在所有实现中无法访问到 [[Prototype]] , 但可以通过 isPrototype() 方法来确定对象之间是否存在这种关系， 如果 [[Prototypr]] 指向调用 isPrototype() 方法的对象(Person.prototype), 那么这个方法就返回true
+
+  + ES5增加了一个新方法， Object.getPrototypeOf() ， 这个方法返回 [[Prototype]] 的值，完整的 prototype 对象；
+
+  + `delete` 操作符可以删除实例属性，使实例可以重新访问原型中的属性
+  + `hasOwnProperty()` 方法可以检测属性是存在于实例中，还是存在于原型中，这个方法（继承自Object）只在给定属性存在于对象实例中时才会返回true
+
++ 原型与 in 操作符
+  + 两种使用方式：单独使用和在for-in循环中使用，in操作符会在通过对象能够访问给定属性时返回true
+  + 通过`hasOwnProperty() 方法和 in 操作符` 就可以确定该属性到底是存在于对象中，还是存在于原型中
+```js
+function hasPrototypeProperty(object, name){
+  return !object.hasOwnProperty(name) && (name in object);
+}
+```
+  + `for-in`循环返回所有能够通过对象访问的、可枚举的属性
+
++ 原型的动态性
+  + 在原型中查找值的过程是一次搜索,因此对原型所做的任何修改都能立刻从实例上反映出来——即便式是先创建了实例后修改也照样如此
+  + 重写整个原型对象除外，重写原型对象应该在声明后立刻重写
+
++ 原生对象的原型
+  + 原型模式的重要性不仅体现在创建自定义类型方面，就连所有原生的引用类型，都是采用这种模式创建的
+  + 所有原生引用类型（Object、Array、String,等等）都在在其构造函数的原型上定义了方法。
+  + `Array.prototype`中可以找到`sort()`方法
+  + `alert(typeof Array.prototype.sort);  //"function" `  
+  + 通过原生对象的原型，不仅可以获取所有默认方法的引用，而且也可以定义新方法，可以像修改自定义对象的原型一样修改原生对象的原型，因此可以随时添加方法
+
++ 原型对象的问题
+  + 缺点：
+  + 省略了为构造函数传递初始化参数这一环节，结果所有实例在默认情况下都将取得相同的属性值。
+  + 所有实例修改属性的值会共享，修改一个实例继承的原型属性，所有实例继承的原型属性都会改变
+
+### 组合使用构造函数模式和原型模式
+
++ 创建自定义类最常见的方式，就是组合使用构造函数模式和原型模式，构造函数模式用于定义实例属性，原型模式用于定义方法和共享属性，结果每个实例都会有自己的一份实例属性的副本，但同时又共享着对方法的引用，最大限度地节省了内存
+```js
+function Person(name, age, job){
+  this.name = name;
+  this.age = age;
+  this.job = job;
+  this.friends = ["shelby", "Court"];
+}
+
+Person.prototype = {
+  constructor : Person,
+  sayName : function(){
+    alert(this.name);
+  }
+}
+
+let person1 = new Person("Nicholas", 29, "Software Engineer");
+let person2 = new Person("Greg", 27, "Doctor");
+person1.friends.push("Van");
+alert(person1.friends);       //"Shelby,Count,Van"
+alert(person2.friends);       //"Shelby,Count"
+alert(person1.friends === person2.friends);       //false
+alert(person1.sayName === person2.sayName);       //true
+
+//这中方法使属性不共用，但方法公用，还能传入参数
+```
+
+### 动态原型模式
+
++ 通过检查某个应该存在的方法是否有效，来决定是否需要初始化
+```js
+function Person(name, age, job){
+  //属性
+  this.name = name;
+  this.age = age;
+  this.job = job;
+  //方法
+  if(typeof this.sayName != "function"){
+    Person.prototype.sayName = function(){
+      alert(this.name);
+    };
+  }
+}
+let friend = new Person("Nicholas", 29, "Software Engineer");
+friend.sayName();
+
+//对于采用这种方式创建的对象，还可以用 instanceof 操作符确定它 类型
+```
+
+### 寄生构造函数模式
+
++ 这种模式的基本思想是创建一个函数，该函数的作用仅仅是封装创建对象的代码，然后再返回新创建的对象
+```js
+function Person(name, age, job){
+  let o = new Object();
+  o.name = name;
+  o.age = age;
+  o.job = job;
+  o.sayName = function(){
+    alert(this.name);
+  };
+  return o;
+}
+let friend = new Person("Nicholas" 29, "Software Engineer");
+friend.sayName();   //Nicholas
+
+/*这个模式可以在特殊的情况下用来对对象创建构造函数。
+* 假设要创建一个具有额外方法的特殊数组。
+* 由于不能直接修改Array构造函数，因此可以使用这个模式
+*/
+function SpecialArray(){
+  //创建数组
+  let values = new Array();
+  values.push.apply(values, arguments);
+
+  //添加方法
+  values.toPipedString = function(){
+    return this.join("|");
+  };
+
+  //返回数组
+  return values;
+}
+
+let colors = new SpecialArray("red", "blue", "green");
+alert(colors.toPipedString());    //"red|bule|green"
+alert(colors instanceof SpecialArray);
+```
++ 这种模式返回的对象与构造函数或者构造函数的原型属性之间没有关系 ， 也就是说构造函数返回的对象与在构造函数外部创建的对象没有什么不同，
++ 所以不能依赖 `instanceof` 操作符来确定对象类型
+
+### 稳妥构造函数模式
+
++ 指的是没有公共属性， 而且其方法也不引用`this`的对象
+  + 适合在安全环境中（这些环境会禁止使用 `this` 和 `new`），或者在防止数据被其他应用程序改动时使用，
+
++ 该模式和寄生构造函数类似，但有两点不同
+  + 一是新创建对象的实例方法不引用`this`
+  + 二是不使用`new`操作符调用构造函数
+```js
+function Person(name, age, job){
+  //创建要返回的对象
+  let o = new Object();
+  //可以在这里定义私有变量和函数
+
+  //添加方法
+  o.sayName = function (){
+    alert(name);
+  };
+
+  //返回对象
+  return o;
+}
+
+let friend = Person("Nicholas", 29, "Software Engineer");
+friend.sayName();   //Nicholas
+```
+
+## 继承
+
++ JS中继承的概念
+  + 通过【某种方式】让一个对象可以访问到另一个对象中的属性和方法，我们把这种方式称之为继承  `并不是所谓的xxx extends yyy`
+
++ 原型链
++ 借用构造函数
++ 组合继承
++ 原型式继承
++ 寄生式继承
++ 寄生组合式继承
+
+### 为什么要使用继承？
+
++ 有些对象会有方法(动作、行为)，而这些方法都是函数，如果把这些方法和函数都放在构造函数中声明就会导致内存的浪费
+```js
+function Person(){
+    this.say=function(){
+        console.log("你好")
+    }
+}
+var p1=new Person();
+var p2=new Person();
+console.log(p1.say === p2.say);   //false
+
+//由于say方法可能功能相似，但是不是同一个方法(没有指向同一块内存，会造成内存浪费)
+//解决方案：把say方法写在他们共同的(父对象)中
+//其实他们共同的父对象，就可以通过：Person.prototype来获取
+
+//-->只要把say方法写在Person.prototype中，那么say方法就是同一个方法
+    Person.prototype.run=function(){
+        console.log('时速500KM');
+    }
+    //此时p1和p2都可以访问到run方法
+    p1.run();
+    p2.run();
+    //验证p1.run和p2.run是否是同一个方法？
+    console.log(p1.run === p2.run); //指向同一个方法，这种方法避免了内存的浪费
+    console.log(p1.run === Person.prototype.run);	//true
+
+    var p3=new Person();
+    console.log(p3.run == p1.run); //true
+    console.log(p3.run === p1.run);//true
+    //结论：只要往某个构造函数的prototype对象中添加某个属性、方法，那么这样的属性、方法都可以被所有的构造函数的实例所共享
+    //==>这里的【构造函数的prototype对象】称之为原型对象
+    //  Person.prototype是 p1 p2 p3 的原型对象
+    //  Person.prototype是Person构造函数的【实例】的原型对象
+
+	//  Person的原型对象是谁呢？		所有函数都是Function类的实例
+    //  -->首先要知道Person的构造函数：-->Function
+    //  -->所以Person的原型对象是：Function.prototype
+
+    //  p1的原型对象是谁呢？
+    //  -->首先要知道p1是谁创建的？    -->Person
+    //  -->所以p1的原型对象时：     Person.prototype
+
+//所有对象最终都继承自Object		但是并不是直接创建的
+```
+
+### 原型链
+
++ 原型链作为实现继承的主要方法。基本思想是利用原型让一个引用类型继承另一个引用类型的属性和方法
++ 每个构造函数都有一个原型对象，原型对象中都包含一个指向构造函数的指针，每一个实例都包含一个指向原型对象的内部指针
+```js
+  function SuperType(){
+    this.property = true;
+  }
+  SuperType.prototype.getSuperValue = function(){
+    return this.property;
+  }
+
+  function SubType(){
+    this.subproperty = false;
+  }
+
+  //继承了 SuperType
+  SubType.prototype = new SuperType();
+
+  SubType.prototype.getSubValue = function(){
+    return this.subproperty;
+  }
+
+  let instance = new SubType();
+  alert(instance.getSuperValue());  //true
+
+  /*以上代码定义了两个类型：SuperType 和 SubType，
+  * 实现的本质是重写了原型对象，代之以一个新类型的实例
+  * SubType原型对象的内部构造函数（consrtuctor）指针也发生了变化  原因是原型被重写了
+  * instance.consrtuctor 现在指向 SuperType
+  */
+  通过实现原型链，原型搜索机制，当以读取模式访问一个实例属性时，会首先在实例中搜索该属性
+  ，如果没找到，则会继续搜索实例的原型，在通过原型链实现继承的情况下，搜索过程就得以沿着
+  原型链继续向上搜索。
+  上面的例子 调用 instance.getSuperValue() 会历经三个搜索步骤：
+  1.搜索实例
+  2.搜索 SubType.prototype
+  3.搜索 SuperType.prototype 最后一步才会找到该方法
+  在找不到的情况，搜索过程要一环一环的前行到原型链末端才会停下来
+```
++ 别忘记默认的原型
+  + 所有的引用类型默认都继承了`Object`，而这个继承也是通过原型链实现的， 所有函数的默认原型都是`Object`，
+  + 因此默认原型都会有一个内部指针指向 `Object.prototype` 这也是所有自定义类型都会继承`toString() 、 valueOf()`等默认方法的原因
+  + 引用类型实际上在调用 `toString()` 等方法时是调用的是保存在 `Object.prototype` 中的方法 
+
+# 变量和常量
+
++ 常量 (值不可以改变的) 和 变量
++ 变量
+  + 变量是数据的“命名存储”。
+  + 程序被CPU执行    程序被读取到内存中,被cpu运行
+  + 计算机的组成 (`磁盘  内存  CPU/GPU`)
+  + 在声明变量但是赋值前,默认值为`undefined` 
++ **定义变量可以使用三种关键字：var / let / const**
+  + 变量名称必须仅包含**「字母，数字，符号」** `$` 和 `_`。
+  + 首字符必须**「非数字」**。变量命名还有一些建议：
+  + 常量一般用全大写，如 `const PI = 3.141592` ；
+  + 使用易读的命名，比如 `userName` 或者 `shoppingCart`。
+
+## let 关键字 和 const 关键字
+
++ let命令用来声明变量，他的作用类似于var，
+
++ 但是所声明的变量只在let命令所在的代码块内部有效，**不像var那样，会发生变量提升现象**；
+
++ 所以在初始化前访问会报错
+
++ let 和 const 声明的变量不会成为顶级属性
+
++ `const` 命令
+
+  + const声明一个只读的常量。一旦声明，常量的值就不能改变。
+
+  + const一旦声明常量就必须立即初始化，不能留到后面赋值
+
+  + ```js
+    const PI = 3.1415;
+    PI // 3.1415
+    PI = 3;
+    // TypeError: Assignment to constant variable.
+    
+    const声明的变量不得改变值，这意味着，const一旦声明变量，就必须立即初始化，不能留到以后赋值。const foo; // SyntaxError: Missing initializer in const declaration
+    ```
+
+  + const的作用域与let命令相同：只在声明所在的块级作用域内有效。const命令声明的常量也是不提升，同样存在暂时性死区，只能在声明的位置后面使用。
+
+  + const实际上保证的，并不是变量的值不得改动,而是变量指向的那个内存地址不得改动，**对于简单数据类型（数值，字符串，布尔值）**,值就保存在变量指向的那个内存地址，因此等同于常量，
+
+  + **但是对于复合类型的数据（对象和数组）**变量指向的内存地址，保存的只是一个指针，const只能保证这个指针是固定的，至于他指向的数据结构是不是可变的,就完全不能控制了；
+
+  + ```js
+    const foo = {};
+    foo.prop=123;//为foo添加一个属性
+    foo.prop;//123
+    foo={}//将foo指向另一个对象,就会报错
+    
+    常量foo储存的是一个地址,这个地址指向一个对象,不可变的只是这个地址,
+    即不能把foo指向另一个地址,但是对象本身是可变的,所以依然可以为其添加新属性；
+    const a = [];
+    a.push("hello");
+    a.length = 0;
+    a=["world"];//报错
+    ```
+
++ 暂时性死区
+
+  + ```js
+    var name="MGT360124";
+    if(true){
+    name = "YSS360124";//ReferenceError
+    let name;
+    }
+    /*全局变量name,但是块级作用域内有let又声明了一个局部变量name；导致后者绑定这个块级作用域,所以在let声明变量前，对name赋值会报错；所以在代码块内，使用let命令声明变量之前，该变量都是不可用的，在语法上称为"暂时性死区"（TDZ）；*/
+    
+    ’暂时性的死区‘’也意味着typeof不再是一个百分之百安全的操作;
+    typeof name;//ReferenceError
+    let name;
+    ```
+
++ ES5 只有全局作用域和函数作用域，没有块级作用域，这带来很多不合理的场景。
+
+  + 第一种场景，内层变量可能会覆盖外层变量。
+
+  + ```js
+    var name = "MGT360124";
+    function getName(){
+    	console.log(name);
+    	var name="YSS360124"
+    }
+    getName();//undefined
+    ```
+
+  + 第二种场景，用来计数的循环变量泄露为全局变量。
+
+  + ```js
+    for(var i=0;i<5;i++){
+    }
+    console.log(i);//5
+    ```
+
++ ES6的块级作用域
+
+  + ```js
+    {let name = "MGT360124";}
+    name;
+    ```
+
+  + ES6 允许块级作用域的任意嵌套
+
+  + ```js
+    {{{{
+      {let insane = 'Hello World'}
+      console.log(insane); // 报错
+    }}}};
+    ```
+
++ do表达式
+
+  + 块级作用域是一个语句，将多个操作封装在一起，没有返回值。使用do表达式,使得块级作用域可以变为表达式，也就是说可以返回值；
+
+  + ```js
+    let x = do{
+     let t = f();
+      t * t + 1;
+    }//变量x会得到整个块级作用域的返回值
+    ```
+
++ 顶层对象的属性
+
+  + 顶层对象，在浏览器环境指的是window对象,在node指的是global对象；
+
+  + ```js
+    /*	顶层对象的属性和全局变量挂钩，被认为是js中最大的失败;
+    ES6为了改变这一点，并保持兼容性,var 命令和function命令声明的全局变量，依旧是顶层对象,
+    另一方面规定：let命令和const命令,class命令声明的全局变量不再属于顶层对象的属性,也就是说：从ES6开始，全局变量将逐渐与顶层对象的属性脱钩;	*/
+    
+    var name="MGT360124";
+    window.name;//MGT360124
+    
+    let age=18;
+    window.age;//undefined
+    
+    ES5的顶层对象，本身也是个问题,因为他在各种实现里面是不统一的;
+    1，浏览器里面，顶层对象是window，但是node和web workers(Web Workers 是 HTML5 提供的一个javascript多线程解决方案)没有window
+    2，浏览器和web Workers里面，self也是指向顶层对象,但是node没有self
+    3，node里面顶层对象是global，但是其他环境都不支持;
+    同一段代码为了能够在各种环境，都能取得到顶层对象,一般用this变量，但是也有局限性。
+    1， 全局环境中，this会返回顶层对象。但是node模块和ES6模块中this返回的是当前模块;
+    2，函数里面的this，如果函数不是作为对象的方法运行，而是单纯作为函数运行，那么this会指向顶层对象，但是在严格模式this会返回undefined;
+    ```
+
 # 正则表达式
 
 + 元字符
