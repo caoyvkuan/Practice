@@ -213,7 +213,7 @@ var p2=new Person(5,"未知");
 var p3=new Person(5,"未知");
 
 构造函数创建对象的例子:
-var xiaoming = new Object()     -->   var xiaoming = {};  
+var person = new Object()     -->   var person = {};  
 var now = new Date() 
 var rooms = new Array(1,3,5)    -->   var rooms = [1,3,5]
 `var isMale=/123/;`   ==> `var isMale=new RegExp("123")`
@@ -369,7 +369,7 @@ function createPerson(name, age, job) {
 + 理解原型对象
   + 每创建一个新函数，就会为该函数创建一个 `prototype`属性，指向函数的原型对象，所有原型对象都会获取一个 `constructor` （构造函数）属性，这个属性包含一个指向 `prototype` 属性所在函数的指针
 
-  + 虽然在所有实现中无法访问到 [[Prototype]] , 但可以通过 isPrototype() 方法来确定对象之间是否存在这种关系， 如果 [[Prototypr]] 指向调用 isPrototype() 方法的对象(Person.prototype), 那么这个方法就返回true
+  + 虽然在所有实现中无法访问到 [[Prototype]] , 但可以通过 isPrototype() 方法来确定对象之间是否存在这种关系， 如果 [[Prototype]] 指向调用 isPrototype() 方法的对象(Person.prototype), 那么这个方法就返回true
 
   + ES5增加了一个新方法， Object.getPrototypeOf() ， 这个方法返回 [[Prototype]] 的值，完整的 prototype 对象；
 
@@ -489,7 +489,7 @@ function SpecialArray(){
 }
 
 let colors = new SpecialArray("red", "blue", "green");
-alert(colors.toPipedString());    //"red|bule|green"
+alert(colors.toPipedString());    //"red|blue|green"
 alert(colors instanceof SpecialArray);
 ```
 + 这种模式返回的对象与构造函数或者构造函数的原型属性之间没有关系 ， 也就是说构造函数返回的对象与在构造函数外部创建的对象没有什么不同，
@@ -583,8 +583,18 @@ console.log(p1.say === p2.say);   //false
 
 ### 原型链
 
++ 确定原型和实例的关系
+  + 这两种方法来确认原型和实例之间的关系 
+  + `instanceof`
+    + `instance instanceof Object   // true`
+  + `isPrototypeOf()`
+    + `Object.prototype.isPrototypeOf(instance)  //true`
+
 + 原型链作为实现继承的主要方法。基本思想是利用原型让一个引用类型继承另一个引用类型的属性和方法
 + 每个构造函数都有一个原型对象，原型对象中都包含一个指向构造函数的指针，每一个实例都包含一个指向原型对象的内部指针
++ 谨慎地定义方法
+  + 在实例替换原型之后再定义方法
+  + 在实现继承时不能使用对象字面量创建原型方法
 ```js
   function SuperType(){
     this.property = true;
@@ -604,13 +614,20 @@ console.log(p1.say === p2.say);   //false
     return this.subproperty;
   }
 
+  //再次使用对象字面量添加新方法，  会使继承无效
+  SubType.prototype = {
+    getSubValue : function() {
+        return this.subproperty;
+    }
+  }
+
   let instance = new SubType();
   alert(instance.getSuperValue());  //true
 
   /*以上代码定义了两个类型：SuperType 和 SubType，
   * 实现的本质是重写了原型对象，代之以一个新类型的实例
-  * SubType原型对象的内部构造函数（consrtuctor）指针也发生了变化  原因是原型被重写了
-  * instance.consrtuctor 现在指向 SuperType
+  * SubType原型对象的内部构造函数（constructor）指针也发生了变化  原因是原型被重写了
+  * instance.constructor 现在指向 SuperType
   */
   通过实现原型链，原型搜索机制，当以读取模式访问一个实例属性时，会首先在实例中搜索该属性
   ，如果没找到，则会继续搜索实例的原型，在通过原型链实现继承的情况下，搜索过程就得以沿着
@@ -625,6 +642,11 @@ console.log(p1.say === p2.say);   //false
   + 所有的引用类型默认都继承了`Object`，而这个继承也是通过原型链实现的， 所有函数的默认原型都是`Object`，
   + 因此默认原型都会有一个内部指针指向 `Object.prototype` 这也是所有自定义类型都会继承`toString() 、 valueOf()`等默认方法的原因
   + 引用类型实际上在调用 `toString()` 等方法时是调用的是保存在 `Object.prototype` 中的方法 
+
++ 原型链的问题
+  + 继承后的属性共享问题，
+  + 在创建子类型的实例时，不能向超类型的构造函数中传递参数，实际上应该说是没有办法在不影响所有对象实例的情况下，给超类型的构造函数传递参数。
+  + 所以基本上不会单独使用原型链
 
 # 变量和常量
 
@@ -832,8 +854,8 @@ console.log(p1.say === p2.say);   //false
   | n{x,}         {3，} |      匹配包含至少 x 个 n 的序列的字符串       |
 
 + ```js
-  var s = "ggle gogle google gooogle goooogle gooooogle goooooogle gooooooogle goooooooogle";
-  仅匹配单词 ggle 和 gogle
+  var s = "ggle goggle google g0...gle(多个o个数不一样的)";
+  仅匹配单词 ggle 和 goggle
   var r = /go?gle/g;    同等于 /go{0,1}gle/g;
   var a = s.match(r)
   ```
@@ -915,10 +937,10 @@ while (a = r.exec(s)) {
     console.log(a);  //返回类似["ab=21","bc=45","cd=43"]三个数组
 }
 
-var s = "abcdefghijklmn";
+var s = "a b c d e f g h i j k l m n";
 var r = /(\w+)(\w)(\w)/;
 r.test(s);
-console.log(RegExp.$1);  //返回第1个子表达式匹配的字符abcdefghijkl
+console.log(RegExp.$1);  //返回第1个子表达式匹配的字符a b c d e f g h i j k l m n
 console.log(RegExp.$2);  //返回第2个子表达式匹配的字符m
 console.log(RegExp.$3);  //返回第3个子表达式匹配的字符n
 
@@ -972,7 +994,7 @@ var a = s.match(r);  //返回数组["abc","abc","bc","c"]
 /[\u0041-\u004A]/g		匹配任意大写字母
 [\u0061-\u007A]/g 		匹配任意小写字母
  
-var s = "abcdez";  //字符串直接量
+var s = "a b c d e z";  //字符串直接量
 var r = /[abce-z]/g;  //字符a、b、c，以及从e~z之间的任意字符
 var a = s.match(r);  //返回数组["a","b","c","e","z"]
 

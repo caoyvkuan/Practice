@@ -244,8 +244,8 @@
 + null 表示一个空对象指针
   + 使用： 推荐对将来要保存对象的变量使用 null 进行初始化
 
-+ 对于其他比较，它们会先转换位数字：`null` 转换为 `0` ， `undefied` 转换为 `NaN` 。
-+ `unll 等于 undefined 但是不全等`
++ 对于其他比较，它们会先转换位数字：`null` 转换为 `0` ， `undefined` 转换为 `NaN` 。
++ `null 等于 undefined 但是不全等`
 
 + undefined类型		(变量或对象以声明但 	未被赋值 | 初始化	| 对象属性不存在)
 
@@ -265,7 +265,7 @@
   + 在使用字面量创建时不会调用object构造函数
 
 + `Constructor` 保存着创建当前对象的构造函数
-+ `hasOwnproprety(propertyName)` 用于检车给定属性在当前对象的示例中是否存在,属性必须是字符串
++ `hasOwnProperty(propertyName)` 用于检车给定属性在当前对象的示例中是否存在,属性必须是字符串
 + `isPrototypeOf(object)` 用于检查传入的对象是否是另一个对象的原型
 + `propertyIsEnumerable(propertyName)` 用于检查给定属性是否能够使用 `for-in`语句来枚举,属性必须是字符串
 + `toLocaleString()` 返回对象的字符串表达式,该字符串与执行环境的地区对应
@@ -274,7 +274,7 @@
 
 + 清空对象
   + person={};      //person对象不再具有任何属性
-  + person=null;    //表示将person变量的值赋为null，从此以后person不再是一个对象了
+  + person=null;    //表示将person变量的值赋为null，从此以后person是一个空的对象指针
 
 #### 对象属性操作
 
@@ -317,6 +317,76 @@
 + delete student.gender
 + delete 只能删除对象中的属性,不能删除变量
 
+#### 操作方法
+
++ 每个对象都有一个 [[Prototype]]
++ 对象属性的描述
+  + `configurable:false` 
+    + 能否使用delete、能否需改属性特性、或能否修改访问器属性、，false为不可重新定义，默认值为false
+  + `enumerable:false`  
+    + 对象属性是否可通过for-in循环，false为不可循环，默认值为false
+  + `writable:false`  
+    + 对象属性是否可修改,false为不可修改，默认值为false
+  + `value:'小明'`  
+    + 对象属性的默认值，默认值为undefined
+  + `get、set` 函数，不设置默认为 undefined
+
++ `Object.getOwnPropertySymbols(obj);` 在给定对象自身上找到的所有 Symbol 属性的数组
++ `Object.getOwnPropertyDescriptor(obj,property)` 方法返回指定对象上一个自有属性对应的属性描述符。（自有属性指的是直接赋予该对象的属性，不需要从原型链上进行查找的属性）
++ `Object.getOwnPropertyNames(obj)` 返回指定对象上自身属性对应的字符串数组
++ 静态方法 `Reflect.ownKeys(obj)` 返回一个由目标对象自身的属性键组成的数组。
+  + 如果目标不是对象则抛出错误
+
+
+
++ `Object.defineProperties();`  方法直接在一个对象上定义新的属性或修改现有属性，并返回该对象。
+  + `Object.defineProperties(obj, props)`
+  + 参数： 目标对象 ， 一个或多个属性名称以及描述
+
++ `Object.defineProperty();`   作用同上
+  + `Object.defineProperty(obj, prop, descriptor)`
+  + 参数： 目标对象 ， 属性名称 ， 属性描述
+
+```js
+var obj = {};
+Object.defineProperties(obj, {
+  'property1': {
+    value: true,
+    writable: true
+  },
+  'property2': {
+    value: 'Hello',
+    writable: false
+  }
+  '其他描述属性'：{
+    configurable:false,//能否使用delete、能否需改属性特性、或能否修改访问器属性、，false为不可重新定义，默认值为false
+    enumerable:false,//对象属性是否可通过for-in循环，false为不可循环，默认值为false
+    writable:false,//对象属性是否可修改,false为不可修改，默认值为false
+    value:'小明', //对象属性的默认值，默认值为undefined
+    get(){ return bValue;},
+      // es6缩写，等价于 get:function(){ return bValue;}
+    set(newValue){ bValue = newValue;}
+    /*
+    * get 和 set 默认值都为 undefined
+    * get : 当访问该属性时会调用此函数，会传入 this 对象， 由于继承关系， 这里的 this 并不一定是定义该属性的对象
+    * set : 当属性被修改时会调用此函数，接收一个参数（也就是被赋予的新值），会传入赋值时的 this 对象
+    */
+  }
+});
+
+
+const object1 = {};
+
+Object.defineProperty(object1, 'property1', {
+  value: 42,
+  writable: false
+});
+
+object1.property1 = 77;
+// throws an error in strict mode
+
+console.log(object1.property1); //42
+```
 
 ### Array类型
 
@@ -569,7 +639,7 @@
   + 可以显示的调用基本包装类型,但是应该在绝对必要的情况下再这样做,因为这样做很容易弄混
   + 对基本包装类型的实例调用 typeof 会返回 "object", 而且所有基本包装类型的对象都会被转换为布尔值true
   + object 构造函数也会想工厂方法一样,根据传入值的类型返回相应基本包装类型的实例
-    + `let obj = new Object("some texy"); alert(obj instanceof String); //true`
+    + `let obj = new Object("some text"); alert(obj instanceof String); //true`
 
 ### Boolean 类型 不建议使用
 
@@ -624,7 +694,7 @@
   + 如果字符串在字母表中应该排在字符串参数之前,则返回一个负数(大多情况下是 -1 )
   + 如果字符串等于字符串参数,则返回 0;
   + 如果字符串在字母表中应该排在字符串参数之后,则返回一个正数(大多情况下是 1 )
-  + `let str = "yellow"; str.loacleCompare("brick");  // 1 `
+  + `let str = "yellow"; str.localeCompare("brick");  // 1 `
 
 + `fromCharCode()` 方法
   + 接收一个或多个字符编码，转换为一个字符串
@@ -693,7 +763,7 @@
   + `值 = Math.floor(Math.random() * 96 + 5);` 取5到100的数
   + 封装
 ```js
-  function selextFrom(lowerValue,upperVlaue){
+  function selectFrom(lowerValue,upperValue){
     let choices = upperValue - lowerValue + 1;
     return Math,floor(Math.random() * choices + lowerValue);
   }
@@ -735,7 +805,7 @@
   + `function` 如果这个值是函数
 
 ```js
-  NaN 会返回 namber
+  NaN 会返回 number
   typeof 10n   // "bigint"
   typeof Symbol("id") // "symbol"
   typeof [1,2,3,4]    // "object"
@@ -757,7 +827,7 @@
 ### instanceof
 
 + 判断对象的构造函数 来确定类型
-+ `result = letiable instanceof constructor`
++ `result = target instanceof constructor`
 + 如果变量给定引用类型的实例，那么`instanceof`操作符就会返回`true`
 + 所有引用类型的值都是 Object 的实例， 所以判断 Object 是构造函数时都会返回 true
 + 判断基本类型始终会返回 false 因为基本类型不是对象
@@ -835,8 +905,8 @@
   + 列如，如果将数值2（二进制码为10）向做移动5位，结果就是64（二进制码为1000000），
 
 ```js
-  let oldvalue = 2 ;                 //等于二进制的10
-  let newvalue = oldvalue << 5 ;     //等于二进制的1000000，十进制的64
+  let oldValue = 2 ;                 //等于二进制的10
+  let newValue = oldValue << 5 ;     //等于二进制的1000000，十进制的64
 ```
 
   + 在向左移位后，原数值的右侧多出了5个空位。左移操作会以0来填充这些空位，以便得到的结果是一个完整的32位二进制数
@@ -1025,7 +1095,7 @@
 + 规则
   + 有布尔值则在比较前转换数值
   + 字符串和数值将字符串转换为数值
-  + 一个是对象,则调用对象的 `vlaueOf()` 方法,得到基本类型在比较
+  + 一个是对象,则调用对象的 `valueOf()` 方法,得到基本类型在比较
   + `null 、 undefined 相等` 比较前不能将这两个值转换为其他任何值
   + `两个 NaN 不相等`     都是对象比较是不是同一个对象，指向同一个内存
 
@@ -1132,7 +1202,7 @@
 + 循环语句
 + 语句中断
 + with语句
-+ lable语句
++ label语句
 
 ## 条件判断语句
 
@@ -1151,7 +1221,7 @@
 ### 三元表达式
 
 ```js
-  //A为条件结果为ture/false   B:A为ture就执行B否则就执行C    
+  //A为条件结果为true/false   B:A为true就执行B否则就执行C    
   //	A ？ B ：C (如果A为真执行B否则执行C)
   var A = 1;
   alert(A?B:C);
@@ -1222,9 +1292,9 @@ switch(true){
   + 只能用于循环内部
   + 判断语句中无法使用
 
-## lable语句
+## label语句
 
-+ ![lable](E:/Github/Practice/notes/images/lable.png)
++ ![label](E:/Github/Practice/notes/images/label.png)
 
 ## with语句
 

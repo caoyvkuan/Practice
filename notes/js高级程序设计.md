@@ -2,34 +2,6 @@
 
 ## 继承
 
-### 原型链
-
-+ 确定原型和实例的关系
-    + 这两种方法来确认原型和实例之间的关系 
-    + `instanceof`
-        + `instance instanceof Object   // true`
-    + `isPrototypeOf()`
-        + `Object.prototype.isprototypeOf(insrance)  //true`
-
-+ 谨慎地定义方法
-    + 在实例替换原型之后再定义方法
-    + 在实现继承时不能使用对象字面量创建原型方法
-    + ```js
-        //继承
-        SubType.prototype = new SuperType();
-        //再次使用对象字面量添加新方法，  会使继承无效
-        SubType.prototype = {
-          getSubValue : function() {
-              return this.subproperty;
-          }
-        }
-        ```
-
-+ 原型链的问题
-    + 继承后的属性共享问题，
-    + 在创建子类型的实例时，不能向超类型的构造函数中传递参数，实际上应该说是没有办法在不影响所有对象实例的情况下，给超类型的构造函数传递参数。
-    + 所以基本上不会单独使用原型链
-    
 ### 借用构造函数
 
 + 在子类型构造函数的内部调用超类型构造函数，通过 `apply() 和 call()` 方法
