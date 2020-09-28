@@ -3,9 +3,9 @@
 let Nice = {};
 
 //事件绑定
-Nice.EvnetTarget = {
+Nice.EventTarget = {
   //绑定事件,参数元素,事件类型,方法
-  addEvnet: function (ele, type, func) {
+  addEvent: function (ele, type, func) {
     ele.addEventListener(type, func, false);
   },
   //清除事件
@@ -232,7 +232,7 @@ Nice.Logic = {
     file.getSize += size;
     name = file.name;
     name = name.slice(0, name.lastIndexOf('.'));
-    Nice.EvnetTarget.addEvnet(read, 'error', Nice.Logic.readError);
+    Nice.EventTarget.addEvent(read, 'error', Nice.Logic.readError);
     read.onloadend = function () {
       if (target.id == 'show') {
         target.innerHTML += `<div class="text" title="文件名：${name}">
@@ -250,7 +250,7 @@ Nice.Logic = {
         // }
         target.children[0].innerHTML += str;
       }
-      Nice.EvnetTarget.removeEvent(this, 'error', Nice.Logic.readError);
+      Nice.EventTarget.removeEvent(this, 'error', Nice.Logic.readError);
       this.onloadend = null;
     };
     return true;
@@ -269,7 +269,7 @@ Nice.Logic = {
     // Nice.HasBeenShown.textSum = len + 2;
   },
   //文件分流处理 参数:用于显示的div
-  flieShow: function (target) {
+  fileShow: function (target) {
     let File = Nice.File,
       texts = File.text,
       imgs = File.img,
@@ -343,7 +343,7 @@ Nice.Logic = {
       columns = parseInt(contentWidth / itemWidth);
       gap = parseInt((contentWidth % itemWidth) / (columns + 1));
     };
-    //sashu
+    //
     waterfall.layout = function () {
       // debugger;
       for (let len = subArr.length - 1; len >= subIndex; subIndex++) {
@@ -399,7 +399,7 @@ Nice.Logic = {
       }
     }
     //调用文件处理
-    this.flieShow(target);
+    this.fileShow(target);
   },
   //消息提示框
   modalBox: (function () {
@@ -653,31 +653,31 @@ Nice.Bind = {
     }
     //只启动不关闭
     dragdrop.startOpen = function () {
-      Nice.EvnetTarget.addEvnet(document, 'click', classify);
-      Nice.EvnetTarget.addEvnet(document, 'change', classify);
-      // Nice.EvnetTarget.addEvnet(window, 'reszie', classify);
+      Nice.EventTarget.addEvent(document, 'click', classify);
+      Nice.EventTarget.addEvent(document, 'change', classify);
+      // Nice.EventTarget.addEvent(window, 'resize', classify);
       window.addEventListener('resize', classify, false);
       window.addEventListener('load', classify, false);
       //功能下拉列表
-      Nice.EvnetTarget.addEvnet(Nice.Const.but, 'mouseenter', mouse);
-      Nice.EvnetTarget.addEvnet(Nice.Const.but, 'mouseleave', mouse);
-      Nice.EvnetTarget.addEvnet(Nice.Const.list, 'mouseenter', mouse);
-      Nice.EvnetTarget.addEvnet(Nice.Const.list, 'mouseleave', mouse);
+      Nice.EventTarget.addEvent(Nice.Const.but, 'mouseenter', mouse);
+      Nice.EventTarget.addEvent(Nice.Const.but, 'mouseleave', mouse);
+      Nice.EventTarget.addEvent(Nice.Const.list, 'mouseenter', mouse);
+      Nice.EventTarget.addEvent(Nice.Const.list, 'mouseleave', mouse);
       //右键菜单
-      Nice.EvnetTarget.addEvnet(document, 'contextmenu', classify);
+      Nice.EventTarget.addEvent(document, 'contextmenu', classify);
     };
 
     //启动事件
     dragdrop.start = function () {
       document.ondrop = null;
-      Nice.EvnetTarget.addEvnet(document, 'dragenter', drag);
-      Nice.EvnetTarget.addEvnet(document, 'dragover', drag);
-      // Nice.EvnetTarget.addEvnet(document, 'dragleave', drag);
-      Nice.EvnetTarget.addEvnet(document, 'drop', drag);
+      Nice.EventTarget.addEvent(document, 'dragenter', drag);
+      Nice.EventTarget.addEvent(document, 'dragover', drag);
+      // Nice.EventTarget.addEvent(document, 'dragleave', drag);
+      Nice.EventTarget.addEvent(document, 'drop', drag);
     };
     //关闭事件
     dragdrop.end = function () {
-      Nice.EvnetTarget.removeEvent(document, 'drop', drag);
+      Nice.EventTarget.removeEvent(document, 'drop', drag);
       document.ondrop = function (e) {
         e.preventDefault();
       };
@@ -697,12 +697,12 @@ Nice.Bind = {
     // but.onclick = function () {
     //   return Nice.Logic.ButDrop(s);
     // }
-    Nice.EvnetTarget.addEvnet(but, 'click', func);
+    Nice.EventTarget.addEvent(but, 'click', func);
   },
 };
 //清除默认事件
-document.addEventListener('dragstart', Nice.EvnetTarget.preventDefault, false);
-document.addEventListener('dragend', Nice.EvnetTarget.preventDefault, false);
+document.addEventListener('dragstart', Nice.EventTarget.preventDefault, false);
+document.addEventListener('dragend', Nice.EventTarget.preventDefault, false);
 
 //只开不关事件
 Nice.Bind.DragDrop.startOpen();

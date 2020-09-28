@@ -170,6 +170,12 @@
   + 另一种垃圾收集算法是‘引用计数’，这种算法的思想是跟踪记录所有值被引用的次数，目前这种算法不在使用
   + 解除变量的引用不仅有助于消除循环引用现象，而且对垃圾收集也有好处。为了确保有效地回收内存，应该及时解除不再使用全局对象、全局对象属性以及循环引用变量的引用
 
+# 语法
+
++ JavaScript 程序的执行单位为行（line），也就是一行一行地执行。一般情况下，每一行就是一个语句。语句以分号结尾，一个分号就表示一个语句结束。多个语句可以写在一行内。
++ 分号前面可以没有任何内容，JavaScript 引擎将其视为空语句。
++ 表达式不需要分号结尾。一旦在表达式后面添加分号，则 JavaScript 引擎就将表达式视为语句，这样会产生一些没有任何意义的语句。
+
 # 面向对象的程序设计
 
 + 对象的基本操作
@@ -647,6 +653,35 @@ console.log(p1.say === p2.say);   //false
   + 继承后的属性共享问题，
   + 在创建子类型的实例时，不能向超类型的构造函数中传递参数，实际上应该说是没有办法在不影响所有对象实例的情况下，给超类型的构造函数传递参数。
   + 所以基本上不会单独使用原型链
+
+### 借用构造函数
+
++ 在子类型构造函数的内部调用超类型构造函数，通过 `apply() 和 call()` 方法
+```js
+  function SuperType(name) {
+    this.colors = ["red", "blue", "green"];
+    this.name = name;
+  }
+  function SubType() {
+    //继承
+    SuperType.call(this,'Nicholas');
+    this.age = 29;
+  }
+
+  let instance1 = new SubType();
+  instance1.colors.push("black");
+  alert(instance1.colors);      // "red,blue,green,black"
+  let instance2 = new SubType();
+  alert(instance2.colors);      //"red,blue,green"
+  
+  //解决了属性共享的问题
+  let instance = new SubType();
+  alert(instance.name);      // "Nicholas"
+  alert(instance.age);      //29
+  //为了确保子类型的属性不被重写，可以在调用超类型构造函数后，在添加子类型的属性
+```
+
+### 组合继承
 
 # 变量和常量
 

@@ -2,44 +2,6 @@
 
 ## 继承
 
-### 借用构造函数
-
-+ 在子类型构造函数的内部调用超类型构造函数，通过 `apply() 和 call()` 方法
-+ ```js
-   function SuperType() {
-       this.colors = ["red", "blue", "green"];
-     }
-     function SubType() {
-       //继承
-       SuperType.call(this);
-     }
-   
-     let instance1 = new SubType();
-     instance1.colors.push("black");
-     alert(instance1.colors);      // "red,blue,green,black"
-     let instance2 = new SubType();
-     alert(instance2.colors);      //"red,blue,green"
-     
-     //解决了属性共享的问题
-   ```
-+ 传递参数
-    + ```js
-        function SuperType(name) {
-         this.name = name;
-        }
-        function SubType() {
-         //继承
-          SuperType.call(this,"Nicholas");
-          this.age = 29;
-        }
-        
-        let instance = new SubType();
-        alert(instance.name);      // "Nicholas"
-        alert(instance.age);      //29
-        
-        //为了确保子类型的属性不被重写，可以在调用超类型构造函数后，在添加子类型的属性
-        ```
-        
 ### 组合继承
 
 + 也叫做伪经典继承

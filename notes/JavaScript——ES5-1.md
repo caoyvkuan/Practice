@@ -69,6 +69,7 @@
 ### Number
 
 + js中可以存在`正零(+0) 和 负零(-0)  `被认为相等
++ JavaScript 内部，所有数字都是以64位浮点数形式储存，即使整数也是如此。所以，1 与 1.0 是相同的，是同一个数。
 
 + ```js
   let floatNum = 1.;   // 解析为1
@@ -803,6 +804,7 @@ console.log(object1.property1); //42
   + `number` 如果这个值是数值
   + `object` 如果这个值是对象或是null
   + `function` 如果这个值是函数
+  + `Symbol` 符号
 
 ```js
   NaN 会返回 number
@@ -886,6 +888,8 @@ console.log(object1.property1); //42
   + 按位非的本质：操作数的负值减 1 
   + ``let a num1 = 25; let num2 = -num1 - 1;  // num2 = -26`` 也能得到同样的结果
   + 虽然以上代码能返回同样的结果，但由于按位非是在数值表示的最底层执行操作，因此速度更快
+  + `~~` 两个的作用是将操作数转化为 number 整数， 
+    + 不是数字的字符串会转化为 0
 
 + 按位与（AND）
 
@@ -1294,6 +1298,29 @@ switch(true){
 
 ## label语句
 
++ JavaScript 语言允许，语句的前面有标签（label），相当于定位符，用于跳转到程序的任意位置，标签的格式如下。
++ 标签可以是任意的标识符，但不能是保留字，语句部分可以是任意语句。
++ 标签通常与break语句和continue语句配合使用，跳出特定的循环。
++ 如果break语句后面不使用标签，则只能跳出内层循环，进入下一次的外层循环。
++ continue 也一样
+```js
+  label:
+    语句
+
+  top:
+  for (var i = 0; i < 3; i++){
+    for (var j = 0; j < 3; j++){
+      if (i === 1 && j === 1) break top;
+      // if (i === 1 && j === 1) continue  top;
+      console.log('i=' + i + ', j=' + j);
+    }
+  }
+  foo: {
+  console.log(1);
+  break foo;
+  console.log('本行不会输出');
+  }
+```
 + ![label](E:/Github/Practice/notes/images/label.png)
 
 ## with语句
