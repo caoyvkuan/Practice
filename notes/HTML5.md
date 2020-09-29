@@ -4,7 +4,7 @@
 
 + **<header>**元素
   + 在<article>元素中用作某个区块的引介区。它可以在一个页面中出现多次
-  + 比如页面中每个<sectioin>中都可以有一个<header>
+  + 比如页面中每个<section>中都可以有一个<header>
 
 + **<main>**元素
   
@@ -103,7 +103,7 @@ name属性关联img       img的usemap属性=`#name`
 <area>  嵌套在map元素中  定义图像的映射区域  点击区域    </area>
 属性 href   shape 属性定义区域形状    coords  定义点击区域坐标  alt
 shape = "rect" 长方形   coords="x y x y" 2个点的位置, 左上角和右下角
-ciec   圆              x y 半径   圆心位置  半径大小
+circ   圆              x y 半径   圆心位置  半径大小
 poly  多边形           x y x y   多个点的x y位置连在一起
   
 
@@ -215,9 +215,9 @@ myHero {
 
 + input元素
 
-  + 一般配合lable标签使用
+  + 一般配合label标签使用
 
-    + `<lable for="da">游戏</lable>	<input type="checkebox" id="da" >`
+    + `<label for="da">游戏</label>	<input type="checkbox" id="da" >`
 
   + button 标签 按钮	默认为提交按钮
 
@@ -252,7 +252,7 @@ myHero {
 + **select**下拉列表
 
   + **optgroup**分组
-    + 属性:`lable="分组标题"`
+    + 属性:`label="分组标题"`
   + **option**
     + 属性:`value="选项对应的值"`
     + `selected` 默认被选中
@@ -291,17 +291,17 @@ myHero {
 
 + ```html
   自定义required的提示文本
-  oninvalid="setCustomValidity('提示内容')" ： 固定写法-->自定义提示内容
-  //oninput 当用户输入时触发
-  oninput="setCustomValidity('')"： 固定写法-->清空上一次提交所输入的内容
+  onInvalid="setCustomValidity('提示内容')" ： 固定写法-->自定义提示内容
+  //onInput 当用户输入时触发
+  onInput="setCustomValidity('')"： 固定写法-->清空上一次提交所输入的内容
   <form action="1.php" method="get">
       <input type="text" name="uname" pattern="^\d{4,11}" required class="uname">
       <input type="submit" name="">
   </form>
   <script type="text/javascript">
       var input=document.querySelector(".uname");
-      //oninvalid 当验证不通过时触发
-      input.oninvalid=function(){
+      //onInvalid 当验证不通过时触发
+      input.onInvalid=function(){
           //validity input 验证属性
           //validity 中的patternMismatch 正则表达式验证是否成功
           if(this.validity.patternMismatch===true){
@@ -332,15 +332,15 @@ myHero {
 
 ```html
 <style>
-    lable input{ display:none}    
+    label input{ display:none}    
     /*通过div来替换input的原始样式*/
-    lable input:checked + div{background-position:0,0}
-    lable div{ width:28px; height:28px; background:url() 0 -28px;}
+    label input:checked + div{background-position:0,0}
+    label div{ width:28px; height:28px; background:url() 0 -28px;}
 </style>
-<lable>
+<label>
     <input type="checkbox" >
     <div></div>
-</lable>
+</label>
 ```
 
 
@@ -352,14 +352,14 @@ myHero {
 ```html
 <audio>	音频</audio>
 <video> 视频</video>
-<soucre> 资源</soucre>
+<source> 资源</source>
 <embed>定义嵌入的内容，比如插件。</embed>
 <track>为诸如 <video> 和 <audio> 元素之类的媒介规定外部文本轨道</track>
 
 <video width="320" height="240">
     <source src=".mp4" type="video/mp4">
     <source src=".ogg" type="video/ogg">
-    <track src="subtitles_no.vtt" kind="subtitles" srclang="en" lable="English">
+    <track src="subtitles_no.vtt" kind="subtitles" srclang="en" label="English">
 </video>
 ```
 
@@ -413,7 +413,7 @@ video.playbackRate=2; 	2倍播放速度
     initial-scale=2.0	把内容放大为实际的两倍大小
     width=device-width	页面宽度等于设备宽度
     maximum-scale=3	允许用户将页面放大到设备宽度的三倍
-    minimun-scale=0.5	最小可将页面缩小至设备宽度的一半
+    minimum-scale=0.5	最小可将页面缩小至设备宽度的一半
     user-scalable=no	禁止用户缩放
     
     <meat name="viewport" content="width=device-width,initial-scale=1">
@@ -435,7 +435,7 @@ video.playbackRate=2; 	2倍播放速度
   
     + ```html
       在CSS2中
-      <link rel="style sheet" type="text/css" media="screen" href="screenstyles. css">
+      <link rel="style sheet" type="text/css" media="screen" href="m.css">
       /*	不仅仅可以判断屏幕类型还能区分屏幕是否是垂直方向	*/
       <link rel="stylesheet" media="screen and (orientation: portrait)" href="portrait-screen.css" />
       
@@ -455,6 +455,9 @@ video.playbackRate=2; 	2倍播放速度
 + 图片**img**
 
   + alt  图片加载失败时的文字提示      设置为空可以让图片加载失败时，不显示加载失败的图片装饰
+  + loading 属性  延迟加载
+    + lazy 延迟加载图片资源
+    + eager 立即加载，默认状态
 
 + 列表标签
 
@@ -501,7 +504,7 @@ video.playbackRate=2; 	2倍播放速度
 + **dropzone**当被拖动的数据在拖放到元素上时，是否被复制、移动或链接
   + `dropzone="copy|move|link"`
 + **lang**设置元素中内容的语言代码。
-+ **spellcheeck** 检测元素是否拼写错误`spellcheck="true|false"`
++ **spellcheck** 检测元素是否拼写错误`spellcheck="true|false"`
 + **tabindex**  设置元素的 Tab 键控制次序。
 + **translate** 指定是否一个元素的值在页面载入时是否需要翻译`translate="yes|no"`
 

@@ -265,6 +265,7 @@
   + `counter-increment`
     + 选择递增的计数器 `counter-increment:name 2;` 每次计数加2, 不写默认为  1
   + 可实现为子元素计数的效果
++ **scroll-behavior: smooth;** 滚动条滚动效果
 
 ## 过度
 
