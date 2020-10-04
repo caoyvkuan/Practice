@@ -229,6 +229,7 @@ p1.getAge() // 25
 + 分号前面可以没有任何内容，JavaScript 引擎将其视为空语句。
 + 表达式不需要分号结尾。一旦在表达式后面添加分号，则 JavaScript 引擎就将表达式视为语句，这样会产生一些没有任何意义的语句。
 
+
 # 面向对象的程序设计
 
 + 对象的基本操作
@@ -735,6 +736,198 @@ console.log(p1.say === p2.say);   //false
 ```
 
 ### 组合继承
+
++ 
+
+# 错误处理与调试
+
++ 错误处理机制
+
+## 错误处理机制
+
++ Error 实例对象
+  + JavaScript 原生提供Error构造函数，所有抛出的错误都是这个构造函数的实例。
+  + Error构造函数接受一个参数，表示错误提示，可以从实例的message属性读到这个参数。
+  + 抛出Error实例对象以后，整个程序就中断在发生错误的地方，不再往下执行。
+  + Error 属性
+    + message：错误提示信息
+    + name：错误名称（非标准属性）
+    + stack：错误的堆栈（非标准属性）
+
++ throw 语句
+  + throw语句的作用是手动中断程序执行，抛出一个错误。
+  + throw可以抛出任何类型的值。也就是说，它的参数可以是任何值。
+  + ` throw new Error('错误信息！');`
+
++ try...catch 结构
+  + 一旦发生错误，程序就中止执行了。JavaScript 提供了try...catch结构，允许对错误进行处理，选择是否往下执行。
+  + try代码块抛出错误。JavaScript 引擎就立即把代码的执行，转到catch代码块，或者说错误被catch代码块捕获了。
+  + catch接受一个参数，表示try代码块抛出的值。
+  + catch代码块捕获错误之后，程序不会中断，会按照正常流程继续执行下去。
+  + 在明明白白知道自己代码会发生错误时，不应该使用该语句
+
++ finally 代码块
+  + try...catch结构允许在最后添加一个finally代码块，表示不管是否出现错误，都必需在最后运行的语句。
+  + 尽管 try 语句使用 return 返回后， finally 代码块仍然会执行
+
+```js
+try{
+  //可能导致错误的代码
+  throw new Error('出错了……');
+}catch(error){
+  //在错误发生时怎么处理
+  console.log(error.message);
+  console.log(error.name);
+}finally{
+  //无论是否出错都会执行
+  console.log('完成清理工作');
+}
+//try语句块中的任何代码发生错误，就会立刻退出代码执行
+//接着运行catch语句块
+//catch块会接收到一个包含错误信息的对象，必需给错误对象取名字
+//错误对象中保存着错误信息的message属性
+//保存错误类型的name属性
+
+//try...catch...finally这三者之间的执行顺序。
+function f() {
+  try {
+    console.log(0);
+    throw 'bug';
+  } catch(e) {
+    console.log(1);
+    return true; // 这句原本会延迟到 finally 代码块结束再执行
+    console.log(2); // 不会运行
+  } finally {
+    console.log(3);
+    return false; // 这句会覆盖掉前面那句 return
+    console.log(4); // 不会运行
+  }
+  console.log(5); // 不会运行
+}
+var result = f();   // 0  // 1  // 3
+result    // false
+
+//抛出错误的时机
+function process(values){
+    if(!(values instanceof Array)){
+        throw new Error("process(): Argument must be an array.");
+    }
+    values.sort();
+    for(let i = 0, len = values.length; i < len; i++){
+        if(values[i] > 100){
+            return values[i];
+        }
+    }
+    return -1;
+}
+//判断values不是数组后将错误抛出
+```
++ 捕获错误，目的是避免浏览器以默认方式处理错误
++ 抛出错误，目的在于提供错误发生的具体原因
+
+```js
+//取消浏览器默认错误事件
+window.onerror = function(message, url, line){
+    alert(message);
+    return false;//取消默认行为
+}
+//该函数可以捕获文档中所有的错误
+图片也支持error事件,当src中的URL不能返回可以识别的图像格式,就会触发
+```
+
+## 原生错误类型
+
++ SyntaxError 对象
+  + SyntaxError对象是解析代码时发生的语法错误。
+
++ ReferenceError 对象 
+  + ReferenceError对象是引用一个不存在的变量时发生的错误。  找不到对象
+  + 另一种触发场景是，将一个值分配给无法分配的对象，比如对函数的运行结果赋值。
+
++ RangeError 对象
+  + RangeError对象是一个值超出有效范围时发生的错误。主要有几种情况，一是数组长度为负数，二是Number对象的方法参数超出范围，以及函数堆栈超过最大值。
+  + 数值超出相应范围
+
++ TypeError 对象
+  + TypeError对象是变量或参数不是预期类型时发生的错误。比如，对字符串、布尔值、数值等原始类型的值使用new命令，就会抛出这种错误，因为new命令的参数应该是一个构造函数。
+  + 变量的类型不符合要求
+
++ URIError 对象
+  + URIError对象是 URI 相关函数的参数不正确时抛出的错误，主要涉及encodeURI()、decodeURI()、encodeURIComponent()、decodeURIComponent()、escape()和unescape()这六个函数。
+  + URI格式不正确
+
++ EvalError 对象
+  + eval函数没有被正确执行时，会抛出EvalError错误。该错误类型已经不再使用了，只是为了保证与以前代码兼容，才继续保留。
+
+## 常见错误
+
++ 类型转换错误
+  + 使用某个操作符,或使用其他可能自动转换值的数据类型的语言结构时发生错误
+  + 使用`全等(===) 和不全等 ( !==)` 避免类型的转换
+  + `if for while`  等语句更要注意     if语句的自动转换布尔值
+
++ 数据类型错误
+  + 检测数据类型,确保类型正确
+  + 可以通过 `instanceof` 来检测数据类型
+
++ 通信错误
+  + 最常见的错误是没有使用`encodeURIComponent()` 对数据进行编码
+  + 服务器响应的数据不正确
+
++ 区分致命错误和非致命错误
+  + 非致命错误
+    + 不影响用户的主要任务
+    + 只影响页面的一部分
+    + 可以恢复
+    + 重复相同操作可以消除错误
+  + 致命错误
+    + 应用程序根本无法继续运行
+    + 错误明显影响到了用户的主要操作
+    + 会导致其他连带错误
+  + 可以用try-catch语句拦截非致命错误,使程序能够继续运行
+
++ 把错误记录到服务器
+  + 将错误记录日志传入服务器集中管理
+
+## 自定义错误
+
+```js
+//自定义错误对象
+function UserError(message){
+  this.message = message || '默认信息';
+  this.name = 'UserError';
+}
+UserError.prototype = new Error();
+UserError.prototype.constructor = UserError;
+throw new UserError('自定义错误信息');
+
+//自定义错误
+Nice.Error = {
+  MyError: function (type) {
+    function my(message) {
+      this.name = type;
+      this.message = message;
+      // this.line = line;
+    }
+    my.prototype = new Error();
+    return my;
+  }
+};
+//自定义错误类型
+Nice.TypeError = {
+  random: Nice.Error.MyError('随机错误'),
+  type: Nice.Error.MyError('文件类型错误'),
+  dataset: Nice.Error.MyError('自定义属性不存在'),
+};
+```
+
+## 调试技术
+
++ 通过 console 对象向控制台写入消息
+  + error	将错误记录到控制台
+  + info      将信息性消息记录到控制台
+  + log
+  + warn     警告消息
 
 # 变量和常量
 
