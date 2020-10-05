@@ -229,6 +229,36 @@ p1.getAge() // 25
 + 分号前面可以没有任何内容，JavaScript 引擎将其视为空语句。
 + 表达式不需要分号结尾。一旦在表达式后面添加分号，则 JavaScript 引擎就将表达式视为语句，这样会产生一些没有任何意义的语句。
 
+## 代码规范
+
++ 统一缩进风格
++ 行尾的分号
++ 用大写字母表示全局变量名
++ 分清全等和相等的使用情况
++ 
++ 使用大括号表示区块
++ 起首大括号紧跟关键字跟不容易出错
+```js
+function aa(){
+
+}
+//这种方式容易出错
+function aa()
+{
+
+}
+```
+
++ 圆括号
+  + 圆括号（parentheses）在 JavaScript 中有两种作用，一种表示函数的调用，另一种表示表达式的组合（grouping）。
+```js
+// 圆括号表示函数的调用
+console.log('abc');
+// 圆括号表示表达式的组合
+(1 + 2) * 3
+//为了区分，在调用方法时括号与关键字中间加一个空格
+foo ();
+```
 
 # 面向对象的程序设计
 
@@ -739,7 +769,149 @@ console.log(p1.say === p2.say);   //false
 
 + 
 
-# 错误处理与调试
+# console 对象与控制台
+
++ console 对象
++ console 对象的静态方法
++ 控制台命令行 API
++ debugger 语句  debugger语句主要用于除错，作用是设置断点。
+
+## console 对象
+
++ console 对象是 js 的原生对象
++ console的常见用途有两个。
+  + 调试程序，显示网页代码运行时的错误信息。
+  + 提供了一个命令行接口，用来与网页代码互动。
+
++ console对象的所有方法，都可以被覆盖.
+```js
+['log', 'info', 'warn', 'error'].forEach(function(method) {
+  console[method] = console[method].bind(
+    console,
+    new Date().toISOString()
+  );
+});
+
+console.log("出错了！");
+// 2014-05-18T09:00.000Z 出错了！
+```
+
+## console 对象的静态方法
+
++ console.log()
+  + 该方法用于在控制台输出信息。它可以接受一个或多个参数，将它们连接起来输出。
+  + 该方法会自动在每次输出的结尾，添加换行符。
+  + 如果第一个参数是格式字符串（使用了格式占位符），console.log方法将依次用后面的参数替换占位符，然后再进行输出。
+    + %s  字符串
+    + %d  %i  整数    %f  浮点数
+    + %o  对象链接
+    + %c  CSS格式字符串
+
++ console.info()
+  + 与console.log()用法一样
+  + console.info方法会在输出信息的前面，加上一个蓝色图标。
+
++ console.debug()
+  + 与console.log方法类似,会在控制台输出调试信息。
+  + 但是，默认情况下，console.debug输出的信息不会显示，只有在打开显示级别在verbose的情况下，才会显示。
+
++ console.warn()、console.error()
+  + warn方法和error方法也是在控制台输出信息，
+  + 它们与log方法的不同之处在于，warn方法输出信息时，在最前面加一个黄色三角，表示警告；
+  + error方法输出信息时，在最前面加一个红色的叉，表示出错。
+  + 同时，还会高亮显示输出文字和错误发生的堆栈。其他方面都同log一样。
+
++ console.table()
+  + 将复合类型的数据转为表格输出
+
++ console.count() 
+  + count方法用于计数，输出它被调用了多少次。
+  + 该方法可以接受一个字符串作为参数，作为标签，对执行次数进行分类。
+
++ console.dir()，console.dirxml()
+  + dir方法用来对一个对象进行检查（inspect），并以易于阅读和打印的格式显示。
+    + 该方法对于输出 DOM 对象非常有用，因为会显示 DOM 对象的所有属性。
+    + Node 环境之中，还可以指定以代码高亮的形式输出。
+    + `console.dir(obj, {colors: true})`
+  + dirxml方法主要用于以目录树的形式，显示 DOM 节点。
+  + 如果参数不是 DOM 节点，而是普通的 JavaScript 对象，console.dirxml等同于console.dir。
+
++ console.assert()
+  + console.assert方法主要用于程序运行过程中，进行条件判断，如果不满足条件，就显示一个错误，但不会中断程序执行。这样就相当于提示用户，内部状态不正确。
+  + 它接受两个参数，第一个参数是表达式，第二个参数是字符串。
+  + 只有当第一个参数为false，才会提示有错误，在控制台输出第二个参数，否则不会有任何结果。
+
++ console.time()，console.timeEnd()
+  + 这两个方法用于计时，可以算出一个操作所花费的准确时间。
+```js
+console.time('Array initialize');
+
+var array= new Array(1000000);
+for (var i = array.length - 1; i >= 0; i--) {
+  array[i] = new Object();
+};
+
+console.timeEnd('Array initialize');
+// Array initialize: 1914.481ms
+time方法表示计时开始，timeEnd方法表示计时结束。它们的参数是计时器的名称。调用timeEnd方法之后，控制台会显示“计时器名称: 所耗费的时间”。
+```
+
++ console.group()，console.groupEnd()，console.groupCollapsed()
+  + console.group和console.groupEnd这两个方法用于将显示的信息分组。它只在输出大量信息时有用，分在一组的信息，可以用鼠标折叠/展开。
+```js
+console.group('一级分组');
+console.log('一级分组的内容');
+
+console.group('二级分组');
+console.log('二级分组的内容');
+
+console.groupEnd(); // 二级分组结束
+console.groupEnd(); // 一级分组结束
+
+console.groupCollapsed方法与console.group方法很类似，唯一的区别是该组的内容，在第一次显示时是收起的（collapsed），而不是展开的。
+```
+
++ console.trace()，console.clear() 
+  + console.trace方法显示当前执行的代码在堆栈中的调用路径。
+  + console.clear方法用于清除当前控制台的所有输出，将光标回置到第一行。如果用户选中了控制台的“Preserve log”选项，console.clear方法将不起作用。
+
+## 控制台命令行 API
+
++ $_属性返回上一个表达式的值。
++ 控制台保存了最近5个在 Elements 面板选中的 DOM 元素，$0代表倒数第一个（最近一个），$1代表倒数第二个，以此类推直到$4。
+
++ $(selector)  返回第一个匹配的元素，等同于document.querySelector()。
++ `$$(selector)` 返回选中的 DOM 对象，等同于document.querySelectorAll。
+
++ $x(path)
+  + $x(path)方法返回一个数组，包含匹配特定 XPath 表达式的所有 DOM 元素。
+  + `$x("//p[a]")`  返回所有包含a元素的p元素。
+
++ inspect(object)方法打开相关面板，并选中相应的元素，显示它的细节。
+  + DOM 元素在Elements面板中显示，比如inspect(document)会在 Elements 面板显示document元素。JavaScript 对象在控制台面板Profiles面板中显示，比如inspect(window)。
+
++ getEventListeners(object)
+  + getEventListeners(object)方法返回一个对象，该对象的成员为object登记了回调函数的各种事件（比如click或keydown），每个事件对应一个数组，数组的成员为该事件的回调函数。
+
++ keys(object)，values(object)
+  + keys(object)方法返回一个数组，包含object的所有键名。
+  + values(object)方法返回一个数组，包含object的所有键值。
+
++ monitorEvents(object[, events]) ，unmonitorEvents(object[, events])
+  + monitorEvents(object[, events])方法监听特定对象上发生的特定事件。事件发生时，会返回一个Event对象，包含该事件的相关信息。unmonitorEvents方法用于停止监听。
+  + monitorEvents允许监听同一大类的事件。所有事件可以分成四个大类。
+  + `mouse` : "mousedown", "mouseup", "click", "dblclick", "mousemove", "mouseover", "mouseout", "mousewheel"
+  + `key` : "keydown", "keyup", "keypress", "textInput"
+  + `touch` : "touchstart", "touchmove", "touchend", "touchcancel"
+  + `control` : "resize", "scroll", "zoom", "focus", "blur", "select", "change", "submit", "reset"
+
++ 命令行 API 还提供以下方法。
+  + clear()：清除控制台的历史。
+  + copy(object)：复制特定 DOM 元素到剪贴板。
+  + dir(object)：显示特定对象的所有属性，是console.dir方法的别名。
+  + dirxml(object)：显示特定对象的 XML 形式，是console.dirxml方法的别名。
+
+# 错误处理
 
 + 错误处理机制
 
@@ -920,14 +1092,6 @@ Nice.TypeError = {
   dataset: Nice.Error.MyError('自定义属性不存在'),
 };
 ```
-
-## 调试技术
-
-+ 通过 console 对象向控制台写入消息
-  + error	将错误记录到控制台
-  + info      将信息性消息记录到控制台
-  + log
-  + warn     警告消息
 
 # 变量和常量
 

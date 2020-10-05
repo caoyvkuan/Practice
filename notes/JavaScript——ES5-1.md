@@ -330,155 +330,14 @@ b64Decode('JUU0JUJEJUEwJUU1JUE1JUJE') // "你好"
 + undefined类型		(变量或对象以声明但 	未被赋值 | 初始化	| 对象属性不存在)
 
 ## 引用类型
+
 + Object
 + Array
 + Date
 + RegExp
 + Function
 
-### Object类型
-
-+ 创建对象 `let o = new Object();` 使用new关键字   Object的构造函数
-+ `let person = { };`       使用对象字面量
-  + 括号里不写属性方法，可以定义包含默认属性和方法的对象
-  + 对象是键值对的集合：对象是由属性和方法构成的 (ps：也有说法为：对象里面皆属性，认为方法也是一个属性)
-  + 在使用字面量创建时不会调用object构造函数
-+ 数值的键名会被转化为字符串 symbol 值也可以作为键名
-  + 对象的每个键又称为 `property`
-
-+ 让对象保持被解释为表达式而不是语句块
-  + `({foo:123})` 将对象包裹在圆括号里， 因为圆括号的里面，只能是表达式
-
-+ `Constructor` 保存着创建当前对象的构造函数
-+ `hasOwnProperty(propertyName)` 用于检车给定属性在当前对象的示例中是否存在,属性必须是字符串
-+ `isPrototypeOf(object)` 用于检查传入的对象是否是另一个对象的原型
-+ `propertyIsEnumerable(propertyName)` 用于检查给定属性是否能够使用 `for-in`语句来枚举,属性必须是字符串
-+ `toLocaleString()` 返回对象的字符串表达式,该字符串与执行环境的地区对应
-+ `toString()` 返回对象的字符串表示
-+ `valueOf()` 返回对象的字符串、数值或布尔值表示。通常与`toString()`方法的返回值一样
-
-+ 清空对象
-  + person={};      //person对象不再具有任何属性
-  + person=null;    //表示将person变量的值赋为null，从此以后person是一个空的对象指针
-
-+ 属性是否存在： in 运算符
-+ 属性的遍历：for...in 循环
-
-#### 对象属性操作
-
-+ 方式一:  . 语法
-  + student.name      获取到name属性的值，为："李白"
-  + student.say       获取到一个函数
-  + 数值键名不能使用点语法
-
-+ 方式二:  [] 语法
-  + student["name"]   等价于student.name
-  + student["say"]    等价于student.say
-
-+ 两种方法的差异
-  - .语法更方便，但是坑比较多(有局限性)，比如：
-  - .后面不能使用js中的关键字、保留字、变量(class、this、function。。。)
-    - 用 `obj.this` 没报错
-  - .后面不能使用数字  使用会发生语法错误
-
-  - []使用更广泛
-  - [变量name] 可以使用变量 
-  - ["class"]、["this"]都可以随意使用 `obj["this"]=10`
-  - [0]、[1]、[2]也可以使用
-    - `obj[3]=50 == obj["3"]=50`
-    - 上面相等是因为,对象的属性都是字符串,数字也会被转化为字符串去找对象的属性
-    - 因为:  3并不是变量,而是一个值,可以互相转换
-  - 甚至还可以这样用：["[object Array]"]
-    - jquery里面就有这样的实现
-  - 也可以这样用：["{abc}"]
-    - `obj["abc"] = 值;`
-    - 给对象添加了{abc}属性
-
-#### 设置属性和查看属性
-
-+ `student["gender"]="男"`    等价于：    `student.gender="男"`
-  - 含义：如果student对象中没有gender属性，就添加一个gender属性，值为"男"
-  - 如果student对象中有gender属性，就修改gender属性的值为"男"
-
-+ Object.keys() 查看一个对象本身的所有属性
-
-#### 删除属性
-
-+ delete student["gender"]
-+ delete student.gender
-+ delete 只能删除对象中的属性,不能删除变量
-+ 只有一种情况，delete命令会返回false，那就是该属性存在，且不得删除。
-
-#### 操作方法
-
-+ 每个对象都有一个 [[Prototype]]
-+ 对象属性的描述
-  + `configurable:false` 
-    + 能否使用delete、能否需改属性特性、或能否修改访问器属性、，false为不可重新定义，默认值为false
-  + `enumerable:false`  
-    + 对象属性是否可通过for-in循环，false为不可循环，默认值为false
-  + `writable:false`  
-    + 对象属性是否可修改,false为不可修改，默认值为false
-  + `value:'小明'`  
-    + 对象属性的默认值，默认值为undefined
-  + `get、set` 函数，不设置默认为 undefined
-
-+ `Object.getOwnPropertySymbols(obj);` 在给定对象自身上找到的所有 Symbol 属性的数组
-+ `Object.getOwnPropertyDescriptor(obj,property)` 方法返回指定对象上一个自有属性对应的属性描述符。（自有属性指的是直接赋予该对象的属性，不需要从原型链上进行查找的属性）
-+ `Object.getOwnPropertyNames(obj)` 返回指定对象上自身属性对应的字符串数组
-+ 静态方法 `Reflect.ownKeys(obj)` 返回一个由目标对象自身的属性键组成的数组。
-  + 如果目标不是对象则抛出错误
-
-
-
-+ `Object.defineProperties();`  方法直接在一个对象上定义新的属性或修改现有属性，并返回该对象。
-  + `Object.defineProperties(obj, props)`
-  + 参数： 目标对象 ， 一个或多个属性名称以及描述
-
-+ `Object.defineProperty();`   作用同上
-  + `Object.defineProperty(obj, prop, descriptor)`
-  + 参数： 目标对象 ， 属性名称 ， 属性描述
-
-```js
-var obj = {};
-Object.defineProperties(obj, {
-  'property1': {
-    value: true,
-    writable: true
-  },
-  'property2': {
-    value: 'Hello',
-    writable: false
-  }
-  '其他描述属性'：{
-    configurable:false,//能否使用delete、能否需改属性特性、或能否修改访问器属性、，false为不可重新定义，默认值为false
-    enumerable:false,//对象属性是否可通过for-in循环，false为不可循环，默认值为false
-    writable:false,//对象属性是否可修改,false为不可修改，默认值为false
-    value:'小明', //对象属性的默认值，默认值为undefined
-    get(){ return bValue;},
-      // es6缩写，等价于 get:function(){ return bValue;}
-    set(newValue){ bValue = newValue;}
-    /*
-    * get 和 set 默认值都为 undefined
-    * get : 当访问该属性时会调用此函数，会传入 this 对象， 由于继承关系， 这里的 this 并不一定是定义该属性的对象
-    * set : 当属性被修改时会调用此函数，接收一个参数（也就是被赋予的新值），会传入赋值时的 this 对象
-    */
-  }
-});
-
-
-const object1 = {};
-
-Object.defineProperty(object1, 'property1', {
-  value: 42,
-  writable: false
-});
-
-object1.property1 = 77;
-// throws an error in strict mode
-
-console.log(object1.property1); //42
-```
+### Object 单独记录
 
 ### Array类型
 
@@ -880,6 +739,404 @@ var arr = Array.prototype.slice.call(arrayLike);
   + Math.cos(x)             返回x的余弦值
   + Math.sin(x)             返回x的正弦值
   + Math.tan(x)             返回x的正切值
+
+# Object类型
+
++ 创建对象 `let o = new Object();`  没有参数就是创建空对象
+  + 空对象同等与 `Object(undefined) 、Object(null)`
+  + 如果参数是原始类型的值，Object方法将其转为对应的包装对象的实例
+  + 如果是对象则返回对象
+  + 使用new关键字   Object的构造函数 Object 本身也是一个函数
++ `let person = { };`       使用对象字面量
+  + 括号里不写属性方法，可以定义包含默认属性和方法的对象
+  + 对象是键值对的集合：对象是由属性和方法构成的 (ps：也有说法为：对象里面皆属性，认为方法也是一个属性)
+  + 在使用字面量创建时不会调用object构造函数
++ 数值的键名会被转化为字符串 symbol 值也可以作为键名
+  + 对象的每个键又称为 `property`
+
++ 让对象保持被解释为表达式而不是语句块
+  + `({foo:123})` 将对象包裹在圆括号里， 因为圆括号的里面，只能是表达式
+
++ `Constructor` 属性保存着创建当前对象的构造函数
+
++ 清空对象
+  + person={};      //person对象不再具有任何属性
+  + person=null;    //表示将person变量的值赋为null，从此以后person是一个空的对象指针
+
++ 属性是否存在： in 运算符
++ 属性的遍历：for...in 循环
+
+## 对象属性操作
+
++ 方式一:  . 语法
+  + student.name      获取到name属性的值，为："李白"
+  + student.say       获取到一个函数
+  + 数值键名不能使用点语法
+
++ 方式二:  [] 语法
+  + student["name"]   等价于student.name
+  + student["say"]    等价于student.say
+
++ 两种方法的差异
+  - .语法更方便，但是坑比较多(有局限性)，比如：
+  - .后面不能使用js中的关键字、保留字、变量(class、this、function。。。)
+    - 用 `obj.this` 没报错
+  - .后面不能使用数字  使用会发生语法错误
+
+  - []使用更广泛
+  - [变量name] 可以使用变量 
+  - ["class"]、["this"]都可以随意使用 `obj["this"]=10`
+  - [0]、[1]、[2]也可以使用
+    - `obj[3]=50 == obj["3"]=50`
+    - 上面相等是因为,对象的属性都是字符串,数字也会被转化为字符串去找对象的属性
+    - 因为:  3并不是变量,而是一个值,可以互相转换
+  - 甚至还可以这样用：["[object Array]"]
+    - jquery里面就有这样的实现
+  - 也可以这样用：["{abc}"]
+    - `obj["abc"] = 值;`
+    - 给对象添加了{abc}属性
+
++ `student["gender"]="男"`    等价于：    `student.gender="男"`
+  - 含义：如果student对象中没有gender属性，就添加一个gender属性，值为"男"
+  - 如果student对象中有gender属性，就修改gender属性的值为"男"
+
+## 删除属性
+
++ delete student["gender"]
++ delete student.gender
++ delete 只能删除对象中的属性,不能删除变量
++ 只有一种情况，delete命令会返回false，那就是该属性存在，且不得删除。
+
+## Object 的静态方法
+
++ Object 对象的本身方法
+  + 就是直接定义在 Object 对象的方法
+
++ 由于 JavaScript 没有提供计算对象属性个数的方法，所以可以用这两个方法代替。
+  + `Object.keys(obj).length`
+  + `Object.getOwnPropertyNames(obj).length`
+
++ 对象属性模型的相关方法
+  + Object.getOwnPropertyDescriptor()：获取某个属性的描述对象。
+  + Object.defineProperty()：通过描述对象，定义某个属性。
+  + Object.defineProperties()：通过描述对象，定义多个属性。
+
++ 控制对象状态的方法
+  + Object.preventExtensions()：防止对象扩展。
+  + Object.isExtensible()：判断对象是否可扩展。
+  + Object.seal()：禁止对象配置。
+  + Object.isSealed()：判断一个对象是否可配置。
+  + Object.freeze()：冻结一个对象。
+  + Object.isFrozen()：判断一个对象是否被冻结。
+
++ 原型链相关方法
+  + Object.create()：该方法可以指定原型对象和属性，返回一个新的对象。
+  + Object.getPrototypeOf()：获取对象的Prototype对象。
+
+### Object.keys()
+
++ Object.keys() 查看一个对象本身的所有属性
+  + 该方法的参数是一个对象，返回一个数组。该数组的成员都是该对象自身的（而不是继承的）所有属性名。
+  + 只返回可枚举的属性
+
+### Object.getOwnPropertyNames(obj)
+
++ Object.getOwnPropertyNames 方法用来遍历对象的属性。
+  + 接受一个对象作为参数，返回一个数组，包含了该对象自身的所有属性名。
+  + 该方法返回不可枚举的属性名。
+
++ 静态方法 `Reflect.ownKeys(obj)` 返回一个由目标对象自身的属性键组成的数组。
+  + 如果目标不是对象则抛出错误
+
+## Object的实例方法
+
++ Object 的实例方法
+  + 就是定义在 Object 原型对象 Object.prototype 上的方法
+  + 它可以被Object实例直接使用。
+
++ Object实例对象的方法，主要有以下六个
+  + Object.prototype.valueOf()
+  + Object.prototype.toString()
+  + Object.prototype.toLocaleString()
+    - 返回当前对象对应的本地字符串形式。
+  + Object.prototype.hasOwnProperty(propertyName)
+    - 判断某个属性是否为当前对象自身的属性，而不是继承自原型对象的属性。
+  + Object.prototype.isPrototypeOf(object)
+    - 判断当前对象是否为另一个对象的原型。
+  + Object.prototype.propertyIsEnumerable(propertyName)
+    - 判断某个属性是否可枚举。
+    - 用于检查给定属性是否能够使用 `for-in`语句来枚举,属性必须是字符串
+
+### valueOf()
+
++ valueOf方法的作用是返回一个对象的“值”，默认情况下返回对象本身。
++ valueOf方法的主要用途是，JavaScript 自动类型转换时会默认调用这个方法
++ 返回当前对象对应的值。
+  - 返回对象的字符串、数值或布尔值表示。通常与`toString()`方法的返回值一样
+
+### toString()
+
++ toString方法的作用是返回一个对象的字符串形式，默认情况下返回类型字符串。
++ 数组、字符串、函数、Date 对象都分别部署了自定义的toString方法，覆盖了Object.prototype.toString方法。
+
++ Object.prototype.toString方法返回对象的类型字符串，因此可以用来判断一个值的类型。
++ 由于实例对象可能会自定义toString方法，覆盖掉Object.prototype.toString方法，
++ 所以为了得到类型字符串，最好直接使用Object.prototype.toString方法。
++ 通过函数的call方法，可以在任意值上调用这个方法，帮助我们判断这个值的类型。
+```js
+var obj = {};
+obj.toString() // "[object Object]"
+//结果返回一个字符串object Object，其中第二个Object表示该值的构造函数
+
+Object.prototype.toString.call(value)
+数值：返回[object Number]。
+字符串：返回[object String]。
+布尔值：返回[object Boolean]。
+undefined：返回[object Undefined]。
+null：返回[object Null]。
+数组：返回[object Array]。
+arguments 对象：返回[object Arguments]。
+函数：返回[object Function]。
+Error 对象：返回[object Error]。
+Date 对象：返回[object Date]。
+Math 对象：返回[object Math]。
+RegExp 对象：返回[object RegExp]。
+其他对象：返回[object Object]。
+
+Object.prototype.toString.call(undefined) === '[object Undefined]' // true
+
+let type = function (o){
+  let s = Object.prototype.toString.call(o);
+  return s.match(/\[object (.*?)\]/)[1].toLowerCase();
+}
+console.log(type(/abcd/));  // "regexp"
+
+在上面这个type函数的基础上，还可以加上专门判断某种类型数据的方法。
+
+['Null',
+ 'Undefined',
+ 'Object',
+ 'Array',
+ 'String',
+ 'Number',
+ 'Boolean',
+ 'Function',
+ 'RegExp'
+].forEach(function (t) {
+  type['is' + t] = function (o) {
+    return type(o) === t.toLowerCase();
+  };
+});
+
+type.isObject({}) // true
+type.isNumber(NaN) // true
+type.isRegExp(/abc/) // true
+```
+
+### toLocaleString()
+
++ Object.prototype.toLocaleString方法与toString的返回结果相同，也是返回一个值的字符串形式。
++ 这个方法的主要作用是留出一个接口，让各种不同的对象实现自己版本的toLocaleString，用来返回针对某些地域的特定的值。
+
++ 目前，主要有三个对象自定义了toLocaleString方法。
+  + Array.prototype.toLocaleString()
+  + Number.prototype.toLocaleString()
+  + Date.prototype.toLocaleString()
+
+### hasOwnProperty()
+
++ Object.prototype.hasOwnProperty方法接受一个字符串作为参数，返回一个布尔值，表示该实例对象自身是否具有该属性。
+
+## 属性描述对象
+
++ 每个属性都有自己对应的属性描述对象，保存该属性的一些元信息。每个属性都有一个 [[Prototype]]
+
+```js
+//属性描述对象提供6个元属性。
+{
+  // 属性描述对象的各个属性称为“元属性”，因为它们可以看作是控制属性的属性.
+  value: 123,
+  writable: false,
+  enumerable: true,
+  configurable: false,
+  get: undefined,
+  set: undefined
+}
+```
+
++ 对象属性的描述
+  + `configurable:false` 
+    - configurable是一个布尔值，表示可配置性，
+    - 默认为true。
+    - 如果设为false，将阻止某些操作改写该属性，比如无法删除该属性，也不得改变该属性的属性描述对象（value属性除外）。
+    - 也就是说，configurable属性控制了属性描述对象的可写性。
+  + `enumerable:false`  
+    - enumerable是一个布尔值，表示该属性是否可遍历，
+    - 默认为true。
+    - 如果设为false，会使得某些操作（比如for...in循环、Object.keys()、JSON.stringify方法）跳过该属性。
+  + `writable:false`  
+    - writable是一个布尔值，表示属性值（value）是否可改变（即是否可写），
+    - 默认为true。
+  + `value:'小明'`  
+    - value是该属性的属性值，
+    - 默认为undefined。
+  + `get`
+    - get是一个函数，表示该属性的取值函数（getter），
+    - 默认为undefined。
+  + `set`
+    - set是一个函数，表示该属性的存值函数（setter），
+    - 默认为undefined。
+
++ 注意，一旦定义了取值函数get（或存值函数set），就不能将writable属性设为true，或者同时定义value属性，否则会报错。
+
++ 存取器
+  - 除了直接定义以外，属性还可以用存取器定义。
+  - 其中，存值函数称为setter，使用属性描述对象的set属性；
+  - 取值函数称为getter，使用属性描述对象的get属性。
+  - 一旦对目标属性定义了存取器，那么存取的时候，都将执行对应的函数
+```js
+var obj = Object.defineProperty({}, 'p', {
+  get: function () {
+    return 'getter';
+  },
+  set: function (value) {
+    console.log('setter: ' + value);
+  }
+});
+
+obj.p // "getter"
+obj.p = 123 // "setter: 123"
+
+// 写法二
+var obj = {
+  get p() {
+    return 'getter';
+  },
+  set p(value) {
+    console.log('setter: ' + value);
+  }
+};
+
+上面两种写法，虽然属性p的读取和赋值行为是一样的，但是有一些细微的区别。
+第一种写法，属性p的configurable和enumerable都为false，从而导致属性p是不可遍历的；
+第二种写法，属性p的configurable和enumerable都为true，因此属性p是可遍历的。
+实际开发中，写法二更常用。
+
+注意，取值函数get不能接受参数，存值函数set只能接受一个参数（即属性的值）。
+
+存取器往往用于，属性的值依赖对象内部数据的场合。
+var obj ={
+  $n : 5,
+  get next() { return this.$n++ },
+  set next(n) {
+    if (n >= this.$n) this.$n = n;
+    else throw new Error('新的值必须大于当前值');
+  }
+};
+obj.next // 5
+obj.next // 6
+obj.next = 5;
+// Uncaught Error: 新的值必须大于当前值
+```
+
+### Object.getOwnPropertyDescriptor()
+
++ `Object.getOwnPropertyDescriptor(obj,property)` 
+  - 只能用于对象自身的属性，不能用于继承的属性。
+  - 可以获取属性描述对象。它的第一个参数是目标对象，第二个参数是一个字符串，对应目标对象的某个属性名。
+```js
+var obj = { p: 'a' };
+
+Object.getOwnPropertyDescriptor(obj, 'p')
+// Object { value: "a",
+//   writable: true,
+//   enumerable: true,
+//   configurable: true
+// }
+```
+
++ `Object.getOwnPropertySymbols(obj);` 在给定对象自身上找到的所有 Symbol 属性的数组
+
+### Object.prototype.propertyIsEnumerable()
+
++ 实例对象的propertyIsEnumerable()方法返回一个布尔值，用来判断某个属性是否可遍历。
++ 注意，这个方法只能用于判断对象自身的属性，对于继承的属性一律返回false。
+
+### Object.defineProperty()，Object.defineProperties()
+
++ `Object.defineProperties();`  方法直接在一个对象上定义新的属性或修改现有属性，并返回该对象。
+  + `Object.defineProperties(obj, props)`
+  + 参数： 目标对象 ， 一个或多个属性名称以及描述
+
++ `Object.defineProperty();`   作用同上
+  + `Object.defineProperty(obj, prop, descriptor)`
+  + 参数： 目标对象 ， 属性名称 ， 属性描述对象
+
+```js
+var obj = {};
+Object.defineProperties(obj, {
+  'property1': {
+    value: true,
+    writable: true
+  },
+  'property2': {
+    value: 'Hello',
+    writable: false
+  }
+  '其他描述属性'：{
+    configurable:false,//能否使用delete、能否需改属性特性、或能否修改访问器属性、，false为不可重新定义，默认值为false
+    enumerable:false,//对象属性是否可通过for-in循环，false为不可循环，默认值为false
+    writable:false,//对象属性是否可修改,false为不可修改，默认值为false
+    value:'小明', //对象属性的默认值，默认值为undefined
+    get(){ return bValue;},
+      // es6缩写，等价于 get:function(){ return bValue;}
+    set(newValue){ bValue = newValue;}
+    /*
+    * get 和 set 默认值都为 undefined
+    * get : 当访问该属性时会调用此函数，会传入 this 对象， 由于继承关系， 这里的 this 并不一定是定义该属性的对象
+    * set : 当属性被修改时会调用此函数，接收一个参数（也就是被赋予的新值），会传入赋值时的 this 对象
+    */
+  }
+});
+
+
+const object1 = {};
+
+Object.defineProperty(object1, 'property1', {
+  value: 42,
+  writable: false
+});
+
+object1.property1 = 77;
+// throws an error in strict mode
+
+console.log(object1.property1); //42
+```
+
+## 对象的拷贝
+
+```js
+var extend = function (to, from) {
+  for (var property in from) {
+    if (!from.hasOwnProperty(property)) continue;
+    Object.defineProperty(
+      to,
+      property,
+      Object.getOwnPropertyDescriptor(from, property)
+    );
+  }
+
+  return to;
+}
+
+extend({}, { get a(){ return 1 } })
+// { get a(){ return 1 } })
+
+//上面代码中，hasOwnProperty那一行用来过滤掉继承的属性，否则可能会报错，
+//因为Object.getOwnPropertyDescriptor读不到继承属性的属性描述对象。
+```
+
+## 控制对象状态
 
 # 自动转换
 
