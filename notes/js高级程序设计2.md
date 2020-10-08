@@ -982,37 +982,6 @@
 	
 	```
 
-### 防篡改对象
-
-+ 手工设置对象的属性
-
-  + ```js
-    [[Configurable]]
-    [[Writable]]
-    [[Enumerable]]
-    [[Value]]
-    [[Get]]
-    [[Set]]
-    ```
-
-+ 一旦把对象设定为防篡改就无法撤销
-
-+ 不可扩展对象
-  + `Object.preventExtensions(obj)` 方法可以禁止给对象添加属性和方法
-  + 在严格模式下给不可扩展对象添加属性或方法会报错
-  + 但可以修改和删除已经存在的对象成员
-+ 密封的对象
-  + 密封对象,将已有的成员的 `[[Configurable]]`  属性设置为`false`, 这意味着不能删除属性和方法,因为不能使用`Object.defineProperty()`把数据属性修改为访问器属性,或者相反,属性值是可以修改的.
-  + 密封对象 `Object.seal(obj)`方法
-  + 在严格模式下添加删除都会报错
-  + 使用`Object.isSealed()` 确定对象是否被密封
-  + `Object.isExtensible()` 检测密封对象也会返回 `false`  因为密封对象不可扩展
-+ 冻结的对象
-  + 最严格的防篡改级别是冻结对象( frozen object),冻结的对象既不可扩展，又是密封的，而且对象数据属性的`[[Writable]]`特性会被设置为`false`。
-  + 如果定义`[[Set]]`函数,访问器属性仍然是可写的。
-  + EC5定义的`object.freeze(obj)`方法可以用来冻结对象。
-  + `Object.isFrozen()` 方法用于检测冻结对象
-
 ### 高级定时器
 
 + 因为js是单线程的运行环境

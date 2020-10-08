@@ -293,32 +293,6 @@ s[4] // "o"
   // Date方法 toString() 也有同样效果。
 ```
 
-  + `split()`
-    + 传入一个字符串，按照传入的字符串将使用方法的字符串分割为数组并返回
-  + `join`
-    + 传入一个字符,按照传入的字符将数组连接为字符串
-  + `replace` 替换
-    + `replaceAll` 替换所有
-
-+ Base64 转码
-  + 有时，文本里面包含一些不可打印的符号，比如 ASCII 码0到31的符号都无法打印出来，这时可以使用 Base64 编码，将它们转成可以打印的字符
-  + 所谓 Base64 就是一种编码方法，可以将任意值转成 0～9、A～Z、a-z、+和/这64个字符组成的可打印字符。使用它的主要目的，不是为了加密，而是为了不出现特殊字符，简化程序的处理。
-  + `btoa()` 任意值转为 Base64 编码
-  + `atob()` Base64 编码转为原来的值
-  + 这两个方法不适合非 ASCII 码的字符，会报错。 `btoa('你好') // 报错`
-```js
-function b64Encode(str) {
-  return btoa(encodeURIComponent(str));
-}
-
-function b64Decode(str) {
-  return decodeURIComponent(atob(str));
-}
-
-b64Encode('你好') // "JUU0JUJEJUEwJUU1JUE1JUJE"
-b64Decode('JUU0JUJEJUEwJUU1JUE1JUJE') // "你好"
-```
-
 ### null 与 undefined
 
 + null 表示一个空对象指针
@@ -339,173 +313,27 @@ b64Decode('JUU0JUJEJUEwJUU1JUE1JUJE') // "你好"
 
 ### Object 单独记录
 
-### Array类型
-
-+ ECMAScript中数组是动态可调的，可以随着数据的添加自动增长以容纳新增数据
-
-+ 创建方法
-  + `let colors = new Array()`  也可省略new关键字
-  + `let colors = ["red","blue","green"]` 使用数组字面量表示法
-    + 在使用字面量创建时不会调用Array构造函数
-  + 任何类型的数据都可以放入数组
-
-+ 数组的本质
-  + 本质上，数组属于一种特殊的对象。typeof运算符会返回数组的类型是object。
-  + Object.keys(arr); 可以获取数组的键
-  + 数组的键名其实也是字符串
-  + 对于数值的键名不能使用点结构
-```js
-var a = [];
-a[1.00] = 6;  //由于1.00转成字符串是1，所以通过数字键1可以读取值。
-a[1] // 6
-arr.0 // SyntaxError
-```
-
-+ 特点
-  + 使用超过数组长度的索引时数组会自动增加到对应的长度
-  + length属性不是只读的，可以向数组末尾移除向或添加新项
-    + `arr.length = 4;` 设置数组的长度会把多的项删除，少的话就会新增空项undefined值
-    + 数组的数字键不需要连续，length属性的值总是比最大的那个整数键大1
-    + 如将只有三个值的数组，第四个键值设置为 10 那么 数组的长度就是 11 而不是数组包含值的真实个数
-    + 如果数组的键名是添加超出范围的数值，该键名会自动转为字符串。
-    + 清空数组的有效方法就是将 length 属性设置为0
-  + 数组最多可以包含4294967295个项
-
-+ 数组的空位，空元素也不会影响 length 属性， 最后一个元素后面有逗号也一样
-+ delete 命令删除数组元素会形成空位， 空位返回 undefined
-+ forEach 方法、for-in 结构、Object.keys 方法 进行遍历数组，空位都会跳过
-+ 如果某个位置是 undefined 遍历的时候不会被跳过
-
-+ in 操作符也适用于数组
-+ for-in 循环会遍历数组的所有键，包括非数字的键
-
-+ 检测数组
-  + 对于一个网页或者一个全局作用域， `instanceof`操作符就能得到结果
-    + 但对于2个或以上，因为存在不同版本的Array构造函数就得不到想要的结果
-  + ES5 提供了 `Array.isArray()`方法检测某个值到底是不是数组，而不管是在那个全局环境创建的
-    + `Array.isArray(value)`
-
-+ 类数组对象   本质上还是对象而不是数组
-  + 典型的“类似数组的对象”是 函数的 arguments 对象， 以及大多数 DOM 元素集，还有字符串。
-  + 数组的slice方法可以将“类似数组的对象”变成真正的数组。
-```js
-var obj = {
-  0: 'a',
-  1: 'b',
-  2: 'c',
-  length: 3
-};
-
-var arr = Array.prototype.slice.call(arrayLike);
-//也可以通过call直接调用数组的方法，但是这种方法比数组原生的要慢
-//所以最好先将之转化为数组，在调用数组的方法
-```
-
-#### 数组操作方法
-
-+ 转化方法
-  + 所有对象都具有 `toLocaleString()、toString()、valueOf()`方法
-    + 数组的 `toString()`方法会返回由数组中每个值的字符串拼接而成的一个以逗号分隔的字符串
-    + `valueOf()` 方法返回的还是数组
-    + `toLocaleString()`方法返回类似
-    + `join( " | " )` 方法可以设置分隔符
-
-+ 栈方法
-  + ECMAScript为数组提供了 `push() 和 pop()`方法
-  + 栈的访问规则是LIFO(Last-In-First-Out,后进先出)的数据结构，也就是最新添加的项最早被移除
-  + 栈中项的插入（叫做推入）和移除（叫做弹出），只发生在一个位置——栈的顶部
-  + `push()` 可以接受任意数量的参数，把他们添加到数组结尾，并返回修改后数组的长度
-  + `pop()` 方法则从数组末尾移除最后一项，减少数组的length值，返回返回移除的项
-
-+ 队列方法
-  + 队列的数据结构访问规则是FIFO(First-In-First-Out,先进先出)。队列在列表的末端添加项，从列表的前端移除项
-  + `push()`方法还是完成添加的工作
-  + `shift()` 方法移除数组的第一个项并返回该项
-  + `unshift()` 方法能在数组前端添加任意个项并返回数组长度。
-  + 同时使用`unshift() 和 pop()` 方法可以从相反的方向来模拟队列
-
-+ 重排序方法
-  + `reverse() 和 sort()`
-    + `reverse()`可以反转数组项的顺序
-    + `sort()` 方法按升序排列数组项——即最小的值位于最前面,最大值排在后面
-      + 此方法可以接收一个比较函数作为参数
-      + 该函数 接收两个参数, 第一个参数位于应该位于第二个 `之前` 则返回一个负数,相等返回 0 , `之后` 返回一个正数
-
-```js
-  `sort()` 方法会调用每个数组项的 `toString()`转型方法，然后比较得到的字符串，即使数组的每一项都是数值，该方法比较的也是字符串
-  升序排列
-  arr.sort(function(a,b){return a - b});
-  //升序函数
-  function(a,b){
-    if(a < b){
-      return -1;
-    }else if(a > b){
-      return 1;
-    }else{
-      return 0;
-    }
-  }
-  降序排列
-  arr.sort(function(a,b){return b - a});
-```
-
-+ 操作方法
-
-  + `concat()` 方法在数组的基础上创建一个副本，
-    + 连接一个或多个数组
-    + 如果传递参数，就会将参数加在数组末尾，不影响原数组
-
-  + `slice()`方法数组截取，数组位数同样从0开始计数
-    + 不会修改原数组
-    + 一个参数，返回起始位置到数组末尾的项组成新的数组
-    + 两个参数，返回起始位置到结束位置**前**的项
-    + `arr.slice(1,4);` 截取1到4位，但不包括4，也就是说返回1-3；
-
-  + `splice(index,delete,插入或替换)`方法
-    + 返回被删除的项
-    + 删除,起始位置,删除个数
-    + 插入,起始位置,删除0个,插入的一个或多个参数
-    + 替换,起始位置,删除个数,插入的一个或多个参数
-
-+ 位置方法
-  + ES5 为数组实例添加了两个位置方法：`indexOf()`和 `lastIndexOf()`
-  + 两个方法都接收两个参数：要查找的项和（可选的）查找的起点位置
-
-+ 迭代方法
-+ `array.forEach(function(item,index,array){ })`
-+ 对数组中的每一项运行给定函数
-  + `every()` 如果该函数对每一项都返回 true , 则返回 true
-  + `filter()` 返回该函数会返回true的项组成的数组
-  + `forEach()` 这个方法没有返回值
-  + `map()` 返回每次函数调用的结果组成的数组
-  + `some()` 如果该函数任意一项返回 true , 则返回 true
-
-+ 缩小方法
-  + ES5 中新增了两个缩小数组的方法： `reduce()`和 `reduceRight()`.这两个方法都会迭代数组的所有项
-  + 一个从头开始迭代，一个从末尾开始迭代
-  + 都接收4个参数：前一个值，当前值，项的索引，和数组对象
-  + 第一次的前一个值为索引0的值   当前值为索引 1 的值
-  + 往后的迭代前一个值为上次的返回值,如无返则为`undefined`
-```js
-  //reduce() 方法求和
-  let values = [1, 2, 3, 4, 5, 6];
-  let sum = values.reduce(function(prev, cur, index, array){
-    return prev + cur;
-  });   // 21
-```
+### Array类型 单独记录
 
 ### Date类型
 
 + Date类型使用UTC 1970年1月1日午夜（零时）开始经过的毫秒数来保存日期
 + Date类型保存的日期能精确到1970年1月1日之前或之后的285616年
 + `let now = new Date()`
+
 + `Date.parse()`接受表示日期的字符串,如果字符串不能表示日期则返回`NaN`
   + `let someDate = new Date(Date.parse("2015-5-5"))`
   + 直接像`Date()`构造函数传递参数,也会在后台调用`Date.parse()`方法
+
 + `Date.UTC()` 方法同样返回毫秒数,但是月份、每月中的日期、小时数都是从0开始计数
   + 同样的`2015-5-5` 用`Date.UTC`表示为`new Date(2015,4,4)` 小时分秒都用逗号隔开向后输入
+
 + `Date.now()`返回调用这个方法时的日期时间的毫秒数
   + 可以在脚本运行时取一次，脚本结束时取一次，相减就可以得出脚本的运行消耗时间
+
++ 日期的运算
+  + 减法运算，返回的是它们间隔的毫秒数
+  + 加法运算，拼接字符串
 
 + 继承的方法
   + 与其他引用类型一样，Date类型也重写了`toLocaleString()、toString()和valueOf()`方法
@@ -514,13 +342,53 @@ var arr = Array.prototype.slice.call(arrayLike);
   + `toString()` 方法通常返回带有时区信息的日期和时间
   + `valueOf()` 返回日期的毫秒表示，因此可以方便使用比较操作符来比较日期值
 
-+ 日期格式化
-  + ![日期格式化](./images/日期格式化.png)
++ to 类方法
+  + Date.prototype.toString()
+    - toString方法返回一个完整的日期字符串。
+  + Date.prototype.toUTCString()
+    - toUTCString方法返回对应的 UTC 时间，也就是比北京时间晚8个小时。
+  + Date.prototype.toISOString()
+    - toISOString方法返回对应时间的 ISO8601 写法。
+  + Date.prototype.toJSON()
+    - toJSON方法返回一个符合 JSON 格式的 ISO 日期字符串，与toISOString方法的返回结果完全相同。
+  + Date.prototype.toDateString()
+    - toDateString方法返回日期字符串（不含小时、分和秒）。
+  + Date.prototype.toTimeString()
+    - toTimeString方法返回时间字符串（不含年月日）。
 
-+ 日期/时间组件方法
-  + ![日期方法1](./images/日期方法1.png)
++ get 类方法
+  + Date对象提供了一系列get*方法，用来获取实例对象某个方面的值。
+  + getTime()：返回实例距离1970年1月1日00:00:00的毫秒数，等同于valueOf方法。
+  + getDate()：返回实例对象对应每个月的几号（从1开始）。
+  + getDay()：返回星期几，星期日为0，星期一为1，以此类推。
+  + getFullYear()：返回四位的年份。
+  + getMonth()：返回月份（0表示1月，11表示12月）。
+  + getHours()：返回小时（0-23）。
+  + getMilliseconds()：返回毫秒（0-999）。
+  + getMinutes()：返回分钟（0-59）。
+  + getSeconds()：返回秒（0-59）。
+  + getTimezoneOffset()：返回当前时间与 UTC 的时区差异，以分钟表示，返回结果考虑到了夏令时因素。
+  + get*方法返回的都是当前时区的时间，Date对象还提供了这些方法对应的 UTC 版本，用来返回 UTC 时间。
+
++ set 类方法
+  + Date对象提供了一系列set*方法，用来设置实例对象的各个方面。
+  + setDate(date)：设置实例对象对应的每个月的几号（1-31），返回改变后毫秒时间戳。
+  + setFullYear(year [, month, date])：设置四位年份。
+  + setHours(hour [, min, sec, ms])：设置小时（0-23）。
+  + setMilliseconds()：设置毫秒（0-999）。
+  + setMinutes(min [, sec, ms])：设置分钟（0-59）。
+  + setMonth(month [, date])：设置月份（0-11）。
+  + setSeconds(sec [, ms])：设置秒（0-59）。
+  + setTime(milliseconds)：设置毫秒时间戳。
+  + set*系列方法除了setTime()，都有对应的 UTC 版本，即设置 UTC 时区的时间。
 
 ### RegExP类型
+
++ 创建方法
+  + 构造函数
+    + ` let regex = new RegExp('xyz','i'); `
+  + 正则字面量
+    + ` let regex = /xyz/i `
 
 + ECMAScript 通过 RegExp类型来支持正则表达式
   + `let expression = / pattern / flags;`
@@ -532,28 +400,100 @@ var arr = Array.prototype.slice.call(arrayLike);
   + `let pattern1 = /at/g;`  匹配字符串中所有“at”的实例
   + `let pattern2 = /[bc]at/i;`  匹配第一个“bat”或"cat"，不区分大小写
   + `let pattern3 = /.at/gi;`   匹配所有以“at”结尾的3个字符的组合，不区分大小写
-  + 与其他语言中的正则表达式类似，模式中使用的所有元字符都必须转义，元字符包括：
+
++ 与其他语言中的正则表达式类似，模式中使用的所有元字符都必须转义，元字符包括：
+  + 转义符号 （'\'）
   + `( [ { \ ^ $ | ) ? * + . ] }`
-  + 如果想匹配字符串中包含的这些字符，就必需对它们进行转义
-  + `let pattern2 = /\[bc\]at/i;` 匹配第一个“[bc]at”,不区分大小写
-  + `let pattern3 = /\.at/gi;` 匹配所有以“.at”，不区分大小写
++ 如果想匹配字符串中包含的这些字符，就必需对它们进行转义
++ `let pattern2 = /\[bc\]at/i;` 匹配第一个“[bc]at”,不区分大小写
++ `let pattern3 = /\.at/gi;` 匹配所有以“.at”，不区分大小写
 + 以RegExp构造函数创建正则表达式，它接受两个参数，一个是要匹配的字符串模式，另一个是可选的标志字符串
   + `let pattern2 = new RegExp("[bc]at","i");` 因为参数是字符串，所以在转义元字符时需要双重转义
-  + ![正则转义](./images/正则转义.png)
 
 #### RegExp实例属性
-  + ![RegExp实例属性](./images/RegExp实例属性.png)
+
++ 正则对象的实例属性分成两类。
+
++ 一类是修饰符相关，用于了解设置了什么修饰符。
+  + RegExp.prototype.ignoreCase：返回一个布尔值，表示是否设置了i修饰符。
+  + RegExp.prototype.global：返回一个布尔值，表示是否设置了g修饰符。
+  + RegExp.prototype.multiline：返回一个布尔值，表示是否设置了m修饰符。
+  + RegExp.prototype.flags：返回一个字符串，包含了已经设置的所有修饰符，按字母排序。
+  + 上面四个属性都是只读的。
+
++ 另一类是与修饰符无关的属性，主要是下面两个。
+  + RegExp.prototype.lastIndex：返回一个整数，表示下一次开始搜索的位置。该属性可读写，但是只在进行连续搜索时有意义，详细介绍请看后文。
+  + RegExp.prototype.source：返回正则表达式的字符串形式（不包括反斜杠），该属性只读。
 
 #### RegExp 实例方法
-  + RegExp对象的主要方法是`exec()`   返回匹配到的字符
-  + 正则表达式的第二个方法是`test()` 接受一个字符串参数
-  + 在模式与参数匹配的情况下返回`true` 否则就返回 `false`
-  + RegExp实例继承的`toLocaleString() 和 toString()` 方法都会返回正则表达式的字面量，与创建的方式无关
-  + search() 方法使用表达式来搜索匹配，然后返回匹配的位置。
-  + replace() 方法返回模式被替换处修改后的字符串。
-  + search() 方法也接受字符串作为搜索参数。
-  + match()  找到一个或多个正则表达式的匹配。
-  + split()   把字符串分割为字符串数组。
+
++ RegExp.prototype.test()
+  + 正则实例对象的 test 方法返回一个布尔值，表示当前模式是否能匹配参数字符串。
+  + 如果正则表达式带有g修饰符，则每一次test方法都从上一次结束的位置开始向后匹配。
+```js
+var r = /x/g;
+var s = '_x_x';
+
+r.lastIndex // 0
+r.test(s) // true
+
+r.lastIndex // 2
+r.test(s) // true
+
+r.lastIndex // 4
+r.test(s) // false
+//带有g修饰符时，可以通过正则对象的lastIndex属性指定开始搜索的位置。
+//注意，带有g修饰符时，正则表达式内部会记住上一次的lastIndex属性，这时不应该更换所要匹配的字符串，否则会有一些难以察觉的错误。
+//lastIndex属性只对同一个正则表达式有效
+```
+
++ RegExp.prototype.exec()
+  + 正则实例对象的exec()方法，用来返回匹配结果。
+  + 如果发现匹配，就返回一个数组，成员是匹配成功的子字符串，否则返回null。
+  + exec()方法的返回数组还包含以下两个属性：
+    + input：整个原字符串。
+    + index：模式匹配成功的开始位置（从0开始计数）。
+  + 如果正则表达式加上g修饰符，则可以使用多次exec()方法，下一次搜索的位置从上一次匹配成功结束的位置开始。
+
+#### 字符串的实例方法
+
++ String.prototype.match()：返回一个数组，成员是所有匹配的子字符串。
++ String.prototype.search()：按照给定的正则表达式进行搜索，返回一个整数，表示匹配开始的位置。
++ String.prototype.replace()：按照给定的正则表达式进行替换，返回替换后的字符串。
++ String.prototype.split()：按照给定规则进行字符串分割，返回一个数组，包含分割后的各个成员。
+
++ String.prototype.match()
+  + 字符串实例对象的match方法对字符串进行正则匹配，返回匹配结果。
+  + 字符串的match方法与正则对象的exec方法非常类似：匹配成功返回一个数组，匹配失败返回null。
+  + 如果正则表达式带有g修饰符，则该方法与正则对象的exec方法行为不同，会一次性返回所有匹配成功的结果。
+  + 设置正则表达式的lastIndex属性，对match方法无效，匹配总是从字符串的第一个字符开始。
+
++ String.prototype.search()
+  + 字符串对象的search方法，返回第一个满足条件的匹配结果在整个字符串中的位置。如果没有任何匹配，则返回-1。
+
++ String.prototype.replace()
+  + 字符串对象的replace方法可以替换匹配的值。它接受两个参数，第一个是正则表达式，表示搜索模式，第二个是替换的内容。
+  + 正则表达式如果不加g修饰符，就替换第一个匹配成功的值，否则替换所有匹配成功的值。
+  + replace方法的第二个参数可以使用美元符号$，用来指代所替换的内容。
+    + $&：匹配的子字符串。
+    + $`：匹配结果前面的文本。
+    + $'：匹配结果后面的文本。
+    + $n：匹配成功的第n组内容，n是从1开始的自然数。
+    + $$：指代美元符号$。
+  + replace方法的第二个参数还可以是一个函数，将每一个匹配内容替换为函数返回值。
+```js
+//replace方法的一个应用，就是消除字符串首尾两端的空格。
+var str = '  #id div.class  ';
+
+str.replace(/^\s+|\s+$/g, '')
+// "#id div.class"
+```
+
++ String.prototype.split()
+  + 字符串对象的split方法按照正则规则分割字符串，返回一个由分割后的各个部分组成的数组。
+  + 该方法接受两个参数，第一个参数是正则表达式，表示分隔规则，第二个参数是返回数组的最大成员数。
+
++ RegExp实例继承的`toLocaleString() 和 toString()` 方法都会返回正则表达式的字面量，与创建的方式无关
 
 #### RegExp 构造函数属性
 
@@ -572,6 +512,9 @@ var arr = Array.prototype.slice.call(arrayLike);
 ### Function 函数部分
 
 ## 基本包装类型
+
++ 总结一下，这三个对象作为构造函数使用（带有new）时，可以将原始类型的值转为对象；
++ 作为普通函数使用时（不带有new），可以将任意类型的值，转为原始类型的值。
 
 + 特殊的引用类型：`Boolean、Number、String`
   + 每读取一个基本类型值的时候，后台就创建一个对应的基本类型的包装类型的对象，从而能够调用一些方法来操作这些数据
@@ -596,53 +539,185 @@ var arr = Array.prototype.slice.call(arrayLike);
   + object 构造函数也会想工厂方法一样,根据传入值的类型返回相应基本包装类型的实例
     + `let obj = new Object("some text"); alert(obj instanceof String); //true`
 
-### Boolean 类型 不建议使用
+### Boolean 类型 不建议使用(new)
+
++ 当成函数调用可以进行布尔类型的转换
 
 ### Number 类型
 
-+ 数值格式化字符串方法`let num = 10; num.toFixed(2); //"10.00" ` 转化为有两位小数的字符串，  小数位多时能自动舍入
-+ 格式化数值的方法： `toExponential()`,(e表示法，或科学计数)
-+ 自动确认格式： `toPrecision()` 方法
-+ 同样不建议使用
+#### 静态属性
+
++ Number对象拥有以下一些静态属性（即直接定义在Number对象上的属性，而不是定义在实例上的属性）。
++ Number.POSITIVE_INFINITY：正的无限，指向Infinity。
++ Number.NEGATIVE_INFINITY：负的无限，指向-Infinity。
++ Number.NaN：表示非数值，指向NaN。
++ Number.MIN_VALUE：表示最小的正数（即最接近0的正数，在64位浮点数体系中为5e-324），相应的，最接近0的负数为-Number.MIN_VALUE。
++ Number.MAX_SAFE_INTEGER：表示能够精确表示的最大整数，即9007199254740991。
++ Number.MIN_SAFE_INTEGER：表示能够精确表示的最小整数，即-9007199254740991。
+```js
+Number.POSITIVE_INFINITY // Infinity
+Number.NEGATIVE_INFINITY // -Infinity
+Number.NaN // NaN
+
+Number.MAX_VALUE
+// 1.7976931348623157e+308
+Number.MAX_VALUE < Infinity
+// true
+
+Number.MIN_VALUE
+// 5e-324
+Number.MIN_VALUE > 0
+// true
+
+Number.MAX_SAFE_INTEGER // 9007199254740991
+Number.MIN_SAFE_INTEGER // -9007199254740991
+```
+
+#### 实例方法
+
++ Number.prototype.toString()
+  + Number对象部署了自己的toString方法，用来将一个数值转为字符串形式。
+  + toString方法可以接受一个参数，表示输出的进制。
+  + 如果省略这个参数，默认将数值先转为十进制，再输出字符串；
+  + 否则，就根据参数指定的进制，将一个数字转化成某个进制的字符串。
+
++ Number.prototype.toFixed()
+  + toFixed()方法先将一个数转为指定位数的小数，然后返回这个小数对应的字符串。
+  + `let num = 10; num.toFixed(2); //"10.00" ` 转化为有两位小数的字符串
+  + 小数位多时能自动舍入
+
++ Number.prototype.toExponential()
+  + toExponential方法用于将一个数转为科学计数法形式。
+  + `(10).toExponential()  // "1e+1"`
+  + `(10).toExponential(2) // "1.00e+1"`
+  + toExponential方法的参数是小数点后有效数字的位数，范围为0到100
+  + 超出这个范围，会抛出一个 RangeError 错误。
+
++ Number.prototype.toPrecision()
+  + Number.prototype.toPrecision()方法用于将一个数转为指定位数的有效数字。
+```js
+(12.34).toPrecision(1) // "1e+1"
+(12.34).toPrecision(2) // "12"
+(12.34).toPrecision(3) // "12.3"
+(12.34).toPrecision(4) // "12.34"
+(12.34).toPrecision(5) // "12.340"
+```
+
++ Number.prototype.toLocaleString() 
+  + Number.prototype.toLocaleString()方法接受一个地区码作为参数，返回一个字符串，表示当前数字在该地区的当地书写形式。
 
 ### String 类型
 
 + String类型的实例，都有一个length属性，表示字符串中包含多少个字符
 
-+ 字符方法
-  + 访问字符串中特定字符的方法：`charAt() 和 charCodeAt()` 都接收一个参数
-    + `charAt(0)` 返回指定位置的那个字符
-    + `charCodeAt(0)` 返回指定位置字符的字符编码
+#### 实例方法
 
-+ 字符串操作方法
-  + `concat()` 用于将一个或多个字符串拼接起来，返回新字符串
-    + `let str = "hello ";   let result = str.concat("world","!");`
-  + `slice() 、 substr() 、 substring()` 第一个参数都是起始位置    返回新字符串    没传第二个参数默认到字符串末尾
-    + slice() 截取 第二个参数  结束位置
-      + 负参数会从后面开始截取, `a.slice(3,-3)` 从倒数第三个字符截取到整数第三个字符
-    + substring() 第二个参数  结束位置
-      + 所有负值参数会转换为 0,  `a.slice(3,-3)` 无论负几,都从索引3往前截取所有
-    + substr()  第二个参数   截取长度
-      + 将负的第二个参数转换为 0  ,负数将不截取
+##### charAt()、charCodeAt()
 
-+ 字符串位置方法
++ String.prototype.charAt()
+  + charAt方法返回指定位置的字符，参数是从0开始编号的位置。
+```js
+var s = new String('abc');
+s.charAt(1) // "b"
+s.charAt(s.length - 1) // "c"
+'abc'.charAt(1) // "b"
+'abc'[1] // "b"
+```
+
++ String.prototype.charCodeAt()
+  + charCodeAt()方法返回字符串指定位置的 Unicode 码点（十进制表示）
+  + 相当于String.fromCharCode()的逆操作。
+```js
+'abc'.charCodeAt(1) // 98
+//上面代码中，abc的1号位置的字符是b，它的 Unicode 码点是98。
+```
+
+##### concat()、split()、join()、replace()
+
++ String.prototype.concat()
+  + concat 方法用于连接两个字符串，返回一个新字符串，不改变原字符串。
+  + 该方法可以接受多个参数。
+  + 如果参数不是字符串，concat方法会将其先转为字符串，然后再连接。
+  + `let str = "hello ";   let result = str.concat("world","!");`
+
++ String.prototype.split(',') 
+  + split 方法按照给定规则分割字符串，返回一个由分割出来的子字符串组成的数组。
+  + 传入一个字符串，按照传入的字符串将使用方法的字符串分割为数组并返回
+  + 如果省略参数，则返回数组的唯一成员就是原字符串。
+  + split方法还可以接受第二个参数，限定返回数组的最大成员数。
+
+  + `join`
+    + 传入一个字符,按照传入的字符将数组连接为字符串
+  + `replace` 替换
+    + `replaceAll` 替换所有
+
+##### slice()、substring()、substr()
+
++ String.prototype.slice()
+  + slice() 方法用于从原字符串取出子字符串并返回，不改变原字符串。
+  + 它的第一个参数是子字符串的开始位置，第二个参数是子字符串的结束位置（不含该位置）。
+  + 省略第二个参数，则表示子字符串一直到原字符串结束。
+  + 参数是负值，表示从结尾开始倒数计算的位置，即该负值加上字符串长度。
+  + 第一个参数大于第二个参数（正数情况下），slice()方法返回一个空字符串。
+
++ String.prototype.substring()
+  + substring 方法用于从原字符串取出子字符串并返回，不改变原字符串，跟slice方法很相像。
+  + 它的第一个参数表示子字符串的开始位置，第二个位置表示结束位置（返回结果不含该位置）。
+  + 省略第二个参数，则表示子字符串一直到原字符串的结束。
+  + 第一个参数大于第二个参数，substring方法会自动更换两个参数的位置。
+  + 参数是负数，substring方法会自动将负数转为0。
+
++ String.prototype.substr()
+  + substr 方法用于从原字符串取出子字符串并返回，不改变原字符串
+  + 跟 slice 和 substring 方法的作用相同。
+  + substr 方法的第一个参数是子字符串的开始位置（从0开始计算），第二个参数是子字符串的长度。
+  + 省略第二个参数，则表示子字符串一直到原字符串的结束。
+  + 第一个参数是负数，表示倒数计算的字符位置。
+  + 如果第二个参数是负数，将被自动转为0，因此会返回空字符串。
+
+##### indexOf()、lastIndexOf()、trim()
+
++ String.prototype.indexOf()、String.prototype.lastIndexOf()
   + `indexOf() 和 lastIndexOf()`  查找指定字符串，返回索引位置，没找到返回`-1`
-  + 都接收可以接收2个参数，开始查找位置，查找字符
-  + 找到第一个目标后就会返回
+  + indexOf 方法用于确定一个字符串在另一个字符串中第一次出现的位置
+  + 返回结果是匹配开始的位置。
+  + indexOf 方法还可以接受第二个参数，表示从该位置开始向后匹配。
+  + lastIndexOf() 从尾部开始匹配
 
-+ `trim()` 方法
-  + 创建以个字符串副本，删除前置及后缀的所有空格
++ String.prototype.trim()
+  + trim 方法用于去除字符串两端的空格，返回一个新字符串，不改变原字符串。
+  + 该方法去除的不仅是空格，还包括制表符（\t、\v）、换行符（\n）和回车符（\r）。
 
-+ 字符串大小写转换
-  + `toLowerCase()`         小写
+##### toLowerCase()、toUpperCase()
+
++ String.prototype.toLowerCase()，String.prototype.toUpperCase()
+  + toLowerCase 方法用于将一个字符串全部转为小写，
+  + toUpperCase 则是全部转为大写。它们都返回一个新字符串，不改变原字符串。
   + `toLocaleLowerCase()`   针对特定地区实现
-  + `toUpperCase()`         大写
   + `toLocaleUpperCase()`   针对特定地区实现
 
-+ 字符串的模式匹配方法
-  + `match()` 本质上与RegExp的exec()方法相同
-  + `search()` 参数正则表达式，同match一样， 没查找到就返回-1， 找到则返回第一次匹配出现的位置
-  + `replace()` 替换子字符串；两个参数，第一个参数是正则或是一个字符串，（这个字符串不会被转换成正则），第二个参数可以是一个字符串或是一个函数，，想替换全局，只能用正则而且需要指定全局（g）标志
+##### match()、search()、replace()
+
++ String.prototype.match()
+  + match 方法用于确定原字符串是否匹配某个子字符串，返回一个数组，成员为匹配的第一个字符串。
+  + 如果没有找到匹配，则返回null。
+  + 返回的数组还有 index 属性和 input 属性，分别表示匹配字符串开始的位置和原始字符串。
+  + 可以利用正则匹配
+```js
+'cat, bat, sat, fat'.match('at') // ["at"]
+'cat, bat, sat, fat'.match('xt') // null
+
+var matches = 'cat, bat, sat, fat'.match('at');
+matches.index // 1
+matches.input // "cat, bat, sat, fat"
+```
+
++ String.prototype.search()，String.prototype.replace()
+  + search 方法的用法基本等同于 match，但是返回值为匹配的第一个位置。
+  + 如果没有找到匹配，则返回-1。
+  + 可以利用正则匹配
+  + replace 方法用于替换匹配的子字符串，一般情况下只替换第一个匹配（除非使用带有g修饰符的正则表达式）。
+
 
 + `localeCompare()` 方法
   + 比较两个字符串,并返回下列值中的一个
@@ -651,8 +726,51 @@ var arr = Array.prototype.slice.call(arrayLike);
   + 如果字符串在字母表中应该排在字符串参数之后,则返回一个正数(大多情况下是 1 )
   + `let str = "yellow"; str.localeCompare("brick");  // 1 `
 
-+ `fromCharCode()` 方法
+#### 实例属性
+
++ String.prototype.length
+  + 字符串实例的length属性返回字符串的长度。
+
+#### 静态方法
+
++ String.fromCharCode()
   + 接收一个或多个字符编码，转换为一个字符串
+
++ Base64 转码
+  + 有时，文本里面包含一些不可打印的符号，比如 ASCII 码0到31的符号都无法打印出来，这时可以使用 Base64 编码，将它们转成可以打印的字符
+  + 所谓 Base64 就是一种编码方法，可以将任意值转成 0～9、A～Z、a-z、+和/这64个字符组成的可打印字符。使用它的主要目的，不是为了加密，而是为了不出现特殊字符，简化程序的处理。
+  + `btoa()` 任意值转为 Base64 编码
+  + `atob()` Base64 编码转为原来的值
+  + 这两个方法不适合非 ASCII 码的字符，会报错。 `btoa('你好') // 报错`
+```js
+function b64Encode(str) {
+  return btoa(encodeURIComponent(str));
+}
+
+function b64Decode(str) {
+  return decodeURIComponent(atob(str));
+}
+
+b64Encode('你好') // "JUU0JUJEJUEwJUU1JUE1JUJE"
+b64Decode('JUU0JUJEJUEwJUU1JUE1JUJE') // "你好"
+```
+
+### 实例方法
+
++ valueOf()
+  + valueOf()方法返回包装对象实例对应的原始类型的值。
++ toString()
+  + toString()方法返回对应的字符串形式。
+```js
+new Number(123).valueOf()  // 123
+new String('abc').valueOf() // "abc"
+new Boolean(true).valueOf() // true
+
+new Number(123).toString() // "123"
+new String('abc').toString() // "abc"
+new Boolean(true).toString() // "true"
+```
+
 
 ## 单体内置对象
 
@@ -1136,7 +1254,358 @@ extend({}, { get a(){ return 1 } })
 //因为Object.getOwnPropertyDescriptor读不到继承属性的属性描述对象。
 ```
 
-## 控制对象状态
+## 控制对象状态 防篡改对象
+
++ 手工设置对象的属性
+
+```js
+  [[Configurable]]
+  [[Writable]]
+  [[Enumerable]]
+  [[Value]]
+  [[Get]]
+  [[Set]]
+```
+
++ 冻结对象的读写状态，防止对象被改变。JavaScript 提供了三种冻结方法，
++ 最弱的一种是Object.preventExtensions，其次是Object.seal，最强的是Object.freeze。
+
++ 一旦把对象设定为防篡改就无法撤销
+
++ 不可扩展对象
+  + `Object.preventExtensions(obj)` 方法可以禁止给对象添加属性和方法
+  + 在严格模式下给不可扩展对象添加属性或方法会报错
+  + 但可以修改和删除已经存在的对象成员
+  + `Object.isExtensible()` 确定对象是否可扩展
+    + 检测密封对象也会返回 `false`  因为密封对象不可扩展
+
++ 密封的对象
+  + 密封对象,将已有的成员的 `[[Configurable]]`  属性设置为`false`, 这意味着不能删除属性和方法,因为不能使用`Object.defineProperty()`把数据属性修改为访问器属性,或者相反,属性值是可以修改的.
+  + 密封对象 `Object.seal(obj)`方法
+  + 在严格模式下添加删除都会报错
+  + 使用`Object.isSealed()` 确定对象是否被密封
+
++ 冻结的对象
+  + 最严格的防篡改级别是冻结对象( frozen object),冻结的对象既不可扩展，又是密封的，而且对象数据属性的`[[Writable]]`特性会被设置为`false`。
+  + 如果定义`[[Set]]`函数,访问器属性仍然是可写的。
+  + EC5定义的`object.freeze(obj)`方法可以用来冻结对象。
+  + `Object.isFrozen()` 方法用于检测冻结对象
+
++ 局限性
+  + 可以通过改变原型对象，来为对象增加属性。
+  + 另外一个局限是，如果属性值是对象，上面这些方法只能冻结属性指向的对象，而不能冻结对象本身的内容。
+```js
+var obj = {
+  foo: 1,
+  bar: ['a', 'b']
+};
+Object.freeze(obj);
+
+obj.bar.push('c');
+obj.bar // ["a", "b", "c"]
+//无法改变指向其他值，但是可以改变其指向的数组
+```
+
+# Array类型 
+
++ ECMAScript中数组是动态可调的，可以随着数据的添加自动增长以容纳新增数据
+
++ 创建方法
+  + `let colors = new Array()`  也可省略new关键字
+    + 构造函数创建传参
+      - 不传参创建空数组
+      - 整数创建整数长度的空数组，小数报错
+      - 单个非数值或多个参数（包括整数）都是返回新数组成员
+  + `let colors = ["red","blue","green"]` 使用数组字面量表示法
+    + 在使用字面量创建时不会调用Array构造函数
+  + 任何类型的数据都可以放入数组
+
++ 数组的本质
+  + 本质上，数组属于一种特殊的对象。typeof运算符会返回数组的类型是object。
+  + Object.keys(arr); 可以获取数组的键
+  + 数组的键名其实也是字符串
+  + 对于数值的键名不能使用点结构
+```js
+var a = [];
+a[1.00] = 6;  //由于1.00转成字符串是1，所以通过数字键1可以读取值。
+a[1] // 6
+arr.0 // SyntaxError
+```
+
++ 特点
+  + 使用超过数组长度的索引时数组会自动增加到对应的长度
+  + length属性不是只读的，可以向数组末尾移除向或添加新项
+    + `arr.length = 4;` 设置数组的长度会把多的项删除，少的话就会新增空项undefined值
+    + 数组的数字键不需要连续，length属性的值总是比最大的那个整数键大1
+    + 如将只有三个值的数组，第四个键值设置为 10 那么 数组的长度就是 11 而不是数组包含值的真实个数
+    + 如果数组的键名是添加超出范围的数值，该键名会自动转为字符串。
+    + 清空数组的有效方法就是将 length 属性设置为0
+  + 数组最多可以包含4294967295个项
+
++ 数组的空位，空元素也不会影响 length 属性， 最后一个元素后面有逗号也一样
++ delete 命令删除数组元素会形成空位， 空位返回 undefined
++ forEach 方法、for-in 结构、Object.keys 方法 进行遍历数组，空位都会跳过
++ 如果某个位置是 undefined 遍历的时候不会被跳过
+
++ in 操作符也适用于数组
++ for-in 循环会遍历数组的所有键，包括非数字的键
+
++ 类数组对象   本质上还是对象而不是数组
+  + 典型的“类似数组的对象”是 函数的 arguments 对象， 以及大多数 DOM 元素集，还有字符串。
+  + 数组的slice方法可以将“类似数组的对象”变成真正的数组。
+```js
+var obj = {
+  0: 'a',
+  1: 'b',
+  2: 'c',
+  length: 3
+};
+
+var arr = Array.prototype.slice.call(arrayLike);
+//也可以通过call直接调用数组的方法，但是这种方法比数组原生的要慢
+//所以最好先将之转化为数组，在调用数组的方法
+```
+
+## 静态方法
+
++ 检测数组
++ 对于一个网页或者一个全局作用域， `instanceof`操作符就能得到结果
+  + 但对于2个或以上，因为存在不同版本的Array构造函数就得不到想要的结果
++ Array.isArray()
+  + 该方法检测某个值到底是不是数组，而不管是在那个全局环境创建的
+  + `Array.isArray(value)`
+  + Array.isArray方法返回一个布尔值，表示参数是否为数组。它可以弥补typeof运算符的不足。
+
+## 实例方法
+
+
+### valueOf()，toString()、toLocaleString()
+
++ 数组的valueOf方法返回数组本身。
++ 数组的toString方法返回数组的字符串形式,每个值以逗号分隔。
++ `toLocaleString()`方法返回类似 toString()
+
+### push()、pop()、shift()、unshift()
+
++ 栈方法
+  + ECMAScript为数组提供了 `push() 和 pop()`方法
+  + 栈的访问规则是LIFO(Last-In-First-Out,后进先出)的数据结构，也就是最新添加的项最早被移除,栈中项的插入（叫做推入）和移除（叫做弹出），只发生在一个位置——栈的顶部
+  + `push()` 可以接受任意数量的参数，把他们添加到数组结尾，并返回修改后数组的长度
+  + `pop()` 方法则从数组末尾移除最后一项，减少数组的length值，返回返回移除的项
++ 队列方法
+  + 队列的数据结构访问规则是FIFO(First-In-First-Out,先进先出)。队列在列表的末端添加项，从列表的前端移除项
+  + `shift()` 方法移除数组的第一个元素，并返回该元素
+  + `unshift()` 方法能在数组前端添加任意个项并返回数组长度。
+  + 同时使用`unshift() 和 pop()` 方法可以从相反的方向来模拟队列
++ 这四个方法都会改变原数组
+
+### join()、concat()
+
++ join(',') 
+  + join 方法以指定参数作为分隔符，将所有数组成员连接为一个字符串返回。
+  + 如果不提供参数，默认用逗号分隔。
+  + 如果数组成员是undefined或null或空位，会被转成空字符串。
+  + 通过 call() 方法这可方法可以用于字符串或类似数组的对象。
+
++ `concat()` 
+  + concat 方法用于多个数组的合并。
+  + 它将新数组的成员，添加到原数组成员的后部，然后返回一个新数组，原数组不变。
+  + 如果数组成员包括对象，concat方法返回当前数组的一个浅拷贝。
+  + 所谓“浅拷贝”，指的是新数组拷贝的是对象的引用。
+```js
+var obj = { a: 1 };
+var oldArray = [obj];
+var newArray = oldArray.concat();
+obj.a = 2;
+newArray[0].a // 2
+```
+
+### slice()、splice()
+
++ slice()
+  + slice()方法用于截取目标数组的一部分，返回一个新数组，原数组不变。
+  + `arr.slice(start,end)`
+  + 第一个参数为起始位置（从0开始，会包括在返回的新数组之中）
+  + 第二个参数为终止位置（但该位置的元素本身不包括在内）
+  + 如果省略第二个参数，则一直返回到原数组的最后一个成员。
+  + 如果第一个参数大于等于数组长度，或者第二个参数小于第一个参数，则返回空数组。
+```js
+//如果slice()方法的参数是负数，则表示倒数计算的位置。
+var a = ['a', 'b', 'c'];
+a.slice(-2) // ["b", "c"]
+a.slice(-2, -1) // ["b"]
+
+//slice()方法的一个重要应用，是将类似数组的对象转为真正的数组。
+Array.prototype.slice.call({ 0: 'a', 1: 'b', length: 2 })
+// ['a', 'b']
+Array.prototype.slice.call(document.querySelectorAll("div"));
+Array.prototype.slice.call(arguments);
+```
+
++ splice()  删除、插入、替换
+  + `splice(index,delete,插入或替换的一个或多个参数)`方法
+  + 返回被删除的项
+  + 第一个参数是删除的起始位置（从0开始）
+  + 第二个参数是被删除的元素个数,如果后面还有更多参数，则表示这些就是要被插入数组的新元素
+  + 替换,起始位置,删除个数,插入的一个或多个参数
+  + 删除，将删除个数设置为0
+
+### sort()、reverse()、filter()
+
++ 重排序
+
++ sort()
+  + sort方法对数组成员进行排序，默认是按照字典顺序排序。
+  + 排序后，原数组将被改变。
+  + 数值会被转换为字符串后在按照字典顺序进行比较
+  + 自定义方式排序
+    + 可以传入一个函数作为参数。
+    + sort的参数函数本身接受两个参数，表示进行比较的两个数组成员
+    + 如果该函数的返回值大于0，表示第一个成员排在第二个成员后面
+    + 其他情况下，都是第一个元素排在第二个元素前面。
+```js
+  `sort()` 方法会调用每个数组项的 `toString()`转型方法，然后比较得到的字符串，即使数组的每一项都是数值，该方法比较的也是字符串
+  升序排列
+  arr.sort(function(a,b){return a - b});
+  降序排列
+  arr.sort(function(a,b){return b - a});
+
+  //升序函数
+  function(a,b){
+    if(a < b){
+      return -1;
+    }else if(a > b){
+      return 1;
+    }else{
+      return 0;
+    }
+  }
+```
+
++ reverse()
+  + reverse 方法用于颠倒排列数组元素，返回改变后的数组。
+  + 注意，该方法将改变原数组。
+
+### 迭代方法
+
++ map()
+  + map 方法将数组的所有成员依次传入参数函数，然后把每一次的执行结果组成一个新数组返回。
+  + map 方法接受一个函数作为参数。
+    + 该函数调用时，map方法向它传入三个参数：当前成员、当前位置和数组本身。
+  + 空位会被跳过
+```js
+[1, 2, 3].map(function(item, index, arr) {
+  return item * index;
+});    // [0, 2, 6]
+
+//map方法还可以接受第二个参数，用来绑定回调函数内部的this变量
+var arr = ['a', 'b', 'c'];
+
+[1, 2].map(function (e) {
+  return this[e];
+}, arr);    // ['b', 'c']
+//上面代码通过map方法的第二个参数，将回调函数内部的this对象，指向arr数组。
+```
+
++ forEach()
+  + forEach 同 map 方法相似，但是没有返回值
+  + forEach 方法无法中断执行，总是会将所有成员遍历完。
+  + 如果希望符合某种条件时，就中断遍历，要使用for循环。
+  + 空位会被跳过
+```js
+function log(element, index, array) {
+  console.log('[' + index + '] = ' + element);
+}
+[2, 5, 9].forEach(log);
+// forEach方法也可以接受第二个参数，绑定参数函数的this变量。
+var out = [];
+[1, 2, 3].forEach(function(elem) {
+  this.push(elem * elem);
+}, out);
+out // [1, 4, 9]
+//上面代码中，空数组out是forEach方法的第二个参数，结果，回调函数内部的this关键字就指向out。
+```
+
++ filter()
+  + filter 方法用于过滤数组成员，满足条件的成员组成一个新数组返回。
+  + 它的参数是一个函数，所有数组成员依次执行该函数，返回结果为true的成员组成一个新数组返回。
+  + 该方法不会改变原数组。
+```js
+[1, 2, 3, 4, 5].filter(function (elem) {
+  return (elem > 3);
+});    // [4, 5]
+arr.filter(Boolean);    //filter方法返回数组arr里面所有布尔值为true的成员。
+
+//filter方法的参数函数可以接受三个参数：当前成员，当前位置和整个数组。
+[1, 2, 3, 4, 5].filter(function (elem, index, arr) {
+  return index % 2 === 0;
+});    // [1, 3, 5]
+
+// filter方法还可以接受第二个参数，用来绑定参数函数内部的this变量。
+var obj = { MAX: 3 };
+var myFilter = function (item) {
+  if (item > this.MAX) return true;
+};
+
+var arr = [2, 8, 3, 4, 1, 3, 2, 9];
+arr.filter(myFilter, obj) // [8, 4, 9]
+```
+
++ some()，every()
+  + 这两个方法类似“断言”（assert），返回一个布尔值，表示判断数组成员是否符合某种条件。
+  + `every()` 如果该函数对每一项都返回 true , 则返回 true
+  + `some()` 如果该函数任意一项返回 true , 则返回 true
+  + 它们接受一个函数作为参数，所有数组成员依次执行该函数。该函数接受三个参数：当前成员、当前位置和整个数组，然后返回一个布尔值。
+  + 同样接受第二个函数来绑定内部 this 变量
+
++ reduce()，reduceRight()
+  + reduce方法和reduceRight方法依次处理数组的每个成员，最终累计为一个值。
+  + 一个从头开始迭代，一个从末尾开始迭代
+  + reduce方法和reduceRight方法的第一个参数都是一个函数。该函数接受以下四个参数。
+    1. 累积变量，默认为数组的第一个成员
+    2. 当前变量，默认为数组的第二个成员
+    3. 当前位置（从0开始）
+    4. 原数组
+    - 这四个参数之中，只有前两个是必须的，后两个则是可选的。
+  - 第一次迭代的累计变量为索引0的值   当前变量为索引 1 的值
+  + 往后的迭代累计变量为上次的返回值,如无返则为`undefined
+```js
+//reduce() 方法求和
+let values = [1, 2, 3, 4, 5, 6];
+let sum = values.reduce(function(prev, cur, index, array){
+  return prev + cur;
+});   // 21
+
+[1, 2, 3, 4, 5].reduce(function (a, b) {
+  console.log(a, b);
+  return a + b;
+})
+// 1 2
+// 3 3
+// 6 4
+// 10 5
+//最后结果：15
+
+//如果要对累积变量指定初值，可以把它放在reduce方法和reduceRight方法的第二个参数。
+[1, 2, 3, 4, 5].reduce(function (a, b) {
+  return a + b;
+}, 10);    // 25
+//上面的第二个参数相当于设定了默认值，处理空数组时尤其有用。
+function add(prev, cur) {
+  return prev + cur;
+}
+
+[].reduce(add)
+// TypeError: Reduce of empty array with no initial value
+[].reduce(add, 1)
+// 1
+```
+
+### 位置方法
+
++ indexOf()，lastIndexOf()
+  + 两个方法都接收两个参数：要查找的项和（可选的）查找的起点位置
+  + 返回给定元素在数组中第一次出现的位置，如果没有出现则返回-1。
 
 # 自动转换
 
