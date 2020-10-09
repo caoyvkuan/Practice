@@ -557,7 +557,7 @@ background: radial-gradient(12rem circle at bottom, yellow 25%, orange 50%, red 
 + **border**
   + `border: width style color`
   + width (默认:3px)      style(默认:无)    color(默认:black)
-  + style :  solid 实线   |   dashed  虚线  |  dotted  点状线
+  + style :  solid 实线   |   dashed  虚线  |  dotted  点状线  | inset  3D凹槽  | ridge  3D凸槽
 + **outline**
   + 轮廓线  `outline:none;` 去除轮廓线
 

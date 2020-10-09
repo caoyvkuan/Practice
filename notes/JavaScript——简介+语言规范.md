@@ -81,12 +81,6 @@
     delete Object.prototype; // Uncaught TypeError: Cannot delete property 'prototype' of function Object() { [native code] }
     ```
 
-
-
-
-
-
-
 # 事件捕获
 
 + IE特有方法

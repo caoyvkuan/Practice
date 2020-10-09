@@ -235,7 +235,6 @@ p1.getAge() // 25
 + 行尾的分号
 + 用大写字母表示全局变量名
 + 分清全等和相等的使用情况
-+ 
 + 使用大括号表示区块
 + 起首大括号紧跟关键字跟不容易出错
 ```js
@@ -260,6 +259,162 @@ console.log('abc');
 foo ();
 ```
 
+## JSON
+
++ JSON 以一个 {} 包裹
+
++ 每个 JSON 对象就是一个值，可能是一个数组或对象，也可能是一个原始类型的值。
++ 总之，只能是一个值，不能是两个或更多的值。
++ JSON 对值的类型和格式有严格的规定。
+  + 复合类型的值只能是数组或对象，不能是函数、正则表达式对象、日期对象。
+  + 原始类型的值只有四种：字符串、数值（必须以十进制表示）、布尔值和null（不能使用NaN, Infinity, -Infinity和undefined）。
+  + 字符串必须使用双引号表示，不能使用单引号。
+  + 对象的键名必须放在双引号里面。
+  + 数组或对象最后一个成员的后面，不能加逗号。
+
+### JSON 对象
+
++ JSON对象是 JavaScript 的原生对象，用来处理 JSON 格式数据。
++ 它有两个静态方法：JSON.stringify()和JSON.parse()。
+
+#### JSON.stringify()
+
++ 基本用法
+  + JSON.stringify()方法用于将一个值转为 JSON 字符串。
+  + 该字符串符合 JSON 格式，并且可以被JSON.parse()方法还原。
+  + 注意，对于原始类型的字符串，转换结果会带双引号。
+  + 如果对象的属性是 undefined、函数或 XML 对象，该属性会被JSON.stringify()过滤。
+  + 如果数组的成员是 undefined、函数或 XML 对象，则这些值被转成null。
+  + 正则对象会被转成空对象。
+  + JSON.stringify()方法会忽略对象的不可遍历的属性。
+```js
+JSON.stringify('abc') // ""abc""
+JSON.stringify(1) // "1"
+JSON.stringify(false) // "false"
+JSON.stringify([]) // "[]"
+JSON.stringify({}) // "{}"
+
+JSON.stringify([1, "false", false])
+// '[1,"false",false]'
+
+JSON.stringify({ name: "张三" })
+// '{"name":"张三"}'
+//上面代码将各种类型的值，转成 JSON 字符串。
+
+JSON.stringify('foo') === "foo" // false
+JSON.stringify('foo') === "\"foo\"" // true
+//上面代码中，字符串foo，被转成了"\"foo\""。这是因为将来还原的时候，内层双引号可以让 JavaScript 引擎知道，这是一个字符串，而不是其他类型的值。
+
+//如果对象的属性是undefined、函数或 XML 对象，该属性会被JSON.stringify()过滤。
+var obj = {
+  a: undefined,
+  b: function () {}
+};
+
+JSON.stringify(obj) // "{}"
+
+//如果数组的成员是undefined、函数或 XML 对象，则这些值被转成null。
+var arr = [undefined, function () {}];
+JSON.stringify(arr) // "[null,null]"
+
+//正则对象会被转成空对象。
+JSON.stringify(/foo/) // "{}"
+```
+
++ 第二个参数
+  + JSON.stringify()方法还可以接受一个数组，作为第二个参数，
+  + 指定参数对象的哪些属性需要转成字符串。(只转换数组中包含的属性)
+  + 这个类似白名单的数组，只对对象的属性有效，对数组无效。
+  + 第二个参数还可以是一个函数，用来更改JSON.stringify()的返回值。
+```js
+var obj = {
+  'prop1': 'value1',
+  'prop2': 'value2',
+  'prop3': 'value3'
+};
+
+var selectedProperties = ['prop1', 'prop2'];
+
+JSON.stringify(obj, selectedProperties)
+// "{"prop1":"value1","prop2":"value2"}"
+
+//函数
+function f(key, value) {
+  if (typeof value === "number") {
+    value = 2 * value;
+  }
+  return value;
+}
+
+JSON.stringify({ a: 1, b: 2 }, f)
+// '{"a": 2,"b": 4}'
+//如果处理函数返回undefined或没有返回值，则该属性会被忽略。
+```
+
++ 第三个参数
+  + JSON.stringify()还可以接受第三个参数，用于增加返回的 JSON 字符串的可读性。
+  + 默认返回的是单行字符串，对于大型的 JSON 对象，可读性非常差。
+  + 第三个参数使得每个属性单独占据一行，并且将每个属性前面添加指定的前缀（不超过10个字符）。
+```js
+// 默认输出
+JSON.stringify({ p1: 1, p2: 2 })
+// JSON.stringify({ p1: 1, p2: 2 })
+
+// 分行输出
+JSON.stringify({ p1: 1, p2: 2 }, null, '\t')
+// {
+// 	"p1": 1,
+// 	"p2": 2
+// }
+//上面例子中，第三个属性\t在每个属性前面添加一个制表符，然后分行显示。
+//第三个属性如果是一个数字，则表示每个属性前面添加的空格（最多不超过10个）。
+```
+
++ 参数对象的 toJSON() 方法
+  + 如果参数对象有自定义的toJSON()方法
+  + 那么JSON.stringify()会使用这个方法的返回值作为参数，而忽略原对象的其他属性。
+  + Date对象就有一个自己的toJSON()方法。
+  + toJSON()方法的一个应用是，将正则对象自动转为字符串。因为JSON.stringify()默认不能转换正则对象，但是设置了toJSON()方法以后，就可以转换正则对象了。
+```js
+var user = {
+  firstName: '三',
+  lastName: '张',
+
+  get fullName(){
+    return this.lastName + this.firstName;
+  },
+
+  toJSON: function () {
+    return {
+      name: this.lastName + this.firstName
+    };
+  }
+};
+
+JSON.stringify(user)
+// "{"name":"张三"}"
+//上面代码中，JSON.stringify()发现参数对象有toJSON()方法
+//就直接使用这个方法的返回值作为参数，而忽略原对象的其他参数。
+```
+
+#### JSON.parse()
+
++ JSON.parse()方法用于将 JSON 字符串转换成对应的值。
++ 如果传入的字符串不是有效的 JSON 格式，JSON.parse()方法将报错。
++ 为了处理解析错误，可以将JSON.parse()方法放在try...catch代码块中。
++ JSON.parse()方法可以接受一个处理函数，作为第二个参数，用法与JSON.stringify()方法类似。
+```js
+JSON.parse('{}') // {}
+JSON.parse('true') // true
+JSON.parse('"foo"') // "foo"
+JSON.parse('[1, 5, "false"]') // [1, 5, "false"]
+JSON.parse('null') // null
+
+var o = JSON.parse('{"name": "张三"}');
+o.name // 张三
+```
+
+
 # 面向对象的程序设计
 
 + 对象的基本操作
@@ -277,48 +432,15 @@ foo ();
 
 + 概念
 
-### 用构造函数的好处,以及创建构造函数
-
-```js
-var p1={age:100,gender:"女",say:function(){}}
-var p1={age:100,gender:"女",say:function(){}}
-var p1={age:100,gender:"女",say:function(){}}
-//上述代码，
-//a、存在很多冗余代码 
-//b、所有的人对象都有say方法，并且功能相似，但是他们占据了不同的内存
-//	-->会导致内存浪费（内存泄漏）
-
-//创建构造函数
-function Person(age,gender){
-    this.age=age;
-    this.gender=gender;
-    //此时的内存依然浪费了-->原型
-    this.say=function(){
-    }
-}
-//使用这种方式创建对象，代码整洁了很多
-var p1=new Person(5,"未知");    //实例
-//Person是p1的构造函数
-var p2=new Person(5,"未知");
-var p3=new Person(5,"未知");
-
-构造函数创建对象的例子:
-var person = new Object()     -->   var person = {};  
-var now = new Date() 
-var rooms = new Array(1,3,5)    -->   var rooms = [1,3,5]
-`var isMale=/123/;`   ==> `var isMale=new RegExp("123")`
-  isMale是通过RegExp构造函数创建出来的对象
-  isMale是RegExp构造函数的实例
-
-以上例子中，Object、Date、Array都是内置的构造函数
-```
 ### 概念
 
 + 构造函数的概念
-  + 任何函数都可以当成构造函数  一般构造函数首字母大写
-  + 只要把一个函数通过new的方式来进行调用，我们就把这一次函数的调用方式称之为：构造函数的调用
-  + 通过 new 调用的方法是构造函数
-  + 直接调用的不是构造函数
+  + 任何函数都可以当成构造函数
+  + 为了与普通函数区别，构造函数名字的第一个字母通常大写。
+
++ 构造函数的特点有两个
+  + 函数体内部使用了this关键字，代表了所要生成的对象实例。
+  + 生成对象的时候，必须使用new命令。
 
 + 构造函数的执行过程
   + `var p1=new Person();`
@@ -362,6 +484,89 @@ var f2=new fn2();   //f2是fn2构造函数的实例
 关于new Object()
 new Object()等同于对象字面量{ }	跟构造函数不一样
 ```
+
+### new 命令 
+
++ 基本用法
+  + new命令的作用，就是执行构造函数，返回一个实例对象。
+  + new命令执行时，构造函数内部的this，就代表了新生成的实例对象
+  + 使用new命令时，根据需要，构造函数也可以接受参数。
+  + 为了保证构造函数必须与new命令一起使用，一个解决办法是，构造函数内部使用严格模式，即第一行加上 "use strict"。
+  + 这样的话，一旦忘了使用new命令，直接调用构造函数就会报错。
+    - 由于严格模式中，函数内部的this不能指向全局对象
+    - 默认等于undefined，导致不加new调用会报错
+    - （JavaScript 不允许对undefined添加属性）。
+
+```js
+//另一个解决办法，构造函数内部判断是否使用new命令，如果发现没有使用，则直接返回一个实例对象。
+function Fubar(foo, bar) {
+  if (!(this instanceof Fubar)) {
+    return new Fubar(foo, bar);
+  }
+
+  this._foo = foo;
+  this._bar = bar;
+}
+```
+
++ new 命令的原理
+  + 使用new命令时，它后面的函数依次执行下面的步骤。
+    - 创建一个空对象，作为将要返回的对象实例。
+    - 将这个空对象的原型，指向构造函数的prototype属性。
+    - 将这个空对象赋值给函数内部的this关键字。
+    - 开始执行构造函数内部的代码
+  + 也就是说，构造函数内部，this指的是一个新生成的空对象，
+    + 所有针对this的操作，都会发生在这个空对象上。
+    + 构造函数之所以叫“构造函数”，就是说这个函数的目的，
+    + 就是操作一个空对象（即this对象），将其“构造”为需要的样子。
+  + 如果构造函数内部有return语句，而且return后面跟着一个对象，
+    + new命令会返回return语句指定的对象；否则，就会不管return语句，返回this对象。也可能是空对象
+    + 如果return语句返回的是一个跟this无关的新对象，new命令会返回这个新对象，而不是this对象。
+
++ new.target
+  + 函数内部可以使用new.target属性。
+  + 如果当前函数是new命令调用，new.target指向当前函数，否则为undefined。
+
+### Object.create() 创建实例对象
+
++ 
+
+### 用构造函数的好处,以及创建构造函数
+
+```js
+var p1={age:100,gender:"女",say:function(){}}
+var p1={age:100,gender:"女",say:function(){}}
+var p1={age:100,gender:"女",say:function(){}}
+//上述代码，
+//a、存在很多冗余代码 
+//b、所有的人对象都有say方法，并且功能相似，但是他们占据了不同的内存
+//	-->会导致内存浪费（内存泄漏）
+
+//创建构造函数
+function Person(age,gender){
+    this.age=age;
+    this.gender=gender;
+    //此时的内存依然浪费了-->原型
+    this.say=function(){
+    }
+}
+//使用这种方式创建对象，代码整洁了很多
+var p1=new Person(5,"未知");    //实例
+//Person是p1的构造函数
+var p2=new Person(5,"未知");
+var p3=new Person(5,"未知");
+
+构造函数创建对象的例子:
+var person = new Object()     -->   var person = {};  
+var now = new Date() 
+var rooms = new Array(1,3,5)    -->   var rooms = [1,3,5]
+`var isMale=/123/;`   ==> `var isMale=new RegExp("123")`
+  isMale是通过RegExp构造函数创建出来的对象
+  isMale是RegExp构造函数的实例
+
+以上例子中，Object、Date、Array都是内置的构造函数
+```
+
 ### 理解构造函数返回值
 ```js
 //为什么要理解构造函数的返回值？
@@ -403,6 +608,179 @@ console.log("是数组的实例吗？",pro instanceof Array);//true
 //typeof function(){} === "function"
 //typeof /abc/     === "object"
 ```
+
+## this 关键字
+
++ this 的特点，总是返回一个对象。
++ 函数 f 内部使用了 this 关键字，随着 f 所在的对象不同，this 的指向也不同。
+  + 只要函数被赋给另一个变量，this的指向就会变。
+
++ JavaScript 语言之中，一切皆对象，运行环境也是对象，所以函数都是在某个对象之中运行，this就是函数运行时所在的对象（环境）。这本来并不会让用户糊涂，但是 JavaScript 支持运行环境动态切换，也就是说，this的指向是动态的，没有办法事先确定到底指向哪个对象。
+
+### 实质
+
++ JavaScript 允许在函数体内部，引用当前环境的其他变量。
++ 由于函数可以在不同的运行环境执行，所以需要有一种机制，能够在函数体内部获得当前的运行环境（context）
++ 所以，this就出现了，它的设计目的就是在函数体内部，指代函数当前的运行环境。
++ this 就是用来指向当前运行环境的
+
+### 使用场合
+
++ 全局环境
+  + 全局环境使用this，它指的就是顶层对象window。
+
++ 构造函数
+  + 构造函数中的this，指的是实例对象。
+
++ 对象的方法
+  + 如果对象的方法里面包含 this，this 的指向就是方法运行时所在的对象。
+  + 将该方法赋值给另一个对象，就会改变this的指向。
+
+### 使用注意点
+
++ 避免多层 this
+  + 由于this的指向是不确定的，所以切勿在函数中包含多层的this。
+  + JavaScript 提供了严格模式，也可以硬性避免这种问题。
+    + 严格模式下，如果函数内部的this指向顶层对象，就会报错。
+```js
+var o = {
+  f1: function () {
+    console.log(this);
+    //let that = this;  //使用变量固定 this 的指向
+    var f2 = function () {
+      console.log(this);
+    }();
+  }
+}
+
+o.f1()
+// Object
+// Window
+//上面代码包含两层this，结果运行后，第一层指向对象o，第二层指向全局对象，因为实际执行的是下面的代码。
+var temp = function () {
+  console.log(this);
+};
+
+var o = {
+  f1: function () {
+    console.log(this);
+    var f2 = temp();
+  }
+}
+```
+
++ 避免数组处理方法中的 this
+  + 数组的map和foreach方法，允许提供一个函数作为参数。这个函数内部不应该使用this。
+  + 也是因为指向问题
+  + 解决方法，同样是用变量固定 this
+  + 另一种方法是将 this 当作 foreach 方法的第二个参数，固定它的运行环境。
+
++ 避免回调函数中的 this
+  + 回调函数中的this往往会改变指向，最好避免使用。
+```js
+var o = new Object();
+o.f = function () {
+  console.log(this === o);
+}
+
+// jQuery 的写法
+$('#button').on('click', o.f);
+//上面代码中，点击按钮以后，控制台会显示false。
+//原因是此时this不再指向o对象，而是指向按钮的 DOM 对象，
+//因为f方法是在按钮对象的环境中被调用的。
+//这种细微的差别，很容易在编程中忽视，导致难以察觉的错误。
+```
+
+### 绑定 this 的方法
+
++ JavaScript 提供了call、apply、bind这三个方法，来切换/固定this的指向。
+
++ Function.prototype.call()
+  + 函数实例的call方法，可以指定函数内部this的指向（即函数执行时所在的作用域）
+  + 然后在所指定的作用域中，调用该函数(立即执行)。
+  + call方法的参数，应该是一个对象。如果参数为空、null和undefined，则默认传入全局对象。
+  + 如果call方法的参数是一个原始值，那么这个原始值会自动转成对应的包装对象，然后传入call方法。
+  + call的第一个参数就是this所要指向的那个对象，后面的参数则是函数调用时所需的参数。
+  + `func.call(thisValue, arg1, arg2, ...)`
+  + call方法的一个应用是调用对象的原生方法。
+
++ Function.prototype.apply()
+  + apply方法的作用与call方法类似，也是改变this指向，然后再调用该函数。
+  + 唯一的区别就是，它接收一个数组作为函数执行时的参数，使用格式如下。
+  + `func.apply(thisValue, [arg1, arg2, ...])`
+```js
+//找出数组最大元素
+//JavaScript 不提供找出数组最大元素的函数。
+//结合使用apply方法和Math.max方法，就可以返回数组的最大元素。
+var a = [10, 2, 4, 15, 9];
+Math.max.apply(null, a) // 15
+
+//将数组的空元素变为undefined
+//通过apply方法，利用Array构造函数将数组的空元素变成undefined。
+Array.apply(null, ['a', ,'b'])
+// [ 'a', undefined, 'b' ]
+//空元素与undefined的差别在于，数组的forEach方法会跳过空元素，但是不会跳过undefined。
+//因此，遍历内部元素的时候，会得到不同的结果。
+
+//转换类似数组的对象
+//利用数组对象的slice方法，可以将一个类似数组的对象（比如arguments对象）转为真正的数组。
+Array.prototype.slice.apply({0: 1, length: 1}) // [1]
+
+//绑定回调函数的对象
+//因为绑定作用域的函数会立即执行，所以需要写在一个函数体内
+```
+
++ Function.prototype.bind()
+  + bind()方法用于将函数体内的this绑定到某个对象，然后返回一个新函数。
+```js
+//bind()还可以接受更多的参数，将这些参数绑定原函数的参数。如同柯里化函数，固定参数
+var add = function (x, y) {
+  return x * this.m + y * this.n;
+}
+
+var obj = {
+  m: 2,
+  n: 2
+};
+
+var newAdd = add.bind(obj, 5);  // 固定参数 x
+newAdd(5) // 20   新的add函数只需要传入参数 y 就行了， x已经被固定为 5
+
+使用注意点
+//（1）每一次返回一个新函数
+//bind()方法每运行一次，就返回一个新函数，这会产生一些问题。比如，监听事件的时候，不能写成下面这样。
+element.removeEventListener('click', o.m.bind(o));
+//上面代码中，click事件绑定bind()方法生成的一个匿名函数。这样会导致无法取消绑定，所以下面的代码是无效的。
+var listener = o.m.bind(o);
+element.addEventListener('click', listener);
+//应该写成这样
+
+//（2）结合回调函数使用
+//回调函数是 JavaScript 最常用的模式之一，但是一个常见的错误是，将包含this的方法直接当作回调函数。解决方法就是使用bind()方法，将counter.inc()绑定counter。
+var counter = {
+  count: 0,
+  inc: function () {
+    'use strict';
+    this.count++;
+  }
+};
+
+function callIt(callback) {
+  callback();
+}
+
+callIt(counter.inc.bind(counter));
+counter.count // 1
+
+// 结合 call() 方法使用
+//将Function.prototype.bind方法绑定在Function.prototype.call上面，所以bind方法就可以直接使用，不需要在函数实例上使用。
+```
+
+## Object 对象的相关方法
+
+### Object.getPrototypeOf()
+
++ 
 
 ## 设计模式
 
@@ -671,7 +1049,43 @@ console.log(p1.say === p2.say);   //false
 //所有对象最终都继承自Object		但是并不是直接创建的
 ```
 
+### prototype 属性的作用
+
++ JavaScript 继承机制的设计思想就是，原型对象的所有属性和方法，都能被实例对象共享。
++ 也就是说，如果属性和方法定义在原型上，那么所有实例对象就能共享，不仅节省了内存，还体现了实例对象之间的联系。
++ JavaScript 规定，每个函数都有一个prototype属性，指向一个对象。
++ 对于普通函数来说，该属性基本无用。
++ 但是，对于构造函数来说，生成实例的时候，该属性会自动成为实例对象的原型。
++ 原型对象上添加一个color属性，结果，实例对象都共享了该属性。
++ 原型对象的属性不是实例对象自身的属性。只要修改原型对象，变动就立刻会体现在所有实例对象上。
+
++ constructor 属性
+  + prototype对象有一个constructor属性，默认指向prototype对象所在的构造函数。
+  + 由于constructor属性定义在prototype对象上面，意味着可以被所有实例对象继承。
+  + constructor属性的作用是，可以得知某个实例对象，到底是哪一个构造函数产生的。
+  + constructor属性表示原型对象与构造函数之间的关联关系，如果修改了原型对象，一般会同时修改constructor属性，防止引用的时候出错。
+  + 如果不能确定constructor属性是什么函数，还有一个办法：通过name属性，从实例得到构造函数的名称。
+
++ instanceof 运算符
+  + instanceof运算符返回一个布尔值，表示对象是否为某个构造函数的实例。
+  + 由于instanceof检查整个原型链，因此同一个实例对象，可能会对多个构造函数都返回true。
+
 ### 原型链
+
++ JavaScript 规定，所有对象都有自己的原型对象（prototype）。
++ 一方面，任何一个对象，都可以充当其他对象的原型；另一方面，由于原型对象也是对象，所以它也有自己的原型。因此，就会形成一个“原型链”
++ 如果一层层地上溯，所有对象的原型最终都可以上溯到Object.prototype，即Object构造函数的prototype属性。
++ 也就是说，所有对象都继承了Object.prototype的属性。
++ 这就是所有对象都有valueOf和toString方法的原因，因为这是从Object.prototype继承的。
++ 那么，Object.prototype对象有没有它的原型呢？回答是Object.prototype的原型是null。
++ null没有任何属性和方法，也没有自己的原型。因此，原型链的尽头就是null。
+
++ 读取对象的某个属性时，JavaScript 引擎先寻找对象本身的属性，如果找不到，就到它的原型去找，如果还是找不到，就到原型的原型去找。
++ 如果直到最顶层的Object.prototype还是找不到，则返回undefined。
++ 如果对象自身和它的原型，都定义了一个同名属性，那么优先读取对象自身的属性，这叫做“覆盖”。
++ 注意，一级级向上，在整个原型链上寻找某个属性，对性能是有影响的。所寻找的属性在越上层的原型对象，对性能的影响越大。如果寻找某个不存在的属性，将会遍历整个原型链。
+
++ 如果让构造函数的prototype属性指向一个数组，就意味着实例对象可以调用数组方法。
 
 + 确定原型和实例的关系
   + 这两种方法来确认原型和实例之间的关系 
@@ -728,10 +1142,6 @@ console.log(p1.say === p2.say);   //false
   3.搜索 SuperType.prototype 最后一步才会找到该方法
   在找不到的情况，搜索过程要一环一环的前行到原型链末端才会停下来
 ```
-+ 别忘记默认的原型
-  + 所有的引用类型默认都继承了`Object`，而这个继承也是通过原型链实现的， 所有函数的默认原型都是`Object`，
-  + 因此默认原型都会有一个内部指针指向 `Object.prototype` 这也是所有自定义类型都会继承`toString() 、 valueOf()`等默认方法的原因
-  + 引用类型实际上在调用 `toString()` 等方法时是调用的是保存在 `Object.prototype` 中的方法 
 
 + 原型链的问题
   + 继承后的属性共享问题，
@@ -742,6 +1152,31 @@ console.log(p1.say === p2.say);   //false
 
 + 在子类型构造函数的内部调用超类型构造函数，通过 `apply() 和 call()` 方法
 ```js
++ 让一个构造函数继承另一个构造函数，是非常常见的需求。这可以分成两步实现。第一步是在子类的构造函数中，调用父类的构造函数。
+function Sub(value) {
+  Super.call(this);
+  this.prop = value;
+}
+- Sub是子类的构造函数，this是子类的实例。在实例上调用父类的构造函数Super，就会让子类实例具有父类实例的属性。
++ 第二步，是让子类的原型指向父类的原型，这样子类就可以继承父类原型。
+Sub.prototype = Object.create(Super.prototype);
+Sub.prototype.constructor = Sub;
+Sub.prototype.method = '...';
+- Sub.prototype是子类的原型，要将它赋值为Object.create(Super.prototype)，
+- 而不是直接等于Super.prototype。否则后面两行对Sub.prototype的操作，
+- 会连父类的原型Super.prototype一起修改掉。
+
++ 另外一种写法是Sub.prototype等于一个父类实例。
+Sub.prototype = new Super();
++ 上面这种写法也有继承的效果，但是子类会具有父类实例的方法。有时，这可能不是我们需要的，所以不推荐使用这种写法。
+
+//单个方法继承
+ClassB.prototype.print = function() {
+  ClassA.prototype.print.call(this);
+  // some code
+}
+
+//例子
   function SuperType(name) {
     this.colors = ["red", "blue", "green"];
     this.name = name;
@@ -763,6 +1198,172 @@ console.log(p1.say === p2.say);   //false
   alert(instance.name);      // "Nicholas"
   alert(instance.age);      //29
   //为了确保子类型的属性不被重写，可以在调用超类型构造函数后，在添加子类型的属性
+```
+
+### 多重继承
+
++ JavaScript 不提供多重继承功能，即不允许一个对象同时继承多个对象。但是，可以通过变通方法，实现这个功能。
+```js
+function M1() {
+  this.hello = 'hello';
+}
+
+function M2() {
+  this.world = 'world';
+}
+
+function S() {
+  M1.call(this);
+  M2.call(this);
+}
+
+// 继承 M1
+S.prototype = Object.create(M1.prototype);
+// 继承链上加入 M2
+Object.assign(S.prototype, M2.prototype);
+
+// 指定构造函数
+S.prototype.constructor = S;
+
+var s = new S();
+s.hello // 'hello'
+s.world // 'world'
+//上面代码中，子类S同时继承了父类M1和M2。这种模式又称为 Mixin（混入）。
+```
+
+### 模块
+
++ 但是，JavaScript 不是一种模块化编程语言，ES6 才开始支持“类”和“模块”。下面介绍传统的做法，如何利用对象实现模块的效果。
+
+#### 基本的实现方法
+
++ 模块是实现特定功能的一组属性和方法的封装。
++ 简单的做法是把模块写成一个对象，所有的模块成员都放到这个对象里面。
+```js
+var module1 = new Object({
+　_count : 0,
+　m1 : function (){
+　　//...
+　},
+　m2 : function (){
+  　//...
+　}
+});
+//上面的函数m1和m2，都封装在module1对象里。使用的时候，就是调用这个对象的属性。
+//但是，这样的写法会暴露所有模块成员，内部状态可以被外部改写。比如，外部代码可以直接改变内部计数器的值。
+```
+
+#### 封装私有变量：构造函数的写法
+
++ 我们可以利用构造函数，封装私有变量。
+```js
+function StringBuilder() {
+  var buffer = [];
+
+  this.add = function (str) {
+     buffer.push(str);
+  };
+
+  this.toString = function () {
+    return buffer.join('');
+  };
+
+}
+//上面代码中，buffer是模块的私有变量。一旦生成实例对象，外部是无法直接访问buffer的。
+//但是，这种方法将私有变量封装在构造函数中，导致构造函数与实例对象是一体的，总是存在于内存之中，无法在使用完成后清除。
+//这意味着，构造函数有双重作用，既用来塑造实例对象，又用来保存实例对象的数据，违背了构造函数与实例对象在数据上相分离的原则（即实例对象的数据，不应该保存在实例对象以外）。
+//同时，非常耗费内存。
+
+function StringBuilder() {
+  this._buffer = [];
+}
+
+StringBuilder.prototype = {
+  constructor: StringBuilder,
+  add: function (str) {
+    this._buffer.push(str);
+  },
+  toString: function () {
+    return this._buffer.join('');
+  }
+};
+//这种方法将私有变量放入实例对象中，好处是看上去更自然，但是它的私有变量可以从外部读写，不是很安全。
+```
+
+#### 封装私有变量：立即执行函数的写法
+
++ 另一种做法是使用“立即执行函数”,将相关的属性和方法封装在一个函数作用域里面，可以达到不暴露私有成员的目的。
+```js
+var module1 = (function () {
+　var _count = 0;
+　var m1 = function () {
+　  //...
+　};
+　var m2 = function () {
+　　//...
+　};
+　return {
+　　m1 : m1,
+　　m2 : m2
+　};
+})();
+//使用上面的写法，外部代码无法读取内部的_count变量。
+//上面的module1就是 JavaScript 模块的基本写法。下面，再对这种写法进行加工。
+```
+
+#### 模块的放大模式
+
++ 如果一个模块很大，必须分成几个部分，或者一个模块需要继承另一个模块，这时就有必要采用“放大模式”.
+```js
+var module1 = (function (mod){
+　mod.m3 = function () {
+　　//...
+　};
+　return mod;
+})(module1);
+//上面的代码为module1模块添加了一个新方法m3()，然后返回新的module1模块。
+
+//在浏览器环境中，模块的各个部分通常都是从网上获取的，有时无法知道哪个部分会先加载。
+//如果采用上面的写法，第一个执行的部分有可能加载一个不存在空对象，这时就要采用"宽放大模式"
+var module1 = (function (mod) {
+　//...
+　return mod;
+})(window.module1 || {});
+```
+
+#### 输入全局变量
+
++ 独立性是模块的重要特点，模块内部最好不与程序的其他部分直接交互。
++ 为了在模块内部调用全局变量，必须显式地将其他变量输入模块。
+```js
+var module1 = (function ($, YAHOO) {
+　//...
+})(jQuery, YAHOO);
+//上面的module1模块需要使用 jQuery 库和 YUI 库，就把这两个库（其实是两个模块）当作参数输入module1。这样做除了保证模块的独立性，还使得模块之间的依赖关系变得明显。
+
+//立即执行函数还可以起到命名空间的作用。
+(function($, window, document) {
+
+  function go(num) {
+  }
+
+  function handleEvents() {
+  }
+
+  function initialize() {
+  }
+
+  function dieCarouselDie() {
+  }
+
+  //附加到全局范围
+  window.finalCarousel = {
+    init : initialize,
+    destroy : dieCarouselDie
+  }
+
+})( jQuery, window, document );
+//上面代码中，finalCarousel对象输出到全局，对外暴露init和destroy接口，内部方法go、handleEvents、initialize、dieCarouselDie都是外部无法调用的。
 ```
 
 ### 组合继承
@@ -1353,7 +1954,7 @@ var a = s.match(r);  //返回数组["how","are","you"]
   - * 星号表示某个模式出现0次或多次，等同于{0,}。
   - + 加号表示某个模式出现1次或多次，等同于{1,}。
 
-### **贪婪匹配和惰性匹配**
+### 贪婪匹配和惰性匹配
 
 + 模式是/a+/，表示匹配1个a或多个a，那么到底会匹配几个a呢？因为默认是贪婪模式，会一直匹配到字符a不出现为止。
 + 除了贪婪模式，还有非贪婪模式，即最小可能匹配。
@@ -1383,43 +1984,64 @@ console.log(a[1]);  //<html><head><title></title></head><body></body>
 console.log(a[2]);  //右侧表达式匹配“</html>”
 ```
 
-## 声明词量
+### 修饰符
 
-+ 正向声明
-
-  + 指定匹配模式后面的字符必须被匹配，但又不返回这些字符。语法格式如下
-
-    + `匹配模式  (?= 匹配条件)    ?=n`     匹配任何其后紧接指定字符串 n 的字符串。
-
-  + ```js
-    var s = "one : 1; two : 2";
-    var r = /\w*(?= : 2)/;  //使用正前向声明，指定执行匹配必须满足的条件
-    var a = s.match(r);  //返回数组["two"]
-    ```
-
-+ 反向声明
-
-  + 与正向声明匹配相反，指定接下来的字符都不必被匹配。语法格式如下：
-
-  + `匹配模式  (?! 匹配条件)    ?!n`    匹配任何其后没有紧接指定字符串 n 的字符串。
-
-  + ```js
-    var s = "one : 1; two : 2";
-    var r = /\w*(?! : 2)/;  //使用正前向声明，指定执行匹配必须满足的条件
-    var a = s.match(r);  //返回数组["one"]
-    console.log(a);
-    ```
-
-## 子表达式
-
-+ 使用小括号可以对字符模式进行任意分组，在小括号内的字符串表示子表达式，也称为子模式。子表达式具有独立的匹配功能，保存独立的匹配结果；同时，小括号后的量词将会作用于整个子表达式。
-
++ 修饰符（modifier）表示模式的附加规则，放在正则模式的最尾部。
++ 修饰符可以单个使用，也可以多个一起使用。
 ```js
-var s = "ab=21, bc=45, cd=43";
-var r = /(\w+)=(\d*)/g;
-while (a = r.exec(s)) {
-    console.log(a);  //返回类似["ab=21","bc=45","cd=43"]三个数组
-}
+// 单个修饰符
+var regex = /test/i;
+
+// 多个修饰符
+var regex = /test/ig;
+```
+
++ g 修饰符
+  + 默认情况下，第一次匹配成功后，正则对象就停止向下匹配了。
+  + g修饰符表示全局匹配（global），加上它以后，正则对象将匹配全部符合条件的结果，主要用于搜索和替换。
+  + 正则模式不含g修饰符，每次都是从字符串头部开始匹配。
+  + 正则模式含有g修饰符，每次都是从上一次匹配成功处，开始向后匹配。
+
++ i 修饰符
+  + 默认情况下，正则对象区分字母的大小写，加上i修饰符以后表示忽略大小写（ignoreCase）。
+
++ m 修饰符
+  + m修饰符表示多行模式（multiline）
+  + 会修改^和$的行为。默认情况下（即不加m修饰符时），^和$匹配字符串的开始处和结尾处
+  + 加上m修饰符以后，^和$还会匹配行首和行尾，即^和$会识别换行符（\n）。
+```js
+/^b/m.test('a\nb') // true
+//上面代码要求匹配行首的b，如果不加m修饰符，就相当于b只能处在字符串的开始处。
+//加上m修饰符以后，换行符\n也会被认为是一行的开始。
+```
+
+## 组匹配
+
+### 括号分组
+
++ 正则表达式的括号表示分组匹配，括号中的模式可以用来匹配分组的内容。
+```js
+/fred+/.test('fredd') // true
+/(fred)+/.test('fredfred') // true
+//第一个模式没有括号，结果+只表示重复字母d，第二个模式有括号，结果+就表示匹配fred这个词。
+
+//分组捕获
+var m = 'abcabc'.match(/(.)b(.)/);
+m   // ['abc', 'a', 'c']
+//正则表达式/(.)b(.)/一共使用两个括号，第一个括号捕获a，第二个括号捕获c。
+
+/(.)b(.)\1b\2/.test("abcabc");    // true
+//\1表示第一个括号匹配的内容（即a），\2表示第二个括号匹配的内容（即c）
+
+//匹配网页标签的例子。
+var tagName = /<([^>]+)>[^<]*<\/\1>/;
+// ([^>]+)  匹配标签名称
+// [^<]*  匹配标签内的内容
+tagName.exec("<b>bold</b>")[1]
+// 'b'
+
+//捕获带有属性的标签
+var tag = /<(\w+)([^>]*)>(.*?)<\/\1>/g;
 
 var s = "a b c d e f g h i j k l m n";
 var r = /(\w+)(\w)(\w)/;
@@ -1427,35 +2049,55 @@ r.test(s);
 console.log(RegExp.$1);  //返回第1个子表达式匹配的字符a b c d e f g h i j k l m n
 console.log(RegExp.$2);  //返回第2个子表达式匹配的字符m
 console.log(RegExp.$3);  //返回第3个子表达式匹配的字符n
-
-var s = "aa11bb22c3  d4e5f6";
-var r = /(\w+?)(\d+)/g;
-var b = s.replace(r,"$2$1");//更换子表达式的顺序， 可以改变字符串的顺序
-console.log(b);  //返回字符串"11aa22bb3c  4d5e6f"
-
-var s = "abc";
-var r = /(a(b(c)))/;
-var a = s.match(r);  //返回数组["abc","abc","bc","c"]
 ```
 
-## 反向引用
+### 非捕获组
 
-+ `\+ 数字` 
++ (?:x)称为非捕获组（Non-capturing group）
+  + 表示不返回该组匹配的内容，即匹配的结果中不计入这个括号。
 
-+ 数字指定了子表达式在字符模式中的顺序。如“\1”引用的是第 1 个子表达式，“\2”引用的是第 2 个子表达式
-
-+ ```js
-  var s = "<h1>title</h1><p>text</p>";
-  var r = /((<\/?\w+>).*(<\/?\w+>))/g;
-  var a = s.match(r);  //返回数组["<h1>title</h1>","<p>text</p>"]
-  ```
-
-## 禁止引用
-
-+ ```js
+```js
   var s1 = "abc";
   var r = /(?:\w*?)|(?:\d*?)/;  在左括号的后面加上一个问号和冒号。
-  ```
+
+  //用来分解网址的正则表达式。
+  // 正常匹配
+  var url = /(http|ftp):\/\/([^/\r\n]+)(\/[^\r\n]*)?/;
+
+  url.exec('http://google.com/');
+  // ["http://google.com/", "http", "google.com", "/"]
+
+  // 非捕获组匹配
+  var url = /(?:http|ftp):\/\/([^/\r\n]+)(\/[^\r\n]*)?/;
+
+  url.exec('http://google.com/');
+// ["http://google.com/", "google.com", "/"]
+```
+
+### 先行断言
+
++ x(?=y)称为先行断言（Positive look-ahead），x只有在y前面才匹配，y不会被计入返回结果。
++ 比如，要匹配后面跟着百分号的数字，可以写成/\d+(?=%)/。
++ “先行断言”中，括号里的部分是不会返回的。
+```js
+var m = 'abc'.match(/b(?=c)/);
+m // ["b"]
+//上面的代码使用了先行断言，b在c前面所以被匹配，但是括号对应的c不会被返回。
+```
+
+### 先行否定断言
+
++ x(?!y)称为先行否定断言（Negative look-ahead）
++ x只有不在y前面才匹配，y不会被计入返回结果。
++ 比如，要匹配后面跟的不是百分号的数字，就要写成/\d+(?!%)/。
++ “先行否定断言”中，括号里的部分是不会返回的。
+```js
+/\d+(?!\.)/.exec('3.14')
+// ["14"]
+//上面代码中，正则表达式指定，只有不在小数点前面的数字才会被匹配，因此返回的结果就是14。
+```
+
+## 例子
 
 ```js
 /[\u0000-\u00ff]/g		匹配任意 ASCII 字符
@@ -1473,7 +2115,7 @@ var s = "abc4 abd6 abe3 abf1 abg7";  //字符串直接量
 var r = /ab[c-g][1-7]/g;  //前两个字符为ab，第三个字符为从c到g，第四个字符为1~7的任意数字
 var a = s.match(r);  //返回数组["abc4","abd6","abe3","abf1","abg7"]
 
-var r = /[^0123456789]/g;  使用反义字符范围可以匹配很多无法直接描述的字符，达到以少应多的目的。
+var r = /[^0123456789]/g;  //使用反义字符范围可以匹配很多无法直接描述的字符，达到以少应多的目的。
 
 var s = '<meta charset="utf-8">';  //待过滤的表单提交信息
 var r = /\'|\"|\<|\>/gi;  //过滤敏感字符的正则表达式

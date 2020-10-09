@@ -133,7 +133,6 @@ poly  多边形           x y x y   多个点的x y位置连在一起
 <kbd>键盘输入</kbd>
 <abbr> （缩写）</abbr>
 <bdo dir="ltr" dir="rtl"> （文字方向）</bdo>
-<blockquote> （从另一个源引用的部分）</blockquote>
 <cite> （工作的名称）</cite>
 <del> （删除的文本）</del>
 <ins> （插入的文本）</ins>
