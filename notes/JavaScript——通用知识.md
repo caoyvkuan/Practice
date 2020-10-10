@@ -414,6 +414,42 @@ var o = JSON.parse('{"name": "张三"}');
 o.name // 张三
 ```
 
+## 严格模式
+
++ 严格模式是从 ES5 进入标准的，主要目的有以下几个。
+  + 明确禁止一些不合理、不严谨的语法，减少 JavaScript 语言的一些怪异行为。
+  + 增加更多报错的场合，消除代码运行的一些不安全之处，保证代码运行的安全。
+  + 提高编译器效率，增加运行速度。
+  + 为未来新版本的 JavaScript 语法做好铺垫。
+
++ 启用方法
+  + 进入严格模式的标志，是一行字符串 "use strict" 。
+  + 严格模式可以用于全局也可以用于单个函数
+  + 全局在脚本开头使用，函数在函数内开头使用
+
++ 显示报错
+  + 只读属性不可写
+  + 只设置了取值器的属性不可写
+  + 禁止扩展的对象不可扩展
+  + eval、arguments 不可用作标识名
+  + 函数不能有重名的参数
+  + 禁止八进制的前缀0表示法
+
++ 增强的安全措施
+  + 全局变量显式声明  （也就是无法隐式声明全局变量）
+  + 禁止 this 关键字指向全局对象
+  + 禁止使用 fn.callee、fn.caller、fn.arguments
+  + 禁止使用 arguments.callee、arguments.caller
+  + 禁止删除变量
+
++ 静态绑定
+  + 禁止使用 with 语句
+  + 创设 eval 作用域   eval语句拥有单独的作用域
+  + arguments 不再追踪参数的变化
+
++ 向下一个版本的 JavaScript 过渡
+  + 非函数代码块不得声明函数   ES5不能在块级作用域声明函数  ES6可以
+  + 保留字 : implements、interface、let、package、private、protected、public、static、yield等
 
 # 面向对象的程序设计
 
@@ -778,9 +814,120 @@ counter.count // 1
 
 ## Object 对象的相关方法
 
-### Object.getPrototypeOf()
++ Object.getPrototypeOf()
+  + Object.getPrototypeOf 方法返回参数对象的原型。这是获取原型对象的标准方法。
 
-+ 
++ Object.setPrototypeOf()
+  + Object.setPrototypeOf 方法为参数对象设置原型，返回该参数对象。它接受两个参数，第一个是现有对象，第二个是原型对象。
+```js
+//new命令可以使用Object.setPrototypeOf方法模拟。
+var f = new F();
+// 等同于
+var f = Object.setPrototypeOf({}, F.prototype);
+F.call(f);
+```
+
++ Object.prototype.isPrototypeOf()
+  + 实例对象的isPrototypeOf方法，用来判断该对象是否为参数对象的原型。
+  + 只要实例对象处在参数对象的原型链上，isPrototypeOf方法都返回true。
+  + 由于Object.prototype处于原型链的最顶端，所以对各种实例都返回true，只有直接继承自null的对象除外。
+
++ Object.prototype.__proto__
+  + 实例对象的__proto__属性（前后各两个下划线），返回该对象的原型。该属性可读写。
+  + 通过__proto__属性,可以改变对象的原型。
+  + 根据语言标准，__proto__属性只有浏览器才需要部署，其他环境可以没有这个属性。
+  + 它前后的两根下划线，表明它本质是一个内部属性，不应该对使用者暴露。
+  + 应该尽量少用这个属性，而是用Object.getPrototypeOf()和Object.setPrototypeOf()，进行原型对象的读写操作。
+
++ 获取原型对象方法的比较
+  + __proto__属性指向当前对象的原型对象，即构造函数的prototype属性。
+  + __proto__属性，指向构造函数（Object或obj.constructor）的prototype属性。
+  + 获取实例对象obj的原型对象，有三种方法。
+    + obj.__proto__
+    + obj.constructor.prototype
+    + Object.getPrototypeOf(obj)
+    + 上面三种方法之中，前两种都不是很可靠。__proto__属性只有浏览器才需要部署，其他环境可以不部署。
+    + 而obj.constructor.prototype在手动改变原型对象时，可能会失效。
+
++ Object.getOwnPropertyNames()
+  + Object.getOwnPropertyNames 方法返回一个数组，成员是参数对象本身的所有属性的键名，不包含继承的属性键名。
+  + Object.getOwnPropertyNames方法返回所有键名，不管是否可以遍历。
+  + 只获取那些可以遍历的属性，使用Object.keys方法。
+
++ Object.prototype.hasOwnProperty()
+  + 对象实例的hasOwnProperty方法返回一个布尔值，用于判断某个属性定义在对象自身，还是定义在原型链上。
+
++ in 运算符和 for...in 循环
+  + in运算符返回一个布尔值，表示一个对象是否具有某个属性。它不区分该属性是对象自身的属性，还是继承的属性。
+  + in运算符常用于检查一个属性是否存在。
+  + 获得对象的所有可遍历属性（不管是自身的还是继承的），可以使用for...in循环。
+  + 为了在for...in循环中获得对象自身的属性，可以采用hasOwnProperty方法判断一下。
+```js
+//获得对象的所有属性（不管是自身的还是继承的，也不管是否可枚举）
+function inheritedPropertyNames(obj) {
+  var props = {};
+  while(obj) {
+    Object.getOwnPropertyNames(obj).forEach(function(p) {
+      props[p] = true;
+    });
+    obj = Object.getPrototypeOf(obj);
+  }
+  return Object.getOwnPropertyNames(props);
+}
+```
+
++ 对象的拷贝
+  + 如果要拷贝一个对象，需要做到下面两件事情。
+    + 确保拷贝后的对象，与原对象具有同样的原型。
+    + 确保拷贝后的对象，与原对象具有同样的实例属性。
+```js
+//下面就是根据上面两点，实现的对象拷贝函数。
+function copyObject(orig) {
+  var copy = Object.create(Object.getPrototypeOf(orig));
+  copyOwnPropertiesFrom(copy, orig);
+  return copy;
+}
+
+function copyOwnPropertiesFrom(target, source) {
+  Object
+    .getOwnPropertyNames(source)
+    .forEach(function (propKey) {
+      var desc = Object.getOwnPropertyDescriptor(source, propKey);
+      Object.defineProperty(target, propKey, desc);
+    });
+  return target;
+}
+
+//另一种更简单的写法，是利用 ES2017 才引入标准的Object.getOwnPropertyDescriptors方法。
+function copyObject(orig) {
+  return Object.create(
+    Object.getPrototypeOf(orig),
+    Object.getOwnPropertyDescriptors(orig)
+  );
+}
+```
+
+### Object.create()
+
+  + 该方法接受一个对象作为参数，然后以它为原型，返回一个实例对象。该实例完全继承原型对象的属性。
+  + 如果想要生成一个不继承任何属性（比如没有toString和valueOf方法）的对象，可以将Object.create的参数设为null。
+  + 使用Object.create方法的时候，必须提供对象原型，即参数不能为空，或者不是对象，否则会报错。
+  + Object.create方法生成的新对象，动态继承了原型。在原型上添加或修改任何方法，会立刻反映在新对象之上。
+```js
+//Object.create方法可以用下面的代码代替。
+if (typeof Object.create !== 'function') {
+  Object.create = function (obj) {
+    function F() {}
+    F.prototype = obj;
+    return new F();
+  };
+}
+
+//下面三种方式生成的新对象是等价的
+var obj1 = Object.create({});
+var obj2 = Object.create(Object.prototype);
+var obj3 = new Object();
+```
 
 ## 设计模式
 
@@ -1369,6 +1516,591 @@ var module1 = (function ($, YAHOO) {
 ### 组合继承
 
 + 
+
+
+# 异步操作
+
+## 单线程模式
+
++ 单线程模型指的是，JavaScript 只在一个线程上运行。
++ 也就是说，JavaScript 同时只能执行一个任务，其他任务都必须在后面排队等待。
+
++ 注意，JavaScript 只在一个线程上运行，不代表 JavaScript 引擎只有一个线程。
++ 事实上，JavaScript 引擎有多个线程，单个脚本只能在一个线程上运行（称为主线程），其他线程都是在后台配合。
+
++ 将一些等待返回结果在执行的任务，挂起处于等待中的任务，等到结果返回后，再回过头，把挂起的任务继续执行下去。这种机制就是 JavaScript 内部采用的“事件循环”机制（Event Loop）。
++ 单线程模型虽然对 JavaScript 构成了很大的限制，但也因此使它具备了其他语言不具备的优势。如果用得好，JavaScript 程序是不会出现堵塞的，这就是为什么 Node 可以用很少的资源，应付大流量访问的原因。
+
++ 为了利用多核 CPU 的计算能力，HTML5 提出 Web Worker 标准，允许 JavaScript 脚本创建多个线程，但是子线程完全受主线程控制，且不得操作 DOM。所以，这个新标准并没有改变 JavaScript 单线程的本质。
+
+## 同步任务和异步任务
+
++ 程序里面所有的任务，可以分成两类：同步任务（synchronous）和异步任务（asynchronous）。
++ 同步任务是那些没有被引擎挂起、在主线程上排队执行的任务。
++ 只有前一个任务执行完毕，才能执行后一个任务。
+
++ 异步任务是那些被引擎放在一边，不进入主线程、而进入任务队列的任务。只有引擎认为某个异步任务可以执行了（比如 Ajax 操作从服务器得到了结果），该任务（采用回调函数的形式）才会进入主线程执行。排在异步任务后面的代码，不用等待异步任务结束会马上运行，也就是说，异步任务不具有“堵塞”效应。
+
++ 举例来说，Ajax 操作可以当作同步任务处理，也可以当作异步任务处理，由开发者决定。如果是同步任务，主线程就等着 Ajax 操作返回结果，再往下执行；如果是异步任务，主线程在发出 Ajax 请求以后，就直接往下执行，等到 Ajax 操作有了结果，主线程再执行对应的回调函数。
+
+## 任务队列和事件循环
+
++ JavaScript 运行时，除了一个正在运行的主线程，引擎还提供一个任务队列（task queue），里面是各种需要当前程序处理的异步任务。（实际上，根据异步任务的类型，存在多个任务队列。为了方便理解，这里假设只存在一个队列。）
+
++ 首先，主线程会去执行所有的同步任务。等到同步任务全部执行完，就会去看任务队列里面的异步任务。如果满足条件，那么异步任务就重新进入主线程开始执行，这时它就变成同步任务了。等到执行完，下一个异步任务再进入主线程开始执行。一旦任务队列清空，程序就结束执行。
+
++ 异步任务的写法通常是回调函数。一旦异步任务重新进入主线程，就会执行对应的回调函数。如果一个异步任务没有回调函数，就不会进入任务队列，也就是说，不会重新进入主线程，因为没有用回调函数指定下一步的操作。
+
++ JavaScript 引擎怎么知道异步任务有没有结果，能不能进入主线程呢？答案就是引擎在不停地检查，一遍又一遍，只要同步任务执行完了，引擎就会去检查那些挂起来的异步任务，是不是可以进入主线程了。这种循环检查的机制，就叫做事件循环（Event Loop）。维基百科的定义是：“事件循环是一个程序结构，用于等待和发送消息和事件（a programming construct that waits for and dispatches events or messages in a program）”。
+
++ 同步任务 ， 异步任务
+  + 同步任务执行完了，执行异步任务，
+  + 将有回调函数的异步任务加入同步队列，再执行同步任务队列，
+  + 如此重复，直到程序运行完毕
++ 微任务相当于异步任务，但是执行早于异步任务 如（ then ）
+  + 因为 then 相当于本轮的事件循环，而异步任务属于下一轮的事件循环
+
+## 异步操作
+
+### 回调函数
+
++ 回调函数是异步操作最基本的方法。
+```js
+//下面是两个函数f1和f2，编程的意图是f2必须等到f1执行完成，才能执行。
+function f1() {
+  // ...
+}
+
+function f2() {
+  // ...
+}
+f1();
+f2();
+//上面代码的问题在于，如果f1是异步操作，f2会立即执行，不会等到f1结束再执行。
+//这时，可以考虑改写f1，把f2写成f1的回调函数。
+function f1(callback) {
+  // ...
+  callback();
+}
+
+function f2() {
+  // ...
+}
+
+f1(f2);
+```
+
++ 回调函数的优点是简单、容易理解和实现
++ 缺点是不利于代码的阅读和维护，各个部分之间高度耦合（coupling）
++ 使得程序结构混乱、流程难以追踪（尤其是多个回调函数嵌套的情况）
++ 而且每个任务只能指定一个回调函数。
+
+### 事件监听
+
++ 另一种思路是采用事件驱动模式。异步任务的执行不取决于代码的顺序，而取决于某个事件是否发生。
++ 也就是在需要执行某个函数时，内部绑定的某个函数，相当于自定义事件
+```js
+//还是以f1和f2为例。首先，为f1绑定一个事件（这里采用的 jQuery 的写法）。
+f1.on('done', f2);
+//上面这行代码的意思是，当f1发生done事件，就执行f2。然后，对f1进行改写：
+function f1() {
+  setTimeout(function () {
+    // ...
+    f1.trigger('done');
+  }, 1000);
+}
+//上面代码中，f1.trigger('done')表示，执行完成后，立即触发done事件，从而开始执行f2。
+//这种方法的优点是比较容易理解，可以绑定多个事件，每个事件可以指定多个回调函数，而且可以“去耦合”（decoupling），有利于实现模块化。
+//缺点是整个程序都要变成事件驱动型，运行流程会变得很不清晰。阅读代码的时候，很难看出主流程。
+```
+
+### 发布/订阅
+
++ 事件完全可以理解成“信号”，如果存在一个“信号中心”，某个任务执行完成，就向信号中心“发布”（publish）一个信号，其他任务可以向信号中心“订阅”（subscribe）这个信号，从而知道什么时候自己可以开始执行。
++ 这就叫做”发布/订阅模式”（publish-subscribe pattern），又称“观察者模式”（observer pattern）。
++ 也就是说把需要触发的函数交给，一个集中管理人，在要执行时告诉管理人，要执行了。js高级程序设计中的自定义事件
+```js
+//这个模式有多种实现，下面采用的是 Ben Alman 的 Tiny Pub/Sub，这是 jQuery 的一个插件。
+//首先，f2向信号中心jQuery订阅done信号。
+jQuery.subscribe('done', f2);
+
+function f1() {
+  setTimeout(function () {
+    // ...
+    jQuery.publish('done');
+  }, 1000);
+}
+//上面代码中，jQuery.publish('done')的意思是
+//f1执行完成后，向信号中心jQuery发布done信号，从而引发f2的执行。
+//f2完成执行后，可以取消订阅（unsubscribe）。
+jQuery.unsubscribe('done', f2);
+```
+
+## 异步操作的流程控制
+
++ 嵌套的回调函数不仅写起来麻烦，容易出错，而且难以维护
+```js
+async(1, function (value) {
+  async(2, function (value) {
+    async(3, function (value) {
+      async(4, function (value) {
+        async(5, function (value) {
+          async(6, final);
+        });
+      });
+    });
+  });
+});
+```
+
+### 串行执行
+
++ 我们可以编写一个流程控制函数，让它来控制异步任务，一个任务完成以后，再执行另一个。
++ 这就叫串行执行。
+```js
+var items = [ 1, 2, 3, 4, 5, 6 ];
+var results = [];
+
+function async(arg, callback) {
+  console.log('参数为 ' + arg +' , 1秒后返回结果');
+  setTimeout(function () { callback(arg * 2); }, 1000);
+}
+
+function final(value) {
+  console.log('完成: ', value);
+}
+
+function series(item) {
+  if(item) {
+    async( item, function(result) {
+      results.push(result);
+      return series(items.shift());
+    });
+  } else {
+    return final(results[results.length - 1]);
+  }
+}
+
+series(items.shift());
+
+// 上面代码中，函数series就是串行函数，它会依次执行异步任务，所有任务都完成后，才会执行final函数。items数组保存每一个异步任务的参数，results数组保存每一个异步任务的运行结果。
+```
+
+### 并行执行
+
++ 流程控制函数也可以是并行执行，即所有异步任务同时执行，等到全部完成以后，才执行final函数。
+```js
+var items = [ 1, 2, 3, 4, 5, 6 ];
+var results = [];
+
+function async(arg, callback) {
+  console.log('参数为 ' + arg +' , 1秒后返回结果');
+  setTimeout(function () { callback(arg * 2); }, 1000);
+}
+
+function final(value) {
+  console.log('完成: ', value);
+}
+
+items.forEach(function(item) {
+  async(item, function(result){
+    results.push(result);
+    if(results.length === items.length) {
+      final(results[results.length - 1]);
+    }
+  })
+});
+//上面代码中，forEach方法会同时发起六个异步任务，等到它们全部完成以后，才会执行final函数。
+
+//相比而言，上面的写法只要一秒，就能完成整个脚本。
+//这就是说，并行执行的效率较高，比起串行执行一次只能执行一个任务，较为节约时间。
+//但是问题在于如果并行的任务较多，很容易耗尽系统资源，拖慢运行速度。
+//因此有了第三种流程控制方式。
+```
+
+### 并行与串行的结合
+
++ 所谓并行与串行的结合，就是设置一个门槛，每次最多只能并行执行n个异步任务，这样就避免了过分占用系统资源。
+```js
+var items = [ 1, 2, 3, 4, 5, 6 ];
+var results = [];
+var running = 0;
+var limit = 2;
+
+function async(arg, callback) {
+  console.log('参数为 ' + arg +' , 1秒后返回结果');
+  setTimeout(function () { callback(arg * 2); }, 1000);
+}
+
+function final(value) {
+  console.log('完成: ', value);
+}
+
+function launcher() {
+  while(running < limit && items.length > 0) {
+    var item = items.shift();
+    async(item, function(result) {
+      results.push(result);
+      running--;
+      if(items.length > 0) {
+        launcher(); //通过递归使循环被条件运行数量截断时，还能继续执行没执行完的任务
+      } else if(running == 0) {
+        final(results);
+      }
+    });
+    running++;
+  }
+}
+
+launcher();
+//上面代码中，最多只能同时运行两个异步任务。
+//变量running记录当前正在运行的任务数，只要低于门槛值，就再启动一个新的任务，如果等于0，就表示所有任务都执行完了，这时就执行final函数。
+
+//这段代码需要三秒完成整个脚本，处在串行执行和并行执行之间。通过调节limit变量，达到效率和资源的最佳平衡。
+```
+
+## 定时器
+
++ JavaScript 提供定时执行代码的功能，叫做定时器（timer），主要由setTimeout()和setInterval()这两个函数来完成。它们向任务队列添加定时任务。
+
+### setTimeout()
+
++ setTimeout函数用来指定某个函数或某段代码，在多少毫秒之后执行。
++ 它返回一个整数，表示定时器的编号，以后可以用来取消这个定时器。
++ 第一个参数直接执行代码时，需要以字符串的形式传入，不推荐
++ 省略第二个参数默认为 0 
+
++ 如果回调函数是对象的方法(obj.y)，那么setTimeout使得方法内部的this关键字指向全局环境，而不是定义时所在的那个对象。
++ 为了防止出现这个问题，一种解决方法是将obj.y放入一个函数。
++ 另一种解决方法是，使用bind方法，将obj.y这个方法绑定在obj上面。
+```js
+var timerId = setTimeout(func|code, delay);
+//setTimeout函数接受两个参数，第一个参数func|code是将要推迟执行的函数名或者一段代码
+//第二个参数delay是推迟执行的毫秒数。
+
+setTimeout(function (a,b) {
+  console.log(a + b);
+}, 1000, 1, 1);
+//setTimeout共有4个参数。最后那两个参数，将在1000毫秒之后回调函数执行时，作为回调函数的参数。
+```
+
+### setInterval()
+
++ setInterval 函数的用法与 setTimeout 完全一致
++ 区别仅仅在于setInterval指定某个任务每隔一段时间就执行一次，也就是无限次的定时执行。
+
++ 因为 setInterval 指定的是"开始执行"之间的间隔，并不考虑每次任务执行本身所消耗的事件
++ 因此 setInterval 的执行间隔并不固定
+
+```js
+//setInterval的一个常见用途是实现轮询。下面是一个轮询 URL 的 Hash 值是否发生变化的例子。
+var hash = window.location.hash;
+var hashWatcher = setInterval(function() {
+  if (window.location.hash != hash) {
+    updatePage();
+  }
+}, 1000);
+
+//为了确保两次执行之间有固定的间隔，可以不用setInterval，而是每次执行结束后，使用setTimeout指定下一次执行的具体时间。
+var i = 1;
+var timer = setTimeout(function f() {
+  // ...
+  timer = setTimeout(f, 2000);
+}, 2000);
+```
+
+### clearTimeout()，clearInterval()
+
++ setTimeout和setInterval函数，都返回一个整数值，表示计数器编号。
++ 将该整数传入clearTimeout和clearInterval函数，就可以取消对应的定时器。
+```js
+//利用定时器返回的编号，取消当前所有的setTimeout定时器
+(function() {
+  // 每轮事件循环检查一次
+  var gid = setInterval(clearAllTimeouts, 0);
+
+  function clearAllTimeouts() {
+    var id = setTimeout(function() {}, 0);
+    while (id > 0) {
+      if (id !== gid) {
+        clearTimeout(id);
+      }
+      id--;
+    }
+  }
+})();
+```
+
+### 实例：debounce 函数（防抖动）
+
++ 不希望回调函数被频繁调用，可以使用定时器，定时执行
++ 在规定时间内重复调用时取消上一次执行，然后在新建一个定时器
++ 这样就保证了回调函数之间的调用间隔，至少是规定的时间。
+
+```js
+$('textarea').on('keydown', debounce(ajaxAction, 2500));
+
+function debounce(fn, delay){
+  var timer = null; // 声明计时器
+  return function() {
+    var context = this;
+    var args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
+  };
+}
+```
+
+### 运行机制
+
++ setTimeout和setInterval的运行机制，是将指定的代码移出本轮事件循环，等到下一轮事件循环，再检查是否到了指定时间。
++ 如果到了，就执行对应的代码；如果不到，就继续等待。
++ 这意味着，setTimeout和setInterval指定的回调函数，必须等到本轮事件循环的所有同步任务都执行完，才会开始执行。
++ 由于前面的任务到底需要多少时间执行完，是不确定的，所以没有办法保证，setTimeout和setInterval指定的任务，一定会按照预定时间执行。
+```js
+setTimeout(someTask, 100);
+veryLongTask();
+//上面代码的setTimeout，指定100毫秒以后运行一个任务。但是，如果后面的veryLongTask函数（同步任务）运行时间非常长，过了100毫秒还无法结束，那么被推迟运行的someTask就只有等着，等到veryLongTask运行结束，才轮到它执行。
+
+//setInterval的例子
+setInterval(function () {
+  console.log(2);
+}, 1000);
+
+sleep(3000);
+
+function sleep(ms) {
+  var start = Date.now();
+  while ((Date.now() - start) < ms) {
+  }
+}
+//上面代码中，setInterval要求每隔1000毫秒，就输出一个2。
+//但是，紧接着的sleep语句需要3000毫秒才能完成，那么setInterval就必须推迟到3000毫秒之后才开始生效。
+//注意，生效后setInterval不会产生累积效应，即不会一下子输出三个2，而是只会输出一个2。
+```
+
+### setTimeout(f, 0)
+
++ 含义
+  + setTimeout的作用是将代码推迟到指定时间执行，如果指定时间为0，即setTimeout(f, 0)，那么会立刻执行吗？
+  + 答案是不会。因为上一节说过，必须要等到当前脚本的同步任务，全部处理完以后，才会执行setTimeout指定的回调函数f。
+  + 也就是说，setTimeout(f, 0)会在下一轮事件循环一开始就执行。
+  + 总之，setTimeout(f, 0)这种写法的目的是，尽可能早地执行f，但是并不能保证立刻就执行f。
+
++ 应用
+  + setTimeout(f, 0)有几个非常重要的用途。
+  + 它的一大应用是，可以调整事件的发生顺序。
+  + 比如，网页开发中，某个事件先发生在子元素，然后冒泡到父元素，即子元素的事件回调函数
+  + 会早于父元素的事件回调函数触发。
+  + 如果，想让父元素的事件回调函数先发生，就要用到setTimeout(f, 0)。
+```js
+// HTML 代码如下
+// <input type="button" id="myButton" value="click">
+
+var input = document.getElementById('myButton');
+
+input.onclick = function A() {
+  //让 input 的事件触发晚于 body
+  setTimeout(function B() {
+    input.value +=' input';
+  }, 0)
+};
+
+document.body.onclick = function C() {
+  input.value += ' body'
+};
+
+//另一个应用是，用户自定义的回调函数，通常在浏览器的默认动作之前触发。
+//比如，用户在输入框输入文本，keypress事件会在浏览器接收文本之前触发。
+//因此，下面的回调函数是达不到目的的。
+
+// HTML 代码如下
+// <input type="text" id="input-box">
+document.getElementById('input-box').onkeypress = function (event) {
+  this.value = this.value.toUpperCase();
+}
+//上面代码想在用户每次输入文本后，立即将字符转为大写。
+//但是实际上，它只能将本次输入前的字符转为大写，因为浏览器此时还没接收到新的文本，所以this.value取不到最新输入的那个字符。
+//只有用setTimeout改写，上面的代码才能发挥作用。
+document.getElementById('input-box').onkeypress = function() {
+  var self = this;
+  setTimeout(function() {
+    self.value = self.value.toUpperCase();
+  }, 0);
+}
+//上面代码将代码放入setTimeout之中，就能使得它在浏览器接收到文本之后触发。
+//由于setTimeout(f, 0)实际上意味着，将任务放到浏览器最早可得的空闲时段执行，所以那些计算量大、耗时长的任务，常常会被放到几个小部分，分别放到setTimeout(f, 0)里面执行。
+var div = document.getElementsByTagName('div')[0];
+
+// 写法一
+for (var i = 0xA00000; i < 0xFFFFFF; i++) {
+  div.style.backgroundColor = '#' + i.toString(16);
+}
+
+// 写法二
+var timer;
+var i=0x100000;
+
+function func() {
+  timer = setTimeout(func, 0);
+  div.style.backgroundColor = '#' + i.toString(16);
+  if (i++ == 0xFFFFFF) clearTimeout(timer);
+}
+
+timer = setTimeout(func, 0);
+/*
+* 上面代码有两种写法，都是改变一个网页元素的背景色。
+* 写法一会造成浏览器“堵塞”，因为 JavaScript 执行速度远高于 DOM，
+* 会造成大量 DOM 操作“堆积”，而写法二就不会，这就是setTimeout(f, 0)的好处。
+*/
+
+/*
+* 另一个使用这种技巧的例子是代码高亮的处理。如果代码块很大，一次性处理，可能会对性能造成很大的* 压力，那么将其分成一个个小块，一次处理一块，比如写成setTimeout(highlightNext, 50)的
+* 样子，性能压力就会减轻。
+*/
+```
+
+## Promise 对象
+
++ Promise 是第一个对象，也是一个构造函数。
++ 可以使异步操作可以和同步操作一样书写，易读，
+
++ ES6 原生支持 Promise 对象
+
++ Promise 的设计思想是，所有异步任务都返回一个 Promise 实例。
++ Promise 实例有一个then方法，用来指定下一步的回调函数。
+
++ Promise 的优点在于，让回调函数变成了规范的链式写法，程序流程清除
+
++ Promise 的回调函数属于异步任务，会在同步任务之后执行
+  + 也就是 then 属于微任务
+  + 但是，Promise 的回调函数不是正常的异步任务，而是微任务。
+  + 它们的区别在于，正常任务追加到下一轮事件循环，微任务追加到本轮事件循环。
+  + 这意味着，微任务的执行时间一定早于正常任务。
+
+### Promise 对象的状态
+
++ Promise 对象通过自身的状态，来控制异步操作。Promise 实例具有三种状态。
+  + 异步操作未完成（pending）
+  + 异步操作成功（fulfilled）
+  + 异步操作失败（rejected）
+  + 上面三种状态里面，fulfilled和rejected合在一起称为resolved（已定型）。
+
++ 因为这三种状态只有两种变化，从未完成到成功或失败
++ 因此，Promise 的最终结果只有两种。
+  + 异步操作成功，Promise 实例传回一个值（value），状态变为fulfilled。
+  + 异步操作失败，Promise 实例抛出一个错误（error），状态变为rejected。
+
+### Promise 构造函数
+
++ JavaScript 提供原生的Promise构造函数，用来生成 Promise 实例。
+```js
+var promise = new Promise(function (resolve, reject) {
+  // ...
+
+  if (/* 异步操作成功 */){
+    resolve(value);
+  } else { /* 异步操作失败 */
+    reject(new Error());
+  }
+});
+/*
+  Promise构造函数接受一个函数作为参数，该函数的两个参数分别是resolve和reject。
+  它们是两个函数，由 JavaScript 引擎提供，不用自己实现。
+
+  resolve函数的作用是，将Promise实例的状态从“未完成”变为“成功”（即从pending变为fulfilled），在异步操作成功时调用，并将异步操作的结果，作为参数传递出去。
+  reject函数的作用是，将Promise实例的状态从“未完成”变为“失败”（即从pending变为rejected），在异步操作失败时调用，并将异步操作报出的错误，作为参数传递出去。
+*/
+function timeout(ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, ms, 'done');
+  });
+}
+
+timeout(100);
+//上面代码中，timeout(100)返回一个 Promise 实例。100毫秒以后，该实例的状态会变为fulfilled。
+```
+
+### Promise.prototype.then()
+
++ Promise 实例的then方法，用来添加回调函数。
++ then方法可以接受两个回调函数
++ 第一个是异步操作成功时（变为fulfilled状态）的回调函数
++ 第二个是异步操作失败（变为rejected）时的回调函数（该参数可以省略）。
++ 一旦状态改变，就调用相应的回调函数。
++ then方法可以链式使用。
+```js
+var p1 = new Promise(function (resolve, reject) {
+  resolve('成功');
+});
+p1.then(console.log, console.error);
+// "成功"
+
+var p2 = new Promise(function (resolve, reject) {
+  reject(new Error('失败'));
+});
+p2.then(console.log, console.error);
+// Error: 失败
+
+p1
+  .then(step1)    //如果step1的状态变为rejected,那么后面将不会执行
+  .then(step2)    //Promise 开始寻找，接下来第一个为rejected的回调函数
+  .then(step3)    //在代码中是console.error
+  .then(          //这就是说，Promise 对象的报错具有传递性。
+    console.log,
+    console.error
+  );
+//p1后面有四个then，意味依次有四个回调函数。只要前一步的状态变为fulfilled，就会依次执行紧跟在后面的回调函数。
+//最后一个then方法，回调函数是console.log和console.error，用法上有一点重要的区别。console.log只显示step3的返回值，而console.error可以显示p1、step1、step2、step3之中任意一个发生的错误。
+```
+
+### then()用法辨析
+
++ Promise 的用法，简单说就是一句话：使用then方法添加回调函数。
++ 但是，不同的写法有一些细微的差别
+```js
+// 写法一
+f1().then(function () {
+  return f2();
+}).then(f3);  //f3回调函数的参数，是f2函数的运行结果。
+
+// 写法二
+f1().then(function () {
+  f2();
+  return;
+}).then(f3);  //f3回调函数的参数是undefined。
+
+// 写法三
+f1().then(f2())
+  .then(f3);    //f3回调函数的参数，是f2函数返回的函数的运行结果。
+
+// 写法四
+f1().then(f2)
+  .then(f3);    //f2会接收到f1()返回的结果。f3回调函数的参数，是f2函数的运行结果。
+```
+
+### 实例：图片加载
+
+```js
+var preloadImage = function (path) {
+  return new Promise(function (resolve, reject) {
+    var image = new Image();
+    image.onload  = resolve;
+    image.onerror = reject;
+    image.src = path;
+  });
+};
+//image是一个图片对象的实例。它有两个事件监听属性，onload属性在图片加载成功后调用，onerror属性在加载失败调用。
+
+//调用
+preloadImage('https://example.com/my.jpg')
+  .then(function (e) { document.body.append(e.target) })
+  .then(function () { console.log('加载成功') });
+//图片加载成功以后，onload属性会返回一个事件对象，因此第一个then()方法的回调函数，会接收到这个事件对象。
+//该对象的target属性就是图片加载后生成的 DOM 节点。
+```
 
 # console 对象与控制台
 
