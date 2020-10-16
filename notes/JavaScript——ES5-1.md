@@ -645,6 +645,7 @@ s.charAt(s.length - 1) // "c"
   + 传入一个字符串，按照传入的字符串将使用方法的字符串分割为数组并返回
   + 如果省略参数，则返回数组的唯一成员就是原字符串。
   + split方法还可以接受第二个参数，限定返回数组的最大成员数。
+  + ``str.split('').reverse().join('');`` 倒转字符串
 
   + `join`
     + 传入一个字符,按照传入的字符将数组连接为字符串
@@ -833,7 +834,7 @@ new Boolean(true).toString() // "true"
 + `random()` 方法
   + 返回介于0和1之间一个随机数，不包括0和1
   + 随机值 `值 = Math.floor(Math.random() * 可能的值总数 + 第一个可能的值);`
-  + `值 = Math.floor(Math.random() * 96 + 5);` 取5到100的数
+  + ``值 = Math.floor(Math.random() * 96 + 5);`` 取5到100的数
   + 封装
 ```js
   function selectFrom(lowerValue,upperValue){
@@ -842,6 +843,8 @@ new Boolean(true).toString() // "true"
   }
   //数组随机排序
   arr.sort(function () { return 0.5 - Math.random() });
+  ////创建1-50的随机整数
+  parseInt(Math.random()*(50-1+1),10) 
 ```
 
 + 其他方法
@@ -2438,12 +2441,3 @@ window.eval('...')
 (1, eval)('...')
 (eval, eval)('...')
 ```
-
-
-
-
-
-
-
-
-

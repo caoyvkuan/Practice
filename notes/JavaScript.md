@@ -2,7 +2,7 @@
 
 ## 继承
 
-### 继承的第三种方式：拷贝继承(混入继承：mixin)
+### 继承的第三种方式：拷贝继承(混入继承：mixin)msjh.ttc
 
 + 场景：有时候想使用某个对象中的属性，但是又不能直接修改它，于是就可以创建一个该对象的拷贝
 + 实际运用：
@@ -557,82 +557,3 @@ console.log(o5==o8);    //false
   ```
 
 + 防止变量被破坏
-
-### 函数的4种调用方式
-
-+ this的指向以及函数的四种调用模式
-
-+ 1、函数调用
-
-```js
-    var age=18;
-    var p={
-        age:15,
-        say:function(){
-            console.log(this.age);
-        }
-    }
-    var s1=p.say();
-    s1();       //函数调用
-```
-
-+ 2、方法调用
-
-```js
-    var age=18;
-    var p={
-        age:15,
-        say:function(){
-            console.log(this.age);
-        }
-    }
-    p.say()//方法调用
-```
-
-+ 3、new调用(构造函数)
-
-```js
-    var age=18;
-    var p={
-        age:15,
-        say:function(){
-            console.log(this.age);
-        }
-    }
-    new p.say()//构造函数调用
-```
-
-+ 4、上下文方式(call、apply、bind)
-
-```js
-    var length=21;
-    function f1(){
-        console.log(this.length);
-    }
-    f1.call([1,3,5])
-    f1.apply(this)
-    f1.call(5)
-```
-
-+ 在ES6的箭头函数之前的时代，想要判断一个函数内部的this指向谁，就是根据上面的四种方式来决定的
-
-# ES6内容
-
-+ 1、解构赋值   
-+ 2、函数rest参数  
-+ 3、箭头函数  
-    - 箭头函数和普通函数有哪些不同？(4点)
-+ 4、对象的Object.assign  
-+ 5、promise 
-+ 6、generator 
-+ 7、async 
-+ 8、class 
-+ 9、module
-
-### 原型
-
-+ 原型很多人开发用不到？
-    - 很多人都用es6/7/8开发，确实用的比较少
-    - 如果你用es5之前的版本开发代码(IE8、IE7。。。)，可能天天都要写原型
-    - 理解了原型，才是理解了JS面向对象的核心，没有理解原型，你就没有理解面向对象的核心
-+ 类继承其实本质上还是用原型继承来(包装)的

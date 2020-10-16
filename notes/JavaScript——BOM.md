@@ -58,3 +58,4 @@
 
 
 
+window.frames["content"].document; //获取iframe里的文档流
