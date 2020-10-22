@@ -266,24 +266,6 @@
 
 ## 原生拖放
 
-+ 拖放事件
-  + 拖动某元素时将依次触发以下事件
-    + dragstart
-    + drag
-    + dragend
-  + 开始拖动时会触发dragstart事件
-  + 拖动过程中会持续触发drag事件鼠标的mousemove事件也会持续发生
-  + 当停止拖动会触发dragend事件
-  + 当拖动元素被放置到有效的放置目标上时，会依次触发以下事件
-    + dragenter
-    + dragover
-    + dragleave 或 drop
-  + 只要元素被拖动到放置目标上就会触发dragenter事件
-  + 在放置目标内移动时会持续触发dragover事件
-  + 当元素被拖出放置目标时会触发dragleave事件
-  + 如果元素被放置到了放置目标中，则会触发drop事件，而不会触发dragleaver事件
-+ 自定义放置目标
-  + 重写元素的dragenter和dragover事件的默认行为（取消默认行为），可以使元素变成可以放置的目标
 + dataTransfer对象
   + getData()
   + setData()

@@ -1835,11 +1835,13 @@ var timer = setTimeout(function f() {
 })();
 ```
 
-### 实例：debounce 函数（防抖动）
+### （防抖动）debounce 函数
 
 + 不希望回调函数被频繁调用，可以使用定时器，定时执行
 + 在规定时间内重复调用时取消上一次执行，然后在新建一个定时器
 + 这样就保证了回调函数之间的调用间隔，至少是规定的时间。
+
++ debounce 是“防抖”，要连续操作结束后再执行。
 
 ```js
 $('textarea').on('keydown', debounce(ajaxAction, 2500));
@@ -1855,6 +1857,24 @@ function debounce(fn, delay){
     }, delay);
   };
 }
+```
+
+### （节流） throttle 函数
+
++ throttle 是“节流”，确保一段时间内只执行一次
+
+```js
+function throttle(fn, wait) {
+  var time = Date.now();
+  return function() {
+    if ((time + wait - Date.now()) < 0) {
+      fn();
+      time = Date.now();
+    }
+  }
+}
+
+window.addEventListener('scroll', throttle(callback, 1000));
 ```
 
 ### 运行机制

@@ -505,7 +505,7 @@ var img0 = c.item(0);
       2. 浏览器遇到 HTML 文档中的<script/>元素，并且没有 async 或 defer 属性，就暂停解析，开始执行脚本，这时 document.readyState 属性还是等于 loading。
       3. HTML 文档解析完成，document.readyState 属性变成 interactive。
       4. 浏览器等待图片、样式表、字体文件等外部资源加载完成，一旦全部加载完成，document.readyState 属性变成 complete。
-   6. 每次状态变化都会触发一个readystatechange事件。
+   6. 每次状态变化都会触发一个 readystatechange 事件。
 ```js
    // 轮询检查
    var interval = setInterval(function() {
