@@ -10,47 +10,8 @@
 # 浏览器端的JS
 
 + ECMAScript：基础语法(数据类型、运算符、函数。。。JS语法标准 )
-
 + BOM(浏览器对象模型)：window、location、history、navigator。。。
-
 + DOM(文档对象模型)：div、p、span。。。
-
-+ `srcipt`标签属性
-
-  + `src` ：指定外部脚本的URI， 如果设置了 `src` 特性，script 标签内容将会被忽略;
-
-  + type : 指定引用脚本的语言，属性值为 MIME 类型
-
-    + 包括`text/javascript`, `text/ecmascript`, `application/javascript`, 和`application/ecmascript`。如果没有定义这个属性，脚本会被视作JavaScript。
-    + ES6 新增了属性值 `module` ，代码会被当做 JavaScript 模块
-
-  + async
-
-    + `async`规定一旦脚本可用，则会异步执行   async 属性仅适用于外部脚本
-
-      + 表示应该立即下载脚本,但不应该妨碍页面的其他操作,比如下载其他资源或加载其他脚本
-
-    + 都设置了这个属性不一定会按照顺序加载,   后面的可能比前面的先加载, 因此确保两者之间互不依赖非常重要
-
-    + 如果不使用 `async` 且 `defer="defer"` ：脚本将在页面完成解析时执行
-
-    + 如果既不使用 `async` 也不使用 `defer` ：在浏览器继续解析页面之前，立即读取并执行脚本；
-
-    + ```html
-      <script async="async"></script>
-      ```
-
-  + defer
-
-    + 都设置了这个属性会按照顺序加载
-
-    + 属性规定是否对脚本执行进行延迟，直到页面加载为止。
-
-    + 如果您的脚本不会改变文档的内容，可将 defer 属性加入到 `<script>` 标签中，以便加快处理文档的速度。因为浏览器知道它将能够安全地读取文档的剩余部分而不用执行脚本，它将推迟对脚本的解释，直到文档已经显示给用户为止。
-
-    + ```html
-      <script defer="defer"></script>
-      ```
 
 # 语言规范
 

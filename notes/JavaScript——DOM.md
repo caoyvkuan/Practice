@@ -317,7 +317,7 @@ var img0 = c.item(0);
 ## ParentNode.children
 
 + children 属性返回一个 HTMLCollection 实例，成员是当前节点的所有元素子节点。该属性只读。
-+ 注意，children属性只包括元素子节点，不包括其他类型的子节点（比如文本子节点）。
++ 注意，children 属性只包括元素子节点，不包括其他类型的子节点（比如文本子节点）。
 + 如果没有元素类型的子节点，返回值 HTMLCollection 实例的 length 属性为0。
 + HTMLCollection 是动态集合，会实时反映 DOM 的任何变化。
 
@@ -634,9 +634,15 @@ var img0 = c.item(0);
 
 + document.createEvent 方法生成一个事件对象（Event实例）
 + 该对象可以被 element.dispatchEvent 方法使用，触发指定事件。
++ 可以模拟原生事件 如：点击事件
++ 也可以自定义事件
 ```js
 var event = document.createEvent('Event');
 event.initEvent('build', true, true);
+//event.initEvent(eventType,canBubble,cancelable)
+//eventType 	字符串值。事件的类型。
+//canBubble		事件是否起泡。
+//cancelable  	是否可以用 preventDefault() 方法取消事件。
 document.addEventListener('build', function (e) {
   console.log(e.type); // "build"
 }, false);
@@ -1155,13 +1161,20 @@ a.href // "http://www.example.com/"
 
 ## DocumentFragment 节点
 
++ 该接口继承 Node 的全部方法，并实现了 ParentNode 接口中的方法。
+  + DocumentFragment.querySelector()
+  + DocumentFragment.querySelectorAll()
+  + DocumentFragment.getElementById()
+
 + DocumentFragment 节点代表一个文档的片段，本身就是一个完整的 DOM 树形结构。
 + 它没有父节点，parentNode 返回 null，但是可以插入任意数量的子节点。
 + 它不属于当前文档，操作 DocumentFragment 节点，要比直接操作 DOM 树快得多。
-
 + 它一般用于构建一个 DOM 结构，然后插入当前文档。
 + document.createDocumentFragment 方法，以及浏览器原生的 DocumentFragment 构造函数，可以创建一个空的 DocumentFragment 节点。
 + 然后再使用其他 DOM 方法，向其添加子节点。
+
++ 用来优化 DOM 操作的性能消耗
++ 它的变化不会触发 DOM 树的重新渲染，且不会导致性能等问题。
 
 # CSS 操作
 

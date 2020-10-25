@@ -2,17 +2,6 @@
 
 ## 函数与方法 ##
 
-#### 窗口加载函数
-
-+ ```javascript
-  window.onload = function () { }
-  window.onload = 方法
-  window.onscroll	滚动监听
-  	滚动条滚动时，到顶部的距离
-  	document.documentElement.scrollTop||document.body.scrollTop;
-  window.onresize 缩放监听
-  ```
-
 ### 本地储存
 
 + ```javascript
@@ -72,21 +61,4 @@
   ```
 
 
-## JSDOM操作 ##
-
-#### 节点操
-
-+ ```javascript
-  
-  浏览器视觉视口高度(包括滚动条):window.innerHeight
-  获取整个浏览器的高(包括浏览器边框):window.outerHeight
-  
-  网页正文部分上：window.screenTop 
-  网页正文部分左：window.screenLeft 
-  屏幕分辨率的高：window.screen.height 
-  屏幕分辨率的宽：window.screen.width 
-  屏幕可用工作区高度：window.screen.availHeight
-  ```
-  
-  
 
