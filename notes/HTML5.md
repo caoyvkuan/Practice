@@ -487,7 +487,7 @@ video.playbackRate=2; 	2倍播放速度
 + **title**  鼠标悬停提示文本
 + **style**  行内样式
 + **id  |  class**
-+ **hidden**隐藏
++ **hidden** 隐藏
 + **accesskey**设置访问元素的键盘快捷键
   + `accesskey="h"`
   + 不同浏览器使用的快捷键方法不同：

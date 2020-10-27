@@ -70,6 +70,7 @@ element.addEventListener('click', function (event) {
 + dispatchEvent 方法的参数是一个 Event 对象的实例
 + 若果参数为空或不是一个有效的事件对象，将报错
 + 返回值可以确定事件是否被取消了
++ 原生的操作事件，如：鼠标点击，可能需要用 MouseEvent 构造函数才能正确触发点击事件
 
 ```js
 //给元素添加事件
@@ -160,6 +161,7 @@ btn.addEventListener(
 + 事件发生以后，会产生一个事件对象，作为参数传给监听函数。
 + 浏览器原生提供一个 Event 对象，所有的事件都是这个对象的实例，或者说继承了 Event.prototype 对象。
 + 创建的事件，可以用 dispatchEvent 触发
++ 原生的操作事件，如：鼠标点击，可能需要用 MouseEvent 构造函数才能正确触发点击事件
 ```js
 // Event 对象本身就是一个构造函数，可以用来生成新的实例。
 event = new Event(type, options);
@@ -170,6 +172,7 @@ event = new Event(type, options);
  * 该对象主要有下面两个属性。
  *    bubbles：布尔值，可选，默认为false，表示事件对象是否冒泡。
  *    cancelable：布尔值，可选，默认为false，表示事件是否可以被取消，即能否用Event.preventDefault() 取消这个事件。
+ * 	  composed:布尔值，可选，用来指示该事件是否可以从 Shadow DOM 传递到一般的 DOM。
  * 一旦事件被取消，就好像从来没有发生过，不会触发浏览器对该事件的默认行为。
 */
 var ev = new Event(
@@ -186,9 +189,9 @@ div.addEventListener('click', callback, false);
 //div.addEventListener 方法指定在冒泡阶段监听，因此监听函数不会触发。
 //如果写成 div.addEventListener('click', callback, true)，那么在“捕获阶段”可以监听到这个事件。
 var click = new Event('click');
-p.dispatchEvent(click); //如果这个事件在div元素上触发。
+div.dispatchEvent(click); //如果这个事件在 div 元素上触发。
 //不管 div 元素是在冒泡阶段监听，还是在捕获阶段监听，都会触发监听函数。
-//因为这时div元素是事件的目标，不存在是否冒泡的问题，div元素总是会接收到事件，因此导致监听函数生效。
+//因为这时 div 元素是事件的目标，不存在是否冒泡的问题，div 元素总是会接收到事件，因此导致监听函数生效。
 ```
 
 + 这个事件对象中包含着所有与事件有关的信息，包括导致事件的元素，事件的类型，以及其他与特定事件相关的信息，
