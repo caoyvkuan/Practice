@@ -314,26 +314,28 @@ var img0 = c.item(0);
 + 文档节点（document）和 文档片段节点（documentFragment）
 + 拥有子节点，因此只有这三类节点会拥有 ParentNode 接口。
 
-## ParentNode.children
+## ParentNode.xxx
+
+## children
 
 + children 属性返回一个 HTMLCollection 实例，成员是当前节点的所有元素子节点。该属性只读。
 + 注意，children 属性只包括元素子节点，不包括其他类型的子节点（比如文本子节点）。
 + 如果没有元素类型的子节点，返回值 HTMLCollection 实例的 length 属性为0。
 + HTMLCollection 是动态集合，会实时反映 DOM 的任何变化。
 
-## ParentNode.firstElementChild
+## firstElementChild
 
 + firstElementChild 属性返回当前节点的第一个元素子节点。如果没有任何元素子节点，则返回null。
 
-## ParentNode.lastElementChild
+## lastElementChild
 
 + lastElementChild 属性返回当前节点的最后一个元素子节点，如果不存在任何元素子节点，则返回null。
 
-## ParentNode.childElementCount
+## childElementCount
 
 + childElementCount属性返回一个整数，表示当前节点的所有元素子节点的数目。如果不包含任何元素子节点，则返回0。
 
-## ParentNode.append()，ParentNode.prepend()
+## append()、prepend()
 
 + append方法为当前节点追加一个或多个子节点，位置是最后一个元素子节点的后面。
 + 该方法不仅可以添加元素子节点，还可以添加文本子节点。
@@ -347,11 +349,13 @@ var img0 = c.item(0);
 
 + 如果一个节点有父节点，那么该节点就拥有了ChildNode接口。
 
-## ChildNode.remove()
+## ChildNode
+
+## remove()
 
 + remove 方法用于从父节点移除当前节点。删除自己
 
-## ChildNode.before()，ChildNode.after()
+## before()、after()
 
 + before 方法用于在当前节点的前面，插入一个或多个同级节点。两者拥有相同的父节点。
 + 注意，该方法不仅可以插入元素节点，还可以插入文本节点。
@@ -360,7 +364,7 @@ var img0 = c.item(0);
 
 + after方法用于在当前节点的后面，插入一个或多个同级节点，两者拥有相同的父节点。用法与before方法完全相同。
 
-## ChildNode.replaceWith()
+## replaceWith()
 
 + replaceWith 方法使用参数节点，替换当前节点。参数可以是元素节点，也可以是文本节点。
 
@@ -852,17 +856,22 @@ document.body.clientHeight
 ### 元素内容
 
 1. Element.innerHTML
-   1. Element.innerHTML属性返回一个字符串，等同于该元素包含的所有 HTML 代码。
-   2. 该属性可读写，常用来设置某个节点的内容。
-   3. 它能改写所有元素节点的内容，包括<HTML>和<body>元素。
-   4. 包含 HTML 标签，会被解析成为节点对象插入 DOM。
-   5. 如果插入的是文本，最好用textContent属性代替innerHTML。
-
+   1. Element.innerHTML 属性返回一个字符串，等同于该元素包含的所有 HTML 代码。
+   2. 包含的所有代码包括 注释 等不显示内容。
+   3. 该属性可读写，常用来设置某个节点的内容。
+   4. 它能改写所有元素节点的内容，包括 <HTML> 和 <body> 元素。
+   5. 包含 HTML 标签，会被解析成为节点对象插入 DOM。
+6. 如果插入的是文本，最好用 textContent 属性代替innerHTML。
 2. Element.outerHTML
    1. Element.outerHTML 属性返回一个字符串，表示当前元素节点的所有 HTML 代码，包括该元素本身和所有子元素。
    2. outerHTML 属性是可读写的，对它进行赋值，等于替换掉当前元素。
    3. 注意，如果一个节点没有父节点，设置 outerHTML 属性会报错。
-
+3. Element.innerText
+   1. innerText 属性可以操作元素中包含的所有文本内容，包括子文档树中的文本。
+   2. 在通过 innerText 读取值时，它会按照由浅入深的顺序，将子文档树中的所有文本拼接起来。
+   3. 在通过 innerText 写入值时，结果会删除元素的所有子节点，插入包含相应文本值的文本节点。
+4. Element.outerText
+   1. 同 innerText 一样，但是会包含自身
 
 ### 相关元素
 
@@ -1591,3 +1600,12 @@ function mqCallback(e) {
 ```
 
 # Mutation Observer API 用来监视 DOM 变动。
+
+# 扩展
+
++ 滚动
+  + `scrollIntoViewIfNeeded(可选参数true)`
+    + 滚动到调用元素可见，已经可见则不操作
+    + true 尽量在视口垂直中部显示
+  + `scrollByLines(可以是正值也可以是负值)` 将元素内容滚动指定的行高
+  + `scrollByPages(pageCount)` 将元素的内容滚动到指定的页面高度，具体高度有元素的高度决定
