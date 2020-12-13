@@ -2264,3 +2264,7 @@ c.dec()
 // Countdown 类的两个内部属性 _counter 和 _action，是实例的弱引用，所以如果删除实例，它们也就随之消失，不会造成内存泄漏。
 ```
 
+# Iterator
+
+
+# for...of 循环

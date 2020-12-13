@@ -234,8 +234,8 @@ DOMComb(document.body, console.log)
 
 ## NodeList 接口
 
-+ NodeList实例是一个类似数组的对象，它的成员是节点对象。
-+ 通过以下方法可以得到NodeList实例。
++ NodeList 实例是一个类似数组的对象，它的成员是节点对象。
++ 通过以下方法可以得到 NodeList 实例。
   - Node.childNodes
   - document.querySelectorAll()等节点搜索方法
 + NodeList实例很像数组，可以使用length属性和forEach方法。
@@ -695,6 +695,9 @@ document.dispatchEvent(event);
 + 另外，它的第一个节点不是根节点。
 
 ### execCommand()，queryCommandSupported()，queryCommandEnabled()
+
++ 通过 document.execCommand() 来执行 copy、paste 和 cut 命令
++ 通过该方法触发的 copy 事件才能够让 绑定的 copy 事件得到 ClipboardEvent 对象，从而修改复制的数据
 
 1. document.execCommand()
    1. 如果 document.designMode 属性设为 on，那么整个文档用户可编辑；

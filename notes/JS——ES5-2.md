@@ -19,7 +19,8 @@ onmousewheel    //鼠标滚轮
   - removeEventListener：移除事件的监听函数
   - dispatchEvent：触发事件
 
-### EventTarget.addEventListener()
+### EventTarget.xxx()
+### addEventListener()
 
 + EventTarget.addEventListener()用于在当前节点或对象上，定义一个特定事件的监听函数。一旦这个事件发生，就会执行监听函数。该方法没有返回值。
 + ``target.addEventListener(type, listener, useCapture);``
@@ -55,17 +56,17 @@ element.addEventListener('click', function (event) {
 
 
 
-### EventTarget.removeEventListener()
+### removeEventListener()
 
 + EventTarget.removeEventListener 方法用来移除 addEventListener 方法添加的事件监听函数。该方法没有返回值。
 + removeEventListener 方法的参数，与 addEventListener 方法完全一致。它的第一个参数“事件类型”，大小写敏感。
 + removeEventListener 方法移除的监听函数，必须是 addEventListener 方法添加的那个监听函数，而且必须在同一个元素节点，否则无效。
 + 无法清除匿名函数，参数必须完全一致
 
-### EventTarget.dispatchEvent()
+### dispatchEvent()
 
 + EventTarget.dispatchEvent 方法在当前节点上触发指定事件，从而触发监听函数的执行。
-+ 该方法返回一个布尔值，只要有一个监听函数调用了 Event.preventDefault()，则返回值为false，否则为true。
++ 该方法返回一个布尔值，只要有一个监听函数调用了 Event.preventDefault()，则返回值为false，否则为 true。
 + ``target.dispatchEvent(event)``
 + dispatchEvent 方法的参数是一个 Event 对象的实例
 + 若果参数为空或不是一个有效的事件对象，将报错
@@ -1456,6 +1457,7 @@ window.addEventListener('optimizedScroll', function() {
   + cut：将选中的内容从文档中移除，加入剪贴板时触发。
   + copy：进行复制动作时触发。
   + paste：剪贴板内容粘贴到文档后触发。
++ 主动触发 ``document.execCommand('copy');``
 
 + 这三个事件都是 ClipboardEvent 接口的实例。ClipboardEvent 有一个实例属性 clipboardData，是一个 DataTransfer 对象，存放剪贴的数据。
 + DataTransfer 记录在 拖拉事件的 DataTransfer 部分
