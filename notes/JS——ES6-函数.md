@@ -3189,3 +3189,7 @@ async function logInOrder(urls) {
 + 这个提案的目的，是借用 await 解决模块异步加载的问题。
 + 详细参考
 + https://wangdoc.com/es6/async.html#%E9%A1%B6%E5%B1%82-await
+
+# 异步遍历器
+
++ https://wangdoc.com/es6/async-iterator.html
