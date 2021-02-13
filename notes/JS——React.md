@@ -529,6 +529,122 @@ function NumberList(props) {
 + 渲染表单的 React 组件还控制着用户输入过程中表单发生的操作。
 + 被 React 以这种方式控制取值的表单输入元素就叫做“受控组件”。
 
++ 如果我们想让前一个示例在提交时打印出名称，我们可以将表单写为受控组件
+```js
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''}; // 值
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+  handleSubmit(event) {
+    alert('提交的名字: ' + this.state.value);
+    event.preventDefault(); // 取消默认名事件
+  }
+  render() {
+    return (// 更改组件的提交事件     利用 this.state.value 将 React 的 state 作为 唯一的数据源
+      <form onSubmit={this.handleSubmit}> 
+        <input type="text" value={this.state.value} onChange={this.handleChange} />
+        <input type="submit" value="提交" />
+      </form>
+    );
+  }
+}
+/**
+ * 设置了 value 属性，因此显示的值将始终为 this.state.value，这使得 React 的 state 成为唯一数据源。
+ * 由于 handlechange 在每次按键时都会执行并更新 React 的 state，因此显示的值将随着用户输入而更新。
+ * 
+ * 对于受控组件来说，输入的值始终由 React 的 state 驱动。
+ * 你也可以将 value 传递给其他 UI 元素，或者通过其他事件处理函数重置，但这意味着你需要编写更多的代码。
+*/
+```
+
+### textarea 标签
+
++ 在 HTML 中, <textarea> 元素通过其子元素定义其文本
++ 而在 React 中，<textarea> 使用 value 属性代替。
++ ` <textarea value={this.state.value} onChange={this.handleChange} /> `
++ 请注意，this.state.value 初始化于构造函数中，因此文本区域默认有初值。
+
+### select 标签
+
++ 在 HTML 中，<select> 创建下拉列表标签。例如，如下 HTML 创建了水果相关的下拉列表
+```js
+<select>
+  <option value="grapefruit">葡萄柚</option>
+  <option value="lime">酸橙</option>
+  <option selected value="coconut">椰子</option>
+  <option value="mango">芒果</option>
+</select>
+/**
+ * 请注意，由于 selected 属性的缘故，椰子选项默认被选中。
+ * React 并不会使用 selected 属性，而是在根 select 标签上使用 value 属性。
+ * 这在受控组件中更便捷，因为您只需要在根标签中更新它。例如：
+*/
+
+this.state = {value: 'coconut'}; // 通过这个值来默认选中
+
+<select value={this.state.value} onChange={this.handleChange}>
+  <option value="grapefruit">葡萄柚</option>
+  <option value="lime">酸橙</option>
+  <option value="coconut">椰子</option>
+  <option value="mango">芒果</option>
+</select>
+// 你可以将数组传递到 value 属性中，以支持在 select 标签中选择多个选项
+<select multiple={true} value={['B', 'C']}>
+```
+
+### 文件 input 标签
+
++ 在 HTML 中，<input type="file"> 允许用户从存储设备中选择一个或多个文件，将其上传到服务器，或通过使用 JavaScript 的 File API 进行控制。
++ ` <input type="file" /> `
++ 因为它的 value 只读，所以它是 React 中的一个非受控组件。将与其他非受控组件在后续文档中一起讨论。
+
++ 处理多个输入
++ 当需要处理多个 input 元素时，我们可以给每个元素添加 name 属性，并让处理函数根据 event.target.name 的值选择要执行的操作。
+```js
+handleInputChange(event) {
+  const target = event.target;
+  const value = target.type === 'checkbox' ? target.checked : target.value;
+  const name = target.name;
+
+  this.setState({
+    [name]: value
+  });
+}
+// 通过 name 属性来分辨每一个 input 的值
+<input name="numberOfGuests" type="number" />
+<input name="isGoing" type="checkbox" />
+```
+
+### 受控输入空值
+
++ 在受控组件上指定 value 的 prop 会阻止用户更改输入。
++ 如果你指定了 value，但输入仍可编辑，则可能是你意外地将 value 设置为 undefined 或 null。
++ 下面的代码演示了这一点。（输入最初被锁定，但在短时间延迟后变为可编辑。）
+```js
+ReactDOM.render(<input value="hi" />, mountNode);
+
+setTimeout(function() {
+  ReactDOM.render(<input value={null} />, mountNode);
+}, 1000);
+```
+
+### 受控组件的替代品
+
++ 有时使用受控组件会很麻烦，因为你需要为数据变化的每种方式都编写事件处理函数，并通过一个 React 组件传递所有的输入 state。
++ 当你将之前的代码库转换为 React 或将 React 应用程序与非 React 库集成时，这可能会令人厌烦。
++ 在这些情况下，你可能希望使用非受控组件, 这是实现输入表单的另一种方式。
+
+## 状态提升
+
++ 通常，多个组件需要反映相同的变化数据，这时我们建议将共享状态提升到最近的共同父组件中去。让我们看看它是如何运作的。
+
 ## 规范
 
 ### 命名规范
