@@ -21,7 +21,7 @@
 + 如果你在将 React 集成进一个已有应用，那么你可以在应用中包含任意多的独立根 DOM 节点。
 
 + 想要将一个 React 元素渲染到根 DOM 节点中，只需把它们一起传入 ReactDOM.render()
-```js
+```jsx
 const element = <h1>Hello, world</h1>;
 ReactDOM.render(element, document.getElementById('root'));
 ```
@@ -33,7 +33,7 @@ ReactDOM.render(element, document.getElementById('root'));
 
 + 根据我们已有的知识，更新 UI 唯一的方式是创建一个全新的元素，并将其传入 ReactDOM.render()。
 + 考虑一个计时器的例子
-```js
+```jsx
 function tick() {
   const element = (
     <div>
@@ -65,7 +65,7 @@ setInterval(tick, 1000);
 ### 函数组件与 class 组件
 
 + 定义组件最简单的方式就是编写 JavaScript 函数：
-```js
+```jsx
 function Welcome(props) {
   return <h1>Hello, {props.name}</h1>;
 }
@@ -74,7 +74,7 @@ function Welcome(props) {
 ```
 
 + 你同时还可以使用 ES6 的 class 来定义组件
-```js
+```jsx
 class Welcome extends React.Component {
   render() {
     return <h1>Hello, {this.props.name}</h1>;
@@ -174,13 +174,13 @@ class Clock extends React.Component{
 
 ## 事件处理
 
-+ 使用 React 时，你一般不需要使用 addEventListener 为已创建的 DOM 元素添加监听器。
++ 使用 React 时，一般不需要使用 addEventListener 为已创建的 DOM 元素添加监听器。
 + 事实上，你只需要在该元素初始渲染的时候添加监听器即可。
 
 + React 元素的事件处理和 DOM 元素的很相似，但是有一点语法上的不同：
   + React 事件的命名采用小驼峰式（camelCase），而不是纯小写。
   + 使用 JSX 语法时你需要传入一个函数作为事件处理函数，而不是一个字符串。
-```js
+```jsx
 // 例如，传统的 HTML：
 <button onclick="activateLasers()">
   Activate Lasers
@@ -198,7 +198,7 @@ class Clock extends React.Component{
 
 + 当你使用 ES6 class 语法定义一个组件的时候，通常的做法是将事件处理函数声明为 class 中的方法。
 + 例如，下面的 Toggle 组件会渲染一个让用户切换开关状态的按钮：
-```js
+```jsx
 class Toggle extends React.Component {
   constructor(props) {
     super(props);
@@ -247,7 +247,7 @@ class LoggingButton extends React.Component {
 #### 箭头函数法
 
 + 利用简单函数 this 绑定当前作用域的特性
-```js
+```jsx
 // 此语法确保 `handleClick` 内的 `this` 已被绑定。
  <button onClick={() => this.handleClick()}>
     Click me
@@ -261,7 +261,7 @@ class LoggingButton extends React.Component {
 
 + 在循环中，通常我们会为事件处理函数传递额外的参数。
 + 例如，若 id 是你要删除那一行的 ID，以下两种方式都可以向事件处理函数传递参数
-```js
+```jsx
 <button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>
 <button onClick={this.deleteRow.bind(this, id)}>Delete Row</button>
 ```
@@ -272,7 +272,7 @@ class LoggingButton extends React.Component {
 
 + 在 React 中另一个不同点是你不能通过返回 false 的方式阻止默认行为。
 + 你必须显式的使用 preventDefault 。
-```js
+```jsx
 // 例如，传统的 HTML 中阻止链接默认打开一个新页面，你可以这样写：
 <a href="#" onclick="console.log('The link was clicked.'); return false">
   Click me
@@ -299,7 +299,7 @@ function ActionLink() {
 + React 中的条件渲染和 JavaScript 中的一样，
 + 使用 JavaScript 运算符 if 或者条件运算符去创建元素来表现当前的状态，然后让 React 根据它们来更新 UI
 + 通过判断来决定返回的组件
-```js
+```jsx
 if (isLoggedIn) {
   return <UserGreeting />;
 } else {
@@ -310,7 +310,7 @@ if (isLoggedIn) {
 ### 元素变量
 
 + 你可以使用变量来储存元素。 它可以帮助你有条件地渲染组件的一部分，而其他的渲染部分并不会因此而改变。
-```js
+```jsx
 if (isLoggedIn) {
   button = <LogoutButton onClick={this.handleLogoutClick} />;
 } else {
@@ -328,7 +328,7 @@ if (isLoggedIn) {
 
 + 通过花括号包裹代码，你可以在 JSX 中嵌入任何表达式。
 + 这也包括 JavaScript 中的逻辑与 (&&) 运算符。它可以很方便地进行元素的条件渲染。
-```js
+```jsx
 {unreadMessages.length > 0 &&
   <h2>
     You have {unreadMessages.length} unread messages.
@@ -341,7 +341,7 @@ if (isLoggedIn) {
 ### 三目运算符
 
 + 另一种内联条件渲染的方法是使用 JavaScript 中的三目运算符 condition ? true : false。
-```js
+```jsx
 The user is <b>{isLoggedIn ? 'currently' : 'not'}</b> logged in.
 
 {isLoggedIn
@@ -376,7 +376,7 @@ return(
 
 + 使用 Javascript 中的 map() 方法来遍历 numbers 数组。
 + 将数组中的每个元素变成 <li> 标签，最后我们将得到的数组赋值给 listItems：
-```js
+```jsx
 const numbers = [1, 2, 3, 4, 5];
 const listItems = numbers.map((number) =>
   <li>{number}</li>
@@ -392,7 +392,7 @@ ReactDOM.render(
 
 + 通常你需要在一个组件中渲染列表
 + 我们可以把前面的例子重构成一个组件，这个组件接收 numbers 数组作为参数并输出一个元素列表。
-```js
+```jsx
 function NumberList(props) {
   const numbers = props.numbers;
   const listItems = numbers.map((number) =>
@@ -411,7 +411,7 @@ ReactDOM.render(
 // 当我们运行这段代码，将会看到一个警告 a key should be provided for list items，意思是当你创建一个元素时，必须包括一个特殊的 key 属性。
 ```
 + 让我们来给每个列表元素分配一个 key 属性来解决上面的那个警告：
-```js
+```jsx
 const listItems = numbers.map((number) =>
   <li key={number.toString()}>
     {number}
@@ -424,17 +424,14 @@ const listItems = numbers.map((number) =>
 + key 帮助 React 识别哪些元素改变了，比如被添加或删除。
 + 因此你应当给数组中的每一个元素赋予一个确定的标识。
 + ` <li key={todo.id}> `
-
 + 当元素没有确定 id 的时候，万不得已你可以使用元素索引 index 作为 key：` <li key={index}> `
++ 使用 index 做为 key 是有风险的,因为在插入值的时候 index 会发生改变
 + 如果列表项目的顺序可能会变化，我们不建议使用索引来用作 key 值，因为这样做会导致性能变差，还可能引起组件状态的问题。
 + 如果你选择不指定显式的 key 值，那么 React 将默认使用索引用作为列表项目的 key 值。
-
 + 当 React 元素被创建出来的时候，React 会提取出 key 属性，然后把 key 直接存储在返回的元素上。
 + 虽然 key 看起来好像是 props 中的一个，但是你不能通过 this.props.key 来获取 key。
 + React 会通过 key 来自动判断哪些组件需要更新。组件是不能访问到它的 key 的。
-
 + 显式地使用 key={i} 来指定 key 确实会消除警告
-
 + 组件的 key 值并不需要在全局都保证唯一，只需要在当前的同一级元素之前保证唯一即可。
 
 #### 用 key 提取组件
@@ -443,7 +440,7 @@ const listItems = numbers.map((number) =>
 
 + 元素的 key 只有放在就近的数组上下文中才有意义
 + 比方说，如果你提取出一个 ListItem 组件，你应该把 key 保留在数组中的这个 <ListItem /> 元素上，而不是放在 ListItem 组件中的 <li> 元素上。
-```js
+```jsx
 // 错误！你不需要在这里指定 key：
 <li key={value.toString()} ></li>
 // 错误！元素的 key 应该在这里指定：
@@ -466,7 +463,7 @@ const listItems = numbers.map((number) =>
 
 + key 会传递信息给 React ，但不会传递给你的组件。如果你的组件中需要使用 key 属性的值，
 + 请用其他属性名显式传递这个值：
-```js
+```jsx
 const content = posts.map((post) =>
   <Post
     key={post.id}
@@ -479,7 +476,7 @@ const content = posts.map((post) =>
 ### 在 JSX 中嵌入 map()
 
 + 在上面的例子中，我们声明了一个单独的 listItems 变量并将其包含在 JSX 中:
-```js
+```jsx
 function NumberList(props) {
   const numbers = props.numbers;
   const listItems = numbers.map((number) =>
@@ -530,7 +527,7 @@ function NumberList(props) {
 + 被 React 以这种方式控制取值的表单输入元素就叫做“受控组件”。
 
 + 如果我们想让前一个示例在提交时打印出名称，我们可以将表单写为受控组件
-```js
+```jsx
 class NameForm extends React.Component {
   constructor(props) {
     super(props);
@@ -574,7 +571,7 @@ class NameForm extends React.Component {
 ### select 标签
 
 + 在 HTML 中，<select> 创建下拉列表标签。例如，如下 HTML 创建了水果相关的下拉列表
-```js
+```jsx
 <select>
   <option value="grapefruit">葡萄柚</option>
   <option value="lime">酸橙</option>
@@ -607,7 +604,7 @@ this.state = {value: 'coconut'}; // 通过这个值来默认选中
 
 + 处理多个输入
 + 当需要处理多个 input 元素时，我们可以给每个元素添加 name 属性，并让处理函数根据 event.target.name 的值选择要执行的操作。
-```js
+```jsx
 handleInputChange(event) {
   const target = event.target;
   const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -627,7 +624,7 @@ handleInputChange(event) {
 + 在受控组件上指定 value 的 prop 会阻止用户更改输入。
 + 如果你指定了 value，但输入仍可编辑，则可能是你意外地将 value 设置为 undefined 或 null。
 + 下面的代码演示了这一点。（输入最初被锁定，但在短时间延迟后变为可编辑。）
-```js
+```jsx
 ReactDOM.render(<input value="hi" />, mountNode);
 
 setTimeout(function() {
@@ -643,7 +640,91 @@ setTimeout(function() {
 
 ## 状态提升
 
-+ 通常，多个组件需要反映相同的变化数据，这时我们建议将共享状态提升到最近的共同父组件中去。让我们看看它是如何运作的。
++ 通常，多个组件需要反映相同的变化数据，这时建议将共享状态提升到最近的共同父组件中去。
++ 依靠父组件来同步子组件中的数据,而不是依靠子组件自己来控制数据的变动
+
+## 组合 vs 继承
+
++ React 有十分强大的组合模式。推荐使用组合而非继承来实现组件间的代码重用。
++ 组合的方式可以在 React 中完美的替代继承
+
+### 包含关系
+
++ 有些组件无法提前知晓它们子组件的具体内容。在 Sidebar（侧边栏）和 Dialog（对话框）等展现通用容器（box）的组件中特别容易遇到这种情况。
+
++ 建议这些组件使用一个特殊的 children prop 来将他们的子组件传递到渲染结果中
++ <FancyBorder> JSX 标签中的所有内容都会作为一个 children prop 传递给 FancyBorder 组件。
++ 因为 FancyBorder 将 {props.children} 渲染在一个 <div> 中，被传递的这些子组件最终都会出现在输出结果中。
+```jsx
+function FancyBorder(props) {
+  return (
+    <div className={'FancyBorder FancyBorder-' + props.color}>
+      {props.children}
+    </div>
+  );
+}
+// 这使得别的组件可以通过 JSX 嵌套，将任意组件作为子组件传递给它们。
+function WelcomeDialog() {
+  return (
+    <FancyBorder color="blue">
+      <h1 className="Dialog-title">
+        Welcome
+      </h1>
+      <p className="Dialog-message">
+        Thank you for visiting our spacecraft!
+      </p>
+    </FancyBorder>
+  );
+}
+```
+
++ 不仅仅有 {props.children} 可以使用,还可以自定义预留多个相同的位置
+```jsx
+{props.left} {props.right}
+// 这样使用
+<SplitPane
+  left={
+    <Contacts />
+  }
+  right={
+    <Chat />
+  } />
+```
++ <Contacts /> 和 <Chat /> 之类的 React 元素本质就是对象（object），所以你可以把它们当作 props，像其他数据一样传递。
++ 可以将任何东西作为 props 进行传递。
+
+### 特例关系
+
++ 通过一个普通的组件然后定制其一些属性来达成多样化的组件的效果
+```jsx
+function Dialog(props) {
+  return (
+    <FancyBorder color="blue">
+      <h1 className="Dialog-title">
+        {props.title}
+      </h1>
+      <p className="Dialog-message">
+        {props.message}
+      </p>
+      {props.children}
+    </FancyBorder>
+  );
+}
+
+function WelcomeDialog() {
+  return ( // title message children  都是自定义部分
+    <Dialog
+      title="Welcome"
+      message="Thank you for visiting our spacecraft!">
+      <input value={this.state.login}
+               onChange={this.handleChange} />
+        <button onClick={this.handleSignUp}>
+          Sign Me Up!
+        </button>
+    </Dialog>
+  );
+}
+```
 
 ## 规范
 
@@ -674,22 +755,24 @@ setTimeout(function() {
 
 # JSX
 
-+ ``  const element = <h1>Hello, world!</h1>;  ``
-+ 这个有趣的标签语法既不是字符串也不是 HTML。它被称为 JSX，是一个 JavaScript 的语法扩展。
++ `  const element = <h1>Hello, world!</h1>;  `
++ 这被称为 JSX，是一个 JavaScript 的语法扩展。 既不是 HTML 也不是字符串
 
-```js
+```jsx
 const name = 'Josh Perez';
 const element = <h1>Hello, {name}</h1>;
-
-ReactDOM.render(
-  element,
-  document.getElementById('root')
-);
 ```
-+ 在 JSX 语法中，你可以在大括号内放置任何有效的 JavaScript 表达式。
-
-+ （小驼峰命名）来定义属性的名称，而不使用 HTML 属性名称的命名约定。
-+ JSX 里的 class 变成了 className，而 tabindex 则变为 tabIndex。
+1. 在 JSX 语法中，你可以在大括号内放置任何有效的 JavaScript 表达式。
+2. （小驼峰命名）来定义属性的名称，而不使用 HTML 属性名称的命名约定,也就是第一个字母小写的驼峰式写法。
+3. JSX 里的 class 变成了 className，而 tabindex 则变为 tabIndex。
+   + 这是为了规避 ES6 中的 class 关键字
+4. 行内样式需要使用 `  style={{color:'red'}}` 方式来书写
+   + 第一个大括号表示内部是表达式
+   + 第二个大括号表示对象
+5.  跟标签只能有一个,也就是最外层只能有一个标签
+6. 标签首字母
+   1. 小写字母开头会被转为同名元素,无同名元素会报错
+   2. 大小字母开头会被当做组件
 
 ## JSX 也是一个表达式
 
@@ -709,7 +792,8 @@ ReactDOM.render(
 + 假如一个标签里面没有内容，你可以使用 /> 来闭合标签，就像 XML 语法一样
 ` const element = <img src={user.avatarUrl} />; `
 + JSX 标签里能够包含很多子元素:
-```js
++ 但是最外成的根元素只能有一个
+```jsx
 const element = (
   <div>
     <h1>Hello!</h1>
@@ -722,7 +806,7 @@ const element = (
 
 + Babel 会把 JSX 转译成一个名为 React.createElement() 函数调用。
 + 以下两种示例代码完全等效
-```js
+```jsx
 const element = (
   <h1 className="greeting">
     Hello, world!
@@ -753,7 +837,7 @@ const element = {
 ## JSX 防止注入攻击
 
 + 你可以安全地在 JSX 当中插入用户输入内容
-```js
+```jsx
 const title = response.potentiallyMaliciousInput;
 // 直接使用是安全的：
 const element = <h1>{title}</h1>;
@@ -763,6 +847,22 @@ const element = <h1>{title}</h1>;
 + 所有的内容在渲染之前都被转换成了字符串。这样可以有效地防止 XSS（cross-site-scripting, 跨站脚本）攻击。
 
 # 环境构建
+
+## 打包
+
++ npm run build  默认打包为服务器端运行的生产版本
+  + 通过配置 package.json 中的 ` "homepage":"." ` 来部署本地运行的版本
+  + 这个是将内部的链接从绝对路径切换为相对路径
+
+## package
+
+```json
+"scripts": {// 切换默认启动的浏览器
+    "start": " set BROWSER=chrome&&react-scripts start"
+},
+```
+
+
 
 ## 工具
 

@@ -258,6 +258,8 @@ myHero {
 
 + **textarea** 文本域/多行文本框
 
+  + ` resize : none ` CSS样式设置关闭大小调整
+
 + **fieldset**标签可以将表单内的相关元素分组绘制边框
 
   + `form="form_id"`规定 fieldset 所属的一个或多个表单
