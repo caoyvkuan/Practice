@@ -1,5 +1,7 @@
 # React
 
++ [官方文档](https://react.docschina.org/docs/getting-started.html)
+
 ## 保留属性
 
 + props 属性
@@ -58,9 +60,9 @@ setInterval(tick, 1000);
 + 根据我们的经验，考虑 UI 在任意给定时刻的状态，而不是随时间变化的过程，能够消灭一整类的 bug。
 
 ## 组件 & Props
-
 + 组件允许你将 UI 拆分为独立可复用的代码片段，并对每个片段进行独立构思。
 + 组件，从概念上类似于 JavaScript 函数。它接受任意的入参（即 “props”），并返回用于描述页面展示内容的 React 元素。
++ 利用 Props 传递组件数据的时候可以使用 展开运算符展开对象一次传递多个键值对
 
 ### 函数组件与 class 组件
 
@@ -115,12 +117,49 @@ class Welcome extends React.Component {
 + 组件无论是使用函数声明还是通过 class 声明，都决不能修改自身的 props。
 + 所有 React 组件都必须像纯函数一样保护它们的 props 不被更改。
 
+### Props 限制
+
+```jsx
+class Person extends React.Component{
+    render(){
+        return(
+            <h1>H</h1>
+        );
+    }
+    
+    Static propTypes = {
+        // 利用静态属性来限制
+        name:React.propTypes.string
+        // 这个对象需要引用依赖包 "prop-types": "^15.7.2"
+        // 然后这样限制
+        name:PropTypes.string.isRequired // 必填项  字符串类型
+        // PropTypes.func  限制为一个方法
+    }
+	// 默认
+	Static defaultProps = {
+        age : 18 // 不传入就默认 18
+    }
+    
+}
+```
+
+
+
 ## State & 生命周期
 
 + State 与 props 类似，但是 state 是私有的，并且完全受控于当前组件。
 + 不要直接修改 State  直接的修改不会对组件进行重新渲染，如 `this.state.comment = 'Hello';` 这是无效的
 + 而是应该使用 setState(): ` this.setState({comment: 'Hello'}); `
 + 构造函数是唯一可以给 this.state 赋值的地方
+
+```js
+// State 的简写
+class Weather extends React.Component{
+    state = {
+        // 不用写在构造函数中
+    }
+}
+```
 
 ### 生命周期
 
@@ -176,10 +215,12 @@ class Clock extends React.Component{
 
 + 使用 React 时，一般不需要使用 addEventListener 为已创建的 DOM 元素添加监听器。
 + 事实上，你只需要在该元素初始渲染的时候添加监听器即可。
-
 + React 元素的事件处理和 DOM 元素的很相似，但是有一点语法上的不同：
   + React 事件的命名采用小驼峰式（camelCase），而不是纯小写。
   + 使用 JSX 语法时你需要传入一个函数作为事件处理函数，而不是一个字符串。
++ 所有的合成事件都是 React 自定义的事件, 而不是原生事件。
++ 运用了事件委托的方式将所有的事件委托给最外层的元素。
++ 通过 event.target 可以得到发生事件的元素，所以不需要过渡使用 ref
 ```jsx
 // 例如，传统的 HTML：
 <button onclick="activateLasers()">
@@ -190,6 +231,21 @@ class Clock extends React.Component{
 <button onClick={activateLasers}>
   Activate Lasers
 </button>
+```
+
+### 精简 this 的指向代码
+
+```js
+// State 的简写
+class Weather extends React.Component{
+    fn = () => {
+        // 事件处理函数的 this 直接绑定为 Weather
+        // 不需要另外在此绑定
+        // 但是会将方法放在 实例中,导致多个实例使用的方法不是同一个优化不好
+        // 放在实例中也就是自己本身,而不是 prototype 中
+        // 但是如果只是有一个实例就没有问题
+    }
+}
 ```
 
 ### 注意 this 的指向
@@ -632,6 +688,34 @@ setTimeout(function() {
 }, 1000);
 ```
 
+### 处理多个输入
+
++ 当需要处理多个 `input` 元素时，我们可以给每个元素添加 `name` 属性，并让处理函数根据 `event.target.name` 的值选择要执行的操作。
++ 通过得到的 name 属性来确定需要更改的 seate
+
+```js
+// 方法一
+handleInputChange(event){
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    this.setState({
+        [name]:value
+    })
+}
+
+// 方法二 绑定的时候这么用 this.handleInputChange('name');
+handleInputChange(dataType){
+    return (event) => { // 这个返回的箭头函数才是真正的回调函数
+        this.setState({
+        [dataType]:event.target.value
+    	})
+    }
+}
+```
+
+
+
 ### 受控组件的替代品
 
 + 有时使用受控组件会很麻烦，因为你需要为数据变化的每种方式都编写事件处理函数，并通过一个 React 组件传递所有的输入 state。
@@ -744,14 +828,95 @@ function WelcomeDialog() {
 + 一般来说，有两种改变数据的方式。
   + 第一种方式是直接修改变量的值，
   + 第二种方式是使用新的一份数据替换旧数据。
-
 + 不可变性使得复杂的特性更容易实现。
 + 跟踪数据的改变
   + 直接的修改会导致数据跟踪困难，跟踪数据的改变需要可变对象可以与改变之前的版本进行对比，这样整个对象树都需要被遍历一次。
 + 跟踪不可变数据的变化相对来说就容易多了。如果发现对象变成了一个新对象，那么我们就可以说对象发生改变了。
-
 + 不可变性最主要的优势在于它可以帮助我们在 React 中创建 pure components。
 + 我们可以很轻松的确定不可变数据是否发生了改变，从而确定何时对组件进行重新渲染。
+
+# 笔记
+
+## 组件实例的三大属性
+
+### state
+
++ 是一个对象,用于组件的状态更新
++ 更新 state 必须要使用 ` this.setState `
+
+```js
+class My extends React.Component{
+    state = {
+        // 属性
+    }
+}
+```
+
+### props
+
++ 组件的属性,是一个对象
++ 引用 propsType 可以对传入的属性进行软限制(会报错,但可以显示)
++ 属性 defaultProps 可以设定默认值
+
+```js
+// 使用方式 类中的静态属性
+// 这个对象需要引用依赖包 "prop-types": "^15.7.2"
+// 需要引入 import { PropTypes } from 'prop-types';;
+static propTypes = {
+    // 利用静态属性来限制
+    name:React.propTypes.string
+    // 然后这样限制
+    name:PropTypes.string.isRequired // 必填项  字符串类型
+    // PropTypes.func  限制为一个方法
+}
+// 默认
+static defaultProps = {
+    age : 18 // 不传入就默认 18
+}
+```
+
+### refs
+
++ refs 这个属性存在与 class 的实例上,通过 ` this.refs ` 可以得到这个对象
++ ref 属性可以用来获取 dom 元素 ` <p ref="p"></p> `
++ 设置了 ref 的元素都会在 refs 这个对象中
+
+```jsx
+class My extends React.component{
+    
+    showData = () => {// 方式一
+        console.log(this.refs.input); // 可以得到 input 元素
+    }
+    show = c => {// 方式二
+        console.log(c); // 可以得到 input 元素
+    }
+    
+    // 方式三 React.createRef 调用后会返回一个容器,该容器可以保存一个 ref 所标识的节点
+    // 但是只能存一个 , 也就是专人专用,这个对象中拥有一个 current 属性保存节点本身
+    myRef = React.createRef()
+    
+    render(){
+        return(
+            // 方式一 过时不推荐
+        	<input ref="input"></input>// 字符串形式的 ref
+            
+            // 方式二
+            <input ref={(c)=>{console.log(c)}}></input> // 回调方式
+            <input ref={this.show></input>  // 类绑定的函数
+            /** 
+            传入的参数也就是元素本身
+            每一次的更新都会调用两次  第一次传入为 null , 第二次才会传入 元素本身
+            因为每次更新都会拥有一个新的函数,传入 null 是为了确保清空函数
+            使用类绑定函数的方法就可以避免这个问题,但是无关紧要
+            */
+                    
+             // 方式三
+             <input ref={this.myRef}></input>
+        );
+    }
+                
+}
+```
 
 # JSX
 
@@ -857,12 +1022,25 @@ const element = <h1>{title}</h1>;
 ## package
 
 ```json
+"homepage": ".",// 打包的时候路劲设置为相对路径方便在本地使用
+ "dependencies": {// 以包名和 ^加版本号来引用依赖项
+    "antd": "^4.12.3",  // UI 库
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "prop-types": "^15.7.2"  // react 组件 props 属性限制 
+     // import { PropTypes } from 'prop-types';
+     
+    "copy-to-clipboard": "^3.3.1" // 复制  
+  },
 "scripts": {// 切换默认启动的浏览器
     "start": " set BROWSER=chrome&&react-scripts start"
 },
 ```
 
-
++ ` copy-to-clipboard `
+  + 用法 ` import copy from 'copy-to-clipboard' `
+  + `  copy('要复制的文本'); 返回一个布尔值代表是否成功 `
++ ` prop-types ` [用法](#props-限制)
 
 ## 工具
 

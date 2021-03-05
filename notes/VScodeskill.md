@@ -1,4 +1,4 @@
-# VScodeskill
+# VScodeSkill
 
 ## 快捷使用 ##
 
@@ -72,4 +72,14 @@
           </tr>
       </table>
       ```
+
+## 注释
+
++ 折叠注释
+
+```js
+//#region
+	 // 创建一个可以折叠的区域
+//#endregion
+```
 
