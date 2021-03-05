@@ -165,6 +165,8 @@ class Weather extends React.Component{
 
 + 将组件渲染到 DOM 中，这在 React 中被称为“挂载（mount）”。
 + 从 DOM 中删除组件，这在 React 中被称为“卸载（unmount）”。
++ `ReactDOM.unmountComponentAtNode(document.querySelector('#root')`
+  + 这个方法用于卸载组建节点
 
 ```js
 class Clock extends React.Component{
@@ -179,11 +181,11 @@ class Clock extends React.Component{
    * 我们可以为 class 组件声明一些特殊的方法，当组件挂载或卸载时就会去执行这些方法：
    * 这些方法叫做“生命周期方法”。
   */
-  componentDidMount() {
+  componentDidMount() { // 组件挂载完毕
     // componentDidMount() 方法会在组件已经被渲染到 DOM 中后运行。
   }
 
-  componentWillUnmount() {
+  componentWillUnmount() { // 组件卸载
     // componentWillUnmount() 方法会在组件从 DOM 中删除时调用。
   }
 }
@@ -712,6 +714,13 @@ handleInputChange(dataType){
     	})
     }
 }
+
+// 方法三 绑定 : onChange={(e)=>this.handleInputChange('name',e)}
+handleInputChange(dataType,e){
+    this.setState({
+        [dataType]:e.target.value
+    })
+}
 ```
 
 
@@ -836,6 +845,11 @@ function WelcomeDialog() {
 + 我们可以很轻松的确定不可变数据是否发生了改变，从而确定何时对组件进行重新渲染。
 
 # 笔记
+
+## 生命周期
+
++ 挂载函数 ` componentDidMonut() ` 组件挂载完毕调用一次
++ 卸载函数 ` componentWillUnmonut() ` 组件将要卸载时调用一次
 
 ## 组件实例的三大属性
 
