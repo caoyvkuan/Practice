@@ -404,7 +404,8 @@ video.playbackRate=2; 	2倍播放速度
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <meta http-equiv="refresh" content="3" url="">刷新3秒后跳转链接
     <meta http-equiv="expires" content=""/>缓存处理
-
+  <meta name="theme-color" content="red"> 针对安卓地址栏的配色,兼容不好几乎没用
+    
   + 辅助响应式布局   主要针对移动端
   + ```html
     <meta name="viewport" content="width=device-width"> 
@@ -431,6 +432,10 @@ video.playbackRate=2; 	2倍播放速度
   + `<link rel="icon" type="image/x-icon" href="">`  网页标题图标引入
 
   + `<link rel="dns-prefetch" href="">`  dns预解析
+  
+  + `<link rel="apple-touch-icon" href="">` 只支持苹果手机,快捷方式图标
+  
+  + `<link ref="manifest" href="json配置文件,">` 应用加壳,就是做手机端APP。
   
   + 媒体查询
   
@@ -508,6 +513,10 @@ video.playbackRate=2; 	2倍播放速度
 + **spellcheck** 检测元素是否拼写错误`spellcheck="true|false"`
 + **tabindex**  设置元素的 Tab 键控制次序。
 + **translate** 指定是否一个元素的值在页面载入时是否需要翻译`translate="yes|no"`
+
+## 冷门标签
+
++ `noscript` ：不支持 JavaScript 时显示
 
 ## 路径
 

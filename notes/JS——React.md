@@ -693,7 +693,7 @@ setTimeout(function() {
 ### 处理多个输入
 
 + 当需要处理多个 `input` 元素时，我们可以给每个元素添加 `name` 属性，并让处理函数根据 `event.target.name` 的值选择要执行的操作。
-+ 通过得到的 name 属性来确定需要更改的 seate
++ 通过得到的 name 属性来确定需要更改的 state
 
 ```js
 // 方法一
@@ -846,10 +846,106 @@ function WelcomeDialog() {
 
 # 笔记
 
-## 生命周期
++ 首屏阿吉仔
 
-+ 挂载函数 ` componentDidMonut() ` 组件挂载完毕调用一次
-+ 卸载函数 ` componentWillUnmonut() ` 组件将要卸载时调用一次
+## Diffing算法
+
++ 最小更新范围是一个标签节点,但是标签里面嵌套的标签不会被影响。
++ diff 的比较规则
+  + 从旧的DOM找到了与新虚拟DOM相同的key：
+    + 若虚拟DOM中的内容没有改变，直接使用之前的真实DOM
+    + 若改变了，则生成新的真实DOM，随后替换掉页面中的真实DOM
+  + 从旧虚拟DOM未找到与新虚拟DOM相同的key
+    + 根据数据创建新的真实DOM，随后渲染到页面
+
+### key 的作用
+
++  虚拟 DOM 中 key 的作用
+  + 简单来讲就是 key 就是 虚拟 DOM 对象的表示，在更新显示时非常重要的。
+  + 当状态改变时，react 会根据【新数据】生成【新的虚拟DOM】
+  + 随后就会进行新旧虚拟DOM的 diff 比较。
++  选择 key 时最好为将每一条数据的唯一标识作为 key
++  用 index 作为 key 可能会引发的问题
+  +  问题一 导致重复生成相同节点，效率极低
+    +  如果破坏索引的顺序，虽然可以渲染，但是会导致效率降低。
+    +  因为在进行 diff 的时候 key 新旧对不上会全部导致重新生成。
+    +  比如在数组的首位插入一个新的数据，会造成整个数据的 DOM 全部重新生成。因为所有的数据在进行 diff 的时候都会对不上。
+  +  问题二 如果节点中还包含了输入类的节点，会导致数据错乱。也是因为真实DOM拥有虚拟DOM没有的属性所以无法做出对比
+     +  因为更新的只有改变的节点元素，输入类型的子节点没有改变就不会更新。
+     +  但是因为索引的错乱会导致，输入框等所在的节点位置发生变化。
+     +  也就是子节点所在的父节点key的位置不会改变，如果是 0 会一直保持在父节点 key 是 0 的节点中。
+     +  但是更新错乱后，它实际的父节点 key 会变成其他的数。
+  +  如果仅用于一个不会发生改变数组索引顺序等不会破坏索引顺序的列表是没有问题的。
+  +  也就是索引顺序不被破坏就没有问题。
+
+## 生命周期(新)
+
++ [生命周期](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
++ 新的生命周期,遗弃了三个,新增了两个
++ 新 ` getDerivedStateFromProps(props.state) ` 需要设置为静态方法 `static`
+  + 比如在ull`)
+  + 可以接受一个 `props` 参数,从 `props 得到一个状态`
+  + `state` 的值在任何的时候都取决于 `props` 则可以使用
++ 新 `getSnapshotBeforeUpdate(preProps,preState)` 返回一个快照值,数据类型都是可以的。
+  + 在最近一次渲染之前调用,可以得到 DOM 更新之前的一些东西
+  + 任何的返回值都将会传给 `componentDidUpdate`
++ ` componentDidUpdate(preProps,preState,snapshotValue) ` 接受更新前的状态和属性
+
+```js
+// 挂载时
+1.constructor() // 构造函数,第一个调用
+2.static getDerivedStateFromProps() // props,state,forceUpdate
+3.render()	// 渲染
+4.componentDidMount() // 挂载完毕
+
+// 更新时
+1.static getDerivedStateFromProps() //
+2.shouldComponentUpdate() // 调用 setState 时,从这里开始走,通过返回值判断是否更新
+3.render() // 渲染
+4.getSnapshotBeforeUpdate() //
+5.componentDidUpdate() // 组件更新完毕时才会调用
+
+// 卸载时
+1.componentWillUnmount() // 组件卸载
+```
+
+
+
+## 生命周期(旧)
+
++ 在新版本中依旧是可以使用的,但是并不推荐,
+  + 且这几个需要前缀  `UNSAFE_name `
+  + ` componentWillMount `
+  + ` componentWillReceiveProps `
+  + ` componentWillUpdate `
++ 将要挂载 ` componentWillMount() ` 组件将要挂载 
++ 挂载函数 ` componentDidMount() ` 组件挂载完毕调用一次
++ 卸载函数 ` componentWillUnMount() ` 组件将要卸载时调用一次
++ 控制组件更新 ` shouldComponentUpdate() ` 组件是否需要更新
+  + 这个方法默认拥有,且返回 `true`
+  + 强制组件更新会跳过这个步骤  ` this.forceUpdate() `
+  + 返回 `false` 则不会调用 `render()` 方法,也是就不会更新
++ 组件将要更新 ` componentWillUpdate() ` 
++ 组件更新完了 `  componentDidUpdate()`
++ 组件将要接受`Props` 更新  ` componentWillReceiveProps() ` 接受到属性变化时触发
+  + 组件第一次接收到的属性不会触发,后续更新时才会触发
+  + 可以接受 ` Props ` 作为参数
+
+```js
+// 旧的生命周期
+1.constructor() // 构造函数,第一个调用
+2.componentWillMount() // 组件挂载前调用
+3.render()	// 渲染
+4.componentDidMount() // 挂载完毕
+5.componentWillReceiveProps()  // 组件属性被更新的时候才会调用
+6.shouldComponentUpdate() // 调用 setState 时,从这里开始走,通过返回值判断是否更新
+7.componentWillUpdate() // 组件将要更新 调用 forceUpdate 时,跳过判断直接更新,组件将要更新
+8.render() // 渲染
+9.componentDidUpdate() // 组件更新完毕时才会调用
+10.componentWillUnmount() // 组件卸载
+```
+
+
 
 ## 组件实例的三大属性
 
@@ -1027,13 +1123,121 @@ const element = <h1>{title}</h1>;
 
 # 环境构建
 
+## 脚手架
+
++ 用于创建模板项目
++ react 创建脚手架的库：`create-react-app`
++ 此脚手架的核心技术：`react + webpack + es6 + eslint`
++ 全局安装：`npm install -g create-react-app`
++  在创建目录中使用：`create-react-app fileNmae `
++ 脚手架文件
+  + pubic -- 静态资源文件夹
+    + robots.txt -- 爬虫规则文件
+  + src -- 代码文件夹
+  + `$PUBLIC_URL%` 来指定文件夹 `public`
+
+```js
+yarn start // 启动
+yarn build // 打包
+yarn eject // 暴露 webpack.config 配置文件 , 无法返回撤销
+```
+
++ 在全局安装 babel-cli 来使用 es6 语法
+
+```js
+npm install --save-dev babel-cli
+```
+
 ## 打包
 
 + npm run build  默认打包为服务器端运行的生产版本
   + 通过配置 package.json 中的 ` "homepage":"." ` 来部署本地运行的版本
   + 这个是将内部的链接从绝对路径切换为相对路径
 
-## package
+## npm package
+
+### npm 的使用
+
++ [网站](https://www.npmjs.com/)
++ 默认安装目录 `node_modules`
++ 淘宝景象 cnpm 国内的比较快
++ yarn 修复了一些 npm 的 BUG
++ ![yarn用法](./images/yran.png)
+
+
+
++ `npm install -g name` 为全局安装 
++ 不是全局默认安装在执行命令的文件夹
++ 配置文件设置
+
+```js
+// 查看镜像的配置结果
+npm config get registry 
+npm config get disturl
+
+// 将 npm 切换设置为淘宝的镜像
+npm config set registry https://registry.npm.taobao.org --global
+npm config set disturl https://npm.taobao.org/dist --global
+
+// 使用 npm 工具进行切换
+npx nrm use taobao
+npx nrm use npm 切换回去
+```
+
+### 命令
+
+``` js
+npm -v //查看版本  npm install 可以直接将配置中的包全部下载
+npm install ModuleName  // 安装模块  install 可以简写为 i， npm i name
+npm install ModuleName -g // 全局安装
+npm update ModuleName // 更新模块版本  没有不会进行更新
+npm uninstall ModuleNmae // 卸载模块
+npm init --yes // 生成 package 配置文件 不加 --yes 可以自己来写配置项
+npm list -g // 查看全局安装的模块
+npm list name // 查看某个模块的版本号
+npm -g install npm@5.9.1 // @ 符号后跟版本号就可以切换
+npm install -save ModuleName // -save 在 package 文件的 dependencies 节点写入依赖
+npm install -save-dev ModuleName // -save-dev 在 package 文件的 devDependencies 节点写入依赖，dependencies：运行时的依赖，发布后，即生产环境下还需要使用的模块
+/* 
+devDependencies：开发时的依赖。里面的模块是开发时用的，发布时用不到它，不如项目中使用的 gulp，压缩css、js的模块，这一些是在项目部署的时候不需要的
+*/
+```
+
+### package
+
+```json
+{
+    "name":"名字",
+    "version":"包的版本",
+    "homepage":"官网url", // . 打包为本地项目, 不写默认打包为服务端项目
+    "description":"描述",
+    "dependencies":{ // 发布时的依赖
+        "antd": "4.12.3", // 不加符号 固定使用的版本
+        "antd": "^4.12.3", // ^符号会自动更新 后两位小版本
+        "antd": "~4.12.3", // ~符号会自动更新 最后一位小版本
+    },
+    "devDependencies":{
+        // 开发时的依赖，打包时会排除
+    },
+    "script":{
+        "name":"执行命令,利用 npm run name 来执行"
+    }
+    "main":"指定程序主入口文件",
+    "keywords":[
+    	"关键字",
+    ]
+    "repository":{// 包存放的位置
+    	"type":"git",
+    	"url":"git"
+	},
+    "author":"作者姓名",
+    "contributors":"其他贡献者名字",
+}
+```
+
+
+
+### 常用
 
 ```json
 "homepage": ".",// 打包的时候路劲设置为相对路径方便在本地使用
@@ -1103,7 +1307,7 @@ npm install envify browserify
 ## 部署开发环境
 
 1. 创建项目 ``  npx create-react-app my-app  ``
-2. 启动 ``  cd myapp  ``  ``  npm start  ``
+2. 启动 ``  cd myApp  ``  ``  npm start  ``
 3. 执行 npm run build 会在 build 文件夹内生成你应用的优化版本。生产版本
 
 + 部署
@@ -1120,4 +1324,347 @@ npx babel --watch src --out-dir . --presets react-app/prod
 3. Run npm install terser
 // 压缩指令
 npx terser -c -m -o like_button.min.js -- like_button.js
+```
+
+# Context
+
++ Context 提供了一个无需为每层组件手动添加 props，就能在组件树间进行数据传递的方法。
++ Context 提供了一种在组件之间共享此类值的方式，而不必显式地通过组件树的逐层传递 props。
+
+## 何时使用 Context
+
++ Context 设计目的是为了共享那些对于一个组件树而言是“全局”的数据，例如当前认证的用户、主题或首选语言。
+
++ 通过一个个组件不断向下进行传递是非常麻烦的一件事，但是通过 Context 就可以避免这个问题。
+```jsx
+// Context 可以让我们无须明确地传遍每一个组件，就能将值深入传递进组件树。
+// 为当前的 theme 创建一个 context（“light”为默认值）。
+const ThemeContext = React.createContext('light');
+
+render() {
+    // 使用一个 Provider 来将当前的 theme 传递给以下的组件树。
+    // 无论多深，任何组件都能读取这个值。
+    // 在这个例子中，我们将 “dark” 作为当前的值传递下去。
+    return (
+      <ThemeContext.Provider value="dark">
+        <Toolbar />
+      </ThemeContext.Provider>
+    );
+  }
+
+// 指定 contextType 读取当前的 theme context。
+// React 会往上找到最近的 theme Provider，然后使用它的值。
+// 在这个例子中，当前的 theme 值为 “dark”。
+static contextType = ThemeContext;
+render() {
+  return <Button theme={this.context} />;
+}
+```
+
+## 是否需要使用 Context 
+
++ Context 主要应用场景在于很多不同层级的组件需要访问同样一些的数据。请谨慎使用，因为这会使得组件的复用性变差。
++ 如果你只是想避免层层传递一些属性，直接将组件传递到深层有时候是一个比 context 更好的解决方案。
++ 但是，有的时候在组件树中很多不同层级的组件需要访问同样的一批数据。
++ Context 能让你将这些数据向组件树下所有的组件进行“广播”，所有的组件都能访问到这些数据，也能访问到后续的数据更新。
++ 使用 context 的通用的场景包括管理当前的 locale，theme，或者一些缓存数据，这比替代方案要简单的多。
+
+## API
+
++ 消费组件：使用了 Context 传入值的组件
++ Context 是可以动态更新的
+
++ [动态更新](https://react.docschina.org/docs/context.html#dynamic-context)
++ [嵌套更新](https://react.docschina.org/docs/context.html#updating-context-from-a-nested-component)
++ [消费多个](https://react.docschina.org/docs/context.html#consuming-multiple-contexts)
+  + 为了确保 context 快速进行重渲染，React 需要使每一个 consumers 组件的 context 在组件树中成为一个单独的节点。
+
+### React.createContext
+
++ ` const MyContext = React.createContext(defaultValue); `
++ 创建一个 Context 对象。当 React 渲染一个订阅了这个 Context 对象的组件，这个组件会从组件树中离自身最近的那个匹配的 Provider 中读取到当前的 context 值。
+
++ 只有当组件所处的树中没有匹配到 Provider 时，其 defaultValue 参数才会生效。
++ 这有助于在不使用 Provider 包装组件的情况下对组件进行测试。
++ 注意：将 undefined 传递给 Provider 的 value 时，消费组件的 defaultValue 不会生效。
+
+### Context.Provider
+
++ ` <MyContext.Provider value={/* 某个值 */}> `
++ 每个 Context 对象都会返回一个 Provider React 组件，它允许消费组件订阅 context 的变化。
+
++ Provider 接收一个 value 属性，传递给消费组件。
++ 一个 Provider 可以和多个消费组件有对应关系。多个 Provider 也可以嵌套使用，里层的会覆盖外层的数据。
+
++ 当 Provider 的 value 值发生变化时，它内部的所有消费组件都会重新渲染。
++ Provider 及其内部 consumer 组件都不受制于 shouldComponentUpdate 函数，因此当 consumer 组件在其祖先组件退出更新的情况下也能更新。
+
++ 通过新旧值检测来确定变化，使用了与 Object.is 相同的算法。
+
+### Class.contextType
+
+```js
+class MyClass extends React.Component {
+  componentDidMount() {
+    let value = this.context;
+    /* 在组件挂载完成后，使用 MyContext 组件的值来执行一些有副作用的操作 */
+  }
+  componentDidUpdate() {let value = this.context;/* ... */}
+  componentWillUnmount() {let value = this.context;/* ... */}
+  render() {let value = this.context;/* 基于 MyContext 组件的值进行渲染 */}
+}
+MyClass.contextType = MyContext;
+```
++ 挂载在 class 上的 contextType 属性会被重赋值为一个由 React.createContext() 创建的 Context 对象。
++ 这能让你使用 this.context 来消费最近 Context 上的那个值。
++ 你可以在任何生命周期中访问到它，包括 render 函数中。
+
+### Context.Consumer
+
+```jsx
+<MyContext.Consumer>
+  {value => /* 基于 context 值进行渲染*/}
+</MyContext.Consumer>
+// 这里，React 组件也可以订阅到 context 变更。这能让你在函数式组件中完成订阅 context。
+```
+
+### Context.displayName
+
++ context 对象接受一个名为 displayName 的 property，类型为字符串。
++ React DevTools 使用该字符串来确定 context 要显示的内容。
+```js
+// 下述组件在 DevTools 中将显示为 MyDisplayName：
+const MyContext = React.createContext(/* some value */);
+MyContext.displayName = 'MyDisplayName';
+
+<MyContext.Provider> // "MyDisplayName.Provider" 在 DevTools 中
+<MyContext.Consumer> // "MyDisplayName.Consumer" 在 DevTools 中
+```
+
+### 注意事项
+
++ 因为 context 会使用参考标识（reference identity）来决定何时进行渲染，这里可能会有一些陷阱，当 provider 的父组件进行重渲染时，可能会在 consumers 组件中触发意外的渲染。
++ 举个例子，当每一次 Provider 重渲染时，以下的代码会重渲染所有下面的 consumers 组件，因为 value 属性总是被赋值为新的对象：
+```js
+class App extends React.Component {
+  render() {
+    return (
+      <MyContext.Provider value={{something: 'something'}}>
+        <Toolbar />
+      </MyContext.Provider>
+    );
+  }
+}
+// 为了防止这种情况，将 value 状态提升到父节点的 state 里：
+class App extends React.Component {
+  state = {
+    value: {something: 'something'},
+  }
+
+  render() {
+    return (
+      <Provider value={this.state.value}>
+        <Toolbar />
+      </Provider>
+    );
+  }
+}
+```
+
+# 需要了解的
+
+## 特点
+
++ 利用 displayName 属性可以为组件指定在 DevtTools React 开发辅助工具中显示的名称。
+
+## 错误边界
+
++ 用于捕获错误，而不至于无法显示 UI 界面
++ 错误边界无法捕获以下场景中产生的错误
+  + 事件处理
+  + 异步代码（例如 setTimeout 或 requestAnimationFrame 回调函数）
+  + 服务端渲染
+  + 它自身抛出来的错误（并非它的子组件）
+
++ 如果一个 class 组件中定义了 static getDerivedStateFromError() 或 componentDidCatch() 这两个生命周期方法中的任意一个（或两个）时，那么它就变成一个错误边界。
++ 当抛出错误后，使用 static getDerivedStateFromError() 渲染备用 UI ，使用 componentDidCatch() 打印错误信息。
+```jsx
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // 更新 state 使下一次渲染能够显示降级后的 UI
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // 你同样可以将错误日志上报给服务器
+    logErrorToMyService(error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // 你可以自定义降级后的 UI 并渲染
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children; 
+  }
+}
+// 可以将它作为一个常规组件去使用：
+<ErrorBoundary>
+  <MyWidget />
+</ErrorBoundary>
+```
++ 错误边界的工作方式类似于 JavaScript 的 catch {}，不同的地方在于错误边界只针对 React 组件。
++ 只有 class 组件才可以成为错误边界组件。
++ 大多数情况下, 你只需要声明一次错误边界组件, 并在整个应用中使用它。
+
++ 注意错误边界仅可以捕获其子组件的错误，它无法捕获其自身的错误。
++ 如果一个错误边界无法渲染错误信息，则错误会冒泡至最近的上层错误边界，这也类似于 JavaScript 中 catch {} 的工作机制。
+
++ 未捕获错误的新行为
++ 出错的 UI 会直接不给与展示。
++ 将组件包含在单独的错误边界中可以让逐渐崩溃后不影响到其他组件的正常使用。
+
+## Fragments
+
++ React 中的一个常见模式是一个组件返回多个元素。
++ Fragments 允许你将子列表分组，而无需向 DOM 添加额外节点。
+```jsx
+render() {
+  return (  // 简写 <>  children </>
+  // 带有 key 可以这样写 <React.Fragment key={item.id}> 目前是唯一可以传给 Fragment 的属性
+  // 将一个集合映射到一个 Fragments 数组
+    <React.Fragment>
+      <ChildA />
+      <ChildB />
+      <ChildC />
+    </React.Fragment>
+  );
+}
+```
+
+# Refs 转发
+
++ Ref 转发是一个可选特性，其允许某些组件接收 ref，并将其向下传递（换句话说，“转发”它）给子组件。
+```jsx
+// FancyButton 使用 React.forwardRef 来获取传递给它的 ref，然后转发到它渲染的 DOM button：
+// 这样就可以直接在外部得到组件中渲染的元素
+const FancyButton = React.forwardRef((props, ref) => (
+  <button ref={ref} className="FancyButton">
+    {props.children}
+  </button>
+));
+
+// 你可以直接获取 DOM button 的 ref：
+const ref = React.createRef();
+<FancyButton ref={ref}>Click me!</FancyButton>;
+
+/*
+1. 通过调用 React.createRef 创建了一个 React ref 并将其赋值给 ref 变量。
+2. 通过指定 ref 为 JSX 属性，将其向下传递给 <FancyButton ref={ref}>。
+3. React 传递 ref 给 forwardRef 内函数 (props, ref) => ...，作为其第二个参数。
+4. 向下转发该 ref 参数到 <button ref={ref}>，将其指定为 JSX 属性。
+5. 当 ref 挂载完成，ref.current 将指向 <button> DOM 节点。
+*/
+```
++ 第二个参数 ref 只在使用 React.forwardRef 定义组件时存在。
++ 常规函数和 class 组件不接收 ref 参数，且 props 中也不存在 ref。
++ Ref 转发不仅限于 DOM 组件，你也可以转发 refs 到 class 组件实例中。
+
++ 高阶组件转发 ref 使用的同样是 React.forwardRef 方法
++ 这个方法接受两个参数，第一个是 props ，第二个是 ref。返回一个 React 节点
+```jsx 
+const Button = React.forwardRef((props.ref) => {
+  return (
+    <Button ref={ref}>{props.name}</Button>
+  )
+});
+
+render(){
+  return( //传入时必须要明确的传入 ref ，不然 React.forwardRef 无法得到 ref 这个参数
+    <Button  {...props} ref={refName}/>
+  )
+}
+```
+
+# 高阶组件
+
++ [高阶组件](https://react.docschina.org/docs/higher-order-components.html)
+
++ 高阶组件（HOC）是 React 中用于复用组件逻辑的一种高级技巧。
++ HOC 自身不是 React API 的一部分，它是一种基于 React 的组合特性而形成的设计模式。
+
++ 具体而言，高阶组件是参数为组件，返回值为新组件的函数。
+```js
+const EnhancedComponent = higherOrderComponent(WrappedComponent);
+```
++ 组件是将 props 转换为 UI，而高阶组件是将组件转换为另一个组件。
+
++ HOC 不会修改传入的组件，也不会使用继承来复制其行为。相反，HOC 通过将组件包装在容器组件中来组成新组件。HOC 是纯函数，没有副作用。
+
+
++ 不要改变原始组件。使用组合。在 HOC 函数中修改组件容易导致出错。
++ 而应该使用组合的方式，通过将组件包装在容器组件中实现功能
+```jsx
+function logProps(WrappedComponent) {
+  return class extends React.Component {
+    componentDidUpdate(prevProps) {
+      console.log('Current props: ', this.props);
+      console.log('Previous props: ', prevProps);
+    }
+    render() {
+      // 将 input 组件包装在容器中，而不对其进行修改。Good!
+      return <WrappedComponent {...this.props} />;
+    }
+  }
+}
+```
+
+## 约定：将不相关的 props 传递给被包裹的组件
+
++ HOC 为组件添加特性。自身不应该大幅改变约定。HOC 返回的组件与原组件应保持类似的接口。
++ 这种约定保证了 HOC 的灵活性以及可复用性。
++ HOC 应该透传与自身无关的 props。大多数 HOC 都应该包含一个类似于下面的 render 方法：
+```jsx
+render() {
+  // 过滤掉非此 HOC 额外的 props，且不要进行透传
+  const { extraProp, ...passThroughProps } = this.props;
+
+  // 将 props 注入到被包装的组件中。
+  // 通常为 state 的值或者实例方法。
+  const injectedProp = someStateOrInstanceMethod;
+
+  // 将 props 传递给被包装组件
+  return (
+    <WrappedComponent
+      injectedProp={injectedProp}
+      {...passThroughProps}
+    />
+  );
+}
+```
+
+## 约定：最大化可组合性
+
++ 并不是所有的 HOC 都一样。有时候它仅接受一个参数，也就是被包裹的组件：
++ ` const NavbarWithRouter = withRouter(Navbar); `
+
++ HOC 通常可以接收多个参数。比如在 Relay 中，HOC 额外接收了一个配置对象用于指定组件的数据依赖：
++ ` const CommentWithRelay = Relay.createContainer(Comment, config); `
+
++ 最常见的 HOC 签名如下：
+```js
+// React Redux 的 `connect` 函数
+const ConnectedComment = connect(commentSelector, commentActions)(CommentList);
+// 把它分开，就会更容易看出发生了什么。
+// connect 是一个函数，它的返回值为另外一个函数。
+const enhance = connect(commentListSelector, commentListActions);
+// 返回值为 HOC，它会返回已经连接 Redux store 的组件
+const ConnectedComment = enhance(CommentList);
+// connect 是一个返回高阶组件的高阶函数！
 ```
