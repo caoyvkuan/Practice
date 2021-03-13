@@ -233,7 +233,141 @@ new Promise((resolve, reject) => {
 })
 ```
 
+## 笔记
+
++ 链式调用的方式也使回调更加的灵活
++ promise 状态的改变
+  + 状态是 promise 是实例对象中的一个  `[[PromiseState]]` 属性
+  + 状态拥有三种不同的值
+    + `pending` 初始化还为决定
+    + `resolved / fullfilled` 成功
+    + `reject` 失败
+  + 变化只有两种可能 ,成功和失败不能相互变化
+    + `pending`  变为 `resolved`
+    + `pending`  变为 `reject`
++ Promise 对象的值
+  + 实力对象中的另一个值 `[[PromiseResult]]`
+  + 保存着对象`[成功/失败]`的结果
+  + 只有这两个函数可以修改
+    + `resolve` 调用就可以修改
+    + `reject`
+  + 值会被传入后面的`then`方法的调用中
+
+### Promise 对象的 API
+
++ Promise 构造函数：`Promise(excutor){}`
+  + executor 函数：执行器 `(resolve,reject)=>{}`
+  + resolve 函数：内部定义成功时调用的函数 `value=>{}`
+  + reject 函数：内部定义失败时调用的函数 `reason=>{}`
++ Promise.prototype.then 方法：`(onResolved,onRejected)=>{}`
+  + onResolved 函数：成功时的回调函数 `value=>{}`
+  + onRejected 函数：失败时的回调函数 `reason=>{}`
+  + 返回一个新的 Promise 对象
++ `Promise.prototype.catch(reason=>{})` 方法用于失败时执行回调函数
+
+### 使用
+
+```js
+// 基本的使用,已构造函数的方式创建一个 Promise , Promise 的返回值也是一个 Promise 函数
+// 传入的 resolve 和 reject 都是一个函数,
+// resolve 成功后调用
+// reject 失败后调用
+const P = new Promise((resolve, reject)=>{
+    const i = Math.floor(Math.random() * 10) + 1;
+    if(i>5){// 传入的 i 会传入 then 中的成功回调中
+        resolve(i); // 成功就执行,且可以将 Promise 的状态设置为 成功
+    }else{// 传入的 i 会传入 then 中的失败回调中
+        reject(i); // 失败就执行,且可以将 Promise 的状态设置为 失败
+    }
+});
+// then 也可以接受参数,两个也是一个成功调用,一个失败调用的函数
+// 传入的回调函数可以接受 resolve 或 reject 传入的值
+// 一般使用这两个来命名失败或成功的参数
+// value 值
+// reason 理由
+P.then(value=>{
+    log(value)
+},reason=>{
+    log(reason)
+})
+```
+
+### 问题
+
++ 修改状态的方式有三种。
+  + 除了成功和失败的方法，还可以利用 throw 抛出错误来改变为错误的状态
++ 指定多个成功/失败的回调函数,在状态改变之后都会进行调用
++ 改变状态和指定的回调执行的先后顺序
+  + 两种都是有可能的
+  + 先执行改变状态的情况为是同步任务的时候,或是延长更长的时间在指定 then 的回调
+  + 先指定回调的情况为异步任务的时候
+  + 回调只有在状态改变后在会调用执行
++ then 方法返回 Promise 状态是由什么决定的
+  + 由指定的回调函数的执行结果来决定的
+    + throw 抛出错误或异常, 返回的 Promise 状态就为失败
+    + 返回的结果不是一个 Promise 对象, 则返回的状态为成功,且返回值就是成功的结果
+    + 返回的结果如果是一个 promise对象,则返回的 promise 的状态就决定了返回的状态
++ 串联多个操作任务
+  + 可以利用 then 方法返回的新 promise 进行链式的调用
++ promise 的异常穿透
+  + 在链式调用时,只需要在最后利用 catch 方法处理失败的回调
+  + 不论在哪一个 then 触发错误都会执行 catch 来处理错误
++ 如何中断 promise 链式调用
+  + 返回一个空的 promise 对象 `return new Promise(()=>{})`
+  + 因为空的 promise 对象状态是 pending
+  + 因为状态未改变,所以后续的 then 都不会被调用
+
+### 封装
+
++ node 文件读取封装
+
+```js
+function MyReadFile(path){
+    return new Promise((resolve,reject)=>{
+        require('fs').readFile(path,(err,data)=>{
+            if(err) reject(err);
+            resolve(data);
+        })
+    })
+}
+
+// node 中的 util.promisify 借助这个方法封装更方便
+const util = require('util');
+const fs = require('fs');
+let MyReadFile = util.promisify(fs.readFile);
+```
+
++ Ajax 的封装
+
+```js
+function MyAJAX(url){
+    return new Promise((resolve,reject)=>{
+        const x = new XMLHttpRequest();
+        x.open('GET',url);
+        x.onreadystatechange =function(){
+            if(x.readyState === 4){
+                if(x.status >= 200 && x.status < 300){
+                    resolve(x.response);
+                }else{
+                    reject(x.status);
+                }
+            }
+        }
+    })
+}
+```
+
+### 回调地狱
+
++ 利用链式的调用可以轻松的解决回调地狱的问题,就是避免多层嵌套
++ 且回调抵御不便于阅读和处理异常
+
+## 自定义 Promise
+
++ 结构的搭建
+
 ## Promise.prototype.xxx
+
 ## 1. then()
 
 + Promise 实例具有 then 方法，也就是说，then 方法是定义在原型对象 Promise.prototype 上的。
@@ -480,7 +614,7 @@ const p = Promise.all([p1, p2, p3]);
 
 + p 的状态由 p1、p2、p3决定，分成两种情况。
   1. 只有 p1、p2、p3 的状态都变成 fulfilled，p 的状态才会变成 fulfilled，此时 p1、p2、p3 的返回值组成一个数组，传递给 p 的回调函数。
-  2. 只要 p1、p2、p3 之中有一个被 rejected，p 的状态就变成 rejected，此时第一个被 reject 的实例的返回值，会传递给 p 的回调函数。
+  2. 只要 p1、p2、p3 之中有一个被 rejected，p 的状态就变成 rejected，此时第一个 reject 的实例的返回值，会传递给 p 的回调函数。
 ```js
 // 生成一个Promise对象的数组
 const promises = [2, 3, 5, 7, 11, 13].map(function (id) {
@@ -668,6 +802,8 @@ const jsPromise = Promise.resolve($.ajax('/whatever.json'));
 Promise.resolve('foo')
 // 等价于
 new Promise(resolve => resolve('foo'))
+// 如果传入的参入为非 Promise 类型的对象,则返回的结果为成功的 Promise 对象
+// 如果传入的对象为 Promsie ,则返回 Promise 执行的结果
 ```
 
 + Promise.resolve() 方法的参数分成四种情况。
@@ -745,6 +881,7 @@ console.log('one');
 ## 6. reject()
 
 + Promise.reject(reason) 方法也会返回一个新的 Promise 实例，该实例的状态为 rejected。
++ 会返回一个保持失败状态的 Promise 对象,失败的结果就是传入的值
 ```js
 const p = Promise.reject('出错了');
 // 等同于

@@ -1,0 +1,24 @@
+footer{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+}
+footer input{
+    margin: 0 20px 0 5px;
+    vertical-align:baseline;
+}
+footer button{
+    height: 100%;
+    background-color: red;
+    color: white;
+    padding: 5px 10px;
+    border: 1px solid black;
+    float: right;
+}
+footer button:hover{
+    background-color: rgba(206, 9, 9, 0.9);
+}
+footer button:active{
+    box-shadow: 0 0 1px 1px currentColor inset;
+    border: none;
+}

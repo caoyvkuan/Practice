@@ -846,7 +846,10 @@ function WelcomeDialog() {
 
 # 笔记
 
-+ 首屏阿吉仔
++ css 模块化
+  + 修改文名 `index.module.css`
+  + 引入 `import name from './index.module.css`
+  + 使用 `<div className={name.className}>`
 
 ## Diffing算法
 
@@ -877,6 +880,39 @@ function WelcomeDialog() {
      +  但是更新错乱后，它实际的父节点 key 会变成其他的数。
   +  如果仅用于一个不会发生改变数组索引顺序等不会破坏索引顺序的列表是没有问题的。
   +  也就是索引顺序不被破坏就没有问题。
+
+### 详情
+
++ 当对比两颗树时，React 首先比较两棵树的根节点。不同类型的根节点元素会有不同的形态。
+
++ 对比不同的类型的元素都会对原有的树进行卸载，并建立新的树。
++ 卸载时，对应的 DOM 节点会被销毁，组件实例将执行 componentWillUnmount() 方法。
++ 建立新树时，会插入对应的 DOM 节点，触发生命周期，所有与之前树有关的 state 也会被销毁。
+
++ 对比相同类型的元素
++ React 会保留 DOM 节点，仅比对及更新有改变的属性。
++ 当更新 style 属性时，React 仅更新有所更变的属性。
+
++ 比对同类型的组件元素
++ 当一个组件更新时，组件实例保持不变，这样 state 在跨越不同的渲染时保持一致。
++ React 将更新该组件实例的 props 以跟最新的元素保持一致，并调用生命周期方法
++ 下一步，调用 render() 方法，diff 算法将在之前的结果以及新的结果中进行递归。
+
++ 对子节点进行递归
++ 在默认条件下，当递归 DOM 节点的子元素时，React 会同时遍历两个子元素的列表
++ 当产生差异时，生成一个 mutation。
++ 在子元素列表末尾新增元素时，更变开销比较小。
++ 如果简单实现的话，那么在列表头部插入会很影响性能，那么更变开销会比较大。
++ React 会针对每个子元素 mutate 而不是保持相同的 <li />子树完成。这种情况下的低效可能会带来性能问题。
+
++ Keys
++ 为了解决以上问题，React 支持 key 属性。
++ 当子元素拥有 key 时，React 使用 key 来匹配原有树上的子元素以及最新树上的子元素。
++ 在拥有了独立的 key 后就不会出现上面的问题，得到更高的性能。
++ 一般可以提取数据的 ID 作为 key
++ 当以上情况不成立时，你可以新增一个 ID 字段到你的模型中，或者利用一部分内容作为哈希值来生成一个 key。
++ 这个 key 不需要全局唯一，但在列表中需要保持唯一。
++ 也可以使用 index 作为 key ，但是改变索引顺序时依旧会出现性能问题，甚至在有输入元素时还会导致数据出错，所以不推荐。
 
 ## 生命周期(新)
 
@@ -1032,7 +1068,6 @@ class My extends React.component{
 
 + `  const element = <h1>Hello, world!</h1>;  `
 + 这被称为 JSX，是一个 JavaScript 的语法扩展。 既不是 HTML 也不是字符串
-
 ```jsx
 const name = 'Josh Perez';
 const element = <h1>Hello, {name}</h1>;
@@ -1041,18 +1076,24 @@ const element = <h1>Hello, {name}</h1>;
 2. （小驼峰命名）来定义属性的名称，而不使用 HTML 属性名称的命名约定,也就是第一个字母小写的驼峰式写法。
 3. JSX 里的 class 变成了 className，而 tabindex 则变为 tabIndex。
    + 这是为了规避 ES6 中的 class 关键字
-4. 行内样式需要使用 `  style={{color:'red'}}` 方式来书写
+4. 行内样式需要使用 `style={{color:'red'}}` 方式来书写
    + 第一个大括号表示内部是表达式
    + 第二个大括号表示对象
 5.  跟标签只能有一个,也就是最外层只能有一个标签
 6. 标签首字母
    1. 小写字母开头会被转为同名元素,无同名元素会报错
    2. 大小字母开头会被当做组件
+7. JSX 也是一个表达式, 在编译后会被转化为普通的函数调用,得到返回的对象
+  + 可以将其赋值给变量,同样可以在 if 等语句中使用,当做参数也是可以的.
 
-## JSX 也是一个表达式
+## React 必须在作用域内
 
-+ 在编译之后，JSX 表达式会被转为普通 JavaScript 函数调用，并且对其取值后得到 JavaScript 对象。
-+ 也就是说，你可以在 if 语句和 for 循环的代码块中使用 JSX，将 JSX 赋值给变量，把 JSX 当作参数传入，以及从函数中返回 JSX
++ JSX 仅仅只是 React.createElement(component, props, ...children) 函数的语法糖。
++ JSX标签必须要闭合，没有内容的标签都可以写为单标签闭合的形式 `<div />`
++ 大写开头的代表的是 React 组件，这些标签会别直接编译为变量引用，所以必须包含在作用域内。
+
++ 由于 JSX 会编译为 React.createElement 调用形式，所以 React 库也必须包含在 JSX 代码作用域内。
++ 所以只要使用了 JSX 就必须要导入 React 。
 
 ## JSX 特定属性
 
@@ -1064,8 +1105,8 @@ const element = <h1>Hello, {name}</h1>;
 
 ## 使用 JSX 指定子元素
 
-+ 假如一个标签里面没有内容，你可以使用 /> 来闭合标签，就像 XML 语法一样
-` const element = <img src={user.avatarUrl} />; `
++ 假如一个标签里面没有内容，你可以使用 /> 来闭合标签
++ 就像 XML 语法一样` const element = <img src={user.avatarUrl} />; `
 + JSX 标签里能够包含很多子元素:
 + 但是最外成的根元素只能有一个
 ```jsx
@@ -1087,9 +1128,6 @@ const element = (
     Hello, world!
   </h1>
 );
-
-//
-
 const element = React.createElement(
   'h1',
   {className: 'greeting'},
@@ -1107,6 +1145,91 @@ const element = {
 };
 // 这些对象被称为 “React 元素”。它们描述了你希望在屏幕上看到的内容。
 // React 通过读取这些对象，然后使用它们来构建 DOM 以及保持随时更新。
+```
+
+## 语法规则
+
+### 在 JSX 类型中使用点语法
+
++ 在 JSX 中，你也可以使用点语法来引用一个 React 组件。
++ 例如，如果 MyComponents.DatePicker 是一个组件，你可以在 JSX 中直接使用：`<MyComponents.DatePicker />`
+
+### 用户定义组件必须要大写开头
+
++ 自由大写开头才会被解释为组件，且必须要有对应的变量。
++ 小写则会被解析为 html 内置的元素，没有就会被认为是自定义元素
+
+### 在运行时选择类型
+
++ 不能将通用表达式作为 React 元素类型。
++ 如果想通过通用表达式来（动态）决定元素类型，需要首先将它赋值给大写字母开头的变量。
++ 要解决这个问题, 需要首先将类型赋值给一个大写字母开头的变量
+
+## JSX 中的 Props
+
++ 有多种方式可以在 JSX 中指定 props。
++ 传入字符串可以使用两种方法 `<MyComponent message="&lt;3" />    message={'<3'}  `
++ Props 默认值为 “True” `<MyTextBox autocomplete />` 这样会默认传入 true `autocomplete={true}`
++ 属性的展开：如果已经有了一个 props 对象，可以使用展开运算符 ... 来在 JSX 中传递整个 props 对象。
+  + `<Greeting {...props} />` 
+  + 保留需要的，其他继续传递
+  + `const { kind, ...other } = props;   {...other}`
+
+### JavaScript 表达式作为 Props
+
++ 可以把包裹在 {} 中的 JavaScript 表达式作为一个 prop 传递给 JSX 元素。`<MyComponent foo={1 + 2 + 3 + 4} />`
++ if 语句以及 for 循环不是 JavaScript 表达式，所以不能在 JSX 中直接使用。
++ 但是可以在外部完成赋值的操作然后在加入到 JSX 中
+
+## JSX 中的子元素
+
++ 包含在开始和结束标签之间的 JSX 表达式内容将作为特定属性 props.children 传递给外层组件。
++ 有几种不同的方法来传递子元素：
++ 子元素 ：子元素允许由多个 JSX 元素组成。这对于嵌套组件非常有用
++ React 组件也能够返回存储在数组中的一组元素
+```jsx
+<MyContainer>
+  <MyFirstComponent />
+  <MySecondComponent />
+</MyContainer>
+
+render() {
+  // 不需要用额外的元素包裹列表元素！
+  return [
+    // 不要忘记设置 key :)
+    <li key="A">First item</li>,
+    <li key="B">Second item</li>,
+    <li key="C">Third item</li>,
+  ];
+}
+```
+
++ 布尔类型、Null 以及 Undefined 将会忽略
++ false, null, undefined, and true 是合法的子元素。但它们并不会被渲染。
++ 这有助于依据特定条件来渲染其他的 React 元素。也就是条件渲染的进行。
++ 值得注意的是有一些 “falsy” 值，如数字 0，仍然会被 React 渲染。
++ 反之，如果想渲染 false、true、null、undefined 等值，需要先将它们转换为字符串
+
+### 字符串字面量
+
++ 可以将字符串放在开始和结束标签之间，此时 props.children 就只是该字符串。
++ `<MyComponent>Hello world!</MyComponent>`
++ JSX 会移除行首尾的空格以及空行。与标签相邻的空行均会被删除，文本字符串之间的新行会被压缩为一个空格。
+
+### JS 表达式或函数作为子元素
+
++ JavaScript 表达式可以被包裹在 {} 中作为子元素。`<MyComponent>{'foo'}</MyComponent>`
+
++ 通常，JSX 中的 JavaScript 表达式将会被计算为字符串、React 元素或者是列表。
++ 不过，props.children 和其他 prop 一样，它可以传递任意类型的数据，而不仅仅是 React 已知的可渲染类型。
++ 可以将任何东西作为子元素传递给自定义组件，只要确保在该组件渲染之前能够被转换成 React 理解的对象。
+```jsx
+// 例如，如果有一个自定义组件，可以把回调函数作为 props.children 进行传递
+return (
+    <Repeat numTimes={10}>
+      {(index) => <div key={index}>This is item {index} in the list</div>}
+    </Repeat>
+  );
 ```
 
 ## JSX 防止注入攻击
@@ -1610,7 +1733,7 @@ const EnhancedComponent = higherOrderComponent(WrappedComponent);
 
 + 不要改变原始组件。使用组合。在 HOC 函数中修改组件容易导致出错。
 + 而应该使用组合的方式，通过将组件包装在容器组件中实现功能
-```jsx
+```js
 function logProps(WrappedComponent) {
   return class extends React.Component {
     componentDidUpdate(prevProps) {
@@ -1630,7 +1753,7 @@ function logProps(WrappedComponent) {
 + HOC 为组件添加特性。自身不应该大幅改变约定。HOC 返回的组件与原组件应保持类似的接口。
 + 这种约定保证了 HOC 的灵活性以及可复用性。
 + HOC 应该透传与自身无关的 props。大多数 HOC 都应该包含一个类似于下面的 render 方法：
-```jsx
+```js
 render() {
   // 过滤掉非此 HOC 额外的 props，且不要进行透传
   const { extraProp, ...passThroughProps } = this.props;
@@ -1668,3 +1791,367 @@ const enhance = connect(commentListSelector, commentListActions);
 const ConnectedComment = enhance(CommentList);
 // connect 是一个返回高阶组件的高阶函数！
 ```
+
+## 约定：包装显示名称以便轻松调试
+
++ HOC 创建的容器组件会与任何其他组件一样，会显示在 React Developer Tools 中。为了方便调试，请选择一个显示名称，以表明它是 HOC 的产物。
+
++ 不要在 render 方法中使用 HOC，因为这将导致子树每次渲染都会进行卸载，和重新挂载的操作！
++ 这还会导致子树的状态丢失
++ Refs 不会被传递
+
+# Portals
+
++ Portal 提供了一种将子节点渲染到存在于父组件以外的 DOM 节点的优秀的方案。
++ ` ReactDOM.createPortal(child, container) `
++ 第一个参数（child）是任何可渲染的 React 子元素，例如一个元素，字符串或 fragment。
++ 第二个参数（container）是一个 DOM 元素。
+```js
+render() {
+  // React 并*没有*创建一个新的 div。它只是把子元素渲染到 `domNode` 中。
+  // `domNode` 是一个可以在任何位置的有效 DOM 节点。
+  return ReactDOM.createPortal(
+    this.props.children,
+    domNode
+  );
+}
+```
++ 一个 portal 的典型用例是当父组件有 overflow: hidden 或 z-index 样式时，但你需要子组件能够在视觉上“跳出”其容器。
++ 例如，对话框、悬浮卡以及提示框
+
++ 事件冒泡
++ 尽管 portal 可以被放置在 DOM 树中的任何地方，但在任何其他方面，其行为和普通的 React 子节点行为一致。
++ 由于 portal 仍存在于 React 树， 且与 DOM 树 中的位置无关，
++ 那么无论其子节点是否是 portal，像 context 这样的功能特性都是不变的。
++ 这包含事件冒泡。一个从 portal 内部触发的事件会一直冒泡至包含 React 树的祖先，即便这些元素并不是 DOM 树 中的祖先。
+
+# Profiler API
+
++ Profiler 测量渲染一个 React 应用多久渲染一次以及渲染一次的“代价”。
++ 它的目的是识别出应用中渲染较慢的部分，或是可以使用类似 memoization 优化的部分，并从相关优化中获益。
+
++ Profiling 增加了额外的开支，所以它在生产构建中会被禁用。
+
++ 用法
++ Profiler 能添加在 React 树中的任何地方来测量树中这部分渲染所带来的开销。
++ 它需要两个 prop ：
+  + 一个是 id(string)，
+  + 一个是当组件树中的组件“提交”更新的时候被React调用的回调函数 onRender(function)。
++ 使用的方式非常多，不仅仅可以使用多个，还可以进行嵌套使用
++ 尽管 Profiler 是一个轻量级组件，我们依然应该在需要时才去使用它。
++ 对一个应用来说，每添加一些都会给 CPU 和内存带来一些负担。
+```jsx
+// 例如，为了分析 Navigation 组件和它的子代
+render(
+  <App>
+    <Profiler id="Navigation" onRender={callback}>
+      <Navigation {...props} />
+    </Profiler>
+    {/* 多个 Profiler 组件能测量应用中的不同部分 */}
+    <Profiler id="Main" onRender={callback}>
+      <Main {...props} />
+    </Profiler>
+  </App>
+);
+```
+
+## onRender 回调
+
++ Profiler 需要一个 onRender 函数作为参数。 
++ React 会在 profile 包含的组件树中任何组件 “提交” 一个更新的时候调用这个函数。 
++ 它的参数描述了渲染了什么和花费了多久。
+```js
+function onRenderCallback(
+  id, // 发生提交的 Profiler 树的 “id”
+  phase, // "mount" （如果组件树刚加载） 或者 "update" （如果它重渲染了）之一
+  actualDuration, // 本次更新 committed 花费的渲染时间
+  baseDuration, // 估计不使用 memoization 的情况下渲染整颗子树需要的时间
+  startTime, // 本次更新中 React 开始渲染的时间
+  commitTime, // 本次更新中 React committed 的时间
+  interactions // 属于本次更新的 interactions 的集合
+) {
+  // 合计或记录渲染时间。。。
+}
+
+/*
++ 仔细研究一下各个 prop:
+  + id: string - 发生提交的 Profiler 树的 id。 如果有多个 profiler，它能用来分辨树的哪一部分发生了“提交”。
+  + phase: "mount" | "update" - 判断是组件树的第一次装载引起的重渲染，还是由 props、state 或是 hooks 改变引起的重渲染。
+  + actualDuration: number - 本次更新在渲染 Profiler 和它的子代上花费的时间。 
+    这个数值表明使用 memoization 之后能表现得多好。
+    （例如 React.memo，useMemo，shouldComponentUpdate）。 
+    理想情况下，由于子代只会因特定的 prop 改变而重渲染，因此这个值应该在第一次装载之后显著下降。
+  + baseDuration: number - 在 Profiler 树中最近一次每一个组件 render 的持续时间。
+    这个值估计了最差的渲染时间。（例如当它是第一次加载或者组件树没有使用 memoization）。
+  + startTime: number - 本次更新中 React 开始渲染的时间戳。
+  + commitTime: number - 本次更新中 React commit 阶段结束的时间戳。 
+    在一次 commit 中这个值在所有的 profiler 之间是共享的，可以将它们按需分组。
+  + interactions: Set - 当更新被制定时，“interactions” 的集合会被追踪。
+    （例如当 render 或者 setState 被调用时）。
+*/
++ Interactions 能用来识别更新是由什么引起的，尽管这个追踪更新的 API 依然是实验性质的。
+```
+
+# Refs & DOM
+
++ 这几个情况都适合使用 Refs
+  + 管理焦点，文本选择或媒体播放。
+  + 触发强制动画。
+  + 集成第三方 DOM 库。
+
++ 创建 Refs 方式一，也是推荐的方式
+  + Refs 是使用 React.createRef() 创建的，并通过 ref 属性附加到 React 元素。
+  + `this.myRef = React.createRef();`
+  + `<div ref={this.myRef} />;`
++ 访问 Refs
+  + 当 ref 被传递给 render 中的元素时，对该节点的引用可以在 ref 的 current 属性中被访问。
+  + `const node = this.myRef.current;`
++ ref 的值根据节点的类型而有所不同：
+  + 当 ref 属性用于 HTML 元素时，构造函数中使用 React.createRef() 创建的 ref 接收底层 DOM 元素作为其 current 属性。
+  + 当 ref 属性用于自定义 class 组件时，ref 对象接收组件的挂载实例作为其 current 属性。添加方式一样
+  + 不能在函数组件上使用 ref 属性，因为他们没有实例。
+
++ React 会在组件挂载时给 current 属性传入 DOM 元素，并在组件卸载时传入 null 值。
++ ref 会在 componentDidMount 或 componentDidUpdate 生命周期钩子触发前更新。
+
++ Refs 与函数组件
+  + 默认情况下，你不能在函数组件上使用 ref 属性，因为它们没有实例
+  + 如果要在函数组件中使用 ref，可以使用 forwardRef
+  + 不管怎样，你可以在函数组件内部使用 ref 属性，只要它指向一个 DOM 元素或 class 组件
+  + `const textInput = useRef(null);` ,这样来创建。
+
+## 方式二，回调
+
++ 回调
+  + React 也支持另一种设置 refs 的方式，称为“回调 refs”。它能助你更精细地控制何时 refs 被设置和解除。
+  + `ref={(e)=>this.TextRef = e}`
+  + React 将在组件挂载时，会调用 ref 回调函数并传入 DOM 元素，当卸载时调用它并传入 null。
+  + 在 componentDidMount 或 componentDidUpdate 触发前，React 会保证 refs 一定是最新的。
+
+## 将 DOM Refs 暴露给父组件
+
++ 虽然可以向子组件添加 ref，但这不是一个理想的解决方案，因为只能获取组件实例而不是 DOM 节点。
++ 并且，它还在函数组件上无效。
+
++ [转发ref](https://react.docschina.org/docs/forwarding-refs.html)
+
+# Render Props
+
++ 术语 “render prop” 是指一种在 React 组件之间使用一个值为函数的 prop 共享代码的简单技术
++ 具有 render prop 的组件接受一个函数，该函数返回一个 React 元素并调用它而不是实现自己的渲染逻辑。
+```jsx
+<DataProvider render={data => (
+  <h1>Hello {data.target}</h1>
+)}/>
+```
+
++ 这种方法可以提高组件的复用率。
+```jsx
+// 在 Mouse 组件中通过 利用方法来返回一个动态刷新的 Cat 组件
+{this.props.render(this.state)}
+
+// 通过这样的回调就可以避免将 Cat 组件添加到 Mouse 中，提高了 Mouse 组件的复用率
+// 动态的决定需要渲染的内容 render prop 是一个用于告知组件需要渲染什么内容的函数 prop。
+<Mouse render={mouse => (
+  <Cat mouse={mouse} />
+)}/>
+```
+
++ 注意事项
++ 如果在 render 方法里创建函数，那么使用 render prop 会抵消使用 React.PureComponent 带来的优势。
++ 因为浅比较 props 的时候总会得到 false，并且在这种情况下每一个 render 对于 render prop 将会生成一个新的值。
+```js
+render() {
+    return (
+      <div>
+        <h1>Move the mouse around!</h1>
+        {/* 这是不好的！ 每个渲染的 `render` prop的值将会是不同的。*/}
+        <Mouse render={mouse => (
+          <Cat mouse={mouse} />
+        )}/>
+      </div>
+    );
+  }
+```
++ 每次 <MouseTracker> 渲染，它会生成一个新的函数作为 <Mouse render> 的 prop，
++ 因而在同时也抵消了继承自 React.PureComponent 的 <Mouse> 组件的效果！
++ 为了绕过这一问题，有时你可以定义一个 prop 作为实例方法
+```js
+renderTheCat(mouse) {
+  return <Cat mouse={mouse} />;
+}
+
+<Mouse render={this.renderTheCat} />
+```
+
+## 使用 Props 而非 render
+
++ render prop 是因为模式才被称为 render prop
++ 不一定要用名为 render 的 prop 来使用这种模式。
++ children prop 并不真正需要添加到 JSX 元素的 “attributes” 列表中。相反，你可以直接放置到元素的内部！
+```js
+<Mouse>
+  {mouse => (
+    <p>鼠标的位置是 {mouse.x}，{mouse.y}</p>
+  )}
+</Mouse>
+```
+
+# 静态类型检查
+
++ 建议在大型代码库中使用 Flow 或 TypeScript 来代替 PropTypes。
+
+## PropTypes
+
++ `npm install --save prop-types`
++ `import PropTypes from 'prop-types';`
++ 这个库主要支持对 props 的类型进行检查并报错
+
++ 通过 PropTypes.element 来确保传递给组件的 children 中只包含一个元素。
++ 配置特定的 defaultProps 属性来定义 props 的默认值：`Greeting.defaultProps={name:'Stranger'}`
+```js
+import PropTypes from 'prop-types';
+
+MyComponent.propTypes = {
+  // 你可以将属性声明为 JS 原生类型，默认情况下
+  // 这些属性都是可选的。
+  optionalArray: PropTypes.array,
+  optionalBool: PropTypes.bool,
+  optionalFunc: PropTypes.func,
+  optionalNumber: PropTypes.number,
+  optionalObject: PropTypes.object,
+  optionalString: PropTypes.string,
+  optionalSymbol: PropTypes.symbol,
+
+  // 任何可被渲染的元素（包括数字、字符串、元素或数组）
+  // (或 Fragment) 也包含这些类型。
+  optionalNode: PropTypes.node,
+
+  // 一个 React 元素。
+  optionalElement: PropTypes.element,
+
+  // 一个 React 元素类型（即，MyComponent）。
+  optionalElementType: PropTypes.elementType,
+
+  // 你也可以声明 prop 为类的实例，这里使用
+  // JS 的 instanceof 操作符。
+  optionalMessage: PropTypes.instanceOf(Message),
+
+  // 你可以让你的 prop 只能是特定的值，指定它为
+  // 枚举类型。
+  optionalEnum: PropTypes.oneOf(['News', 'Photos']),
+
+  // 一个对象可以是几种类型中的任意一个类型
+  optionalUnion: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.instanceOf(Message)
+  ]),
+
+  // 可以指定一个数组由某一类型的元素组成
+  optionalArrayOf: PropTypes.arrayOf(PropTypes.number),
+
+  // 可以指定一个对象由某一类型的值组成
+  optionalObjectOf: PropTypes.objectOf(PropTypes.number),
+
+  // 可以指定一个对象由特定的类型值组成
+  optionalObjectWithShape: PropTypes.shape({
+    color: PropTypes.string,
+    fontSize: PropTypes.number
+  }),
+  
+  // An object with warnings on extra properties
+  optionalObjectWithStrictShape: PropTypes.exact({
+    name: PropTypes.string,
+    quantity: PropTypes.number
+  }),   
+
+  // 你可以在任何 PropTypes 属性后面加上 `isRequired` ，确保
+  // 这个 prop 没有被提供时，会打印警告信息。
+  requiredFunc: PropTypes.func.isRequired,
+
+  // 任意类型的数据
+  requiredAny: PropTypes.any.isRequired,
+
+  // 你可以指定一个自定义验证器。它在验证失败时应返回一个 Error 对象。
+  // 请不要使用 `console.warn` 或抛出异常，因为这在 `onOfType` 中不会起作用。
+  customProp: function(props, propName, componentName) {
+    if (!/matchme/.test(props[propName])) {
+      return new Error(
+        'Invalid prop `' + propName + '` supplied to' +
+        ' `' + componentName + '`. Validation failed.'
+      );
+    }
+  },
+
+  // 你也可以提供一个自定义的 `arrayOf` 或 `objectOf` 验证器。
+  // 它应该在验证失败时返回一个 Error 对象。
+  // 验证器将验证数组或对象中的每个值。验证器的前两个参数
+  // 第一个是数组或对象本身
+  // 第二个是他们当前的键。
+  customArrayProp: PropTypes.arrayOf(function(propValue, key, componentName, location, propFullName) {
+    if (!/matchme/.test(propValue[key])) {
+      return new Error(
+        'Invalid prop `' + propFullName + '` supplied to' +
+        ' `' + componentName + '`. Validation failed.'
+      );
+    }
+  })
+};
+
+```
+
+## Flow
+
++ [React Flow](https://react.docschina.org/docs/static-type-checking.html#flow)
+
++ [Flow](https://flow.org/) 是一个针对 JavaScript 代码的静态类型检测器。Flow 由 Facebook 开发，经常与 React 一起使用。
++ [学习](https://flow.org/en/docs/getting-started/)
+
++ 在项目中添加 `yarn add --dev flow-bin  || npm install --save-dev flow-bin`
++ 接下来，将 flow 添加到项目 package.json 的 "scripts" 部分，以便能够从终端命令行中使用它：` "flow": "flow",`
++ 最后，执行以下命令之一：`yarn run flow init  || npm run flow init`
+
++ 从编译后的代码中去除 Flow 语法
++ 如果使用的是 Create React App，那么 Flow 注解默认会被去除，所以在这一步你不需要做任何事情。
++ [其他](https://react.docschina.org/docs/static-type-checking.html#babel)
+
++ 运行 Flow
++ `yarn flow || npm run flow`
++ 运行后看到的消息：`No errors! ✨  Done in 0.17s.`
+
++ 添加 Flow 类型注释
++ 默认情况下，Flow 仅检查包含此注释的文件：`// @flow`  通常，它位于文件的顶部。
+
+## TypeScript
+
++ 还没学到 TypeScript 暂时用不上
+
++ 完成以下步骤，便可开始使用 TypeScript：
+  + 将 TypeScript 添加到你的项目依赖中。 `yarn add --dev typescript || npm install --save-dev typescript`
+    + + 安装 TypeScript 后就可以使用 tsc 命令。将 tsc 添加到 package.json 中的 “scripts” 部分
+    + `"build": "tsc",`
+  + 配置 TypeScript 编译选项
+    + 没有配置项，编译器提供不了任何帮助。
+    + 在 TypeScript 里，这些配置项都在一个名为 tsconfig.json 的特殊文件中定义。
+    + `yarn run tsc --init || npx tsc --init`
+  + 使用正确的文件扩展名
+  + 为你使用的库添加定义
+
++ Create React App 内置了对 TypeScript 的支持。
++ 需要创建一个使用 TypeScript 的新项目 `npx create-react-app my-app --template typescript`
+
+# 严格模式
+
++ StrictMode 是一个用来突出显示应用程序中潜在问题的工具。
++ 与 Fragment 一样，StrictMode 不会渲染任何可见的 UI。
++ 它为其后代元素触发额外的检查和警告。
++ 严格模式检查仅在开发模式下运行；它们不会影响生产构建。
++ 使用 `<React.StrictMode>` 标签来嵌套住需要检查的组件，任何部分都可以使用
+
++ StrictMode 目前有助于：
+  + 识别不安全的生命周期
+  + 关于使用过时字符串 ref API 的警告
+  + 关于使用废弃的 findDOMNode 方法的警告
+  + 检测意外的副作用
+  + 检测过时的 context API

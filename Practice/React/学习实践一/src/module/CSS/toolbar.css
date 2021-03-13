@@ -1,0 +1,61 @@
+/* 主框 */
+.count{
+  color:black;
+  display: flex;
+}
+.count > div{
+  height: 100%;
+  margin-right: 5px;
+}
+.count >div:first-child{
+  margin-left: 5px;
+}
+
+/* 展示信息 */
+.item{
+  height: 50%;
+  display: flex;
+  align-items: center;
+}
+
+/* 选择菜单 */
+.menu{
+  display: flex;
+  flex-flow: column;
+}
+
+.but{
+  height: 50%;
+  padding-top: 0;
+}
+
+/* 总数 */
+.sum{
+  display: flex;
+  align-items: center;
+}
+.sum > input{
+  width: 35px;
+  margin-left: 5px;
+}
+
+/* 加减 */
+.calc{
+  display: flex;
+  flex-flow: column;
+}
+
+/* seoPaste */
+.game-name,.seo-select{
+  display: flex;
+  align-items: center;
+}
+.game-name{width: 70px;}
+.seo{
+  display: flex;
+  flex-flow: column;
+}
+.seo > input{
+  width: 130px;
+  height: 50%;
+}

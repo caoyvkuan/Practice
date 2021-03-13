@@ -1,0 +1,13 @@
+body {
+  width: calc(100vw - 20px*2);
+  height: calc(100vh - 20px*2);
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+  overflow: hidden;
+}
+:focus{
+  outline: none;
+}
+main,header,footer,input,button,div,ul,li,span,p{
+  box-sizing: border-box;
+}

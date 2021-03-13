@@ -855,11 +855,49 @@ filter: opacity(10%) blur(2px) sepia(35%);
 
 ## flex弹性布局
 
++ `display:flex` 开启弹性盒子 
+
+  + 宽度超出会被压缩
+  + 高度超出会溢出	overflow
+  + 盒子拥有主轴和侧轴,也只有弹性盒子才有
+    + 主轴利用 `justify-content` 控制  默认水平从左向右显示
+    + 侧轴利用 `align-items` 控制  始终要垂直于主轴
+    + 子元素默认是按照伸缩盒子中主轴方向显示 也就是水平展示
+
 + `flex` 容器属性
+  
   + `flex-direction   |  flex-wrap  |  flex-flow  |  justify-content  |  align-items  |  align-content`
+  
+  ```css
+简写方式:flex-flow:flex-dirextion flex-wrap;
+  ☞ 设置伸缩盒子主轴方向:flex-dirextion:row; 【默认值】
+  	可选值 : row-reverse 反转	| column | column-reverse
+  ☞ 设置是否可以换行:flex-wrap:nowrap;【默认不换行都在一行显示】
+  	可选值 : wrap | nowrap | wrap-reverse(反向换行);
+  
+  ☞ 设置子元素在主轴的对齐方式( justify-content:flex-start;【默认值】)
+  	可选值 : flex-end | center | space-between /*	两端对齐中间自适应	*/
+  			space-around/*	环绕	*/ 
+  			space-evenly /*匀称 每个子项两边空白完全相等*/
+  
+  ☞ 设置子元素在侧轴的对齐方式 （align-items:flex-start;【默认值】）
+  	可选值 : flex-end | center | stretch(默认值)(拉伸至父元素一样大)
+  	规定align-items属性值baseline，规定基线对齐。
+  	也就是元素中的文本都以第一个元素的文本的基线对齐。
+  
+  ☞ 设置子元素换行后的对齐方式（ align-content:stretch; - 默认)
+  	可选值 : flex-start | flex-end | center
+  			space-between | space-around | stretch
+  	意思 : stretch - 默认。各行将会伸展以占用剩余的空间。
+  		  flex-start - 各行向弹性盒容器的起始位置堆叠。其他类似
+  ```
+  
+  
+  
 + `flex` 子项属性
   + `order  |  flex-grow  |  flex-shrink  |  flex-basis  |  flex  |  align-self`
-  + order  子项的排序位置 ,所以子项默认order 属性值为 0   所以给一个子项设置-1可以排在最前面
+  + order  子项的排序位置 ,所有子项默认order 属性值为 0   所以给一个子项设置-1可以排在最前面
+  + 简写: `flex: flex-grow flex-shrink flex-basis `
   + flex-grow  伸展,扩展子项所占据的宽度, 默认为 0 
     + 如果一个子项设置为 一 那么就会侵占所有空白位置
     + 如歌两个子项设置为 一 那么就会平分空白空间
@@ -868,49 +906,7 @@ filter: opacity(10%) blur(2px) sepia(35%);
     + 是在空间不够的情况下，当前伸缩项相对于其他伸缩项可以收缩的量
   + `flex-basis:80;`	定义了在分配剩余空间之前的默认大小   可以为  auto
     + 传给`flex`的最后一个值是伸缩项伸缩的基准值。
-  + `flex: flex-grow flex-shrink flex-basis `
-  + `align-self` 单独控制一个子项 的垂直对齐方式
-
-1. **flex容器**
-
-   + ```css
-     ☞ 设置父元素为伸缩盒子【直接父元素】
-         display： flex
-     	宽度超出会被压缩			高度超出会溢出	overflow
-     
-         为什么在伸缩盒子中，子元素会在一行上显示？
-         1. 子元素是按照伸缩盒子中主轴方向显示
-         2. 只有伸缩盒子才有主轴和侧轴
-         3. 主轴： 默认水平从左向右显示
-         4. 侧轴： 始终要垂直于主轴
-     
-     	简写:flex-flow: flex-dirextion flex-wrap ;
-     ☞ 设置伸缩盒子主轴方向（flex-direction）
-         flex-direction: row; 【默认值】
-     	取值: row-reverse 反转	| column | column-reverse	|
-     
-         ☞ 设置元素是否换行显示（flex-wrap）
-         1. 在伸缩盒子中所有的元素默认都会在一行上显示
-         2. 如果希望换行： flex-wrap: wrap | nowrap | wrap-reverse(反向换行);
-     
-     ☞ 设置子元素在主轴的对齐方式( justify-content)
-     /* 设置子元素在主轴方向的对齐方式 */
-         justify-content: flex-start;
-         取值: flex-end | center | space-between | space-around/*	环绕	*/ 
-     				| space-evenly /*匀称 每个子项两边空白完全相等*/
-         justify-content: space-between;	/*	两端对齐中间自适应	*/
-     
-     ☞ 设置子元素在侧轴的对齐方式 （align-items）	align-self	子元素单独决定对齐方式
-         align-items: flex-start;
-         取值: flex-end | center | stretch(默认值)(拉伸至父元素一样大)
-     	规定align-items属性值baseline，规定基线对齐。
-     	也就是元素中的文本都以第一个元素的文本的基线对齐。
-     
-     ☞ 设置子元素换行后的对齐方式（ align-content)
-         align-content: flex-start;
-     	取值: flex-end | center | space-around | space-between | space-evenly
-         /* 换行后的默认值 */	align-content: stretch;
-     ```
+  + `align-self` 单独控制一个子项在侧轴上的对齐方式(默认情况也就是单独的垂直对其方式)
 
 ## grid网格布局
 

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes"/>
+		<title>京东(JD.COM)-正品低价、品质保障、配送及时、轻松购物！</title>
+		<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="./Style/style.css">
+		<link rel="stylesheet" href="./Style/font-awesome-4.7.0/css/font-awesome.min.css" />
+		<script type="text/javascript">
+			let listarr = {
+				"area":["北京","上海","天津","重庆","河北","山西","河南","辽宁","吉林","黑龙江","内蒙古","江苏","山东",
+				"安徽","浙江","福建","湖北","湖南","广东","广西","江西","四川","海南","贵州","云南","西藏","陕西","甘肃",
+				"青海","宁夏","新疆","港澳","台湾","钓鱼岛","海外"],
+				
+				"特色主题":["新品首发","东京金融","全球售","国际站","京东会员","东京预售","台湾售","俄语站","装机大师","0元评测",
+				"港澳售","优惠券","秒杀","闪购","印尼站","东京金融科技","陪伴计划","出海招商","拍拍二手","买什么"],
+				
+				"行业频道":["手机","智能数码","玩3C","电脑办公","家用电器","京鱼座智能","东京服饰","东京生鲜","家装城",
+				"母婴","食品","农资频道","整车","图书","劳动防护"],
+				
+				"生活服务":["京东众筹","白条","京东金融App","京东小金库","理财","话费","水电煤","彩票","旅行","机票酒店","电影票","京东到家",
+				"游戏","拍拍回收"],
+				
+				"更多精选":["合作招商","京东通信","京东E卡","企业采购","服务市场","办公生活馆","校园加盟","东京社区","游戏社区",
+				"知识产权维护"]
+			}
+			function add(element,arr,type){
+				let str = "";
+				let list = listarr[arr];
+				switch(type){
+					case 1:
+						for(let i =0; i <= list.length -1; i++){
+							str += `<div class='list-item'><a href="#">${list[i]}</a></div>`;
+						}
+					break;
+					default:
+						alert("模板类型错误");
+					break;
+				}
+				element.innerHTML += str;
+			}
+		</script>
+	</head>
+	<body>
+		<header>
+			<div class="logo">
+				<a href="#">
+					<div class="bg">
+						
+					</div>
+				</a>
+			</div>
+			<nav class="top-nav">
+				<div class="item list">
+					<span class="ico-area"></span>
+					<a href="#">湖北</a>
+					<div class="area left">
+						<dl class="list-method-one">
+							<dd>
+								<script type="text/javascript">
+									let list = document.querySelector(".area > dl > dd");
+									add(list,"area",1);
+								</script>
+							</dd>
+						</dl>
+						<dl class="list-method-two">
+							<span>地区专享版本</span>
+							<dd>
+								<div class='list-item'><a href="#">中国香港</a></div>
+								<div class='list-item'><a href="#">中国台湾</a></div>
+								<div class='list-item'><a href="#">京东全球</a></div>
+							</dd>
+						</dl>
+						<dl class="list-method-two">
+							<span>Available Sites</span>
+							<dd>
+								<div class='list-item'>
+									<i></i>
+									<a href="#">Global Site</a>
+								</div>
+								<div class='list-item'>
+									<i class="ico-cа"></i>
+									<a href="#">Сайт России</a>
+								</div>
+								<div class='list-item'>
+									<i class="ico-situs"></i>
+									<a href="#">Situs Indonesia</a>
+								</div>
+								<div class='list-item'>
+									<i class="ico-sitio"></i>
+									<a href="#">Sitio de España</a>
+								</div>
+								<div class='list-item'>
+									<i class="ico-no"></i>
+									<a href="#">เว็บไซต์ประเทศไทย</a>
+								</div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="item">
+					<a href="#">你好,请登录!</a>
+					<a href="#" class="item-red font-hidden">免费注册</a>
+				</div>
+				<div class="item">
+					<a href="#">我的订单</a>
+				</div>
+				<div class="item list">
+					<span>我的京东</span>
+					<span class="ico-direction"></span>
+					<div class="wdjd left">
+						<dl class="list-method-two">
+							<dd>
+								<div class='list-item'><a href="#">待处理订单</a></div>
+								<div class='list-item'><a href="#">消息</a></div>
+								<div class='list-item'><a href="#">返修退换货</a></div>
+								<div class='list-item'><a href="#">我的回答</a></div>
+								<div class='list-item'><a href="#">降价商品</a></div>
+								<div class='list-item'><a href="#">我的关注</a></div>
+							</dd>
+						</dl>
+						<dl>
+							<dd class="list-method-two">
+								<div class='list-item'><a href="#">我的京东</a></div>
+								<div class='list-item'><a href="#">我的优惠券</a></div>
+								<div class='list-item'><a href="#">我的白条</a></div>
+								<div class='list-item'><a href="#">我的理财</a></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="item">
+					<a href="#">京东会员</a>
+				</div>
+				<div class="item list">
+					<span class="item-red">企业采购</span>
+					<span class="ico-direction"></span>
+					<div class="purchase left">
+						<dl class="list-method-two">
+							<dd>
+								<div class='list-item'><a href="#">企业购</a></div>
+								<div class='list-item'><a href="#">商用场景馆</a></div>
+								<div class='list-item'><a href="#">工业品</a></div>
+								<div class='list-item'><a href="#">礼品卡</a></div>
+								<div class='list-item'><a href="#">丰客多商城</a></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="item list">
+					<span>客户服务</span>
+					<span class="ico-direction"></span>
+					<div class="service right">
+						<dl class="list-method-two">
+							<dt>客户</dt>
+							<dd>
+								<div class='list-item'><a href="#">帮助中心</a></div>
+								<div class='list-item'><a href="#">售后服务</a></div>
+								<div class='list-item'><a href="#">在线客服</a></div>
+								<div class='list-item'><a href="#">意见反馈</a></div>
+								<div class='list-item'><a href="#">电话客服</a></div>
+								<div class='list-item'><a href="#">客服邮箱</a></div>
+								<div class='list-item'><a href="#">金融咨询</a></div>
+								<div class='list-item'><a href="#">全球售客服</a></div>
+							</dd>
+						</dl>
+						<dl class="list-method-two">
+							<dt>商户</dt>
+							<dd>
+								<div class='list-item'><a href="#">合作招商</a></div>
+								<div class='list-item'><a href="#">成长中心</a></div>
+								<div class='list-item'><a href="#">商家后台</a></div>
+								<div class='list-item'><a href="#">京麦工作台</a></div>
+								<div class='list-item'><a href="#">商家帮助</a></div>
+								<div class='list-item'><a href="#">规则平台</a></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="item list">
+					<span>网站导航</span>
+					<span class="ico-direction"></span>
+					<div class="navigation center">
+						<dl class="list-nav-one">
+							<dt>特色主题</dt>
+							<dd>
+								<script type="text/javascript">
+									let Featured = document.querySelector(".navigation > dl:first-child > dd");
+									add(Featured,"特色主题",1);
+								</script>
+							</dd>
+						</dl>
+						<dl class="list-nav-two">
+							<dt>行业频道</dt>
+							<dd>
+								<script type="text/javascript">
+									let Channel = document.querySelector(".navigation > dl:nth-child(2) > dd");
+									add(Channel,"行业频道",1);
+								</script>
+							</dd>
+						</dl>
+						<dl class="list-nav-two">
+							<dt>生活服务</dt>
+							<dd>
+								<script type="text/javascript">
+									let Domestic = document.querySelector(".navigation > dl:nth-child(3) > dd");
+									add(Domestic,"生活服务",1);
+								</script>
+							</dd>
+						</dl>
+						<dl class="list-nav-two">
+							<dt>更多精选</dt>
+							<dd>
+								<script type="text/javascript">
+									let featured = document.querySelector(".navigation > dl:nth-child(4) > dd");
+									add(featured,"更多精选",1);
+								</script>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="item list">
+					<span>手机京东</span>
+					<div class="moJD right">
+						<div>
+							<div>
+								<img src="./images/dc4cf353fd96922e.png.webp" >
+							</div>
+							<div>
+								<span class="title">手机京东</span><br>
+								<span class="red">新人专享大礼包</span><br>
+								<a href="#">APP Store</a>
+								<a href="#" class="and">安卓市场</a>
+								<a href="#" class="pad">APP Store</a>
+							</div>
+						</div>
+						<div>
+							<div>
+								<img src="./images/7aeeb0776ee86c41.png.webp" >
+							</div>
+							<div>
+								<span class="title">关注京东</span><br>
+								<span class="title">JD.COM</span><br>
+								<span class="red">扫一扫关注参与宠粉大抽奖,限时抽爱奇艺视频月卡</span>
+							</div>
+						</div>
+						<div>
+							<div>
+								<img src="./images/5cf21582b416c186.jpg.webp" >
+							</div>
+							<div>
+								<span class="title">京东金融客户端</span><br>
+								<span class="red">新人专享大礼包</span><br>
+								<a href="#">APP Store</a>
+								<a href="#" class="and">安卓市场</a>
+							</div>
+						</div>
+						<div>
+							<div>
+								<img src="./images/dc4cf353fd96922e.png.webp" >
+							</div>
+							<div>
+								<span class="title">京东健康客户端</span><br>
+								<a href="#">APP Store</a>
+								<a href="#" class="and">安卓市场</a>
+							</div>
+						</div>
+					</div>
+					<img class="qrcode" src="./images/dc4cf353fd96922e.png.webp">
+				</div>
+			</nav>
+			<section class="header">
+				<div class="jd-dog">
+					<div></div>
+				</div>
+				<div class="centent">
+					<div class="search">
+						<div class="search-logo"></div>
+						<div class="from">
+							<input type="text" name="search" placeholder="好礼免费拿" />
+							<i class="fa fa-camera-retro fa-2x"></i>
+							<button type="button"><i class="fa fa-search fa-lg"></i></button>
+						</div>
+						<button type="button" class="get"><i class="fa fa-cart-plus fa-lg"></i>购物车</button>
+					</div>
+					<div class="welfare">
+						<a href="#">电脑采购节</a>
+						<a href="#">手机</a>
+						<a href="#">户外仪表</a>
+						<a href="#">领券减60</a>
+						<a href="#">电脑免息</a>
+						<a href="#">奥迪</a>
+						<a href="#">88购物街</a>
+						<a href="#">薇诺娜</a>
+						<a href="#">车主福利</a>
+					</div>
+					<div class="big-welfare">
+						<a href="#">秒杀</a>
+						<a href="#">优惠券</a>
+						<a href="#">PLUS会员</a>
+						<a href="#">品牌闪购</a>
+						<a href="#">拍卖</a>
+						<a href="#">京东家电</a>
+						<a href="#">京东超市</a>
+						<a href="#">京东生鲜</a>
+						<a href="#">京东国际</a>
+						<a href="#">京东金融</a>
+					</div>
+				</div>
+				<div class="advertising">
+					<img src="./images/caea4cc21046f358.png">
+				</div>
+			</section>
+		</header>
+		<main class="main">
+			11
+		</main>
+		<footer>
+			
+		</footer>
+	</body>
+</html>

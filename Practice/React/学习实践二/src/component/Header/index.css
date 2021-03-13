@@ -1,0 +1,8 @@
+.enter{
+    width: 100%;
+    height: 30px;
+}
+.enter:focus{
+    border: 1px solid aqua;
+    box-shadow: 0 0 1px 1px aqua ;
+}
