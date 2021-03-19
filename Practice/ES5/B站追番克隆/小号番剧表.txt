@@ -1,3211 +1,851 @@
 {
-   "番剧数量": 802,
-   "辉夜大小姐想让我告白～天才们的恋爱头脑战～": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26274/",
-      "status": "看过"
-   },
-   "城下町的蒲公英": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2613/",
-      "status": "看过"
-   },
-   "伪恋：": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1574/",
-      "status": "看过"
-   },
-   "在下坂本，有何贵干？": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3450/",
-      "status": "看过"
-   },
-   "骑士&魔法": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6304/",
-      "status": "看过"
-   },
-   "青春猪头少年不会梦到兔女郎学姐": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25733/",
-      "status": "看过"
-   },
-   "OVERLORD Ⅲ": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24596/",
-      "status": "看过"
-   },
-   "OVERLORD Ⅱ": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21466/",
-      "status": "看过"
-   },
-   "Re：创造主": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5998/",
-      "status": "看过"
-   },
-   "路人超能100 II(灵能百分百 第二季)": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26297/",
-      "status": "看过"
-   },
-   "约会大作战 第三季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26308/",
-      "status": "看过"
-   },
-   "約會大作戰 第二季 （僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4187/",
-      "status": "看过"
-   },
-   "约会大作战": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4188/",
-      "status": "看过"
-   },
-   "魔法禁书目录 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss964/",
-      "status": "看过"
-   },
-   "魔法禁书目录 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss963/",
-      "status": "看过"
-   },
-   "路人超能100(灵能百分百)": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5058/",
-      "status": "看过"
-   },
-   "发条精灵战记 天镜的极北之星": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5047/",
-      "status": "看过"
-   },
-   "黑色残骸": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3551/",
-      "status": "看过"
-   },
-   "Ange Vierge": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5053/",
-      "status": "看过"
-   },
-   "KEMURIKUSA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26285/",
-      "status": "看过"
-   },
-   "盾之勇者成名录": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26284/",
-      "status": "看过"
-   },
-   "加速世界 OVA1 银翼的觉醒": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3487/",
-      "status": "看过"
-   },
-   "OVERLORD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2576/",
-      "status": "看过"
-   },
-   "学生会的一己之见": {
-      "href": "https://www.bilibili.com/bangumi/play/ss631/",
-      "status": "看过"
-   },
-   "学生会的一己之见 Lv.2": {
-      "href": "https://www.bilibili.com/bangumi/play/ss632/",
-      "status": "看过"
-   },
-   "终结的炽天使 名古屋决战篇": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2760/",
-      "status": "看过"
-   },
-   "终结的炽天使": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1555/",
-      "status": "看过"
-   },
-   "Hand Shakers": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5797/",
-      "status": "在看"
-   },
-   "人形电脑天使心": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2061/",
-      "status": "看过"
-   },
-   "钢之炼金术师": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1088/",
-      "status": "看过"
-   },
-   "真月谭月姬": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1983/",
-      "status": "看过"
-   },
-   "零之使魔 双月骑士": {
-      "href": "https://www.bilibili.com/bangumi/play/ss819/",
-      "status": "看过"
-   },
-   "零之使魔F": {
-      "href": "https://www.bilibili.com/bangumi/play/ss821/",
-      "status": "看过"
-   },
-   "零之使魔～三美姬的轮舞～OVA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3790/",
-      "status": "看过"
-   },
-   "秒速五厘米": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2688/",
-      "status": "看过"
-   },
-   "DARKER THAN BLACK -黑之契约者-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1064/",
-      "status": "看过"
-   },
-   "DARKER THAN BLACK -流星的双子-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1065/",
-      "status": "看过"
-   },
-   "来自新世界": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1598/",
-      "status": "看过"
-   },
-   "野良神": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2731/",
-      "status": "看过"
-   },
-   "男子高中生的日常": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2680/",
-      "status": "看过"
-   },
-   "我女友与青梅竹马的惨烈修罗场": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2667/",
-      "status": "看过"
-   },
-   "Love Live! School Idol Project": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3068/",
-      "status": "看过"
-   },
-   "Love Live! School Idol Project（第二季）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3071/",
-      "status": "看过"
-   },
-   "剧场版 中二病也要谈恋爱！ -Take On Me-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25045/",
-      "status": "看过"
-   },
-   "问题儿童都来自异世界？": {
-      "href": "https://www.bilibili.com/bangumi/play/ss439/",
-      "status": "看过"
-   },
-   "问题儿童都来自异世界？ OVA 温泉漫游记": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3490/",
-      "status": "看过"
-   },
-   "笨蛋，测验，召唤兽": {
-      "href": "https://www.bilibili.com/bangumi/play/ss842/",
-      "status": "看过"
-   },
-   "笨蛋，测验，召唤兽2": {
-      "href": "https://www.bilibili.com/bangumi/play/ss843/",
-      "status": "看过"
-   },
-   "魔法少女小圆": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2539/",
-      "status": "看过"
-   },
-   "魔王勇者": {
-      "href": "https://www.bilibili.com/bangumi/play/ss444/",
-      "status": "看过"
-   },
-   "龙之界点": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3361/",
-      "status": "看过"
-   },
-   "魔法战争": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4367/",
-      "status": "看过"
-   },
-   "零之使魔": {
-      "href": "https://www.bilibili.com/bangumi/play/ss818/",
-      "status": "看过"
-   },
-   "中二病也要谈恋爱！恋 Lite": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4351/",
-      "status": "看过"
-   },
-   "笨蛋，测验，召唤兽  OVA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3486/",
-      "status": "看过"
-   },
-   "DARKER THAN BLACK -黑之契约者- 外传": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1066/",
-      "status": "看过"
-   },
-   "战姬绝唱SYMPHOGEAR": {
-      "href": "https://www.bilibili.com/bangumi/play/ss526/",
-      "status": "看过"
-   },
-   "战姬绝唱SYMPHOGEAR G": {
-      "href": "https://www.bilibili.com/bangumi/play/ss527/",
-      "status": "看过"
-   },
-   "Little Busters! EX": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3571/",
-      "status": "看过"
-   },
-   "Little Busters! ～Refrain～": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3570/",
-      "status": "看过"
-   },
-   "Little Busters!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3242/",
-      "status": "看过"
-   },
-   "加速世界 OVA2 加速的顶点": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3488/",
-      "status": "看过"
-   },
-   "加速世界 Infinite Burst": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5076/",
-      "status": "看过"
-   },
-   "少女与战车": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2890/",
-      "status": "看过"
-   },
-   "我们仍未知道那天所看见的花的名字。": {
-      "href": "https://www.bilibili.com/bangumi/play/ss835/",
-      "status": "看过"
-   },
-   "我们仍未知道那天所看见的花的名字。 剧场版": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3441/",
-      "status": "看过"
-   },
-   "冰菓": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3398/",
-      "status": "看过"
-   },
-   "快要坏掉的八音盒": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3292/",
-      "status": "看过"
-   },
-   "我的青春恋爱物语果然有问题。续": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1540/",
-      "status": "看过"
-   },
-   "我的青春恋爱物语果然有问题 续 OVA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5622/",
-      "status": "看过"
-   },
-   "约会大作战 万由里裁决": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5630/",
-      "status": "看过"
-   },
-   "Angel Beats!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss959/",
-      "status": "看过"
-   },
-   "打工吧！魔王大人": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2932/",
-      "status": "看过"
-   },
-   "变态王子与不笑猫": {
-      "href": "https://www.bilibili.com/bangumi/play/ss413/",
-      "status": "在看"
-   },
-   "请问您今天要来点兔子吗？": {
-      "href": "https://www.bilibili.com/bangumi/play/ss191/",
-      "status": "看过"
-   },
-   "漆黑的子弹": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4181/",
-      "status": "看过"
-   },
-   "绯弹的亚里亚": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2993/",
-      "status": "看过"
-   },
-   "绯弹的亚里亚 AA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2764/",
-      "status": "看过"
-   },
-   "绯弹的亚里亚 第一季 OVA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3439/",
-      "status": "看过"
-   },
-   "散华礼弥": {
-      "href": "https://www.bilibili.com/bangumi/play/ss710/",
-      "status": "看过"
-   },
-   "加速世界": {
-      "href": "https://www.bilibili.com/bangumi/play/ss686/",
-      "status": "看过"
-   },
-   "我的妹妹不可能那么可爱 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2661/",
-      "status": "看过"
-   },
-   "电波女与青春男": {
-      "href": "https://www.bilibili.com/bangumi/play/ss846/",
-      "status": "看过"
-   },
-   "荒川爆笑团": {
-      "href": "https://www.bilibili.com/bangumi/play/ss978/",
-      "status": "看过"
-   },
-   "荒川爆笑团2": {
-      "href": "https://www.bilibili.com/bangumi/play/ss979/",
-      "status": "看过"
-   },
-   "尽管如此世界依然美丽": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4152/",
-      "status": "看过"
-   },
-   "龙娘七七七埋藏的宝藏": {
-      "href": "https://www.bilibili.com/bangumi/play/ss193/",
-      "status": "看过"
-   },
-   "如果她的旗帜被折断了": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4201/",
-      "status": "看过"
-   },
-   "翠星之加尔刚蒂亚": {
-      "href": "https://www.bilibili.com/bangumi/play/ss445/",
-      "status": "看过"
-   },
-   "月刊少女野崎君": {
-      "href": "https://www.bilibili.com/bangumi/play/ss53/",
-      "status": "看过"
-   },
-   "幻想嘉年华": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1732/",
-      "status": "看过"
-   },
-   "幻想嘉年华 EX Season": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3552/",
-      "status": "看过"
-   },
-   "幻想嘉年华 Special Season": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3553/",
-      "status": "看过"
-   },
-   "神不在的星期天": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3145/",
-      "status": "在看"
-   },
-   "弹丸论破": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4400/",
-      "status": "看过"
-   },
-   "狗与剪刀的正确用法": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2783/",
-      "status": "在看"
-   },
-   "恋爱随意链接": {
-      "href": "https://www.bilibili.com/bangumi/play/ss713/",
-      "status": "看过"
-   },
-   "我的妹妹不可能那么可爱 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2660/",
-      "status": "看过"
-   },
-   "三坪房间的侵略者！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4120/",
-      "status": "看过"
-   },
-   "天降之物Final 我永远的鸟笼": {
-      "href": "https://www.bilibili.com/bangumi/play/ss973/",
-      "status": "在看"
-   },
-   "境界线上的地平线II": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2677/",
-      "status": "看过"
-   },
-   "境界线上的地平线": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2676/",
-      "status": "看过"
-   },
-   "+TIC模型姐妹": {
-      "href": "https://www.bilibili.com/bangumi/play/ss930/",
-      "status": "看过"
-   },
-   "Code Geass 反叛的鲁路修 娜娜莉梦游仙境": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4446/",
-      "status": "看过"
-   },
-   "四月是你的谎言": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1699/",
-      "status": "看过"
-   },
-   "罪恶王冠": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1588/",
-      "status": "看过"
-   },
-   "罪恶王冠 失落的圣诞节 an episode of port town": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3781/",
-      "status": "看过"
-   },
-   "Fate/Zero 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1650/",
-      "status": "看过"
-   },
-   "Fate/Zero 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss779/",
-      "status": "看过"
-   },
-   "樱花庄的宠物女孩": {
-      "href": "https://www.bilibili.com/bangumi/play/ss687/",
-      "status": "看过"
-   },
-   "我的脑内选项正在全力妨碍学园恋爱喜剧": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2673/",
-      "status": "看过"
-   },
-   "超次元游戏 海王星": {
-      "href": "https://www.bilibili.com/bangumi/play/ss530/",
-      "status": "看过"
-   },
-   "机巧少女不会受伤": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4388/",
-      "status": "看过"
-   },
-   "Infinite Stratos 2": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3489/",
-      "status": "看过"
-   },
-   "斩服少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss419/",
-      "status": "看过"
-   },
-   "记录的地平线": {
-      "href": "https://www.bilibili.com/bangumi/play/ss289/",
-      "status": "看过"
-   },
-   "记录的地平线 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss290/",
-      "status": "看过"
-   },
-   "大图书馆的牧羊人": {
-      "href": "https://www.bilibili.com/bangumi/play/ss323/",
-      "status": "看过"
-   },
-   "晨曦公主": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3072/",
-      "status": "看过"
-   },
-   "晨曦公主 OAD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3523/",
-      "status": "看过"
-   },
-   "寻找失去的未来": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4067/",
-      "status": "看过"
-   },
-   "便·当": {
-      "href": "https://www.bilibili.com/bangumi/play/ss864/",
-      "status": "看过"
-   },
-   "魔笛MAGI 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss471/",
-      "status": "看过"
-   },
-   "魔笛MAGI": {
-      "href": "https://www.bilibili.com/bangumi/play/ss470/",
-      "status": "在看"
-   },
-   "魔笛MAGI 辛巴达的冒险": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3466/",
-      "status": "看过"
-   },
-   "我的朋友很少 OAD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3481/",
-      "status": "看过"
-   },
-   "甘城光辉游乐园": {
-      "href": "https://www.bilibili.com/bangumi/play/ss281/",
-      "status": "看过"
-   },
-   "结城友奈是勇者": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4273/",
-      "status": "看过"
-   },
-   "结城友奈是勇者 鹫尾须美之章&勇者之章": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6448/",
-      "status": "看过"
-   },
-   "结城友奈是勇者 -鹫尾须美之章-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6075/",
-      "status": "看过"
-   },
-   "核爆默示录": {
-      "href": "https://www.bilibili.com/bangumi/play/ss485/",
-      "status": "看过"
-   },
-   "野良神 OAD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3419/",
-      "status": "看过"
-   },
-   "野良神 ARAGOTO OAD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3420/",
-      "status": "看过"
-   },
-   "落第骑士英雄谭": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2743/",
-      "status": "看过"
-   },
-   "学战都市Asterisk": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2722/",
-      "status": "看过"
-   },
-   "学战都市Asterisk 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3464/",
-      "status": "看过"
-   },
-   "对魔导学园35试验小队": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2724/",
-      "status": "看过"
-   },
-   "干物妹！小埋": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2580/",
-      "status": "看过"
-   },
-   "干物妹！小埋R": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6446/",
-      "status": "看过"
-   },
-   "干物妹！小埋 OVA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3421/",
-      "status": "在看"
-   },
-   "心灵想要大声呼喊": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4032/",
-      "status": "看过"
-   },
-   "武装神姬": {
-      "href": "https://www.bilibili.com/bangumi/play/ss741/",
-      "status": "看过"
-   },
-   "新妹魔王的契約者  BURST（僅限港澳台）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6288/",
-      "status": "看过"
-   },
-   "沒有黃段子的無聊世界（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2586/",
-      "status": "看过"
-   },
-   "学园孤岛": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2592/",
-      "status": "看过"
-   },
-   "空战魔导士候补生的教官": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2583/",
-      "status": "看过"
-   },
-   "可塑性记忆": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1552/",
-      "status": "看过"
-   },
-   "灰色的迷宫": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4170/",
-      "status": "看过"
-   },
-   "路人女主的养成方法": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1512/",
-      "status": "看过"
-   },
-   "山田君与7人魔女 OAD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3586/",
-      "status": "看过"
-   },
-   "热诚传说～导师的黎明～": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5939/",
-      "status": "看过"
-   },
-   "热诚传说 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5789/",
-      "status": "看过"
-   },
-   "热诚传说X": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5022/",
-      "status": "看过"
-   },
-   "苍之彼方的四重奏": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3106/",
-      "status": "看过"
-   },
-   "少女们向荒野进发": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3119/",
-      "status": "看过"
-   },
-   "舞武器舞乱伎": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3128/",
-      "status": "看过"
-   },
-   "新妹魔王的契約者（僅限港澳台）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6286/",
-      "status": "看过"
-   },
-   "黑白来看守所 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5809/",
-      "status": "看过"
-   },
-   "黑白来看守所": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5548/",
-      "status": "看过"
-   },
-   "CHAOS;CHILD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5802/",
-      "status": "看过"
-   },
-   "超级弹丸论破2.5 狛枝凪斗与世界的破坏者": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5906/",
-      "status": "看过"
-   },
-   "弹丸论破3 -绝望篇-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5057/",
-      "status": "看过"
-   },
-   "政宗君的复仇（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5775/",
-      "status": "看过"
-   },
-   "埃罗芒阿老师": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5997/",
-      "status": "看过"
-   },
-   "从零开始的魔法书": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6001/",
-      "status": "看过"
-   },
-   "时钟机关之星": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6000/",
-      "status": "看过"
-   },
-   "樱花任务": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5992/",
-      "status": "看过"
-   },
-   "春宵苦短，少女前进吧": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6518/",
-      "status": "看过"
-   },
-   "机甲少女 FRAME ARMS GIRL": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5994/",
-      "status": "看过"
-   },
-   "宣告黎明的露之歌": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6514/",
-      "status": "看过"
-   },
-   "URARA迷路帖": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5776/",
-      "status": "看过"
-   },
-   "Fate/Apocrypha": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6301/",
-      "status": "看过"
-   },
-   "异世界食堂": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6310/",
-      "status": "看过"
-   },
-   "NEW GAME!!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6330/",
-      "status": "看过"
-   },
-   "NEW GAME!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5027/",
-      "status": "看过"
-   },
-   "NEW GAME! OVA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6158/",
-      "status": "看过"
-   },
-   "少女终末旅行": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6463/",
-      "status": "看过"
-   },
-   "十二大战": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6420/",
-      "status": "看过"
-   },
-   "URAHARA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6474/",
-      "status": "看过"
-   },
-   "书店里的骷髅店员本田": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25663/",
-      "status": "看过"
-   },
-   "Angels of Death": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24625/",
-      "status": "看过"
-   },
-   "异界少女召唤术": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24627/",
-      "status": "在看"
-   },
-   "ISLAND ": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24571/",
-      "status": "看过"
-   },
-   "百炼霸王与圣约女武神": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24628/",
-      "status": "看过"
-   },
-   "欢迎来到实力至上主义的教室": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6339/",
-      "status": "看过"
-   },
-   "超能力女儿": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23850/",
-      "status": "看过"
-   },
-   "Megalo Box": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23880/",
-      "status": "看过"
-   },
-   "魔法少女 俺": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23871/",
-      "status": "在看"
-   },
-   "刀使巫女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21750/",
-      "status": "看过"
-   },
-   "紫罗兰永恒花园": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21542/",
-      "status": "看过"
-   },
-   "龙王的工作！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21554/",
-      "status": "看过"
-   },
-   "戒律的复活": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21729/",
-      "status": "在看"
-   },
-   "刻刻": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21755/",
-      "status": "看过"
-   },
-   "博多豚骨拉面团": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21769/",
-      "status": "看过"
-   },
-   "DARLING in the FRANXX（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21680/",
-      "status": "看过"
-   },
-   "revisions": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26286/",
-      "status": "看过"
-   },
-   "W'Z": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26301/",
-      "status": "看过"
-   },
-   "青之驱魔师": {
-      "href": "https://www.bilibili.com/bangumi/play/ss861/",
-      "status": "看过"
-   },
-   "青之驱魔师 剧场版": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3543/",
-      "status": "看过"
-   },
-   "搖曳莊的幽奈小姐（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24593/",
-      "status": "看过"
-   },
-   "幻镜诺德琳": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5877/",
-      "status": "看过"
-   },
-   "甲铁城的卡巴内瑞": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3494/",
-      "status": "看过"
-   },
-   "尸者的帝国": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4098/",
-      "status": "看过"
-   },
-   "天元突破 红莲螺岩 剧场版": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1292/",
-      "status": "看过"
-   },
-   "黑之宣告": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3115/",
-      "status": "看过"
-   },
-   "钢之炼金术师 FULLMETAL ALCHEMIST": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1089/",
-      "status": "看过"
-   },
-   "天元突破红莲螺岩": {
-      "href": "https://www.bilibili.com/bangumi/play/ss27014/",
-      "status": "看过"
-   },
-   "颠倒的帕特玛": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3668/",
-      "status": "看过"
-   },
-   "[C]THE MONEY OF SOUL AND POSSIBILITY CONTROL": {
-      "href": "https://www.bilibili.com/bangumi/play/ss863/",
-      "status": "看过"
-   },
-   "消灭都市": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26871/",
-      "status": "看过"
-   },
-   "格林笔记 The Animation": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26280/",
-      "status": "看过"
-   },
-   "天使之卵": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5582/",
-      "status": "看过"
-   },
-   "魔弹之王与战姬": {
-      "href": "https://www.bilibili.com/bangumi/play/ss291/",
-      "status": "看过"
-   },
-   "青之驱魔师 OAD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6077/",
-      "status": "看过"
-   },
-   "RobiHachi": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26917/",
-      "status": "看过"
-   },
-   "妖精森林的小不点": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21717/",
-      "status": "看过"
-   },
-   "五等分的新娘": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26283/",
-      "status": "看过"
-   },
-   "天使降临到我身边": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26291/",
-      "status": "看过"
-   },
-   "在世界尽头咏唱恋曲的少女YU-NO": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26771/",
-      "status": "在看"
-   },
-   "不吉波普不笑": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26303/",
-      "status": "看过"
-   },
-   "Fate/stay night [Unlimited Blade Works] 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1586/",
-      "status": "看过"
-   },
-   "Fate/stay night [Unlimited Blade Works] 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1587/",
-      "status": "看过"
-   },
-   "为美好的世界献上祝福！ 第二季 （僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28137/",
-      "status": "看过"
-   },
-   "幼女戰記（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5782/",
-      "status": "看过"
-   },
-   "君主·埃尔梅罗二世事件簿 魔眼收集列车 Grace note": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26363/",
-      "status": "看过"
-   },
-   "来自风平浪静的明天": {
-      "href": "https://www.bilibili.com/bangumi/play/ss441/",
-      "status": "看过"
-   },
-   "Re：从零开始的异世界生活": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3461/",
-      "status": "看过"
-   },
-   "猎兽神兵": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28005/",
-      "status": "看过"
-   },
-   "勿忘蛛": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5947/",
-      "status": "看过"
-   },
-   "少女编号": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5532/",
-      "status": "看过"
-   },
-   "魔法少女小圆 剧场版 [新篇] 叛逆的物语": {
-      "href": "https://www.bilibili.com/bangumi/play/ss27063/",
-      "status": "看过"
-   },
-   "云之彼端，约定的地方": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2545/",
-      "status": "看过"
-   },
-   "穿越时空的少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2687/",
-      "status": "看过"
-   },
-   "四月是你的谎言 OAD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3423/",
-      "status": "看过"
-   },
-   "弹丸论破3 -未来篇-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5056/",
-      "status": "看过"
-   },
-   "超自然9人组": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5526/",
-      "status": "看过"
-   },
-   "野良神 ARAGOTO": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2732/",
-      "status": "看过"
-   },
-   "珈百璃的堕落": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5793/",
-      "status": "看过"
-   },
-   "青春猪头少年不会梦到怀梦美少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28965/",
-      "status": "看过"
-   },
-   "樱子小姐的脚下埋着秘密": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2742/",
-      "status": "看过"
-   },
-   "Ｄｒ．ＳＴＯＮＥ 石纪元": {
-      "href": "https://www.bilibili.com/bangumi/play/ss27993/",
-      "status": "看过"
-   },
-   "OVERLORD OAD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5584/",
-      "status": "看过"
-   },
-   "重来吧，魔王大人！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28004/",
-      "status": "看过"
-   },
-   "OVERLORD Ⅲ SP": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25131/",
-      "status": "看过"
-   },
-   "剧场版总集篇 OVERLORD 不死者之王": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24255/",
-      "status": "看过"
-   },
-   "剧场版总集篇 OVERLORD 漆黑的英雄": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24959/",
-      "status": "看过"
-   },
-   "NO GAME NO LIFE 游戏人生": {
-      "href": "https://www.bilibili.com/bangumi/play/ss184/",
-      "status": "看过"
-   },
-   "这个勇者明明超强却过分慎重": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28625/",
-      "status": "看过"
-   },
-   "她与她的猫": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3375/",
-      "status": "看过"
-   },
-   "星之声": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2544/",
-      "status": "看过"
-   },
-   "梦幻之星online2": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3097/",
-      "status": "看过"
-   },
-   "兽娘动物园": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5796/",
-      "status": "看过"
-   },
-   "超人高中生们即便在异世界也能从容生存！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28634/",
-      "status": "看过"
-   },
-   "我，不是说了能力要平均值么！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28544/",
-      "status": "看过"
-   },
-   "你遭難了嗎？（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28012/",
-      "status": "看过"
-   },
-   "贤者之孙": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26794/",
-      "status": "看过"
-   },
-   "OVERLORD SP": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3428/",
-      "status": "看过"
-   },
-   "伪恋": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1573/",
-      "status": "看过"
-   },
-   "滑头鬼之孙": {
-      "href": "https://www.bilibili.com/bangumi/play/ss899/",
-      "status": "看过"
-   },
-   "滑头鬼之孙 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss900/",
-      "status": "看过"
-   },
-   "高分少女 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28618/",
-      "status": "看过"
-   },
-   "快盗天使双胞胎": {
-      "href": "https://www.bilibili.com/bangumi/play/ss27792/",
-      "status": "想看"
-   },
-   "亡念之扎姆德": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1206/",
-      "status": "想看"
-   },
-   "BanG Dream! 梦想协奏曲 电影演唱会": {
-      "href": "https://www.bilibili.com/bangumi/play/ss31861/",
-      "status": "想看"
-   },
-   "一周的朋友。": {
-      "href": "https://www.bilibili.com/bangumi/play/ss173/",
-      "status": "想看"
-   },
-   "叛逆性百万亚瑟王 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26880/",
-      "status": "想看"
-   },
-   "文豪野犬 第三季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26769/",
-      "status": "想看"
-   },
-   "轻羽飞扬！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24589/",
-      "status": "想看"
-   },
-   "电器街的漫画店": {
-      "href": "https://www.bilibili.com/bangumi/play/ss282/",
-      "status": "想看"
-   },
-   "工作细胞": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24588/",
-      "status": "想看"
-   },
-   "CAROLE & TUESDAY": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26875/",
-      "status": "想看"
-   },
-   "吹响吧！上低音号～欢迎来到北宇治高中吹奏乐部～": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28938/",
-      "status": "想看"
-   },
-   "YU-NO 在這世界盡頭詠唱愛的少女（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss27728/",
-      "status": "想看"
-   },
-   "CANNON BUSTERS ": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26782/",
-      "status": "想看"
-   },
-   "梅露可物语 : 无精打采的少年与瓶中少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25699/",
-      "status": "想看"
-   },
-   "弦音 -风舞高中弓道部-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25696/",
-      "status": "想看"
-   },
-   "只要贝尔哲布布大小姐喜欢就好": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25697/",
-      "status": "想看"
-   },
-   "JOJO的奇妙冒险 黄金之风": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25681/",
-      "status": "想看"
-   },
-   "MIX": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26770/",
-      "status": "想看"
-   },
-   "吹响吧！上低音号～想要传达的旋律～": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28950/",
-      "status": "想看"
-   },
-   "深夜的超自然公务员": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26777/",
-      "status": "想看"
-   },
-   "JOJO的奇妙冒险  星尘远征军": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4185/",
-      "status": "想看"
-   },
-   "姐姐来了": {
-      "href": "https://www.bilibili.com/bangumi/play/ss238/",
-      "status": "想看"
-   },
-   "献给某飞行员的恋歌": {
-      "href": "https://www.bilibili.com/bangumi/play/ss233/",
-      "status": "想看"
-   },
-   "吹响吧！上低音号 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28937/",
-      "status": "想看"
-   },
-   "地狱少女 宵伽": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6341/",
-      "status": "想看"
-   },
-   "前进吧！登山少女 第三季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24605/",
-      "status": "想看"
-   },
-   "人马少女的烦恼": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6326/",
-      "status": "想看"
-   },
-   "棺姬嘉依卡（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6333/",
-      "status": "想看"
-   },
-   "头文字D Second Stage": {
-      "href": "https://www.bilibili.com/bangumi/play/ss208/",
-      "status": "想看"
-   },
-   "魔法学园MA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3294/",
-      "status": "想看"
-   },
-   "少女☆歌剧 Revue Starlight": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24622/",
-      "status": "想看"
-   },
-   "天狼 Sirius the Jaeger": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24620/",
-      "status": "想看"
-   },
-   "历物语": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3297/",
-      "status": "想看"
-   },
-   "画江湖之不良人 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5352/",
-      "status": "想看"
-   },
-   "玉子市场": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4262/",
-      "status": "想看"
-   },
-   "Just Because!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6427/",
-      "status": "想看"
-   },
-   "战斗女子高校": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6306/",
-      "status": "想看"
-   },
-   "此花亭奇谭": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6425/",
-      "status": "想看"
-   },
-   "昴宿七星": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24609/",
-      "status": "想看"
-   },
-   "Fate/kaleid liner 魔法少女☆伊莉雅：雪下的誓言": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24856/",
-      "status": "想看"
-   },
-   "Love Live! Sunshine!! 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6433/",
-      "status": "想看"
-   },
-   "宝石之国": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6434/",
-      "status": "想看"
-   },
-   "UQ HOLDER！悠久持有者！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6418/",
-      "status": "想看"
-   },
-   "天使特警": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2059/",
-      "status": "在看"
-   },
-   "魔偶马戏团": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25615/",
-      "status": "想看"
-   },
-   "空罐少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1097/",
-      "status": "想看"
-   },
-   "普通女高中生要做当地偶像": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4124/",
-      "status": "想看"
-   },
-   "魔法禁书目录 第三季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25617/",
-      "status": "想看"
-   },
-   "苍穹之法芙娜EXODUS": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4108/",
-      "status": "想看"
-   },
-   "归宅部活动记录": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3135/",
-      "status": "想看"
-   },
-   "樱花大战 OVA1 樱华绚烂": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2291/",
-      "status": "想看"
-   },
-   "公主恋人！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1083/",
-      "status": "想看"
-   },
-   "叛逆性百万亚瑟王": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25720/",
-      "status": "想看"
-   },
-   "十二国记": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2069/",
-      "status": "想看"
-   },
-   "虫奉行OVA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4113/",
-      "status": "想看"
-   },
-   "一个人的〇〇小日子": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26818/",
-      "status": "想看"
-   },
-   "樱花大战 TV版": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2290/",
-      "status": "想看"
-   },
-   "JOJO的奇妙冒险": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4334/",
-      "status": "想看"
-   },
-   "JOJO的奇妙冒险 星尘远征军 埃及篇": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4213/",
-      "status": "想看"
-   },
-   "魔法少女什么的已经够了啦。": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3126/",
-      "status": "想看"
-   },
-   "狼与香辛料": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1071/",
-      "status": "想看"
-   },
-   "凉宫春日的忧郁 2006": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1056/",
-      "status": "想看"
-   },
-   "房东青春期！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3116/",
-      "status": "想看"
-   },
-   "告訴我！辣妹子醬（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3117/",
-      "status": "想看"
-   },
-   "悠久之翼": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1181/",
-      "status": "想看"
-   },
-   "ANIMAYELL!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25624/",
-      "status": "想看"
-   },
-   "乃木坂春香的秘密": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1062/",
-      "status": "想看"
-   },
-   "强风吹拂": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25742/",
-      "status": "想看"
-   },
-   "音乐少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24632/",
-      "status": "想看"
-   },
-   "魔法少女小圆 剧场版 [后篇] 永远的物语": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4317/",
-      "status": "想看"
-   },
-   "魔法少女小圆 剧场版 [前篇] 起始的物语": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4316/",
-      "status": "想看"
-   },
-   "轻音少女 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1172/",
-      "status": "想看"
-   },
-   "幸运星": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1293/",
-      "status": "想看"
-   },
-   "地球防卫少年": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1295/",
-      "status": "想看"
-   },
-   "偶像大师 XENOGLOSSIA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1278/",
-      "status": "想看"
-   },
-   "爱吃拉面的小泉同学": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21728/",
-      "status": "想看"
-   },
-   "小鸠": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1164/",
-      "status": "想看"
-   },
-   "小木乃伊到我家": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21720/",
-      "status": "想看"
-   },
-   "牙狼 -炎之刻印-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3209/",
-      "status": "想看"
-   },
-   "海物语": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1144/",
-      "status": "想看"
-   },
-   "重神机潘多拉": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23811/",
-      "status": "想看"
-   },
-   "濑户的花嫁": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1270/",
-      "status": "想看"
-   },
-   "英雄时代": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1274/",
-      "status": "想看"
-   },
-   "境界的彼方": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3365/",
-      "status": "想看"
-   },
-   "革命机Valvrave": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3307/",
-      "status": "想看"
-   },
-   "比宇宙更远的地方": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21778/",
-      "status": "想看"
-   },
-   "苍色骑士（中文）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1250/",
-      "status": "想看"
-   },
-   "敦君与女朋友": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23838/",
-      "status": "想看"
-   },
-   "赛马娘": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23834/",
-      "status": "想看"
-   },
-   "无限的未知": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2208/",
-      "status": "想看"
-   },
-   "虫孽": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2202/",
-      "status": "想看"
-   },
-   "魔法使的注意事项": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1234/",
-      "status": "想看"
-   },
-   "失憶融合WIXOSS（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23820/",
-      "status": "在看"
-   },
-   "Comic Girls": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23829/",
-      "status": "想看"
-   },
-   "黑神": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1102/",
-      "status": "想看"
-   },
-   "请问您今天要来点兔子吗？？～Dear My Sister～": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24702/",
-      "status": "想看"
-   },
-   "Slow Start": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21675/",
-      "status": "想看"
-   },
-   "恶魔战线": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23846/",
-      "status": "想看"
-   },
-   "三颗星彩色冒险": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21744/",
-      "status": "想看"
-   },
-   "牙狼 -红莲之月-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2774/",
-      "status": "想看"
-   },
-   "Fate/kaleid liner 魔法少女☆伊莉雅 Prisma☆Phantasm": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28400/",
-      "status": "想看"
-   },
-   "魔女的使命 OVA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3502/",
-      "status": "想看"
-   },
-   "绝对防卫利维坦": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2656/",
-      "status": "想看"
-   },
-   "食戟之灵": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1559/",
-      "status": "想看"
-   },
-   "请问您今天要来点兔子吗？？": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2762/",
-      "status": "想看"
-   },
-   "幻界战线": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1553/",
-      "status": "想看"
-   },
-   "贫穷姐妹物语": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1434/",
-      "status": "想看"
-   },
-   "给你做饭了！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2767/",
-      "status": "想看"
-   },
-   "长门有希酱的消失": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1558/",
-      "status": "想看"
-   },
-   "动物狂想曲 / BEASTARS": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28542/",
-      "status": "想看"
-   },
-   "BLACK★ROCK SHOOTER": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1665/",
-      "status": "想看"
-   },
-   "吹响吧！上低音号": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1547/",
-      "status": "想看"
-   },
-   "戰×戀（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28545/",
-      "status": "想看"
-   },
-   "快盗天使TWIN ANGEL": {
-      "href": "https://www.bilibili.com/bangumi/play/ss906/",
-      "status": "想看"
-   },
-   "终物语": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2747/",
-      "status": "想看"
-   },
-   "重装武器": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2740/",
-      "status": "想看"
-   },
-   "关于完全听不懂老公在说什么的事 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1530/",
-      "status": "想看"
-   },
-   "环战公主 CIRCLET PRINCESS": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26350/",
-      "status": "想看"
-   },
-   "关于完全听不懂老公在说什么的事 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1655/",
-      "status": "想看"
-   },
-   "小森同学拒绝不了！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2744/",
-      "status": "想看"
-   },
-   "无头骑士异闻录": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1656/",
-      "status": "想看"
-   },
-   "魔法少女奈叶": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1535/",
-      "status": "想看"
-   },
-   "夏目友人帐": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1660/",
-      "status": "想看"
-   },
-   "琴之森 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26268/",
-      "status": "想看"
-   },
-   "DOG DAYS": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1631/",
-      "status": "想看"
-   },
-   "苍穹之法芙娜": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1867/",
-      "status": "想看"
-   },
-   "偶像大师 灰姑娘女孩": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1509/",
-      "status": "想看"
-   },
-   "同居人是猫": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26289/",
-      "status": "想看"
-   },
-   "放学后桌游俱乐部": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28547/",
-      "status": "想看"
-   },
-   "极上学生会": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1859/",
-      "status": "想看"
-   },
-   "VIVIDRED OPERATION": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1731/",
-      "status": "想看"
-   },
-   "星舰驾驶员": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1853/",
-      "status": "想看"
-   },
-   "玛纳利亚的密友（Mysteria Friends）/巴哈姆特之怒/玛娜利亚魔法学院": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26271/",
-      "status": "想看"
-   },
-   "异度传说": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1854/",
-      "status": "想看"
-   },
-   "罗小黑战记": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1733/",
-      "status": "想看"
-   },
-   "Under The Dog": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6071/",
-      "status": "想看"
-   },
-   "迷你偶像 2期": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1727/",
-      "status": "想看"
-   },
-   "出云战记": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1849/",
-      "status": "想看"
-   },
-   "灼眼的夏娜II -Second-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1602/",
-      "status": "想看"
-   },
-   "后街女孩": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24567/",
-      "status": "想看"
-   },
-   "炎炎消防队": {
-      "href": "https://www.bilibili.com/bangumi/play/ss27959/",
-      "status": "想看"
-   },
-   "武器种族传说": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1836/",
-      "status": "想看"
-   },
-   "被狙击的学园": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2804/",
-      "status": "想看"
-   },
-   "剑风传奇 新作（僅限台湾地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26163/",
-      "status": "想看"
-   },
-   "真实之泪": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2910/",
-      "status": "想看"
-   },
-   "AIR": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1816/",
-      "status": "想看"
-   },
-   "Love Live! Sunshine!!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5062/",
-      "status": "想看"
-   },
-   "魔法少女☆伊莉雅 3REI!!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5065/",
-      "status": "想看"
-   },
-   "时间旅行少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5049/",
-      "status": "想看"
-   },
-   "Fate/stay night  06版": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25210/",
-      "status": "想看"
-   },
-   "BEM": {
-      "href": "https://www.bilibili.com/bangumi/play/ss27992/",
-      "status": "想看"
-   },
-   "不愉快的怪物庵 续": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26300/",
-      "status": "想看"
-   },
-   "BanG Dream! 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26305/",
-      "status": "想看"
-   },
-   "偶像梦幻祭": {
-      "href": "https://www.bilibili.com/bangumi/play/ss27997/",
-      "status": "想看"
-   },
-   "OZMAFIA!!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5039/",
-      "status": "想看"
-   },
-   "Regalia 三圣星": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5041/",
-      "status": "想看"
-   },
-   "笑对阴天": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4060/",
-      "status": "想看"
-   },
-   "剑网3·侠肝义胆沈剑心": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24267/",
-      "status": "想看"
-   },
-   "天体的秩序": {
-      "href": "https://www.bilibili.com/bangumi/play/ss296/",
-      "status": "想看"
-   },
-   "驱魔少年 HALLOW": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5030/",
-      "status": "想看"
-   },
-   "小桃小栗Love Love物语": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5016/",
-      "status": "想看"
-   },
-   "夜樱四重奏": {
-      "href": "https://www.bilibili.com/bangumi/play/ss472/",
-      "status": "想看"
-   },
-   "募恋英雄": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28614/",
-      "status": "想看"
-   },
-   "巴哈姆特之怒 GENESIS": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4058/",
-      "status": "想看"
-   },
-   "亚尔斯兰战记 风尘乱舞": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5021/",
-      "status": "想看"
-   },
-   "Rewrite": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5020/",
-      "status": "想看"
-   },
-   "青春纪行 / 金色时光": {
-      "href": "https://www.bilibili.com/bangumi/play/ss468/",
-      "status": "想看"
-   },
-   "写真女友": {
-      "href": "https://www.bilibili.com/bangumi/play/ss580/",
-      "status": "想看"
-   },
-   "LOST SONG 失落的歌谣": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23879/",
-      "status": "想看"
-   },
-   "女神异闻录5 动画版": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23878/",
-      "status": "想看"
-   },
-   "東京暗鴉（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28076/",
-      "status": "想看"
-   },
-   "请问您今天要来点兔子吗？？～Sing for You～": {
-      "href": "https://www.bilibili.com/bangumi/play/ss30288/",
-      "status": "想看"
-   },
-   "星梦手记": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5486/",
-      "status": "想看"
-   },
-   "红伤骑士X": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5037/",
-      "status": "想看"
-   },
-   "魔法使的新娘（僅限台灣地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6438/",
-      "status": "想看"
-   },
-   "CROSSANGE 天使与龙的轮舞": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3048/",
-      "status": "想看"
-   },
-   "邻座的怪同学": {
-      "href": "https://www.bilibili.com/bangumi/play/ss688/",
-      "status": "想看"
-   },
-   "K": {
-      "href": "https://www.bilibili.com/bangumi/play/ss685/",
-      "status": "想看"
-   },
-   "黄金拼图": {
-      "href": "https://www.bilibili.com/bangumi/play/ss443/",
-      "status": "想看"
-   },
-   "Wake Up, Girls! 新章": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6442/",
-      "status": "想看"
-   },
-   "剧场版 快要坏掉的八音盒": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5456/",
-      "status": "想看"
-   },
-   "交响诗篇 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss790/",
-      "status": "想看"
-   },
-   "ReLIFE 完结篇": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23884/",
-      "status": "想看"
-   },
-   "Re：从零开始的异世界生活 Memory Snow(雪之回忆)": {
-      "href": "https://www.bilibili.com/bangumi/play/ss31150/",
-      "status": "想看"
-   },
-   "Fate/EXTRA Last Encore": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21464/",
-      "status": "想看"
-   },
-   "悠哉日常大王 Repeat OAD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5567/",
-      "status": "想看"
-   },
-   "不愉快的怪物庵": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5678/",
-      "status": "想看"
-   },
-   "One Room": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5798/",
-      "status": "想看"
-   },
-   "女神异闻录5 -THE DAY BREAKERS-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5482/",
-      "status": "想看"
-   },
-   "Anne Happy": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3498/",
-      "status": "想看"
-   },
-   "D·N·A² ~他到底失去了什么？~": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6531/",
-      "status": "想看"
-   },
-   "偶像选举": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5787/",
-      "status": "想看"
-   },
-   "偶像大师 闪耀祭典": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4455/",
-      "status": "想看"
-   },
-   "猫咪日常": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5786/",
-      "status": "想看"
-   },
-   "漫画少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss646/",
-      "status": "想看"
-   },
-   "无口的森田小姐": {
-      "href": "https://www.bilibili.com/bangumi/play/ss887/",
-      "status": "想看"
-   },
-   "蔷薇少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss522/",
-      "status": "想看"
-   },
-   "科学小飞侠Crowds": {
-      "href": "https://www.bilibili.com/bangumi/play/ss520/",
-      "status": "想看"
-   },
-   "神装少女小缠": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5552/",
-      "status": "想看"
-   },
-   "现视研1": {
-      "href": "https://www.bilibili.com/bangumi/play/ss517/",
-      "status": "想看"
-   },
-   "GJ部": {
-      "href": "https://www.bilibili.com/bangumi/play/ss637/",
-      "status": "想看"
-   },
-   "玉响～hitotose～": {
-      "href": "https://www.bilibili.com/bangumi/play/ss514/",
-      "status": "想看"
-   },
-   "魔法少女☆伊莉雅 2WEI! OVA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3477/",
-      "status": "想看"
-   },
-   "初音岛": {
-      "href": "https://www.bilibili.com/bangumi/play/ss656/",
-      "status": "想看"
-   },
-   "TARI TARI": {
-      "href": "https://www.bilibili.com/bangumi/play/ss752/",
-      "status": "想看"
-   },
-   "最终兵器彼女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2029/",
-      "status": "想看"
-   },
-   "TRICKSTER": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5542/",
-      "status": "想看"
-   },
-   "夏日大作战": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4694/",
-      "status": "想看"
-   },
-   "锁链战记 赫克瑟塔斯之光": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5769/",
-      "status": "想看"
-   },
-   "3月的狮子": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5523/",
-      "status": "想看"
-   },
-   "迷糊餐厅 WORKING’!!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss867/",
-      "status": "想看"
-   },
-   "奇诺之旅（2017）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2013/",
-      "status": "想看"
-   },
-   "Concrete Revolutio 超人幻想 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3465/",
-      "status": "想看"
-   },
-   "丹特丽安的书架": {
-      "href": "https://www.bilibili.com/bangumi/play/ss862/",
-      "status": "想看"
-   },
-   "玻璃之花与崩坏的世界": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3589/",
-      "status": "想看"
-   },
-   "南家三姐妹": {
-      "href": "https://www.bilibili.com/bangumi/play/ss620/",
-      "status": "想看"
-   },
-   "大神与七位伙伴": {
-      "href": "https://www.bilibili.com/bangumi/play/ss981/",
-      "status": "想看"
-   },
-   "擅长捉弄的高木同学 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28006/",
-      "status": "想看"
-   },
-   "Crane Game Girls": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3478/",
-      "status": "想看"
-   },
-   "刀剑乱舞-花丸-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5515/",
-      "status": "想看"
-   },
-   "ID-0": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5999/",
-      "status": "想看"
-   },
-   "花牌情缘": {
-      "href": "https://www.bilibili.com/bangumi/play/ss616/",
-      "status": "想看"
-   },
-   "好想告诉你 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss857/",
-      "status": "想看"
-   },
-   "GOSICK": {
-      "href": "https://www.bilibili.com/bangumi/play/ss856/",
-      "status": "想看"
-   },
-   "爱丽丝与藏六": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5995/",
-      "status": "想看"
-   },
-   "文学少女 剧场版": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3575/",
-      "status": "想看"
-   },
-   "忍者终结者 SE": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3456/",
-      "status": "想看"
-   },
-   "笨拙之极的上野": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26298/",
-      "status": "想看"
-   },
-   "高达创形者 再起": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28593/",
-      "status": "想看"
-   },
-   "雨色可可side G": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26294/",
-      "status": "想看"
-   },
-   "面包带来和平！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3460/",
-      "status": "想看"
-   },
-   "双星之阴阳师": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3462/",
-      "status": "想看"
-   },
-   "百武装战记": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3463/",
-      "status": "想看"
-   },
-   "GIVEN 被贈與的未來（僅限台灣地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28008/",
-      "status": "想看"
-   },
-   "SHOW BY ROCK!! 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5520/",
-      "status": "想看"
-   },
-   "WWW.迷糊餐厅": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5507/",
-      "status": "想看"
-   },
-   "食梦者": {
-      "href": "https://www.bilibili.com/bangumi/play/ss727/",
-      "status": "想看"
-   },
-   "花开伊吕波": {
-      "href": "https://www.bilibili.com/bangumi/play/ss845/",
-      "status": "想看"
-   },
-   "猫物语（黑）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss723/",
-      "status": "想看"
-   },
-   "传颂之物": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1388/",
-      "status": "想看"
-   },
-   "VENUS PROJECT -CLIMAX-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2599/",
-      "status": "想看"
-   },
-   "騷亂時節的少女們。（僅限台灣地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28022/",
-      "status": "想看"
-   },
-   "三者三叶": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3452/",
-      "status": "想看"
-   },
-   "雏子的笔记": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5993/",
-      "status": "想看"
-   },
-   "流汗吧！健身少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28013/",
-      "status": "想看"
-   },
-   "女高中生的虚度日常": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28016/",
-      "status": "想看"
-   },
-   "魔法少女☆伊莉雅（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28136/",
-      "status": "想看"
-   },
-   "那就是声优！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2588/",
-      "status": "想看"
-   },
-   "Classica Loid": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5521/",
-      "status": "想看"
-   },
-   "COP CRAFT": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28011/",
-      "status": "想看"
-   },
-   "噬神者": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2591/",
-      "status": "想看"
-   },
-   "鬼灯的冷彻": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3440/",
-      "status": "想看"
-   },
-   "彼方的阿斯特拉（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28017/",
-      "status": "想看"
-   },
-   "偶像大师 灰姑娘女孩 第2期": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2594/",
-      "status": "想看"
-   },
-   "覆面系 NOISE": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5981/",
-      "status": "想看"
-   },
-   "铁腕巴迪 DECODE": {
-      "href": "https://www.bilibili.com/bangumi/play/ss22958/",
-      "status": "想看"
-   },
-   "啾咪BABY 日语版": {
-      "href": "https://www.bilibili.com/bangumi/play/ss709/",
-      "status": "想看"
-   },
-   "绝园的暴风雨": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3786/",
-      "status": "想看"
-   },
-   "人类衰退之后": {
-      "href": "https://www.bilibili.com/bangumi/play/ss703/",
-      "status": "想看"
-   },
-   "魔法少女☆伊莉雅 2WEI HERZ!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2575/",
-      "status": "想看"
-   },
-   "百万偶像": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2577/",
-      "status": "想看"
-   },
-   "赤发白雪姬 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2578/",
-      "status": "想看"
-   },
-   "阿茹茉妮": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3673/",
-      "status": "想看"
-   },
-   "萤火之森": {
-      "href": "https://www.bilibili.com/bangumi/play/ss27042/",
-      "status": "想看"
-   },
-   "在盛夏等待": {
-      "href": "https://www.bilibili.com/bangumi/play/ss814/",
-      "status": "想看"
-   },
-   "笑面推销员NEW": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5951/",
-      "status": "想看"
-   },
-   "樱花大战 OVA5 纽约": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3410/",
-      "status": "想看"
-   },
-   "偶像大师": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2684/",
-      "status": "想看"
-   },
-   "樱花大战 剧场版 樱花大战活动写真": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3411/",
-      "status": "想看"
-   },
-   "Fate/stay night UNLIMITED BLADE WORKS ": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29006/",
-      "status": "想看"
-   },
-   "废弃公主": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3414/",
-      "status": "想看"
-   },
-   "田中君總是如此慵懶（僅限港澳台地區） ": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28032/",
-      "status": "想看"
-   },
-   "永生之酒": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1359/",
-      "status": "想看"
-   },
-   "东之伊甸": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2674/",
-      "status": "想看"
-   },
-   "逆转裁判": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3527/",
-      "status": "想看"
-   },
-   "全金属狂潮 Invisible Victory": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23852/",
-      "status": "想看"
-   },
-   "琴之森": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23851/",
-      "status": "想看"
-   },
-   "机神咆吼": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1473/",
-      "status": "想看"
-   },
-   "架向星空之桥": {
-      "href": "https://www.bilibili.com/bangumi/play/ss919/",
-      "status": "想看"
-   },
-   "A CHANNEL": {
-      "href": "https://www.bilibili.com/bangumi/play/ss915/",
-      "status": "想看"
-   },
-   "出租魔法使": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1332/",
-      "status": "想看"
-   },
-   "希德尼娅的骑士 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1576/",
-      "status": "想看"
-   },
-   "摸索吧！部活剧": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1578/",
-      "status": "想看"
-   },
-   "魔卡少女樱 CLEAR CARD篇": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21421/",
-      "status": "想看"
-   },
-   "多罗罗": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26146/",
-      "status": "在看"
-   },
-   "残次品": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26265/",
-      "status": "在看"
-   },
-   "异界群敌 代码重组": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28578/",
-      "status": "在看"
-   },
-   "我们无法一起学习": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26767/",
-      "status": "在看"
-   },
-   "水果篮子 (2019)": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26766/",
-      "status": "在看"
-   },
-   "One Room 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24572/",
-      "status": "在看"
-   },
-   "川柳少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26870/",
-      "status": "在看"
-   },
-   "八月的棒球甜心": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26775/",
-      "status": "在看"
-   },
-   "超时空要塞Δ": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3530/",
-      "status": "想看"
-   },
-   "无论何时我们的恋情都是10厘米。～告白实行委员会～": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6470/",
-      "status": "在看"
-   },
-   "天使的 three pieces!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6328/",
-      "status": "在看"
-   },
-   "恋爱研究所": {
-      "href": "https://www.bilibili.com/bangumi/play/ss451/",
-      "status": "在看"
-   },
-   "TRINITY SEVEN 七人魔法使 剧场版 2": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26927/",
-      "status": "在看"
-   },
-   "动画同好会": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6441/",
-      "status": "在看"
-   },
-   "徒然喜欢你": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6312/",
-      "status": "在看"
-   },
-   "強襲魔女 501部隊出動!（僅限台灣地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26941/",
-      "status": "在看"
-   },
-   "邻家索菲": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25619/",
-      "status": "在看"
-   },
-   "简单易懂的现代魔法": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3129/",
-      "status": "在看"
-   },
-   "粗点心战争": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3120/",
-      "status": "在看"
-   },
-   "滿腦都是○○的我沒辦法談戀愛（僅限台灣地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26953/",
-      "status": "在看"
-   },
-   "我们无法一起学习！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28590/",
-      "status": "在看"
-   },
-   "理科生坠入情网，故尝试证明。": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29110/",
-      "status": "在看"
-   },
-   "只要長得可愛，即使是變態你也喜歡嗎？（僅限台灣地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28015/",
-      "status": "在看"
-   },
-   "美妙射击部": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28621/",
-      "status": "在看"
-   },
-   "漫研部": {
-      "href": "https://www.bilibili.com/bangumi/play/ss7/",
-      "status": "在看"
-   },
-   "多田君不恋爱": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23859/",
-      "status": "在看"
-   },
-   "阿宅的恋爱真难": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23856/",
-      "status": "在看"
-   },
-   "白色相簿2": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3516/",
-      "status": "在看"
-   },
-   "Code Geass 亡国的阿基德": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1659/",
-      "status": "在看"
-   },
-   "命运石之门 负荷领域的既视感": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3467/",
-      "status": "看过"
-   },
-   "GAMERS电玩咖！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6340/",
-      "status": "看过"
-   },
-   "路人超能100 第一次灵能咨询所员工旅游～舒缓心灵的疗愈之旅~（OVA2）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28610/",
-      "status": "看过"
-   },
-   "冰海战记": {
-      "href": "https://www.bilibili.com/bangumi/play/ss27395/",
-      "status": "在看"
-   },
-   "妖精的尾巴 剧场版 凤凰巫女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4498/",
-      "status": "看过"
-   },
-   "在地下城寻求邂逅是否搞错了什么 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss27999/",
-      "status": "看过"
-   },
-   "传说中勇者的传说": {
-      "href": "https://www.bilibili.com/bangumi/play/ss984/",
-      "status": "看过"
-   },
-   "魔術學姐（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28019/",
-      "status": "在看"
-   },
-   "非枪人生": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28617/",
-      "status": "看过"
-   },
-   "吹响吧！上低音号～誓言的终章～": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28951/",
-      "status": "想看"
-   },
-   "实况主的逃脱游戏": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28000/",
-      "status": "看过"
-   },
-   "虚空魔境 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28622/",
-      "status": "想看"
-   },
-   "剑姬神圣谭  在地下城寻求邂逅是否搞错了什么 外传 ": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5980/",
-      "status": "看过"
-   },
-   "EVA 新世纪福音战士": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1635/",
-      "status": "在看"
-   },
-   "EVA 新世纪福音战士剧场版：Air / 真心为你": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1630/",
-      "status": "在看"
-   },
-   "EVA 新世纪福音战士剧场版：死与新生": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1637/",
-      "status": "看过"
-   },
-   "入间同学入魔了": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28638/",
-      "status": "看过"
-   },
-   "百变小樱": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3756/",
-      "status": "在看"
-   },
-   "爱书的下克上：为了成为图书管理员不择手段！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28546/",
-      "status": "想看"
-   },
-   "猎龙飞船": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29359/",
-      "status": "看过"
-   },
-   "平凡职业造就世界最强": {
-      "href": "https://www.bilibili.com/bangumi/play/ss27995/",
-      "status": "看过"
-   },
-   "最终幻想VII：降临之子": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4720/",
-      "status": "看过"
-   },
-   "命运-冠位指定 绝对魔兽战线 巴比伦尼亚": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28320/",
-      "status": "想看"
-   },
-   "花牌情缘 第三季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28584/",
-      "status": "想看"
-   },
-   "普通攻擊是全體二連擊，這樣的媽媽你喜歡嗎？（僅限台灣地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28003/",
-      "status": "在看"
-   },
-   "厨病激发男孩": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28624/",
-      "status": "在看"
-   },
-   "异度侵入 ID:INVADED": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29310/",
-      "status": "看过"
-   },
-   "因为太怕痛就全点防御力了": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29358/",
-      "status": "看过"
-   },
-   "地缚少年花子君": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29342/",
-      "status": "想看"
-   },
-   "神推偶像登上武道馆我就死而无憾": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29351/",
-      "status": "想看"
-   },
-   "魔法纪录 魔法少女小圆外传": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29076/",
-      "status": "想看"
-   },
-   "诸神的逆鳞": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28598/",
-      "status": "看过"
-   },
-   "攻壳机动队 STAND ALONE COMPLEX": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1564/",
-      "status": "在看"
-   },
-   "我的青春恋爱物语果然有问题。 第一季 OVA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3437/",
-      "status": "在看"
-   },
-   "梦幻之星 神谕篇": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28639/",
-      "status": "想看"
-   },
-   "钻石王牌 act II 后半": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28635/",
-      "status": "在看"
-   },
-   "命运石之门 境界面上的迷失之链": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3449/",
-      "status": "在看"
-   },
-   "FLIP FLAPPERS（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28055/",
-      "status": "在看"
-   },
-   "思维覆写": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29317/",
-      "status": "想看"
-   },
-   "恋爱小行星": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29350/",
-      "status": "想看"
-   },
-   "索玛丽与森林之神": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29334/",
-      "status": "想看"
-   },
-   "亚人酱有话要说 （僅限台灣地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26483/",
-      "status": "想看"
-   },
-   "哆啦A梦 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32777/",
-      "status": "想看"
-   },
-   "凉风": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1843/",
-      "status": "想看"
-   },
-   "灰与幻想的格林姆迦尔 ": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3103/",
-      "status": "想看"
-   },
-   "战斗吧歌姬！ 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25588/",
-      "status": "想看"
-   },
-   "热血少年": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4404/",
-      "status": "想看"
-   },
-   "万国志": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26189/",
-      "status": "想看"
-   },
-   "农林": {
-      "href": "https://www.bilibili.com/bangumi/play/ss249/",
-      "status": "想看"
-   },
-   "神的记事本": {
-      "href": "https://www.bilibili.com/bangumi/play/ss897/",
-      "status": "想看"
-   },
-   "分形世界": {
-      "href": "https://www.bilibili.com/bangumi/play/ss953/",
-      "status": "想看"
-   },
-   "Re：从零开始的异世界生活 新编集版": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29590/",
-      "status": "想看"
-   },
-   "暗黑破坏神在身边。": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29327/",
-      "status": "看过"
-   },
-   "刺客守则": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28543/",
-      "status": "看过"
-   },
-   "BanG Dream! 梦想协奏曲 第三季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29308/",
-      "status": "想看"
-   },
-   "齐木楠雄的灾难": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5069/",
-      "status": "看过"
-   },
-   "属性咖啡厅": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6432/",
-      "status": "看过"
-   },
-   "街角魔族": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28007/",
-      "status": "看过"
-   },
-   "LoveLive! Sunshine!! 学园偶像 电影 彩虹彼端": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33241/",
-      "status": "在看"
-   },
-   "无限系统树": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29333/",
-      "status": "看过"
-   },
-   "齐木楠雄的灾难 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21469/",
-      "status": "看过"
-   },
-   "齐木楠雄的灾难 完结篇": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26347/",
-      "status": "看过"
-   },
-   "齐木楠雄的灾难 始动篇": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29052/",
-      "status": "看过"
-   },
-   "奇异太郎少年的妖怪绘日记": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5556/",
-      "status": "看过"
-   },
-   "碧蓝航线": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28516/",
-      "status": "看过"
-   },
-   "某科学的一方通行": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28002/",
-      "status": "想看"
-   },
-   "路人女主的养成方法 ♭": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5971/",
-      "status": "看过"
-   },
-   "某科学的超电磁炮": {
-      "href": "https://www.bilibili.com/bangumi/play/ss425/",
-      "status": "看过"
-   },
-   "Re：从零开始的异世界生活 冰结之绊": {
-      "href": "https://www.bilibili.com/bangumi/play/ss31151/",
-      "status": "想看"
-   },
-   "地狱少女 二笼": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4880/",
-      "status": "在看"
-   },
-   "玉子爱情故事": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4155/",
-      "status": "想看"
-   },
-   "Fate/Grand Order ‐First Order‐": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5747/",
-      "status": "看过"
-   },
-   "如果能写小说就好了": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6440/",
-      "status": "看过"
-   },
-   "碧蓝之海": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24581/",
-      "status": "看过"
-   },
-   "CLANNAD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1177/",
-      "status": "在看"
-   },
-   "龙与虎": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1672/",
-      "status": "看过"
-   },
-   "魔法禁书目录 剧场版": {
-      "href": "https://www.bilibili.com/bangumi/play/ss965/",
-      "status": "看过"
-   },
-   "奇幻☆怪盗": {
-      "href": "https://www.bilibili.com/bangumi/play/ss30238/",
-      "status": "想看"
-   },
-   "怪盗圣少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2321/",
-      "status": "想看"
-   },
-   "旋风管家 CAN'T TAKE MY EYES OFF YOU": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4341/",
-      "status": "在看"
-   },
-   "旋风管家 Cuties": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4435/",
-      "status": "在看"
-   },
-   "Caligula 卡里古拉": {
-      "href": "https://www.bilibili.com/bangumi/play/ss23818/",
-      "status": "看过"
-   },
-   "俺物语！！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4197/",
-      "status": "在看"
-   },
-   "竞女（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28061/",
-      "status": "看过"
-   },
-   "ENDRO~!": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26275/",
-      "status": "在看"
-   },
-   "ReLIFE": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5012/",
-      "status": "在看"
-   },
-   "武装神姬 Moon Angel": {
-      "href": "https://www.bilibili.com/bangumi/play/ss740/",
-      "status": "看过"
-   },
-   "约定的梦幻岛": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26281/",
-      "status": "在看"
-   },
-   "球詠（僅限港澳台地区）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33109/",
-      "status": "想看"
-   },
-   "中二病也要谈恋爱！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4340/",
-      "status": "看过"
-   },
-   "乌龙派出所": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2299/",
-      "status": "想看"
-   },
-   "中二病也要谈恋爱！恋": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4349/",
-      "status": "看过"
-   },
-   "灼眼的夏娜 剧场版": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1609/",
-      "status": "看过"
-   },
-   "阿尔蒂": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33052/",
-      "status": "想看"
-   },
-   "迷家": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3451/",
-      "status": "看过"
-   },
-   "昨日之歌": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33006/",
-      "status": "在看"
-   },
-   "爱书的下克上：为了成为图书管理员不择手段！ 第二部": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33050/",
-      "status": "想看"
-   },
-   "灼眼的夏娜": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1600/",
-      "status": "在看"
-   },
-   "星掠者": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29339/",
-      "status": "在看"
-   },
-   "辉夜大小姐想让我告白？～天才们的恋爱头脑战～": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32982/",
-      "status": "在看"
-   },
-   "社长，战斗时间到！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33025/",
-      "status": "想看"
-   },
-   "Charlotte": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2572/",
-      "status": "看过"
-   },
-   "公主连结Re:Dive": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32963/",
-      "status": "看过"
-   },
-   "pop子和pipi美的日常": {
-      "href": "https://www.bilibili.com/bangumi/play/ss21719/",
-      "status": "在看"
-   },
-   "关于我转生变成史莱姆这档事": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25739/",
-      "status": "看过"
-   },
-   "聆听者 / LISTENERS": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32904/",
-      "status": "在看"
-   },
-   "转生成为了只有乙女游戏破灭Flag的邪恶大小姐": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33055/",
-      "status": "在看"
-   },
-   "八男？别闹了！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32818/",
-      "status": "看过"
-   },
-   "热风海陆BUSHIROAD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1653/",
-      "status": "看过"
-   },
-   "格莱普尼尔": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32956/",
-      "status": "在看"
-   },
-   "虚构推理": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29366/",
-      "status": "在看"
-   },
-   "游戏王 怪兽之决斗": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3054/",
-      "status": "想看"
-   },
-   "游☆戏☆王 5D's 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1717/",
-      "status": "想看"
-   },
-   "碧藍航線（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28673/",
-      "status": "看过"
-   },
-   "言叶之庭": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2546/",
-      "status": "看过"
-   },
-   "喜欢本大爷的竟然就你一个？": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28595/",
-      "status": "看过"
-   },
-   "22/7": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29109/",
-      "status": "想看"
-   },
-   "心之彼端2": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2888/",
-      "status": "在看"
-   },
-   "永不消失的彩虹": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1423/",
-      "status": "在看"
-   },
-   "歌舞伎町夏洛克": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28628/",
-      "status": "想看"
-   },
-   "水果篮子 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33046/",
-      "status": "想看"
-   },
-   "赛马娘四格": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33806/",
-      "status": "在看"
-   },
-   "放学后海堤日记": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33026/",
-      "status": "想看"
-   },
-   "非枪人生 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33021/",
-      "status": "想看"
-   },
-   "我的青春恋爱物语果然有问题。完": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32998/",
-      "status": "在看"
-   },
-   "女武神的餐桌 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33688/",
-      "status": "想看"
-   },
-   "不正经的魔术讲师与禁忌教典": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5987/",
-      "status": "看过"
-   },
-   "元龙": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26266/",
-      "status": "看过"
-   },
-   "高校之神（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33857/",
-      "status": "在看"
-   },
-   "若叶女孩": {
-      "href": "https://www.bilibili.com/bangumi/play/ss2590/",
-      "status": "想看"
-   },
-   "弩級戰隊H×EROS（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33868/",
-      "status": "在看"
-   },
-   "没落要塞 / DECA-DENCE": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33803/",
-      "status": "看过"
-   },
-   "熊熊勇闯异世界": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34410/",
-      "status": "在看"
-   },
-   "少女们向荒野进发 OVA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3780/",
-      "status": "看过"
-   },
-   "日常": {
-      "href": "https://www.bilibili.com/bangumi/play/ss844/",
-      "status": "看过"
-   },
-   "影之诗": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32916/",
-      "status": "想看"
-   },
-   "隐之王": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3220/",
-      "status": "在看"
-   },
-   "突击莉莉 BOUQUET": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34413/",
-      "status": "在看"
-   },
-   "催眠麦克风-Division Rap Battle- Rhyme Anima": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34437/",
-      "status": "在看"
-   },
-   "战翼的希格德莉法": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34434/",
-      "status": "在看"
-   },
-   "王之逆袭：意志的继承者": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34420/",
-      "status": "在看"
-   },
-   "池袋西口公园": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34414/",
-      "status": "在看"
-   },
-   "Love Live！虹咲学园学园偶像同好会": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34418/",
-      "status": "在看"
-   },
-   "甜梦猫": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33045/",
-      "status": "在看"
-   },
-   "成神之日": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34402/",
-      "status": "在看"
-   },
-   "你与我最后的战场，亦或是世界起始的圣战": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34404/",
-      "status": "在看"
-   },
-   "某科学的超电磁炮S": {
-      "href": "https://www.bilibili.com/bangumi/play/ss427/",
-      "status": "看过"
-   },
-   "无能力者娜娜": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34416/",
-      "status": "在看"
-   },
-   "政宗君的复仇": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34650/",
-      "status": "看过"
-   },
-   "魔王學院的不適任者～史上最強的魔王始祖，轉生就讀子孫們的學校～（僅限台灣地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33866/",
-      "status": "看过"
-   },
-   "白猫计划 零之纪元": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33022/",
-      "status": "在看"
-   },
-   "天真与闪电": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5029/",
-      "status": "在看"
-   },
-   "剑网3·侠肝义胆沈剑心第三季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34277/",
-      "status": "在看"
-   },
-   "Sends of Destruction": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1233/",
-      "status": "在看"
-   },
-   "雾山五行": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33323/",
-      "status": "在看"
-   },
-   "从前有座灵剑山": {
-      "href": "https://www.bilibili.com/bangumi/play/ss3042/",
-      "status": "看过"
-   },
-   "全职高手 第一季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5852/",
-      "status": "看过"
-   },
-   "全职高手 特别篇": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24049/",
-      "status": "在看"
-   },
-   "双恋 Alternative": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1938/",
-      "status": "在看"
-   },
-   "双恋": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1937/",
-      "status": "在看"
-   },
-   "青空下的约定": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1279/",
-      "status": "在看"
-   },
-   "心靈代碼 QUALIDEA CODE（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5052/",
-      "status": "在看"
-   },
-   "H2O 赤砂的印记": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1204/",
-      "status": "在看"
-   },
-   "魔法律事务所 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33809/",
-      "status": "在看"
-   },
-   "攻壳机动队": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1702/",
-      "status": "在看"
-   },
-   "食戟之靈 豪之皿（僅限港澳台地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33126/",
-      "status": "在看"
-   },
-   "宇崎学妹想要玩！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33800/",
-      "status": "在看"
-   },
-   "宝石幻想 光芒重现": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33807/",
-      "status": "在看"
-   },
-   "魔物娘的医生": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33804/",
-      "status": "在看"
-   },
-   "猎魔武士/GIBIATE": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33808/",
-      "status": "在看"
-   },
-   "Re：从零开始的异世界生活 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33802/",
-      "status": "在看"
-   },
-   "时之歌—花与焰的狂想诗": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26227/",
-      "status": "在看"
-   },
-   "食戟之灵 餐之皿": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6419/",
-      "status": "在看"
-   },
-   "繼怪怪守護神（僅限台灣地區）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33119/",
-      "status": "在看"
-   },
-   "苍翼默示录 Alter Memory": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4368/",
-      "status": "在看"
-   },
-   "在地下城寻求邂逅是否搞错了什么": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4191/",
-      "status": "在看"
-   },
-   "灵笼": {
-      "href": "https://www.bilibili.com/bangumi/play/ss22088/",
-      "status": "在看"
-   },
-   "变形少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6070/",
-      "status": "在看"
-   },
-   "One Room 第三季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34715/",
-      "status": "在看"
-   },
-   "在魔王城说晚安": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34407/",
-      "status": "在看"
-   },
-   "芯觉": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28768/",
-      "status": "在看"
-   },
-   "魔女之旅": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34412/",
-      "status": "在看"
-   },
-   "总之就是非常可爱": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34230/",
-      "status": "在看"
-   },
-   "炎炎消防队 贰之章": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33805/",
-      "status": "在看"
-   },
-   "咒术回战": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34430/",
-      "status": "在看"
-   },
-   "潘朵拉之心": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1073/",
-      "status": "在看"
-   },
-   "剑网3·侠肝义胆沈剑心之长漂": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34276/",
-      "status": "在看"
-   },
-   "请问您今天要来点兔子吗？BLOOM": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34415/",
-      "status": "在看"
-   },
-   "鬼灭之刃（中配）": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34004/",
-      "status": "看过"
-   },
-   "幻影少年": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1255/",
-      "status": "在看"
-   },
-   "攀岩少女！": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34424/",
-      "status": "在看"
-   },
-   "暗夜第六感": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1470/",
-      "status": "在看"
-   },
-   "僵尸借贷": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1371/",
-      "status": "在看"
-   },
-   "全员恶玉": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34411/",
-      "status": "在看"
-   },
-   "约战狂三外传": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34405/",
-      "status": "在看"
-   },
-   "路人女主的养成方法 Fine": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34394/",
-      "status": "在看"
-   },
-   "在地下城寻求邂逅是否搞错了什么 第三季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34401/",
-      "status": "在看"
-   },
-   "龙与魔女/BURN THE WITCH": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34432/",
-      "status": "在看"
-   },
-   "半妖的夜叉姬": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34431/",
-      "status": "在看"
-   },
-   "我立于百万生命之上": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34433/",
-      "status": "在看"
-   },
-   "樱与抱月": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34409/",
-      "status": "在看"
-   },
-   "来自深渊 深沉灵魂的黎明": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34543/",
-      "status": "看过"
-   },
-   "忧国的莫里亚蒂": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34408/",
-      "status": "在看"
-   },
-   "被神捡到的男人": {
-      "href": "https://www.bilibili.com/bangumi/play/ss34436/",
-      "status": "在看"
-   },
-   "忍者收藏": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33867/",
-      "status": "在看"
-   },
-   "伪恋 OAD": {
-      "href": "https://www.bilibili.com/bangumi/play/ss1575/",
-      "status": "看过"
-   },
-   "黑色四叶草": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6422/",
-      "status": "在看"
-   },
-   "某科学的超电磁炮T": {
-      "href": "https://www.bilibili.com/bangumi/play/ss29325/",
-      "status": "在看"
-   },
-   "刀剑神域 爱丽丝篇 异界战争 -终章-": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32781/",
-      "status": "看过"
-   },
-   "高达创形者 再起 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33060/",
-      "status": "想看"
-   },
-   "文豪与炼金术师 ～审判的齿轮～": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33051/",
-      "status": "想看"
-   },
-   "神之塔": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32974/",
-      "status": "看过"
-   },
-   "新樱花大战": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32908/",
-      "status": "想看"
-   },
-   "动物新世代 / BNA": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32905/",
-      "status": "想看"
-   },
-   "邪神与厨二病少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss24630/",
-      "status": "看过"
-   },
-   "刀剑神域 Extra Edition": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4239/",
-      "status": "看过"
-   },
-   "刀剑神域 爱丽丝篇 异界战争": {
-      "href": "https://www.bilibili.com/bangumi/play/ss28615/",
-      "status": "看过"
-   },
-   "刀剑神域 Alicization": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25510/",
-      "status": "看过"
-   },
-   "刀剑神域": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4452/",
-      "status": "看过"
-   },
-   "为美好的世界献上祝福！红传说": {
-      "href": "https://www.bilibili.com/bangumi/play/ss33290/",
-      "status": "看过"
-   },
-   "邪神与厨二病少女 第二季": {
-      "href": "https://www.bilibili.com/bangumi/play/ss32938/",
-      "status": "看过"
-   },
-   "地狱少女 三鼎": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4751/",
-      "status": "看过"
-   },
-   "地狱少女": {
-      "href": "https://www.bilibili.com/bangumi/play/ss4996/",
-      "status": "看过"
-   },
-   "小林家的龙女仆": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5800/",
-      "status": "看过"
-   },
-   "鬼灭之刃": {
-      "href": "https://www.bilibili.com/bangumi/play/ss26801/",
-      "status": "看过"
-   },
-   "终将成为你": {
-      "href": "https://www.bilibili.com/bangumi/play/ss25622/",
-      "status": "看过"
-   },
-   "笨女孩": {
-      "href": "https://www.bilibili.com/bangumi/play/ss6311/",
-      "status": "看过"
-   },
-   "月色真美": {
-      "href": "https://www.bilibili.com/bangumi/play/ss5989/",
-      "status": "看过"
+   "番剧数量": 846,
+   "data": {
+      "圣诞之吻SS": "在看",
+      "家庭教师HITMAN REBORN!": "在看",
+      "不思议美眉": "在看",
+      "RAIL WARS!-日本国有铁道公安队-": "在看",
+      "武装少女": "在看",
+      "今天开始做魔王 第一季": "在看",
+      "Infini-T Force": "在看",
+      "再造人卡辛": "在看",
+      "骇客时空": "在看",
+      "永远之久远": "在看",
+      "苍色骑士": "在看",
+      "翼神传说": "在看",
+      "Punch Line": "在看",
+      "终末的伊泽塔": "在看",
+      "体操武士": "在看",
+      "佐贺偶像是传奇 卷土重来": "在看",
+      "×××HOLiC": "在看",
+      "只有我不存在的城市": "在看",
+      "凡人修仙传": "在看",
+      "JOJO的奇妙冒险 不灭钻石": "在看",
+      "风灵玉秀": "在看",
+      "怪物事变": "在看",
+      "偶像荣耀/IDOLY PRIDE": "在看",
+      "只有我能进入的隐藏地下城": "在看",
+      "好比是最终迷宫前的少年到新手村生活一般的故事": "在看",
+      "剧偶像": "在看",
+      "奇蛋物语 / WONDER EGG PRIORITY": "在看",
+      "世界魔女出发！": "在看",
+      "魔术士欧菲流浪之旅 基姆拉克篇": "在看",
+      "装甲娘战机": "在看",
+      "苍之骑士团": "在看",
+      "我的女神": "在看",
+      "天地创造设计部": "在看",
+      "弱势角色友崎君": "在看",
+      "堀与宫村": "在看",
+      "工作细胞BLACK": "在看",
+      "怪病医拉姆尼": "在看",
+      "无限滑板 / SK8 the Infinity": "在看",
+      "转生成蜘蛛又怎样！": "在看",
+      "甜梦猫": "在看",
+      "半妖的夜叉姬": "在看",
+      "水果篮子 最终季": "在看",
+      "咒术回战": "在看",
+      "王之逆袭：意志的继承者": "在看",
+      "五等分的新娘∬": "在看",
+      "约定的梦幻岛 第二季": "在看",
+      "Ｄｒ．ＳＴＯＮＥ　石纪元  (第二季)": "在看",
+      "动物狂想曲 / BEASTARS 第二季": "在看",
+      "Re：从零开始的异世界生活 第二季 后半": "在看",
+      "记录的地平线 圆桌崩坏": "在看",
+      "愤怒的审判": "在看",
+      " 世界魔女出動！（僅限港澳台地區）": "在看",
+      "文豪野犬 汪！": "在看",
+      "关于我转生变成史莱姆这档事 第二季": "在看",
+      "黑色四叶草": "在看",
+      "影之诗": "想看",
+      "碧蓝航线：微速前行！": "在看",
+      "赛马娘 第二季": "在看",
+      "悠哉日常大王 第三季": "在看",
+      "工作细胞 第二季": "在看",
+      "剑网3·侠肝义胆沈剑心之长漂": "在看",
+      "岸边露伴 一动也不动": "在看",
+      "失憶融合WIXOSS（僅限港澳台地區）": "想看",
+      "献给某飞行员的恋歌": "想看",
+      "芯觉": "在看",
+      "无能力者娜娜": "在看",
+      "成神之日": "在看",
+      "战翼的希格德莉法": "在看",
+      "Love Live！虹咲学园学园偶像同好会": "在看",
+      "请问您今天要来点兔子吗？BLOOM": "在看",
+      "催眠麦克风-Division Rap Battle- Rhyme Anima": "在看",
+      "突击莉莉 BOUQUET": "在看",
+      "全员恶玉": "在看",
+      "你与我最后的战场，亦或是世界起始的圣战": "在看",
+      "熊熊勇闯异世界": "在看",
+      "池袋西口公园": "在看",
+      "在魔王城说晚安": "在看",
+      "One Room 第三季": "在看",
+      "被神捡到的男人": "在看",
+      "忧国的莫里亚蒂": "在看",
+      "约战狂三外传": "在看",
+      "攀岩少女！": "在看",
+      "鬼灭之刃（中配）": "看过",
+      "在地下城寻求邂逅是否搞错了什么 第三季": "在看",
+      "总之就是非常可爱": "在看",
+      "我立于百万生命之上": "在看",
+      "魔女之旅": "在看",
+      "炎炎消防队 贰之章": "在看",
+      " 剧场版 BEM BECOME HUMAN": "在看",
+      "龙与虎": "看过",
+      "Love Live! 学园偶像 电影": "在看",
+      "关于我转生变成史莱姆这档事": "看过",
+      "元龙 第二季": "在看",
+      "罗小黑战记": "想看",
+      "我的青春恋爱物语果然有问题 续 OVA": "在看",
+      "我的青春恋爱物语果然有问题。续": "在看",
+      "我的青春恋爱物语果然有问题。完": "看过",
+      "Hand Shakers": "看过",
+      "我的青春恋爱物语果然有问题。": "看过",
+      "狗与剪刀的正确用法": "看过",
+      "神不在的星期天": "看过",
+      "天降之物Final 我永远的鸟笼": "看过",
+      "魔笛MAGI": "看过",
+      "干物妹！小埋 OVA": "看过",
+      "异界少女召唤术": "看过",
+      "魔法少女 俺": "看过",
+      "戒律的复活": "看过",
+      "未来都市No.6 ": "看过",
+      "OVERLORD Ⅱ SP": "看过",
+      "天使特警": "想看",
+      "圣诞之吻SS+ SP": "想看",
+      "Code Geass 亡国的阿基德": "看过",
+      "EVA 新世纪福音战士": "看过",
+      "百变小樱": "想看",
+      "命运石之门 境界面上的迷失之链": "看过",
+      "普通攻擊是全體二連擊，這樣的媽媽你喜歡嗎？（僅限台灣地區）": "看过",
+      "厨病激发男孩": "想看",
+      "我的青春恋爱物语果然有问题。 第一季 OVA": "看过",
+      "钻石王牌 act II 后半": "想看",
+      "FLIP FLAPPERS（僅限港澳台地區）": "想看",
+      "pop子和pipi美的日常": "看过",
+      "刀剑神域 爱丽丝篇 异界战争 -终章-": "在看",
+      "在地下城寻求邂逅是否搞错了什么": "看过",
+      "高校之神（僅限港澳台地區）": "看过",
+      "辉夜大小姐想让我告白～天才们的恋爱头脑战～": "看过",
+      "城下町的蒲公英": "看过",
+      "伪恋：": "看过",
+      "在下坂本，有何贵干？": "看过",
+      "骑士&魔法": "看过",
+      "青春猪头少年不会梦到兔女郎学姐": "看过",
+      "OVERLORD Ⅲ": "看过",
+      "OVERLORD Ⅱ": "看过",
+      "Re：创造主": "看过",
+      "路人超能100 II(灵能百分百 第二季)": "看过",
+      "约会大作战 第三季": "看过",
+      "約會大作戰 第二季 （僅限港澳台地區）": "看过",
+      "约会大作战": "看过",
+      "魔法禁书目录 第二季": "看过",
+      "魔法禁书目录 第一季": "看过",
+      "路人超能100(灵能百分百)": "看过",
+      "发条精灵战记 天镜的极北之星": "看过",
+      "黑色残骸": "看过",
+      "Ange Vierge": "看过",
+      "KEMURIKUSA": "看过",
+      "盾之勇者成名录": "看过",
+      "加速世界 OVA1 银翼的觉醒": "看过",
+      "OVERLORD": "看过",
+      "学生会的一己之见": "看过",
+      "学生会的一己之见 Lv.2": "看过",
+      "终结的炽天使 名古屋决战篇": "看过",
+      "终结的炽天使": "看过",
+      "人形电脑天使心": "看过",
+      "钢之炼金术师": "看过",
+      "真月谭月姬": "看过",
+      "零之使魔 双月骑士": "看过",
+      "零之使魔F": "看过",
+      "零之使魔～三美姬的轮舞～OVA": "看过",
+      "秒速五厘米": "看过",
+      "DARKER THAN BLACK -黑之契约者-": "看过",
+      "DARKER THAN BLACK -流星的双子-": "看过",
+      "来自新世界": "看过",
+      "野良神": "看过",
+      "男子高中生的日常": "看过",
+      "我女友与青梅竹马的惨烈修罗场": "看过",
+      "Love Live! School Idol Project": "看过",
+      "Love Live! School Idol Project（第二季）": "看过",
+      "剧场版 中二病也要谈恋爱！ -Take On Me-": "看过",
+      "问题儿童都来自异世界？": "看过",
+      "问题儿童都来自异世界？ OVA 温泉漫游记": "看过",
+      "笨蛋，测验，召唤兽": "看过",
+      "笨蛋，测验，召唤兽2": "看过",
+      "魔法少女小圆": "看过",
+      "魔王勇者": "看过",
+      "龙之界点": "看过",
+      "魔法战争": "看过",
+      "零之使魔": "看过",
+      "中二病也要谈恋爱！恋 Lite": "看过",
+      "笨蛋，测验，召唤兽  OVA": "看过",
+      "DARKER THAN BLACK -黑之契约者- 外传": "看过",
+      "战姬绝唱SYMPHOGEAR": "看过",
+      "战姬绝唱SYMPHOGEAR G": "看过",
+      "Little Busters! EX": "看过",
+      "Little Busters! ～Refrain～": "看过",
+      "Little Busters!": "看过",
+      "加速世界 OVA2 加速的顶点": "看过",
+      "加速世界 Infinite Burst": "看过",
+      "少女与战车": "看过",
+      "我们仍未知道那天所看见的花的名字。": "看过",
+      "我们仍未知道那天所看见的花的名字。 剧场版": "看过",
+      "冰菓": "看过",
+      "快要坏掉的八音盒": "看过",
+      "约会大作战 万由里裁决": "看过",
+      "Angel Beats!": "看过",
+      "打工吧！魔王大人": "看过",
+      "变态王子与不笑猫": "在看",
+      "请问您今天要来点兔子吗？": "看过",
+      "漆黑的子弹": "看过",
+      "绯弹的亚里亚": "看过",
+      "绯弹的亚里亚 AA": "看过",
+      "绯弹的亚里亚 第一季 OVA": "看过",
+      "散华礼弥": "看过",
+      "加速世界": "看过",
+      "我的妹妹不可能那么可爱 第二季": "看过",
+      "电波女与青春男": "看过",
+      "荒川爆笑团": "看过",
+      "荒川爆笑团2": "看过",
+      "尽管如此世界依然美丽": "看过",
+      "龙娘七七七埋藏的宝藏": "看过",
+      "如果她的旗帜被折断了": "看过",
+      "翠星之加尔刚蒂亚": "看过",
+      "月刊少女野崎君": "看过",
+      "幻想嘉年华": "看过",
+      "幻想嘉年华 EX Season": "看过",
+      "幻想嘉年华 Special Season": "看过",
+      "弹丸论破": "看过",
+      "恋爱随意链接": "看过",
+      "我的妹妹不可能那么可爱 第一季": "看过",
+      "三坪房间的侵略者！": "看过",
+      "境界线上的地平线": "看过",
+      "+TIC模型姐妹": "看过",
+      "Code Geass 反叛的鲁路修 娜娜莉梦游仙境": "看过",
+      "四月是你的谎言": "看过",
+      "罪恶王冠": "看过",
+      "罪恶王冠 失落的圣诞节 an episode of port town": "看过",
+      "Fate/Zero 第一季": "看过",
+      "Fate/Zero 第二季": "看过",
+      "樱花庄的宠物女孩": "看过",
+      "超次元游戏 海王星": "看过",
+      "斩服少女": "看过",
+      "记录的地平线": "看过",
+      "记录的地平线 第二季": "看过",
+      "大图书馆的牧羊人": "看过",
+      "晨曦公主": "看过",
+      "晨曦公主 OAD": "看过",
+      "寻找失去的未来": "看过",
+      "便·当": "看过",
+      "魔笛MAGI 第二季": "看过",
+      "魔笛MAGI 辛巴达的冒险": "看过",
+      "我的朋友很少 OAD": "看过",
+      "甘城光辉游乐园": "看过",
+      "结城友奈是勇者": "看过",
+      "结城友奈是勇者 鹫尾须美之章&勇者之章": "看过",
+      "结城友奈是勇者 -鹫尾须美之章-": "看过",
+      "核爆默示录": "看过",
+      "野良神 OAD": "看过",
+      "野良神 ARAGOTO OAD": "看过",
+      "落第骑士英雄谭": "看过",
+      "学战都市Asterisk": "看过",
+      "学战都市Asterisk 第二季": "看过",
+      "对魔导学园35试验小队": "看过",
+      "干物妹！小埋": "看过",
+      "干物妹！小埋R": "看过",
+      "心灵想要大声呼喊": "看过",
+      "武装神姬": "看过",
+      "新妹魔王的契約者  BURST（僅限港澳台）": "看过",
+      "沒有黃段子的無聊世界（僅限港澳台地區）": "看过",
+      "学园孤岛": "看过",
+      "空战魔导士候补生的教官": "看过",
+      "可塑性记忆": "看过",
+      "灰色的迷宫": "看过",
+      "路人女主的养成方法": "看过",
+      "山田君与7人魔女 OAD": "看过",
+      "热诚传说～导师的黎明～": "看过",
+      "热诚传说 第二季": "看过",
+      "热诚传说X": "看过",
+      "苍之彼方的四重奏": "看过",
+      "少女们向荒野进发": "看过",
+      "舞武器舞乱伎": "看过",
+      "新妹魔王的契約者（僅限港澳台）": "看过",
+      "黑白来看守所 第二季": "看过",
+      "黑白来看守所": "看过",
+      "CHAOS;CHILD": "看过",
+      "超级弹丸论破2.5 狛枝凪斗与世界的破坏者": "看过",
+      "弹丸论破3 -绝望篇-": "看过",
+      "政宗君的复仇（僅限港澳台地區）": "看过",
+      "埃罗芒阿老师": "看过",
+      "从零开始的魔法书": "看过",
+      "时钟机关之星": "看过",
+      "樱花任务": "看过",
+      "春宵苦短，少女前进吧": "看过",
+      "机甲少女 FRAME ARMS GIRL": "看过",
+      "宣告黎明的露之歌": "看过",
+      "URARA迷路帖": "看过",
+      "Fate/Apocrypha": "看过",
+      "异世界食堂": "看过",
+      "NEW GAME!!": "看过",
+      "NEW GAME!": "看过",
+      "NEW GAME! OVA": "看过",
+      "少女终末旅行": "看过",
+      "十二大战": "看过",
+      "URAHARA": "看过",
+      "书店里的骷髅店员本田": "看过",
+      "Angels of Death": "看过",
+      "ISLAND ": "看过",
+      "百炼霸王与圣约女武神": "看过",
+      "欢迎来到实力至上主义的教室": "看过",
+      "超能力女儿": "看过",
+      "装甲重拳/MEGALOBOX": "看过",
+      "刀使巫女": "看过",
+      "紫罗兰永恒花园": "看过",
+      "龙王的工作！": "看过",
+      "刻刻": "看过",
+      "博多豚骨拉面团": "看过",
+      "DARLING in the FRANXX（僅限港澳台地區）": "看过",
+      "revisions": "看过",
+      "W'Z": "看过",
+      "青之驱魔师": "看过",
+      "青之驱魔师 剧场版": "看过",
+      "搖曳莊的幽奈小姐（僅限港澳台地區）": "看过",
+      "幻镜诺德琳": "看过",
+      "尸者的帝国": "看过",
+      "天元突破 红莲螺岩 剧场版": "看过",
+      "黑之宣告": "看过",
+      "钢之炼金术师 FULLMETAL ALCHEMIST": "看过",
+      "天元突破红莲螺岩": "看过",
+      "颠倒的帕特玛": "看过",
+      "[C]THE MONEY OF SOUL AND POSSIBILITY CONTROL": "看过",
+      "消灭都市": "看过",
+      "格林笔记 The Animation": "看过",
+      "天使之卵": "看过",
+      "魔弹之王与战姬": "看过",
+      "青之驱魔师 OAD": "看过",
+      "RobiHachi": "看过",
+      "妖精森林的小不点": "看过",
+      "五等分的新娘": "看过",
+      "天使降临到我身边": "看过",
+      "在世界尽头咏唱恋曲的少女YU-NO": "在看",
+      "不吉波普不笑": "看过",
+      "Fate/stay night [Unlimited Blade Works] 第一季": "看过",
+      "Fate/stay night [Unlimited Blade Works] 第二季": "看过",
+      "为美好的世界献上祝福！ 第二季 （僅限港澳台地區）": "看过",
+      "幼女戰記（僅限港澳台地區）": "看过",
+      "君主·埃尔梅罗二世事件簿 魔眼收集列车 Grace note": "看过",
+      "来自风平浪静的明天": "看过",
+      "Re：从零开始的异世界生活": "看过",
+      "猎兽神兵": "看过",
+      "勿忘蛛": "看过",
+      "少女编号": "看过",
+      "魔法少女小圆 剧场版 [新篇] 叛逆的物语": "看过",
+      "云之彼端，约定的地方": "看过",
+      "穿越时空的少女": "看过",
+      "四月是你的谎言 OAD": "看过",
+      "弹丸论破3 -未来篇-": "看过",
+      "超自然9人组": "看过",
+      "野良神 ARAGOTO": "看过",
+      "珈百璃的堕落": "看过",
+      "青春猪头少年不会梦到怀梦美少女": "看过",
+      "樱子小姐的脚下埋着秘密": "看过",
+      "Ｄｒ．ＳＴＯＮＥ 石纪元": "看过",
+      "OVERLORD OAD": "看过",
+      "重来吧，魔王大人！": "看过",
+      "OVERLORD Ⅲ SP": "看过",
+      "剧场版总集篇 OVERLORD 不死者之王": "看过",
+      "剧场版总集篇 OVERLORD 漆黑的英雄": "看过",
+      "NO GAME NO LIFE 游戏人生": "看过",
+      "这个勇者明明超强却过分慎重": "看过",
+      "她与她的猫": "看过",
+      "星之声": "看过",
+      "梦幻之星online2": "看过",
+      "兽娘动物园": "看过",
+      "超人高中生们即便在异世界也能从容生存！": "看过",
+      "我，不是说了能力要平均值么！": "看过",
+      "你遭難了嗎？（僅限港澳台地區）": "看过",
+      "贤者之孙": "看过",
+      "OVERLORD SP": "看过",
+      "伪恋": "看过",
+      "滑头鬼之孙": "看过",
+      "滑头鬼之孙 第二季": "看过",
+      "高分少女 第二季": "看过",
+      "快盗天使双胞胎": "想看",
+      "亡念之扎姆德": "想看",
+      "BanG Dream! 梦想协奏曲 电影演唱会": "想看",
+      "一周的朋友。": "想看",
+      "叛逆性百万亚瑟王 第二季": "想看",
+      "文豪野犬 第三季": "想看",
+      "轻羽飞扬！": "想看",
+      "电器街的漫画店": "想看",
+      "工作细胞": "想看",
+      "CAROLE & TUESDAY": "想看",
+      "吹响吧！上低音号～欢迎来到北宇治高中吹奏乐部～": "想看",
+      "YU-NO 在這世界盡頭詠唱愛的少女（僅限港澳台地區）": "想看",
+      "CANNON BUSTERS ": "想看",
+      "梅露可物语 : 无精打采的少年与瓶中少女": "想看",
+      "弦音 -风舞高中弓道部-": "想看",
+      "只要贝尔哲布布大小姐喜欢就好": "想看",
+      "JOJO的奇妙冒险 黄金之风": "想看",
+      "MIX": "想看",
+      "吹响吧！上低音号～想要传达的旋律～": "想看",
+      "深夜的超自然公务员": "想看",
+      "JOJO的奇妙冒险  星尘远征军": "想看",
+      "姐姐来了": "想看",
+      "吹响吧！上低音号 第二季": "想看",
+      "地狱少女 宵伽": "想看",
+      "前进吧！登山少女 第三季": "想看",
+      "人马少女的烦恼": "想看",
+      "棺姬嘉依卡（僅限港澳台地區）": "想看",
+      "头文字D Second Stage": "想看",
+      "魔法学园MA": "想看",
+      "少女☆歌剧 Revue Starlight": "想看",
+      "天狼 Sirius the Jaeger": "想看",
+      "历物语": "想看",
+      "画江湖之不良人 第二季": "想看",
+      "玉子市场": "想看",
+      "Just Because!": "想看",
+      "战斗女子高校": "想看",
+      "此花亭奇谭": "想看",
+      "昴宿七星": "想看",
+      "Fate/kaleid liner 魔法少女☆伊莉雅：雪下的誓言": "想看",
+      "Love Live! Sunshine!! 第二季": "想看",
+      "宝石之国": "想看",
+      "UQ HOLDER！悠久持有者！": "想看",
+      "魔偶马戏团": "想看",
+      "空罐少女": "想看",
+      "普通女高中生要做当地偶像": "想看",
+      "魔法禁书目录 第三季": "想看",
+      "苍穹之法芙娜EXODUS": "想看",
+      "归宅部活动记录": "想看",
+      "樱花大战 OVA1 樱华绚烂": "想看",
+      "公主恋人！": "想看",
+      "叛逆性百万亚瑟王": "想看",
+      "十二国记": "想看",
+      "虫奉行OVA": "想看",
+      "一个人的〇〇小日子": "想看",
+      "樱花大战 TV版": "想看",
+      "JOJO的奇妙冒险": "想看",
+      "JOJO的奇妙冒险 星尘远征军 埃及篇": "想看",
+      "魔法少女什么的已经够了啦。": "想看",
+      "凉宫春日的忧郁 2006": "想看",
+      "房东青春期！": "想看",
+      "告訴我！辣妹子醬（僅限港澳台地區）": "想看",
+      "悠久之翼": "想看",
+      "ANIMAYELL!": "想看",
+      "乃木坂春香的秘密": "想看",
+      "强风吹拂": "想看",
+      "音乐少女": "想看",
+      "魔法少女小圆 剧场版 [后篇] 永远的物语": "想看",
+      "魔法少女小圆 剧场版 [前篇] 起始的物语": "想看",
+      "轻音少女 第一季": "想看",
+      "幸运星": "想看",
+      "地球防卫少年": "想看",
+      "偶像大师 XENOGLOSSIA": "想看",
+      "爱吃拉面的小泉同学": "想看",
+      "小鸠": "想看",
+      "小木乃伊到我家": "想看",
+      "牙狼 -炎之刻印-": "想看",
+      "海物语": "想看",
+      "重神机潘多拉": "想看",
+      "濑户的花嫁": "想看",
+      "英雄时代": "想看",
+      "境界的彼方": "想看",
+      "革命机Valvrave": "想看",
+      "比宇宙更远的地方": "想看",
+      "苍色骑士（中文）": "想看",
+      "敦君与女朋友": "想看",
+      "赛马娘": "想看",
+      "无限的未知": "想看",
+      "虫孽": "想看",
+      "魔法使的注意事项": "想看",
+      "Comic Girls": "想看",
+      "黑神": "想看",
+      "请问您今天要来点兔子吗？？～Dear My Sister～": "想看",
+      "恶魔战线": "想看",
+      "三颗星彩色冒险": "想看",
+      "牙狼 -红莲之月-": "想看",
+      "Fate/kaleid liner 魔法少女☆伊莉雅 Prisma☆Phantasm": "想看",
+      "魔女的使命 OVA": "想看",
+      "绝对防卫利维坦": "想看",
+      "食戟之灵": "想看",
+      "请问您今天要来点兔子吗？？": "想看",
+      "幻界战线": "想看",
+      "贫穷姐妹物语": "想看",
+      "给你做饭了！": "想看",
+      "长门有希酱的消失": "想看",
+      "动物狂想曲 / BEASTARS": "想看",
+      "黑岩射手 / BLACK★ROCK SHOOTER": "想看",
+      "吹响吧！上低音号": "想看",
+      "戰×戀（僅限港澳台地區）": "想看",
+      "快盗天使TWIN ANGEL": "想看",
+      "终物语": "想看",
+      "重装武器": "想看",
+      "关于完全听不懂老公在说什么的事 第一季": "想看",
+      "环战公主 CIRCLET PRINCESS": "想看",
+      "关于完全听不懂老公在说什么的事 第二季": "想看",
+      "小森同学拒绝不了！": "想看",
+      "无头骑士异闻录": "想看",
+      "魔法少女奈叶": "想看",
+      "夏目友人帐": "想看",
+      "琴之森 第二季": "想看",
+      "DOG DAYS": "想看",
+      "苍穹之法芙娜": "想看",
+      "偶像大师 灰姑娘女孩": "想看",
+      "同居人是猫": "想看",
+      "放学后桌游俱乐部": "想看",
+      "极上学生会": "想看",
+      "VIVIDRED OPERATION": "想看",
+      "星舰驾驶员": "想看",
+      "玛纳利亚的密友（Mysteria Friends）/巴哈姆特之怒/玛娜利亚魔法学院": "想看",
+      "异度传说": "想看",
+      "Under The Dog": "想看",
+      "迷你偶像 2期": "想看",
+      "出云战记": "想看",
+      "灼眼的夏娜II -Second-": "想看",
+      "后街女孩": "想看",
+      "炎炎消防队": "想看",
+      "武器种族传说": "想看",
+      "被狙击的学园": "想看",
+      "剑风传奇 新作（僅限台湾地區）": "想看",
+      "真实之泪": "想看",
+      "AIR": "想看",
+      "Love Live! Sunshine!!": "想看",
+      "魔法少女☆伊莉雅 3REI!!": "想看",
+      "时间旅行少女": "想看",
+      "Fate/stay night  06版": "想看",
+      "BEM": "想看",
+      "不愉快的怪物庵 续": "想看",
+      "BanG Dream! 第二季": "想看",
+      "偶像梦幻祭": "想看",
+      "OZMAFIA!!": "想看",
+      "Regalia 三圣星": "想看",
+      "笑对阴天": "想看",
+      "剑网3·侠肝义胆沈剑心": "想看",
+      "天体的秩序": "想看",
+      "驱魔少年 HALLOW": "想看",
+      "小桃小栗Love Love物语": "想看",
+      "夜樱四重奏": "想看",
+      "募恋英雄": "想看",
+      "巴哈姆特之怒 GENESIS": "想看",
+      "亚尔斯兰战记 风尘乱舞": "想看",
+      "Rewrite": "想看",
+      "青春纪行 / 金色时光": "想看",
+      "写真女友": "想看",
+      "LOST SONG 失落的歌谣": "想看",
+      "女神异闻录5 动画版": "想看",
+      "東京暗鴉（僅限港澳台地區）": "想看",
+      "请问您今天要来点兔子吗？？～Sing for You～": "想看",
+      "星梦手记": "想看",
+      "红伤骑士X": "想看",
+      "魔法使的新娘（僅限台灣地區）": "想看",
+      "邻座的怪同学": "想看",
+      "K": "想看",
+      "黄金拼图": "想看",
+      "Wake Up, Girls! 新章": "想看",
+      "剧场版 快要坏掉的八音盒": "想看",
+      "交响诗篇 第一季": "想看",
+      "ReLIFE 完结篇": "想看",
+      "Re：从零开始的异世界生活 Memory Snow(雪之回忆)": "想看",
+      "Fate/EXTRA Last Encore": "想看",
+      "悠哉日常大王 Repeat OAD": "想看",
+      "不愉快的怪物庵": "想看",
+      "One Room": "想看",
+      "女神异闻录5 -THE DAY BREAKERS-": "想看",
+      "Anne Happy": "想看",
+      "D·N·A² ~他到底失去了什么？~": "想看",
+      "偶像选举": "想看",
+      "偶像大师 闪耀祭典": "想看",
+      "猫咪日常": "想看",
+      "漫画少女": "想看",
+      "无口的森田小姐": "想看",
+      "蔷薇少女": "想看",
+      "科学小飞侠Crowds": "想看",
+      "神装少女小缠": "想看",
+      "现视研1": "想看",
+      "GJ部": "想看",
+      "玉响～hitotose～": "想看",
+      "初音岛": "想看",
+      "TARI TARI": "想看",
+      "最终兵器彼女": "想看",
+      "TRICKSTER": "想看",
+      "夏日大作战": "想看",
+      "锁链战记 赫克瑟塔斯之光": "想看",
+      "3月的狮子": "想看",
+      "迷糊餐厅 WORKING’!!": "想看",
+      "奇诺之旅（2017）": "想看",
+      "Concrete Revolutio 超人幻想 第二季": "想看",
+      "丹特丽安的书架": "想看",
+      "玻璃之花与崩坏的世界": "想看",
+      "南家三姐妹": "想看",
+      "大神与七位伙伴": "想看",
+      "擅长捉弄的高木同学 第二季": "想看",
+      "Crane Game Girls": "想看",
+      "刀剑乱舞-花丸-": "想看",
+      "ID-0": "想看",
+      "花牌情缘": "想看",
+      "好想告诉你 第一季": "想看",
+      "GOSICK": "想看",
+      "爱丽丝与藏六": "想看",
+      "文学少女 剧场版": "想看",
+      "忍者终结者 SE": "想看",
+      "笨拙之极的上野": "想看",
+      "高达创形者 再起": "想看",
+      "雨色可可side G": "想看",
+      "面包带来和平！": "想看",
+      "双星之阴阳师": "想看",
+      "百武装战记": "想看",
+      "GIVEN 被贈與的未來（僅限台灣地區）": "想看",
+      "SHOW BY ROCK!! 第二季": "想看",
+      "WWW.迷糊餐厅": "想看",
+      "食梦者": "想看",
+      "花开伊吕波": "想看",
+      "传颂之物": "想看",
+      "VENUS PROJECT -CLIMAX-": "想看",
+      "騷亂時節的少女們。（僅限台灣地區）": "想看",
+      "三者三叶": "想看",
+      "雏子的笔记": "想看",
+      "流汗吧！健身少女": "想看",
+      "女高中生的虚度日常": "想看",
+      "魔法少女☆伊莉雅（僅限港澳台地區）": "想看",
+      "那就是声优！": "想看",
+      "Classica Loid": "想看",
+      "COP CRAFT": "想看",
+      "噬神者": "想看",
+      "鬼灯的冷彻": "想看",
+      "彼方的阿斯特拉（僅限港澳台地區）": "想看",
+      "偶像大师 灰姑娘女孩 第2期": "想看",
+      "覆面系 NOISE": "想看",
+      "铁腕巴迪 DECODE": "想看",
+      "啾咪BABY 日语版": "想看",
+      "绝园的暴风雨": "想看",
+      "人类衰退之后": "想看",
+      "百万偶像": "想看",
+      "赤发白雪姬 第一季": "想看",
+      "阿茹茉妮": "想看",
+      "萤火之森": "想看",
+      "在盛夏等待": "想看",
+      "笑面推销员NEW": "想看",
+      "樱花大战 OVA5 纽约": "想看",
+      "偶像大师": "想看",
+      "樱花大战 剧场版 樱花大战活动写真": "想看",
+      "Fate/stay night UNLIMITED BLADE WORKS ": "想看",
+      "废弃公主": "想看",
+      "田中君總是如此慵懶（僅限港澳台地區） ": "想看",
+      "永生之酒": "想看",
+      "东之伊甸": "想看",
+      "逆转裁判": "想看",
+      "全金属狂潮 Invisible Victory": "想看",
+      "琴之森": "想看",
+      "机神咆吼": "想看",
+      "架向星空之桥": "想看",
+      "A CHANNEL": "想看",
+      "出租魔法使": "想看",
+      "希德尼娅的骑士 第一季": "想看",
+      "摸索吧！部活剧": "想看",
+      "魔卡少女樱 CLEAR CARD篇": "想看",
+      "多罗罗": "在看",
+      "残次品": "在看",
+      "异界群敌 代码重组": "在看",
+      "我们无法一起学习": "在看",
+      "水果篮子 (2019)": "在看",
+      "One Room 第二季": "在看",
+      "川柳少女": "在看",
+      "八月的棒球甜心": "在看",
+      "超时空要塞Δ": "想看",
+      "无论何时我们的恋情都是10厘米。～告白实行委员会～": "在看",
+      "恋爱研究所": "在看",
+      "TRINITY SEVEN 七人魔法使 剧场版 2": "在看",
+      "动画同好会": "在看",
+      "徒然喜欢你": "在看",
+      "強襲魔女 501部隊出動!（僅限台灣地區）": "在看",
+      "邻家索菲": "在看",
+      "简单易懂的现代魔法": "在看",
+      "粗点心战争": "在看",
+      "滿腦都是○○的我沒辦法談戀愛（僅限台灣地區）": "在看",
+      "我们无法一起学习！": "在看",
+      "理科生坠入情网，故尝试证明。": "在看",
+      "只要長得可愛，即使是變態你也喜歡嗎？（僅限台灣地區）": "在看",
+      "美妙射击部": "在看",
+      "漫研部": "在看",
+      "多田君不恋爱": "在看",
+      "阿宅的恋爱真难": "在看",
+      "命运石之门 负荷领域的既视感": "看过",
+      "GAMERS电玩咖！": "看过",
+      "路人超能100 第一次灵能咨询所员工旅游～舒缓心灵的疗愈之旅~（OVA2）": "看过",
+      "冰海战记": "在看",
+      "妖精的尾巴 剧场版 凤凰巫女": "看过",
+      "在地下城寻求邂逅是否搞错了什么 第二季": "看过",
+      "传说中勇者的传说": "看过",
+      "魔術學姐（僅限港澳台地區）": "在看",
+      "非枪人生": "看过",
+      "吹响吧！上低音号～誓言的终章～": "想看",
+      "实况主的逃脱游戏": "看过",
+      "虚空魔境 第二季": "想看",
+      "剑姬神圣谭  在地下城寻求邂逅是否搞错了什么 外传 ": "看过",
+      "EVA 新世纪福音战士剧场版：Air / 真心为你": "在看",
+      "EVA 新世纪福音战士剧场版：死与新生": "看过",
+      "入间同学入魔了": "看过",
+      "爱书的下克上：为了成为图书管理员不择手段！": "想看",
+      "猎龙飞船": "看过",
+      "平凡职业造就世界最强": "看过",
+      "最终幻想VII：降临之子": "看过",
+      "命运-冠位指定 绝对魔兽战线 巴比伦尼亚": "想看",
+      "花牌情缘 第三季": "想看",
+      "异度侵入 ID:INVADED": "看过",
+      "因为太怕痛就全点防御力了": "看过",
+      "地缚少年花子君": "想看",
+      "神推偶像登上武道馆我就死而无憾": "想看",
+      "魔法纪录 魔法少女小圆外传": "想看",
+      "诸神的逆鳞": "看过",
+      "攻壳机动队 STAND ALONE COMPLEX": "在看",
+      "梦幻之星 神谕篇": "想看",
+      "思维覆写": "想看",
+      "恋爱小行星": "想看",
+      "索玛丽与森林之神": "想看",
+      "亚人酱有话要说 （僅限台灣地區）": "想看",
+      "哆啦A梦 第一季": "想看",
+      "凉风": "想看",
+      "灰与幻想的格林姆迦尔 ": "想看",
+      "战斗吧歌姬！ 第一季": "想看",
+      "热血少年": "想看",
+      "万国志": "想看",
+      "神的记事本": "想看",
+      "分形世界": "想看",
+      "Re：从零开始的异世界生活 新编集版": "想看",
+      "暗黑破坏神在身边。": "看过",
+      "刺客守则": "看过",
+      "BanG Dream! 梦想协奏曲 第三季": "想看",
+      "齐木楠雄的灾难": "看过",
+      "属性咖啡厅": "看过",
+      "街角魔族": "看过",
+      "LoveLive! Sunshine!! 学园偶像 电影 彩虹彼端": "在看",
+      "无限系统树": "看过",
+      "齐木楠雄的灾难 第二季": "看过",
+      "齐木楠雄的灾难 完结篇": "看过",
+      "齐木楠雄的灾难 始动篇": "看过",
+      "奇异太郎少年的妖怪绘日记": "看过",
+      "碧蓝航线": "看过",
+      "某科学的一方通行": "想看",
+      "路人女主的养成方法 ♭": "看过",
+      "某科学的超电磁炮": "看过",
+      "Re：从零开始的异世界生活 冰结之绊": "想看",
+      "地狱少女 二笼": "在看",
+      "玉子爱情故事": "想看",
+      "Fate/Grand Order ‐First Order‐": "看过",
+      "如果能写小说就好了": "看过",
+      "碧蓝之海": "看过",
+      "CLANNAD": "在看",
+      "魔法禁书目录 剧场版": "看过",
+      "奇幻☆怪盗": "想看",
+      "怪盗圣少女": "想看",
+      "旋风管家 CAN'T TAKE MY EYES OFF YOU": "在看",
+      "旋风管家 Cuties": "在看",
+      "Caligula 卡里古拉": "看过",
+      "俺物语！！": "在看",
+      "竞女（僅限港澳台地區）": "看过",
+      "ENDRO~!": "在看",
+      "ReLIFE": "在看",
+      "武装神姬 Moon Angel": "看过",
+      "约定的梦幻岛": "在看",
+      "球詠（僅限港澳台地区）": "想看",
+      "中二病也要谈恋爱！": "看过",
+      "乌龙派出所": "想看",
+      "中二病也要谈恋爱！恋": "看过",
+      "灼眼的夏娜 剧场版": "看过",
+      "阿尔蒂": "想看",
+      "迷家": "看过",
+      "昨日之歌": "在看",
+      "爱书的下克上：为了成为图书管理员不择手段！ 第二部": "想看",
+      "灼眼的夏娜": "在看",
+      "星掠者": "在看",
+      "辉夜大小姐想让我告白？～天才们的恋爱头脑战～": "在看",
+      "社长，战斗时间到！": "想看",
+      "Charlotte": "看过",
+      "公主连结Re:Dive": "看过",
+      "聆听者 / LISTENERS": "在看",
+      "转生成为了只有乙女游戏破灭Flag的邪恶大小姐": "在看",
+      "八男？别闹了！": "看过",
+      "热风海陆BUSHIROAD": "看过",
+      "格莱普尼尔": "在看",
+      "虚构推理": "在看",
+      "游戏王 怪兽之决斗": "想看",
+      "游☆戏☆王 5D's 第一季": "想看",
+      "碧藍航線（僅限港澳台地區）": "看过",
+      "言叶之庭": "看过",
+      "喜欢本大爷的竟然就你一个？": "看过",
+      "22/7": "想看",
+      "心之彼端2": "在看",
+      "永不消失的彩虹": "在看",
+      "歌舞伎町夏洛克": "想看",
+      "水果篮子 第二季": "想看",
+      "赛马娘四格": "在看",
+      "放学后海堤日记": "想看",
+      "非枪人生 第二季": "想看",
+      "女武神的餐桌 第二季": "想看",
+      "不正经的魔术讲师与禁忌教典": "看过",
+      "元龙": "看过",
+      "若叶女孩": "想看",
+      "弩級戰隊H×EROS（僅限港澳台地區）": "在看",
+      "没落要塞 / DECA-DENCE": "看过",
+      "少女们向荒野进发 OVA": "看过",
+      "日常": "看过",
+      "隐之王": "在看",
+      "某科学的超电磁炮S": "看过",
+      "政宗君的复仇": "看过",
+      "魔王學院的不適任者～史上最強的魔王始祖，轉生就讀子孫們的學校～（僅限台灣地區）": "看过",
+      "白猫计划 零之纪元": "在看",
+      "天真与闪电": "在看",
+      "剑网3·侠肝义胆沈剑心 第三季": "在看",
+      "Sends of Destruction": "在看",
+      "雾山五行": "在看",
+      "从前有座灵剑山": "看过",
+      "全职高手 第一季": "看过",
+      "全职高手 特别篇": "在看",
+      "双恋 Alternative": "在看",
+      "双恋": "在看",
+      "青空下的约定": "在看",
+      "心靈代碼 QUALIDEA CODE（僅限港澳台地區）": "在看",
+      "H2O 赤砂的印记": "在看",
+      "魔法律事务所 第二季": "在看",
+      "攻壳机动队": "在看",
+      "食戟之靈 豪之皿（僅限港澳台地區）": "在看",
+      "宇崎学妹想要玩！": "在看",
+      "宝石幻想 光芒重现": "在看",
+      "猎魔武士/GIBIATE": "在看",
+      "Re：从零开始的异世界生活 第二季 前半": "在看",
+      "时之歌—花与焰的狂想诗": "在看",
+      "食戟之灵 餐之皿": "在看",
+      "繼怪怪守護神（僅限台灣地區）": "在看",
+      "苍翼默示录 Alter Memory": "在看",
+      "灵笼": "在看",
+      "变形少女": "在看",
+      "潘朵拉之心": "在看",
+      "幻影少年": "在看",
+      "暗夜第六感": "在看",
+      "僵尸借贷": "在看",
+      "路人女主的养成方法 Fine": "在看",
+      "龙与魔女/BURN THE WITCH": "在看",
+      "来自深渊 深沉灵魂的黎明": "看过",
+      "伪恋 OAD": "看过",
+      "某科学的超电磁炮T": "在看",
+      "高达创形者 再起 第二季": "想看",
+      "文豪与炼金术师 ～审判的齿轮～": "想看",
+      "神之塔": "看过",
+      "新樱花大战": "想看",
+      "动物新世代 / BNA": "想看",
+      "邪神与厨二病少女": "看过",
+      "刀剑神域 Extra Edition": "看过",
+      "刀剑神域 爱丽丝篇 异界战争": "看过",
+      "刀剑神域 Alicization": "看过",
+      "刀剑神域": "看过",
+      "邪神与厨二病少女 第二季": "看过",
+      "地狱少女 三鼎": "看过",
+      "地狱少女": "看过",
+      "小林家的龙女仆": "看过",
+      "鬼灭之刃": "看过",
+      "终将成为你": "看过",
+      "笨女孩": "看过",
+      "月色真美": "看过"
    }
 }

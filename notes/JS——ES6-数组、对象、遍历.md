@@ -2041,7 +2041,7 @@ m3.get('baz') // 3
 ### 实例的属性和操作方法
 
 1. size 属性
-  + size 属性返回 Map 结构的成员总数。
+   + size 属性返回 Map 结构的成员总数。
 
 2. Map.prototype.set(key, value)
   + set 方法设置键名 key 对应的键值为 value，然后返回整个 Map 结构。
@@ -2069,7 +2069,7 @@ let map = new Map().set(1, 'a').set(2, 'b').set(3, 'c');
   + Map.prototype.keys()：返回键名的遍历器。
   + Map.prototype.values()：返回键值的遍历器。
   + Map.prototype.entries()：返回所有成员的遍历器。
-  + Map.prototype.forEach()：遍历 Map 的所有成员。
+  + Map.prototype.forEach(value, key, map)：遍历 Map 的所有成员。
 + 需要特别注意的是，Map 的遍历顺序就是插入顺序。
 
 + Map 结构转为数组结构，比较快速的方法是使用扩展运算符（...）。

@@ -67,50 +67,38 @@ let outString = '';
 // @require-js      
 // @auto-refresh    0
 // @updated         2020-10-26 09:33:54
-// ==/FeHelperMonkey==
-
-
-// 在这里，可以随便写你的代码，并且，你的代码中
-// 1. 可以进行页面上的所有DOM操作
-// 2. 可以访问页面上原本已挂载的所有Js变量，比如页面上已经有了jQuery，你可以直接使用
-// 3. 可以依赖注入一个第三方js脚本，然后在你的代码中直接使用，如：依赖jQuery后直接使用
-// 4. 好了，你的代码可以这样写：
-// https://www.bilibili.com/bangumi/play/ss\d{3,6}/
-// https://www.bilibili.com/bangumi/play/ss3450/
-// https://www.bilibili.com/bangumi/play/ss*/
-// https://*.bilibili.com/bangumi/play/ss*/
 
 // 显示一个Toast，提示消息
-var toast = (content,time) => {
-  return new Promise((resolve,reject) => {
-      let elAlertMsg = document.querySelector("#message");
-      if (!elAlertMsg) {
-          let elWrapper = document.createElement('div');
-          elWrapper.innerHTML = '<div id="message" style="position:fixed;top:5px;left:50%;z-index:100">' +
-              '<p style="background:#000;display:inline-block;color:#fff;text-align:center;' +
-              'padding:10px 10px;margin:0 auto;font-size:14px;border-radius:4px;">' + content + '</p></div>';
-          elAlertMsg = elWrapper.childNodes[0];
-          document.body.appendChild(elAlertMsg);
-      } else {
-          elAlertMsg.querySelector('p').innerHTML = content;
-          elAlertMsg.style.display = 'block';
-      }
+var toast = (content, time) => {
+  return new Promise((resolve, reject) => {
+    let elAlertMsg = document.querySelector("#message");
+    if (!elAlertMsg) {
+      let elWrapper = document.createElement('div');
+      elWrapper.innerHTML = '<div id="message" style="position:fixed;top:5px;left:50%;z-index:100">' +
+        '<p style="background:#000;display:inline-block;color:#fff;text-align:center;' +
+        'padding:10px 10px;margin:0 auto;font-size:14px;border-radius:4px;">' + content + '</p></div>';
+      elAlertMsg = elWrapper.childNodes[0];
+      document.body.appendChild(elAlertMsg);
+    } else {
+      elAlertMsg.querySelector('p').innerHTML = content;
+      elAlertMsg.style.display = 'block';
+    }
 
-      window.setTimeout(function () {
-          elAlertMsg.style.display = 'none';
-          resolve && resolve();
-      }, time || 1000);
+    window.setTimeout(function () {
+      elAlertMsg.style.display = 'none';
+      resolve && resolve();
+    }, time || 1000);
   });
 };
 
 // 简单的sleep实现
-var sleep = ms => new Promise((resolve,reject) => setTimeout(resolve,ms));
+var sleep = ms => new Promise((resolve, reject) => setTimeout(resolve, ms));
 
-(()=>{
-toast('订阅番剧')
-.then(()=>{
-  console.log('番剧数量:' + fanDramaList['番剧数量']);
-});
+(() => {
+  toast('订阅番剧')
+    .then(() => {
+      console.log('番剧数量:' + fanDramaList['番剧数量']);
+    });
   sleep(5000)
     .then(() => toast('开始订阅！', 1000))
     .then(() => {
@@ -217,3 +205,154 @@ toast('订阅番剧')
     }, 5000);
   }
 })();
+
+
+// 第二次
+//#region
+// 获取 番剧 json 列表
+(() => {
+  // 保存数据
+  let HisPlayList = {
+    番剧数量: 0,
+    data: new Map()
+  }
+  //模拟点击
+  let click = new Event('click');
+
+  function $(str) { return document.querySelector(str); }
+  //获取当前页面
+  function getPage() {
+    let List = Array.from($('.pgc-follow-list').querySelectorAll('.pgc-space-follow-item'));
+    List.map(i => {
+      const name = i.querySelector('.pgc-item-title').textContent;
+      const state = i.querySelector('.disabled').textContent.slice(-2);
+      HisPlayList.data.set(name, state);
+    });
+  }
+  getPage();
+
+  let time = setInterval(() => {
+    //下一页按钮
+    let next = document.querySelector('.next-page');
+    if (next) {
+      next.dispatchEvent(click);
+      setTimeout(() => {
+        getPage();
+      }, 2000);
+    } else {
+      clearInterval(time);
+      // 处理数据
+      HisPlayList['番剧数量'] = HisPlayList.data.size;
+      let temporary = {};
+      HisPlayList.data.forEach((v, k) => {
+        temporary[k] = v;
+      })
+      HisPlayList.data = temporary;
+      //替换复制信息
+      document.addEventListener('copy', function (e) {
+        e.clipboardData.setData(
+          'text/plain',
+          JSON.stringify(HisPlayList, null, 3)
+        );
+        e.preventDefault();
+      });
+      alert('可以复制了！,(关闭提示随便复制一个文本!!!)');
+    }
+  }, 5000);
+})();
+//#endregion
+
+//#region
+// 油猴订阅  给的间隔太短了,请求失败的有点多,多给几秒等待请求完成应该会好很多.
+let data = {}
+setTimeout(() => {
+  function $(str) { return document.querySelector(str); }
+  function get() {
+    return new Promise((r, j) => {
+      setTimeout(() => {
+        const name = $('.media-title').textContent;
+        if (data[name]) {
+          r(data[name])
+        } else {
+          j()
+        }
+      })
+    });
+  }
+  const click = new Event('click');
+  function ToThem(state) {
+    const list = $('.opt-list').children;
+    switch (state) {
+      case '想看': {
+        list[0].dispatchEvent(click);
+        break;
+      }
+      case '在看': {
+        list[0].dispatchEvent(click);
+        break;
+      }
+      case '看过': {
+        list[0].dispatchEvent(click);
+        break;
+      }
+    }
+  }
+  get().then(v => {
+    const but = $('.btn-follow');
+    if (but.querySelector('span').textContent === '追番') {
+      but.dispatchEvent(click);
+      setTimeout(() => {
+        ToThem(v);
+        return 'OK!';
+      }, 1000);
+    } else {
+      let state = $('.opt-list > .disabled').textContent.slice(-2);
+      if (state === v) return;
+      setTimeout(() => {
+        ToThem(v);
+        return 'OK!';
+      }, 1000);
+    }
+  }, () => {
+    window.close()
+  }).then(() => {
+    setTimeout(() => {
+      window.close()
+    }, 1000);
+  })
+}, 3000)
+
+  //#endregion
+
+  //#region 
+  // 依次点击
+  (() => {
+    const click = new Event('click');
+    function $(str) { return document.querySelector(str); }
+    //获取当前页面
+    function getPage() {
+      let List = Array.from($('.pgc-follow-list').querySelectorAll('.pgc-space-follow-item'));
+      List.map((item, i) => {
+        setTimeout(() => {
+          const dom = item.querySelector('.pgc-item-cover');
+          dom.click();
+        }, 5000 * (i + 1));
+      });
+    }
+    getPage();
+
+    let time = setInterval(() => {
+      //下一页按钮
+      let next = document.querySelector('.next-page');
+      if (next) {
+        next.dispatchEvent(click);
+        setTimeout(() => {
+          getPage();
+        }, 2000);
+      } else {
+        clearInterval(time);
+        alert('结束了!!!');
+      }
+    }, 60000);
+  })()
+//#endregion

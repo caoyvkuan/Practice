@@ -2680,6 +2680,39 @@ const asyncReadFile = async function () {
 
 + 进一步说，async 函数完全可以看作多个异步操作，包装成的一个 Promise 对象，而 await 命令就是内部 then 命令的语法糖。
 
+## 笔记
+
++ async 函数的返回值就是一个 promise 对象
+  + 返回 promise 对象的状态由返回值决定
++ await 右侧的表达式一般为 promise 对象,但也可以是其他的值或是表达式.
+  + 如果表达式是 promise 独享, await 返回的是 promise 成功的值
+  + 如果表达式是其他的值,直接将此值作为 await 的返回值
+  + await 只能写在 async 函数中,其他位置没有这个关键字
+  + 如果 await 的 promise 失败了就会抛出异常,需要通过 try...catch 进行捕获
+
+```js
+let fs = require('fs');
+
+function mineReadFile(url) {
+	return new Promise((r, j) => {
+		fs.readFile(url, (err, data) => {
+			if (err) j(data);
+			r(data);
+		})
+	})
+}
+async function main(){
+    try{
+        let data1 = awiat mineReadFile('./1.tet');
+        let data2 = awiat mineReadFile('./2.tet');
+    }catch(e){
+        console.log(e)
+    }
+}
+```
+
+
+
 ## 基本用法
 
 + async 函数返回一个 Promise 对象，可以使用 then 方法添加回调函数。

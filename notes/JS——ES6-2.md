@@ -366,6 +366,174 @@ function MyAJAX(url){
 
 + 结构的搭建
 
++ ES5 函数版本
+
+```js
+function Promise(executor) {
+	// 添加属性
+	this.PromiseState = 'pending';
+	this.PromiseResult = null;
+	this.callbacks = [];
+	// 保存实例对象
+	const self = this;
+
+	// resolve 函数
+	function resolve(data) {
+		if (self.PromiseState !== 'pending') return;
+		// 功能一 改变状态	(promiseState)
+		self.PromiseState = 'fulfilled'; // resolved
+		// 功能二 设置对象的结果值 (promiseResult)
+		self.PromiseResult = data;
+		//调用成功的回调
+		setTimeout(() => {
+			self.callbacks.forEach(item => {
+				item.onResolved(data)
+			})
+		})
+	}
+	// reject 函数
+	function reject(data) {
+		if (self.PromiseState !== 'pending') return;
+		// 功能一 改变状态	(promiseState)
+		self.PromiseState = 'rejected';
+		// 功能二 设置对象的结果值 (promiseResult)
+		self.PromiseResult = data;
+		//调用成功的回调
+		setTimeout(() => {
+			self.callbacks.forEach(item => {
+				item.onRejected(data)
+			})
+		})
+	}
+
+	//内部同步调用 [执行器函数]
+	try {
+		executor(resolve, reject);
+	} catch (e) {
+		reject(e);
+	}
+}
+
+Promise.prototype.then = function (onResolved, onRejected) {
+	const self = this;
+	//判断回调函数参数
+	if (typeof onRejected !== 'function') {
+		onRejected = reason => {
+			throw reason;
+		}
+	}
+	if (typeof onResolved !== 'function') {
+		onResolved = value => value;
+	}
+	// 返回一个 Promise 对象
+	return new Promise((resolve, reject) => {
+
+		function callback(type) {
+			try {
+				let result = type(self.PromiseResult);
+				if (result instanceof Promise) {
+					// 如果是 Promise 对象直接用方法就可以改变状态
+					result.then(v => {
+						resolve(v);
+					}, r => {
+						reject(r);
+					})
+				} else {
+					// 不是 promise 对象就返回状态成功,和结果值
+					resolve(result);
+				}
+			} catch (error) {
+				reject(error);
+			}
+		}
+
+		// 调用回调函数 promiseState
+		if (this.PromiseState === 'fulfilled') {
+			setTimeout(() => {
+				callback(onResolved);
+			});
+		}
+
+		if (this.PromiseState === 'rejected') {
+			setTimeout(() => {
+				callback(onRejected);
+			});
+		}
+
+		if (this.PromiseState === 'pending') {
+			//保存回调函数
+			this.callbacks.push({
+				onResolved: function () {
+					callback(onResolved)
+				},
+				onRejected: function () {
+					callback(onRejected);
+				}
+			});
+		}
+	})
+}
+
+Promise.prototype.catch = function (onRejected) {
+	return this.then(undefined, onRejected)
+}
+
+Promise.resolve = function (value) {
+	return new Promise((resolve, reject) => {
+		if (value instanceof Promise) {
+			value.then(v => {
+				resolve(v);
+			}, r => {
+				reject(r);
+			})
+		} else {
+			resolve(value);
+		}
+	});
+}
+
+Promise.reject = function (reason) {
+	return new Promise((resolve, reject) => {
+		reject(reason);
+	});
+}
+
+Promise.all = function (Promises) {
+	let count = 0,
+		arr = [];
+
+	return new Promise((resolve, reject) => {
+		Promises.forEach((p, i) => {
+			log(p);
+			p.then(v => {
+				count++;
+				arr[i] = v;
+				if (count === Promises.length) {
+					resolve(arr);
+				}
+			}, r => {
+				reject(r)
+			});
+		});
+	});
+}
+
+Promise.race = function (Promises) {
+
+	return new Promise((resolve, reject) => {
+		Promises.forEach((p) => {
+			p.then(v => {
+				resolve(v);
+			}, r => {
+				reject(r);
+			});
+		});
+	});
+}
+```
+
+
+
 ## Promise.prototype.xxx
 
 ## 1. then()
