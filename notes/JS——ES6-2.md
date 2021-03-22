@@ -365,8 +365,11 @@ function MyAJAX(url){
 ## 自定义 Promise
 
 + 结构的搭建
++ 自定义封装存在的问题
+  + then 方法不是微任务,而内部的 then 方法为 微任务
+  + 微任务的执行时间会比异步的宏任务早
 
-+ ES5 函数版本
+### ES5 函数版本
 
 ```js
 function Promise(executor) {
@@ -504,7 +507,6 @@ Promise.all = function (Promises) {
 
 	return new Promise((resolve, reject) => {
 		Promises.forEach((p, i) => {
-			log(p);
 			p.then(v => {
 				count++;
 				arr[i] = v;
@@ -530,6 +532,179 @@ Promise.race = function (Promises) {
 		});
 	});
 }
+```
+
+### ES6 class 版本
+
+```js
+class Promise {
+    
+   constructor(executor) {
+      this.PromiseState = 'pending'; // 设置初始状态
+      this.PromiseResult = null; // 得到的结果
+      this.callbacks = []; // 回调函数队列
+      const self = this; // 固定 this
+
+      function resolve(data) {
+         if (self.PromiseState !== 'pending') return; // 判断是否改变过状态
+         self.PromiseState = 'fulfilled'; // 改变状态
+         self.PromiseResult = data; // 设置结果
+         setTimeout(() => {
+            // 遍历调用回调函数
+            self.callbacks.forEach(item => {
+               item.onResolved();
+            })
+         })
+      }
+      // 设置默认的 两个改变状态的函数
+      function reject(data) {
+         if (self.PromiseState !== 'pending') return;
+         self.PromiseState = 'rejected';
+         self.PromiseResult = data;
+         setTimeout(() => {
+            self.callbacks.forEach(item => {
+               item.onResolved();
+            })
+         })
+      }
+
+      try { // 处理可能的错误
+         executor(resolve, reject);
+      } catch (e) {
+         reject(e);
+      }
+   }
+
+   then(onResolved, onRejected) {
+      const self = this;
+      if (typeof onRejected !== 'function') {// 传入不是方法或为传入 设置默认
+         onRejected = reason => {
+            throw reason;
+         }
+      }
+      if (typeof onResolved !== 'function') {// 同样是设置默认值
+         onResolved = value => value;
+      }
+
+      return new Promise((resolve, reject) => { // 返回值为一个 Promise 对象
+
+         function callback(type) { // 包装重复的操作
+            try {
+               let result = type(self.PromiseResult); // then 方法回调的执行结果
+               if (result instanceof Promise) { // 返回的结果是否是一个 Promise 对象
+                  result.then(value => { // 是 Promise 就可以调用 then 方法
+                     resolve(value);
+                  }, reason => {
+                     reject(reason);
+                  })
+
+               } else {
+                  resolve(result);
+               }
+            } catch (e) {
+               reject(e);
+            }
+
+         }
+
+         if (this.PromiseResult === 'fulfilled') { // Promise 成功的处理
+            setTimeout(() => {
+               callback(onResolved);
+            })
+         }
+
+         if (this.PromiseResult === 'rejected') { // Promise 失败的处理
+            setTimeout(() => {
+               callback(onRejected);
+            })
+         }
+
+         if (this.PromiseState === 'pending') { // 异步处理或多次调用 then
+            // 将回调函数保存
+            this.callbacks.push({
+               onResolved() {
+                  callback(onResolved);
+               },
+               onRejected() {
+                  callback(onRejected);
+               }
+            })
+         }
+      })
+   }
+
+   catch(onRejected) {
+      return this.then(undefined, onRejected);
+   }
+
+   static resolve(value) {
+      return new Promise((resolve, reject) => {
+         if (value instanceof Promise) {
+            value.then(value => {
+               resolve(value);
+            }, reason => {
+               reject(reason);
+            })
+         } else {
+            resolve(value);
+         }
+      })
+   }
+
+   static reject(reason) {
+      return new Promise((resolve, reject) => {
+         reject(reason);
+      })
+   }
+
+   static all(Promises) {
+      let count = 0, arr = [];
+
+      return new Promise((resolve, reject) => {
+         Promises.forEach((p, i) => {
+            p.then(value => {
+               count++;
+               arr[i] = value;
+               if (count === Promises.length) {
+                  resolve(arr);
+               }
+            }, reason => {
+               reject(reason);
+            })
+         });
+      })
+   }
+
+   static race(Promises) {
+      return new Promise((resolve, reject) => {
+         Promises.forEach(p => {
+            p.then(value => {
+               resolve(value);
+            }, reason => {
+               reject(reason);
+            })
+         })
+      });
+   }
+}
+
+const { log } = console;
+
+log(1)
+const p = new Promise((r, j) => {
+   setTimeout(() => {
+      log(2);
+      r();
+   })
+});
+
+p.then(value => {
+   log(3);
+}, reason => {
+   log('错误!');
+}).then(v => {
+   log(4);
+})
 ```
 
 

@@ -1252,7 +1252,7 @@ const element = <h1>{title}</h1>;
 + react 创建脚手架的库：`create-react-app`
 + 此脚手架的核心技术：`react + webpack + es6 + eslint`
 + 全局安装：`npm install -g create-react-app`
-+  在创建目录中使用：`create-react-app fileNmae `
++  在创建目录中使用：`create-react-app fileName `
 + 脚手架文件
   + pubic -- 静态资源文件夹
     + robots.txt -- 爬虫规则文件
@@ -1314,7 +1314,7 @@ npm -v //查看版本  npm install 可以直接将配置中的包全部下载
 npm install ModuleName  // 安装模块  install 可以简写为 i， npm i name
 npm install ModuleName -g // 全局安装
 npm update ModuleName // 更新模块版本  没有不会进行更新
-npm uninstall ModuleNmae // 卸载模块
+npm uninstall ModuleName // 卸载模块
 npm init --yes // 生成 package 配置文件 不加 --yes 可以自己来写配置项
 npm list -g // 查看全局安装的模块
 npm list name // 查看某个模块的版本号

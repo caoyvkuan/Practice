@@ -576,3 +576,271 @@ componentDidUpdate(prevProps) {
 + [过时的生命周期方法](https://react.docschina.org/docs/react-component.html#legacy-lifecycle-methods)
 
 # ReactDOM
+
++ 使用一个 <script/> 标签引入 React ,所有的顶层 API 都能在全局 ReactDOM 上调用
++ ES6 和 npm `import ReactDOM from 'react-dom'`
++ ES5 和 npm `var ReactDOM = require('react-dom')`
+
++ 主要的API
+  + render()
+  + hydrate()
+  + unmountComponentAtNode()
+  + findDOMNode()
+  + createPortal()
+
+## render()
+
++ `ReactDOM.render(element, container[, callback])`
++ 在提供的 container 里渲染一个 React 元素，并返回对该组件的引用或者针对无状态组件返回 null）
++ 如果 React 元素之前已经在 container 里渲染过，这将会对其执行更新操作，并仅会在必要时改变 DOM 以映射最新的 React 元素。
+
++ 如果提供了可选的回调函数，该回调将在组件被渲染或更新之后被执行。
+
++ ReactDOM.render() 会控制你传入容器节点里的内容。当首次调用时，容器节点里的所有 DOM 元素都会被替换，后续的调用则会使用 React 的 DOM 差分算法（DOM diffing algorithm）进行高效的更新。
++ ReactDOM.render() 不会修改容器节点（只会修改容器的子节点）。可以在不覆盖现有子节点的情况下，将组件插入已有的 DOM 节点中。
+
+## hydrate()
+
++ `ReactDOM.hydrate(element, container[, callback])`
++ 与 render() 相同，但它用于在 ReactDOMServer 渲染的容器中对 HTML 的内容进行 hydrate 操作。
++ React 会尝试在已有标记上绑定事件监听器。
++ [文档](https://react.docschina.org/docs/react-dom.html#hydrate)
+
+## unmountComponentAtNode()
+
++ `ReactDOM.unmountComponentAtNode(container)`
++ 从 DOM 中卸载组件，会将其事件处理器（event handlers）和 state 一并清除。
++ 如果指定容器上没有对应已挂载的组件，这个函数什么也不会做。
++ 如果组件被移除将会返回 true，如果没有组件可被移除将会返回 false。
+
+## createPortal()
+
++ `ReactDOM.createPortal(child, container)`
++ 创建 portal。Portal 将提供一种将子节点渲染到 DOM 节点中的方式，该节点存在于 DOM 组件的层次结构之外。
+
+## findDOMNode()
+
++ 不推荐使用，用来访问底层 DOM 的应急方案，在严格模式中被弃用
++ `ReactDOM.findDOMNode(component)`
++ [文档](https://react.docschina.org/docs/react-dom.html#finddomnode)
+
+# ReactDOMServer
+
++ ReactDOMServer 对象允许你将组件渲染成静态标记。通常，它被使用在 Node 服务端上：
+```JS
+// ES modules
+import ReactDOMServer from 'react-dom/server';
+// CommonJS
+var ReactDOMServer = require('react-dom/server');
+```
+
++ 下述方法可以被使用在服务端和浏览器环境。
+  + [renderToString()](#rendertostring)
+  + [renderToStaticMarkup()](#rendertostaticmarkup)
+
++ 下述附加方法依赖一个只能在服务端使用的 package（stream）。它们在浏览器中不起作用。
+  + [renderToNodeStream()](#rendertonodestream)
+  + [renderToStaticNodeStream()]()
+
+## renderToString()
+
++ `ReactDOMServer.renderToString(element)`
++ 将 React 元素渲染为初始 HTML。React 将返回一个 HTML 字符串。
++ 可以使用此方法在服务端生成 HTML，并在首次请求时将标记下发，以加快页面加载速度，并允许搜索引擎爬取你的页面以达到 SEO 优化的目的。
++ 如果你在已有服务端渲染标记的节点上调用 ReactDOM.hydrate() 方法，
++ React 将会保留该节点且只进行事件处理绑定，从而让你有一个非常高性能的首次加载体验。
+
+## renderToStaticMarkup()
+
++ `ReactDOMServer.renderToStaticMarkup(element)`
+
++ 此方法与 renderToString 相似，但此方法不会在 React 内部创建的额外 DOM 属性，例如 data-react。
++ 如果希望把 React 当作静态页面生成器来使用，此方法会非常有用，因为去除额外的属性可以节省一些字节。
+
++ 如果计划在前端使用 React 以使得标记可交互，请不要使用此方法。
++ 可以在服务端上使用 renderToString 或在前端上使用 ReactDOM.hydrate() 来代替此方法。
+
+## renderToNodeStream()
+
++ `ReactDOMServer.renderToNodeStream(element)`
++ 将一个 React 元素渲染成其初始 HTML。返回一个可输出 HTML 字符串的可读流。
++ 通过可读流输出的 HTML 完全等同于 ReactDOMServer.renderToString 返回的 HTML。
++ 可以使用本方法在服务器上生成 HTML，并在初始请求时将标记下发，以加快页面加载速度，
++ 并允许搜索引擎抓取你的页面以达到 SEO 优化的目的。
++ 如果在已有服务端渲染标记的节点上调用 ReactDOM.hydrate() 方法，
++ React 将会保留该节点且只进行事件处理绑定，从而让你有一个非常高性能的首次加载体验。
+
+## renderToStaticNodeStream()
+
++ `ReactDOMServer.renderToStaticNodeStream(element)`
++ 此方法与 renderToNodeStream 相似，但此方法不会在 React 内部创建的额外 DOM 属性，例如 data-react。
++ 如果希望把 React 当作静态页面生成器来使用，此方法会非常有用，因为去除额外的属性可以节省一些字节。
++ 通过可读流输出的 HTML，完全等同于 ReactDOMServer.renderToStaticMarkup 返回的 HTML。
++ 如果计划在前端使用 React 以使得标记可交互，请不要使用此方法。
++ 可以在服务端上使用 renderToNodeStream 或在前端上使用 ReactDOM.hydrate() 来代替此方法。
+
+# DOM 元素
+
++ React 实现了一套独立于浏览器的 DOM 系统，兼顾了性能和跨浏览器的兼容性。
++ 在 React 中，所有的 DOM 特性和属性（包括事件处理）都应该是小驼峰命名的方式。
++ 例如，与 HTML 中的 tabindex 属性对应的 React 的属性是 tabIndex
++ 例外的情况是 aria-* 以及 data-* 属性，一律使用小写字母命名。
++ 比如, 你依然可以用 aria-label 作为 aria-label。
+
+## 属性
+
+### checked
+
++ 当 <input> 组件的 type 类型为 checkbox 或 radio 时，组件支持 checked 属性。
++ defaultChecked 属性可以设置首次挂载时的默认选中。
+
+### 名字的改变
+
++ class 改用 className 表示
++ className 属性用于指定 CSS 的 class，此特性适用于所有常规 DOM 节点和 SVG 元素，如 <div>，<a> 及其它标签。
+
++ for 改用 htlFor 表示 ，label 标签。
+
++ onChange 事件与预期行为一致：每当表单字段变化时，该事件都会被触发。
++ 是因为 onChange 在浏览器中的行为和名称不对应，并且 React 依靠了该事件实时处理用户输入。
+
++ selected
++ <option> 组件支持 selected 属性。你可以使用该属性设置组件是否被选择。这对构建受控组件很有帮助。
+
++ style
++ 不推荐直接使用 style 来设置元素的样式，一般只在需要动态计算样式时才使用
++ 利用一个小驼峰命名属性的 对象来进行设置，而不是字符串
++ React 会自动添加 px 到内联样式为数值的属性后，不需要手动添加，如果使用其他的单位需要使用字符串的方式设置
+
++ value
++ <input> 和 <textarea> 组件支持 value 属性。用于构建受控组件
+
+# [合成事件](https://react.docschina.org/docs/events.html)
+
+# HOOks
+
++ 可以在不写 class 的情况下使用 state 和一些其他的 React 特性
+```js
+import React, { useState } from 'react';
+// 声明一个新的叫做 “count” 的 state 变量
+  function Example() {
+  // 声明一个新的叫做 “count” 的 state 变量
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
+    </div>
+  );
+}
+```
+
++ 在这里，useState 就是一个 Hook , useState 唯一的参数就是初始 state。
++ 初始 state 参数只有在第一次渲染时会被用到。
++ 通过在函数组件里调用它来给组件添加一些内部 state。
++ React 会在重复渲染时保留这个 state。
++ useState 会返回一对值：当前状态和一个让你更新它的函数，你可以在事件处理函数中或其他一些地方调用这个函数。
++ 类似 class 组件的 this.setState，但是它不会把新的 state 和旧的 state 进行合并。
+
+## 概览
+
+### 声明多个 state 变量
+
+```js
+function ExampleWithManyStates() {
+  // 声明多个 state 变量！
+  const [age, setAge] = useState(42);
+  const [fruit, setFruit] = useState('banana');
+  const [toDos, setToDos] = useState([{ text: 'Learn Hooks' }]);
+  // 数组解构的语法让我们在调用 useState 时可以给 state 变量取不同的名字
+  // React 假设当你多次调用 useState 的时候，你能保证每次渲染时它们的调用顺序是不变的。
+}
+```
+
+### 什么是 Hook?
+
++ Hook 是一些可以让你在函数组件里“钩入” React state 及生命周期等特性的函数。
++ Hook 不能在 class 组件中使用 —— 这使得你不使用 class 也能使用 React。
++ React 内置了一些像 useState 这样的 Hook。
++ 可以创建自己的 Hook 来复用不同组件之间的状态逻辑。
+
+### Hook 使用规则
+
++ Hook 就是 JavaScript 函数，但是使用它们会有两个额外的规则：
+  + 只能在函数最外层调用 Hook。不要在循环、条件判断或者子函数中调用。
+  + 只能在 React 的函数组件中调用 Hook。不要在其他 JavaScript 函数中调用。
+  + 在自定义 Hook 中是可以调用的。
+
+## Effect Hook
+
++ React 组件中执行过数据获取、订阅或者手动修改 DOM ， 这样的操作统一称为“副作用”，或者简称为“作用”。
++ useEffect 就是一个 Effect Hook，给函数组件增加了操作副作用的能力。
++ 它跟 class 组件中的 `componentDidMount、componentDidUpdate 和 componentWillUnmount` 具有相同的用途，只不过被合并成了一个 API。
+```js
+import React, { useState, useEffect } from 'react';
+function Example(){
+  const [count, setCount] = useState(0);
+  // 相当于 componentDidMount 和 componentDidUpdate:
+  useEffect(() => {
+    // 使用浏览器的 API 更新页面标题
+    document.title = `You clicked ${count} times`;
+  });
+}
+```
++ 当调用 useEffect 时，就是在告诉 React 在完成对 DOM 的更改后运行你的“副作用”函数。
++ 因为是在函数组件中声明的，所以可以访问到组件中的 props 和 state
++ 默认情况下，React 会在每次渲染后调用副作用函数 —— 包括第一次渲染的时候。
+
++ 副作用函数还可以通过返回一个函数来指定如何“清除”副作用。
+```js
+useEffect(() => {
+  ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange);
+  return () => {
+    ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
+  };
+});
+// 通过返回的函数来清除订阅
+// React 会在组件销毁时取消对 ChatAPI 的订阅，然后在后续渲染时重新执行副作用函数。
+```
++ 跟 useState 一样，你可以在组件中多次使用 useEffect
++ 通过使用 Hook，可以把组件内相关的副作用组织在一起（例如创建订阅及取消订阅）
++ 而不需要把它们拆分到不同的生命周期函数里。
+
+## 自定义 Hook
+
++ 重用一些状态逻辑，利用 高阶组件和 render props 的方式可以解决，
++ 利用 Hook 可以在不增加组件的情况下实现相同的目的。
+```js
+import React, { useState, useEffect } from 'react';
+// 首先，把逻辑抽取到一个叫做 useFriendStatus 的自定义 Hook 里
+// 将 friendID 作为参数，并返回该好友是否在线
+function useFriendStatus(friendID) {
+  const [isOnline, setIsOnline] = useState(null);
+
+  function handleStatusChange(status) {
+    setIsOnline(status.isOnline);
+  }
+
+  useEffect(() => {
+    ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange);
+    return () => {
+      ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange);
+    };
+  });
+
+  return isOnline;
+}
+// 复用
+const isOnline = useFriendStatus(props.friend.id);
+```
++ Hook 是一种复用状态逻辑的方式，它不复用 state 本身。
++ 事实上 Hook 的每次调用都有一个完全独立的 state —— 因此你可以在单个组件中多次调用同一个自定义 Hook。
+
++ 自定义 Hook 更像是一种约定而不是功能。
++ 如果函数的名字以 “use” 开头并调用其他 Hook，我们就说这是一个自定义 Hook。
++ useSomething 的命名约定可以让 linter 插件在使用 Hook 的代码中找到 bug。
+
+## 其他 Hook
+
++ useContext 让你不使用组件嵌套就可以订阅 React 的 Context。
++ useReducer 可以让你通过 reducer 来管理组件本地的复杂 state。

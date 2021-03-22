@@ -271,8 +271,6 @@ console.log('代码执行结束');
 */
 ```
 
-
-
 # 语法
 
 + JavaScript 程序的执行单位为行（line），也就是一行一行地执行。一般情况下，每一行就是一个语句。语句以分号结尾，一个分号就表示一个语句结束。多个语句可以写在一行内。
@@ -1566,11 +1564,6 @@ var module1 = (function ($, YAHOO) {
 })( jQuery, window, document );
 //上面代码中，finalCarousel对象输出到全局，对外暴露init和destroy接口，内部方法go、handleEvents、initialize、dieCarouselDie都是外部无法调用的。
 ```
-
-### 组合继承
-
-+ 
-
 
 # 异步操作
 
