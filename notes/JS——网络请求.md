@@ -1,5 +1,24 @@
 # axios
 
++ 引用方式 CDN 或 ` yarn add axios ` 导入
++ 发送请求使用 `axios(config)` config 为请求的配置对象
++ 配置对象
+  + method : 请求方式 : GET \ POST \ PUT \ DELETE
+  + url : 请求链接
+  + data : 请求体
+
++ 请求方式 :
++ `axios.request(config)` 使用方式与 axios 函数一致
++ `axios.post(url,data,config)`
+
++ 返回结果 : response
+  + config : 配置对象
+  + data : 响应体,返回数据
+  + headers : 响应头信息
+  + request : 原生的 XMLHttpRequest 对象
+  + status : 响应状态码
+  + statusText : 响应字符串
+
 ```js
 // 设置默认地址
 axios.defaults.baseURL = 'http://127.0.0.1:8000';
@@ -148,7 +167,7 @@ xhr.onreadystatechange = function () {
 }
 ```
 
-# 练习服务断设置
+# 练习服务端设置
 
 ```js
 // 引入 express
