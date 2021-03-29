@@ -1285,6 +1285,9 @@ npm install --save-dev babel-cli
 + 默认安装目录 `node_modules`
 + 淘宝景象 cnpm 国内的比较快
 + yarn 修复了一些 npm 的 BUG
++ `yarn config get registry` 查看当前镜像源
++ `yarn config set registry https://registry.npm.taobao.org` 切换镜像源
++ `yarn config set registry https://registry.yarnpkg.com` 切换自带
 + ![yarn用法](./images/yran.png)
 
 
@@ -1374,7 +1377,8 @@ devDependencies：开发时的依赖。里面的模块是开发时用的，发�
     "copy-to-clipboard": "^3.3.1" // 复制  
   },
 "scripts": {// 切换默认启动的浏览器
-    "start": " set BROWSER=chrome&&react-scripts start"
+    "start": " set BROWSER=chrome&&react-scripts start",
+    "start": "set BROWSER=none&& set PORT=8080&& react-scripts start"//端口和浏览器
 },
 ```
 
