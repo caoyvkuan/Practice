@@ -75,9 +75,11 @@
            备注:
            odd[选中奇数位置的元素]   even【选中偶数位置的元素】
            n 可以是一个表达式：an+b的格式
+      		n 为隔几个选中一个 2n 就是没两个选中一个,也就是隔一个选中一个
+      		b +1 从第一个开始  -1 从第零隔开始
           /*	从第三个开始每隔一个会选中一次	*/
-          :nth-child(2n+3)					2n+2 	从第二个开始往后每隔一个选中一次
-          :nth-child(-2n+3)	反方向选中		-2n+7   从第7个开始往前每隔一个选中一次
+          :nth-child(2n+3)	2n+2 	从第二个开始往后每隔一个选中一次
+          :nth-child(-2n+3)反方向选中	-2n+7   从第7个开始往前每隔一个选中一次
       
           /* 每4个选1个，但仅限于最后4项 */ 
           .Item:nth-child(4n+1):nth-last-child(-n+4), 
@@ -93,9 +95,9 @@
            	div:not(.top, .right){}
       		选中除了div中的.top和.right其他所有div
            :is()	即将能用
-           :is(header, main):hover{}	等价于 header:hover,main:hover{}
+         :is(header, main):hover{}	等价于 header:hover,main:hover{}
       ```
-
+      
     + **:target**
 
       + 被锚链接指向的时候会触发该选择器	锚链接被点击跳转过去后		
@@ -275,23 +277,23 @@
 
 + ```css
   transition: property duration timing-function delay ;
+  transition: 属性是个复合属性，她包括以下几个子属性：
   
-      transition属性是个复合属性，她包括以下几个子属性：
+  property ：规定设置过渡效果的css属性名称
+  	取值:none |all |property;	值为指定的css属性应用过渡效果，多个属性用逗号隔开
   
-      transition-property ：规定设置过渡效果的css属性名称
-  		取值:none |all |property;	值为指定的css属性应用过渡效果，多个属性用逗号隔开
+  duration ：规定完成过渡效果需要多少秒或毫秒   此属性为0不会产生过度效果  
   
-      transition-duration ：规定完成过渡效果需要多少秒或毫秒
-  		此属性为0不会产生过度效果  
+  timing-function ：指定过渡函数，规定速度效果的速度曲线
+  	取值:linear | ease | ease-in | ease-out | ease-in-out | chbic-bezier(n,n,n,n)
+  		linear: 恒速	
+  		ease: 由快到慢到更慢	
+  		ease-in:越来越快	
+  		ease-out:越来越慢
+  		ease-in-out:先加速后减速
   
-      transition-timing-function ：指定过渡函数，规定速度效果的速度曲线
-  		取值:linear | ease | ease-in | ease-out | ease-in-out | chbic-bezier(n,n,n,n)
-  			linear: 恒速	ease: 由快到慢到更慢	ease-in:越来越快	ease-out:越来越慢
-  			ease-in-out:先加速后减速
-  
-      transition-delay ：指定开始出现的延迟时间  1s  就是触发后延迟1秒在执行
+  delay ：指定开始出现的延迟时间  1s  就是触发后延迟1秒在执行
   					负值提前过度
-  
   	默认值分别为：all 0 ease 0 
   	transition: tarnsform 2s;	过度属性 完成tarnsform动画需要2秒
   a{ transition: background 0.8s ease-in 0.3s,color 0.6s ease-out 0.3s;}
@@ -885,7 +887,7 @@ filter: opacity(10%) blur(2px) sepia(35%);
   	规定align-items属性值baseline，规定基线对齐。
   	也就是元素中的文本都以第一个元素的文本的基线对齐。
   
-  ☞ 设置子元素换行后的对齐方式（ align-content:stretch; - 默认)
+  ☞ 设置子元素换行后侧轴的对齐方式（ align-content:stretch; - 默认)
   	可选值 : flex-start | flex-end | center
   			space-between | space-around | stretch
   	意思 : stretch - 默认。各行将会伸展以占用剩余的空间。
