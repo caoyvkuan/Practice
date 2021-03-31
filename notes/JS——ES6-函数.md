@@ -2685,7 +2685,7 @@ const asyncReadFile = async function () {
 + async 函数的返回值就是一个 promise 对象
   + 返回 promise 对象的状态由返回值决定
 + await 右侧的表达式一般为 promise 对象,但也可以是其他的值或是表达式.
-  + 如果表达式是 promise 独享, await 返回的是 promise 成功的值
+  + 如果表达式是 promise 对象, await 返回的是 promise 成功的值
   + 如果表达式是其他的值,直接将此值作为 await 的返回值
   + await 只能写在 async 函数中,其他位置没有这个关键字
   + 如果 await 的 promise 失败了就会抛出异常,需要通过 try...catch 进行捕获
