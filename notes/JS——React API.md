@@ -724,8 +724,9 @@ var ReactDOMServer = require('react-dom/server');
 import React, { useState } from 'react';
 // 声明一个新的叫做 “count” 的 state 变量
   function Example() {
-  // 声明一个新的叫做 “count” 的 state 变量
+  // 声明一个新的叫做 “count” 的 state 变量, 初始值为 0
   const [count, setCount] = useState(0);
+  // 可以利用返回的 setCount 函数来进行修改
   return (
     <div>
       <p>You clicked {count} times</p>
@@ -770,46 +771,158 @@ function ExampleWithManyStates() {
   + 只能在函数最外层调用 Hook。不要在循环、条件判断或者子函数中调用。
   + 只能在 React 的函数组件中调用 Hook。不要在其他 JavaScript 函数中调用。
   + 在自定义 Hook 中是可以调用的。
++ 使用 `npm install eslint-plugin-react-hooks --save-dev` 来校验
+```json
+// ESLint 配置
+{
+  "plugins": [
+    // ...
+    "react-hooks"
+  ],
+  "rules": {
+    // ...
+    "react-hooks/rules-of-hooks": "error", // 检查 Hook 的规则
+    "react-hooks/exhaustive-deps": "warn" // 检查 effect 的依赖
+  }
+}
+```
+
+### 其他 Hook
+
++ useContext 让你不使用组件嵌套就可以订阅 React 的 Context。
++ useReducer 可以让你通过 reducer 来管理组件本地的复杂 state。
+
+## State Hook
+
++ Hook 在 class 组件中不起作用,但是可以让函数组件来取代 class 组件.
++ 使用 Hook 需要引入 `import React, {useState} from 'react'`
++ useState 是允许在函数组件中添加 state 的 Hook
++ useState 的初始值可以接收一个函数进行计算并返回一个初始的值
+  + `useState(()=>{return initialState})`
+  + 这个函数值会在初次渲染时才被调用
+```js
+// 声明 state 变量   count 的初始值为 0
+const [count, setCount] = useState(0);
+// 可以通过 setCount 来更新 count 的值
+// 使用 count 就可以直接读取 state
+// useState 仅在第一次渲染的时候创建 state 变量, 后续不会创建新的,而是返回当前的
+
+function Counter({initialCount}) {
+  const [count, setCount] = useState(initialCount);
+  // React 会确保 setState 函数的标识是稳定的，并且不会在组件重新渲染时发生变化。
+  return ( // 不同的用法,可以直接传入函数返回一个值进行更新
+    <>
+      Count: {count}
+      <button onClick={() => setCount(initialCount)}>Reset</button>
+      <button onClick={() => setCount(prevCount => prevCount - 1)}>-</button>
+      <button onClick={() => setCount(prevCount => prevCount + 1)}>+</button>
+    </>
+  );
+}
+```
++ 调用 useState 方法定义一个 state 变量,尽管函数退出后也会被 React 保存
+  + 返回两个参数且为数组,所以可以使用结构赋值的方式取出,名字可以随意 :
+  + 第一个为变量 , 第二个为设置变量的方法
+  + useState 可以接收一个参数, 参数为返回变量的初始值
++ 更新的时候这个方法所做的是直接替换,而不是像 this.setState 一样合并
 
 ## Effect Hook
 
 + React 组件中执行过数据获取、订阅或者手动修改 DOM ， 这样的操作统一称为“副作用”，或者简称为“作用”。
 + useEffect 就是一个 Effect Hook，给函数组件增加了操作副作用的能力。
 + 它跟 class 组件中的 `componentDidMount、componentDidUpdate 和 componentWillUnmount` 具有相同的用途，只不过被合并成了一个 API。
++ 也就是说这个 Hook useEffect 是这三个函数的组合
++ 这个 Hook 类似于 class 组件的生命周期
 ```js
-import React, { useState, useEffect } from 'react';
+import React,{useState,useEffect} from 'react'
+
 function Example(){
-  const [count, setCount] = useState(0);
-  // 相当于 componentDidMount 和 componentDidUpdate:
-  useEffect(() => {
-    // 使用浏览器的 API 更新页面标题
+  // 这个方法类似于生命周期的 componentDidMount and componentDidUpdate:
+  useEffect(()=>{
     document.title = `You clicked ${count} times`;
-  });
+    // 相当于
+    /*  componentDidMount() {
+      document.title = `You clicked ${this.state.count} times`;
+    }
+    componentDidUpdate() {
+      document.title = `You clicked ${this.state.count} times`;
+    } */
+
+    // 订阅消息
+    ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange);
+
+  return () => {
+    // 这返回的函数相当于 componentWillUnmount 生命周期
+    // 可以在这里取消订阅等操作
+    ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
+  }
+  })
+
+
+  return <h1></h1>
 }
 ```
-+ 当调用 useEffect 时，就是在告诉 React 在完成对 DOM 的更改后运行你的“副作用”函数。
-+ 因为是在函数组件中声明的，所以可以访问到组件中的 props 和 state
-+ 默认情况下，React 会在每次渲染后调用副作用函数 —— 包括第一次渲染的时候。
++ useEffect 会在组件渲染和更新时执行传入的函数, Hook 使用了 JS 的闭包机制
+  + 每一次的渲染和更新之后都会执行
+  + 每次都会进行重新渲染生成新的 effect 而保持最新
+  + 这个方法不会阻塞浏览器更新屏幕
 
-+ 副作用函数还可以通过返回一个函数来指定如何“清除”副作用。
-```js
-useEffect(() => {
-  ChatAPI.subscribeToFriendStatus(props.friend.id, handleStatusChange);
-  return () => {
-    ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
-  };
-});
-// 通过返回的函数来清除订阅
-// React 会在组件销毁时取消对 ChatAPI 的订阅，然后在后续渲染时重新执行副作用函数。
-```
-+ 跟 useState 一样，你可以在组件中多次使用 useEffect
++ 清除不需要的 effect , 比如 订阅和发布
+  + 清除操作会在卸载时执行清除操作, effect 每一次渲染都会执行,也就是卸载操作每次更新也会执行,因为渲染时会替换为全新的 effect 函数,也就相当与上一个 effect 被卸载了.
+  + 如果 uesEffect 返回一个函数,React 将会在执行清除操作时调用它,也就相当与 componentWillUnmount 这个生命周期
+
++ 每次更新都要运行 effect 是为了避免一些数据或内存泄漏的问题
+
++ 跟 useState 一样，你可以在组件中多次使用 useEffect , 也可以很轻松的实现关注分离
++ 将不同的概念分开,相同的功能统合在一起
 + 通过使用 Hook，可以把组件内相关的副作用组织在一起（例如创建订阅及取消订阅）
 + 而不需要把它们拆分到不同的生命周期函数里。
+
++ 如果想执行只运行一次的 effect（仅在组件挂载和卸载时执行），可以传递一个空数组（[]）作为第二个参数。
++ React 会等待浏览器完成画面渲染之后才会延迟调用 useEffect，因此会使得额外操作很方便。
+
+### 优化
+
++ 避免不必要的更新
+```js
+// 生命周期 通过比较上一次 prevState 的值与当前 State 的值来进行判断
+componentDidUpdate(prevProps, prevState) {
+  if (prevState.count !== this.state.count) {
+    document.title = `You clicked ${this.state.count} times`;
+  }
+}
+
+// 第二个参数为 判断是否需要更新的标记, 只有传入的参数改变了才会执行 effect
+// 这个参数为 数组
+useEffect(() => {
+  document.title = `You clicked ${count} times`;
+}, [count]); // 仅在 count 更改时更新
+```
+
+### 执行顺序
+
+```js
+// Mount with { friend: { id: 100 } } props
+ChatAPI.subscribeToFriendStatus(100, handleStatusChange);     // 运行第一个 effect
+
+// Update with { friend: { id: 200 } } props
+ChatAPI.unsubscribeFromFriendStatus(100, handleStatusChange); // 清除上一个 effect
+ChatAPI.subscribeToFriendStatus(200, handleStatusChange);     // 运行下一个 effect
+
+// Update with { friend: { id: 300 } } props
+ChatAPI.unsubscribeFromFriendStatus(200, handleStatusChange); // 清除上一个 effect
+ChatAPI.subscribeToFriendStatus(300, handleStatusChange);     // 运行下一个 effect
+
+// Unmount
+ChatAPI.unsubscribeFromFriendStatus(300, handleStatusChange); // 清除最后一个 effect
+```
 
 ## 自定义 Hook
 
 + 重用一些状态逻辑，利用 高阶组件和 render props 的方式可以解决，
 + 利用 Hook 可以在不增加组件的情况下实现相同的目的。
++ 以约定的 use 作为函数的开头很重要,因为这可以让 React 帮助检查
++ 使用 useReducer 可以利用 reducer 的方式来管理 State
 ```js
 import React, { useState, useEffect } from 'react';
 // 首先，把逻辑抽取到一个叫做 useFriendStatus 的自定义 Hook 里
@@ -818,19 +931,21 @@ function useFriendStatus(friendID) {
   const [isOnline, setIsOnline] = useState(null);
 
   function handleStatusChange(status) {
-    setIsOnline(status.isOnline);
+    setIsOnline(status.isOnline); // 得到在线状态
   }
 
   useEffect(() => {
+    // 订阅对应 ID 的在线状态
     ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange);
     return () => {
+      // 取消对应 ID 的订阅
       ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange);
     };
   });
 
-  return isOnline;
+  return isOnline; // 返回状态
 }
-// 复用
+// 复用 这样就不用对单个的 ID 进行状态的订阅了,在使用的时候调用这个自定义的 Hook 就行
 const isOnline = useFriendStatus(props.friend.id);
 ```
 + Hook 是一种复用状态逻辑的方式，它不复用 state 本身。
@@ -840,7 +955,85 @@ const isOnline = useFriendStatus(props.friend.id);
 + 如果函数的名字以 “use” 开头并调用其他 Hook，我们就说这是一个自定义 Hook。
 + useSomething 的命名约定可以让 linter 插件在使用 Hook 的代码中找到 bug。
 
-## 其他 Hook
+## Hook API
 
-+ useContext 让你不使用组件嵌套就可以订阅 React 的 Context。
-+ useReducer 可以让你通过 reducer 来管理组件本地的复杂 state。
++ [链接](https://react.docschina.org/docs/hooks-reference.html)
+
++ 基础
+  + useState
+  + useEffect
+  + useContext
++ 额外的 [链接](https://react.docschina.org/docs/hooks-reference.html#additional-hooks)
+  + useReducer
+  + useCallback
+  + useMemo
+  + useRef
+  + useImperativeHandle
+  + useLayoutEffect
+  + useDebugValue
+
+### 基础 Hook
+
++ useContext
++ [链接](https://react.docschina.org/docs/hooks-reference.html#usecontext)
+  + `const value = useContext(MyContext);`
+  + 接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。
+  + 当前的 context 值由上层组件中距离当前组件最近的 <MyContext.Provider> 的 value prop 决定。
+
++ 当组件上层最近的 <MyContext.Provider> 更新时，该 Hook 会触发重渲染，并使用最新传递给 MyContext provider 的 context value 值。
+
++ useContext(MyContext) 只是让你能够读取 context 的值以及订阅 context 的变化。
++ 你仍然需要在上层组件树中使用 <MyContext.Provider> 来为下层组件提供 context。
+
++ 使用这个也就免除了需要利用 MyContext.Consumer 组件 来读取 context 值的过程
+```jsx
+// 直接读取到 MyContext 最近的值, 很方便
+const context = useContext(MyContext);
+
+<MyContext.Consumer>
+  {a =>{
+    // 在这里通过 a 来读取 context 传递的值
+    return <h1>{a}</h1>
+  }}
+</MyContext.Consumer>
+```
+
+### 额外的
+
+### useReducer
+
++ `const [state, dispatch] = useReducer(reducer, initialArg, init);`
++ useState 的替代方案。
++ 它接收一个形如 (state, action) => newState 的 reducer，
++ 并返回当前的 state 以及与其配套的 dispatch 方法。
++ [参考链接](https://react.docschina.org/docs/hooks-reference.html#usereducer)
+```js
+const initialState = {count: 0};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return {count: state.count + 1};
+    case 'decrement':
+      return {count: state.count - 1};
+    default:
+      throw new Error();
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return (
+    <>
+      Count: {state.count}
+      <button onClick={() => dispatch({type: 'decrement'})}>-</button>
+      <button onClick={() => dispatch({type: 'increment'})}>+</button>
+    </>
+  );
+}
+```
+
+### useRef
+
++ `const refContainer = useRef(initialValue);`
++ useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内保持不变。
