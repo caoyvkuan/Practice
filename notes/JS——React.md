@@ -1640,6 +1640,8 @@ MyClass.contextType = MyContext;
 
 ### Context.Consumer
 
++ 用来消费 Context 的值
+
 ```jsx
 <MyContext.Consumer>
   {value => /* 基于 context 值进行渲染*/}

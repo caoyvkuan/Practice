@@ -537,6 +537,7 @@ xhr.onreadystatechange = function () {
 ```js
 const proxy = require('http-proxy-middleware');
 // 发送请求的链接 : http://localhost:8080/api1/data
+// 给本地发送请求可以省略协议和域名 : /api1/data
 module.exports = function (app) {
    app.use(//接收多个参数,也就是多个代理
       proxy('/api1', { // 遇见 /api1 前缀的请求,才会触发这个代理

@@ -1318,7 +1318,6 @@ filter: opacity(10%) blur(2px) sepia(35%);
   + 给父盒子设置伪类: `:afte{clear:both;}`
 + 浮动会影响其后同级的块级元素    所以一般会在浮动布局外套个盒子
 + 上为行内块(inline-block)显示方式            下为浮动显示方式
-+ ![img](E:/Github/Practice/notes/images/ZQG0T7ZBI%XR(]H8)JLBW]5.png)
 
 ## 字体设置
 
