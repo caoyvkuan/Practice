@@ -455,8 +455,9 @@ video.playbackRate=2; 	2倍播放速度
 # 常用标签
 
 + 超链接**a**
-
   + target属性可指向a链接的加载位置 		_blank 默认每次都在新窗口打开
+  + `<a href="#add">` 锚点 add
+  + 然后在需要跳转的内容中添加属性 `name="add"` 设置 id 属性也可以
 
 + 图片**img**
 
