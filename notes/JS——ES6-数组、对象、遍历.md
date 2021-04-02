@@ -853,7 +853,11 @@ Reflect.ownKeys({ [Symbol()]:0, b:0, 10:0, 2:0, a:0 })
 + this 关键字总是指向函数所在的当前对象，ES6 又新增了另一个类似的关键字 super，指向当前对象的原型对象。
 + 注意，super 关键字表示原型对象时，只能用在对象的方法之中，用在其他地方都会报错。
 ```js
-const proto = {foo: 'hello'};
+const proto = {foo: 'hello',obj:{a:1,name:{age:18}}};
+// 解构赋值连续使用
+const {obj:{a}} = proto; // a == 1 , 被声明的只有 a, 对象 obj 并未声明,可以多层连续使用
+const {obj:{name:{age}}} // age == 18
+const {obj:{name:{age:data}}} // 改名 data == age == 18
 
 const obj = {foo: 'world',
   find() {

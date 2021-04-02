@@ -403,6 +403,10 @@ axios({
 
 # fetch
 
++ 采用了关注分离的思想
++ fetch 与 XMLHttpRequest  有三个主要的差异
+  + `fetch()`使用 Promise，不使用回调函数，因此大大简化了写法，写起来更简洁。
+
 ```js
 fetch('http://127.0.0.1:8000/all', {
 	method: 'POST',
@@ -411,7 +415,7 @@ fetch('http://127.0.0.1:8000/all', {
 }).then(response => {
 	// console.log(response);
 	// return response.text();
-	return response.json();
+	return response.json(); // 返回一个 promise 对象
 }).then(response => {
 	console.log(response);
 });
