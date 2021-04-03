@@ -248,7 +248,7 @@ const {id, name} = props.location.state || {};
 
 ## router API
 
-### <BrowserRouter>
+### \<BrowserRouter\>
 
 + 使用 HTML5 history API 记录（ pushState，replaceState 和 popstate 事件）的 `<Router>` 使您的UI与URL保持同步。
 ```jsx
@@ -287,7 +287,7 @@ const getConfirmation = (message, callback) => {
 + children: node
   + 一个用于渲染的基本元素
 
-### <HashRouter>
+### \<HashRouter\>
 
 + 和 BrowserRouter 基本一样,不过只拥有三个属性
 + 适用于静态文件服务器 
@@ -306,7 +306,7 @@ const getConfirmation = (message, callback) => {
   + "noslash" - 创建像 # 和的 #sunshine/lollipops hash 表
   + "hashbang" - 创建 “ajax crawlable” （由Google弃用）hash，如 #！/ 和 #！/sunshine/lollipops
 
-### <Link>
+### \<Link\>
 
 + 提供一个可访问的链接。
 + `<Link to="/about">About</Link>`
@@ -340,7 +340,7 @@ const getConfirmation = (message, callback) => {
   + 允许访问 ref 组件的底层
   + `innerRef={node=>{/* 操作 node */}}`
 
-### <NavLink>
+### \<NavLink\>
 
 + 一个特殊版本的 Link，当它与当前 URL 匹配时，为其渲染元素添加样式属性。
 + 基础属性与 `<Link>` 一样
@@ -364,7 +364,7 @@ const getConfirmation = (message, callback) => {
   + `(match, location) => { return bool}`
   + 确定链接是否处于活动状态的额外逻辑函数
 
-### <Route>
+### \<Route\>
 
 + 在 location 与 Route 的 path 匹配时呈现一些 UI。
 + `<Route>` 有三种渲染的方法： 每一个 Router 都只能使用一种
@@ -402,7 +402,7 @@ const getConfirmation = (message, callback) => {
 + location: object
 + sensitive: bool : 如果路径区分大小写，true 为不区分
 
-### <Redirect>
+### \<Redirect\>
 
 + 渲染 `<Redirect>` 将使导航到一个新的地址。相当于重新定向
 + 可以用来设置默认显示的路由组件
@@ -416,10 +416,14 @@ const getConfirmation = (message, callback) => {
   )
 )}/>
 
+
 // 默认 显示的组件
 <Switch>
+	{/* 显示默认组件一 */}
+   <Route exact path="/" render={() => <Redirect to="/Learning" />} /> 
    <Route path="/nav" component={Nav} />
    <Route path="/content" component={Content} />
+     {/* 显示默认组件二 */}
    <Redirect to="/nav" />
 </Switch>
 ```
@@ -433,7 +437,7 @@ const getConfirmation = (message, callback) => {
 + exact: bool : 完全匹配 from；相当于 Route.exact。
 + strict: bool : 严格匹配 from；相当于 Route.strict。
 
-### <Switch>
+### \<Switch\>
 
 + 渲染与该地址匹配的第一个子节点 `<Route>` 或者 `<Redirect>`。
 + 利用 `<Switch>` 包裹 `<Route>` 在匹配到第一个后不在继续向下匹配,浪费性能
@@ -446,7 +450,7 @@ const getConfirmation = (message, callback) => {
   + `<Switch>` 的所有子级都应该是 `<Route>` 或 `<Redirect>` 元素。
   + 将渲染当前位置匹配的第一个子级。
 
-### <Router>
+### \<Router\>
 
 + Router 是所有路由组件共用的底层接口。
 + 通常，我们的应用程序将使用其中一个高级路由器代替：
@@ -463,7 +467,7 @@ const getConfirmation = (message, callback) => {
 + `withRouter(Home)`
 + 高阶组件
 
-### <Prompt>
+### \<Prompt\>
 
 + 从核心(react-router)重新导出 Prompt。
 

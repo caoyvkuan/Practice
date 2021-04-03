@@ -750,13 +750,6 @@ module.exports = function (app) {
 }
 ```
 
-# JSON-Server
-
-+ 安装 : npm install -g json-server
-+ 启动 : json-server --watch db.json
-
-+ ![配置](./images/json-server.webp)
-
 # 服务端配置 nodejs
 
 ```js
