@@ -1382,8 +1382,6 @@ npm install --save-dev babel-cli
 + `yarn config set registry https://registry.yarnpkg.com` 切换自带
 + ![yarn用法](./images/yran.png)
 
-
-
 + `npm install -g name` 为全局安装 
 + 不是全局默认安装在执行命令的文件夹
 + 配置文件设置

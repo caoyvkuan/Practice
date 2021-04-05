@@ -686,24 +686,12 @@ arr.sort(unstableSorting)
 
 + ES6 允许在大括号里面，直接写入变量和函数，作为对象的属性和方法。这样的书写更加简洁。
 + 注意，简写的对象方法不能用作构造函数，会报错。
++ 变量名和对象属性名相同就可以简写,函数也一样
 ```js
 const foo = 'bar';
 const baz = {foo};    // {foo: "bar"}
-// 等同于
-const baz = {foo: foo};
-//变量 foo 直接写在大括号里面。这时，属性名就是变量名, 属性值就是变量值。
 
-//下面是另一个例子。
-function f(x, y) {
-  return {x, y};
-}//这种写法用于函数的返回值，将会非常方便。
-// 等同于
-function f(x, y) {
-  return {x: x, y: y};
-}
-f(1, 2) // Object {x: 1, y: 2}
-
-- 方法也可以简写。
+// 方法也可以简写。
 
 const o = {
   method() {
