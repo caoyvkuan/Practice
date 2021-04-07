@@ -161,6 +161,17 @@ class Weather extends React.Component{
 }
 ```
 
+### setState 两种写法
+
++ `setState(stateChange,[callback])`
+  + stateChange : 改变状态的对象
+  + + callback -> 这个回调会在 state 更新完毕且页面更新后才会被调用
+
++ `setState(updater,[callback])`
+  + updater 函数为返回一个 stateChange 对象的函数
+  + updater 可以接受到 state 和 props -> (state,props) => stateChange
+
+
 ### 生命周期
 
 + 将组件渲染到 DOM 中，这在 React 中被称为“挂载（mount）”。
@@ -943,6 +954,122 @@ PubSub.publish('car.sell', {newOwner: 'someone else'});
   + 引入 `import name from './index.module.css`
   + 使用 `<div className={name.className}>`
 
+## lazyLoad
+
++ 懒加载
++ 在需要使用的时候才加载
++ 所有需要利用 懒加载 的都需要利用 lazy 方法引入
+```js
+// react 懒加载需要使用 lazy, Suspense
+import React, { lazy, Suspense } from 'react'
+// lazy 传入一个函数 返回一个 组件的引入
+// 需要利用懒加载的都可以使用这种方式
+const Home = lazy(() => import('./pages/Home'));
+const Learning = lazy(() => import('./pages/Learning'));
+const Lose = lazy(() => import('./pages/Lose404'));
+
+// 在路由组件没被加载的时候需要显示一个默认显示的 组件
+// 所有懒加载的路由组件都需要用 Suspense 包裹
+// 加载路由组件过程中显示的组件就放在 fallback 中
+// 利用懒加载可以制作 加载中的 效果
+<Suspense fallback={<h1>Loading......</h1>}>
+  <Switch>
+    {/* 首次加载导向首页 */}
+    <Route exact path="/" render={() => <Redirect to="/home" />} />
+    <Route path="/home" component={Home} />
+    <Route path="/learning" component={Learning} />
+    {/* 404 警告 */}
+    <Route component={Lose} />
+  </Switch>
+</Suspense>
+
+```
+
+## 性能优化
+
++ react 的 React.Component 的问题
+  + 只有执行了 setState() 即时不改变状态也会进行组件的更新,也就是调用 render()
+  + 当前组件更新后也会更新子组件 ,纵使子组件没有用到父组件的数据也会进行更新
+  + 这样会导致 效率很低,这样频繁的组件更新导致:
+    + class 组件重新调用 render()
+    + function 组件直接全部重新执行
+
++ 效率高的做法就是 state 或 props 数据发生变化时才更新
+
+### 函数组件优化
+
++ 使用 React.memo(Component,areEqual);
++ React.memo 其实是一个高阶函数，传递一个组件进去，返回一个可以记忆的组件。
++ 默认情况下其只会对 props 的复杂对象做浅层对比
++ (浅层对比就是只会对比前后两次 props 对象引用是否相同，不会对比对象里面的内容是否相同)
++ 如果想要控制对比过程，那么可以将自定义的比较函数通过第二个参数传入来实现。
+
++ `areEqual(prevProps,nextProps){/*这个函数能够收到前后两次 props 的值*/}`
++ 与 shouldComponentUpdate 生命周期使用方式类似,
++ 返回 true 就表示两次 props 相等,不进行更新
++ 返回 false 就表示两次 props 不相等,进行更新
+```js
+// 通过将组件包裹 React.memo ,可以让组件避免在 props 没有改变的时候进行更新
+const Component = React.memo(() => {
+  return <h2>组件</h2>
+});
+```
+
++ 使用 useCallback 可以避免传入的 onClick 等函数没有发生改变时不进行重新渲染组件
+```js
+const callback = () => {
+  doSomething(a, b);
+}
+const memoizedCallback = useCallback(callback, [a, b])
+/*
+  把函数以及依赖项作为参数传入 useCallback，它将返回该回调函数的 memoized 版本，
+  这个 memoizedCallback 只有在依赖项有变化的时候才会更新。
+*/
+```
+
+### class 组件优化
+
++ 方法一:
+  + 利用 shouldComponentUpdate 生命周期钩子
+```js
+shouldComponentUpdate(nextProps,nextState){
+  // this.State : 当前的 State
+  // nextState : 即将更新成的 State
+  // 通过比较状态是否变化来调整是否进行更新
+  if(this.state === nextState){
+    return false; // 不更新
+  }else{
+    return true; // 更新
+  }
+}
+```
+
++ 方式二: 这也是常用的
+  + 不继承 React.Component 而是继承 React.PureComponent
+  + React.PureComponent 是纯组件
+  + PureComponent 默认重写了 shouldComponentUpdate 生命周期,来实现判断更新
+  + PureComponent 只是对 state 和 props 进行了浅比较
+  + 如果数据对象内部只是数据变了,但是原来的对象就不会进行更新
+  + 使用 PureComponent 时要注意使用 setState 需要返回一个新的数据(对象)
+```js
+const {arr} = this.state;
+// 不论是更新 对象还是数组 都是如此 , 更新引用类型的值都需要返回一个全新的
+this.setState({['将原数组替换为一个新数组才会进行更新!',...arr]});
+```
+
+### 虚拟列表
+
++ 库
+  + react-virtualized
+  + react-window 更轻量的 react-virtualized, 同出一个作者
++ 只渲染当前窗口可以看见的组件
++ 应用
+  + 无限滚动列表，grid, 表格，下拉列表，spreadsheets
+  + 无限切换的日历或轮播图
+  + 大数据量或无限嵌套的树
+  + 聊天窗，数据流(feed), 时间轴
+  + 等等
+
 ## Diffing算法
 
 + 最小更新范围是一个标签节点,但是标签里面嵌套的标签不会被影响。
@@ -1572,11 +1699,14 @@ render() {
 // 指定 contextType 读取当前的 theme context。
 // React 会往上找到最近的 theme Provider，然后使用它的值。
 // 在这个例子中，当前的 theme 值为 “dark”。
+// 这中方式只 适用于 class 组件
 static contextType = ThemeContext;
+// 需要声明静态属性 static 接收 ThemeContext
 render() {
   return <Button theme={this.context} />;
 }
 ```
++ 函数组件中使用需要利用 Consumer 组件来消费,或者利用 useContext
 
 ## 是否需要使用 Context 
 
@@ -1651,13 +1781,13 @@ MyClass.contextType = MyContext;
 
 + context 对象接受一个名为 displayName 的 property，类型为字符串。
 + React DevTools 使用该字符串来确定 context 要显示的内容。
-```js
+```jsx
 // 下述组件在 DevTools 中将显示为 MyDisplayName：
 const MyContext = React.createContext(/* some value */);
 MyContext.displayName = 'MyDisplayName';
 
-<MyContext.Provider> // "MyDisplayName.Provider" 在 DevTools 中
-<MyContext.Consumer> // "MyDisplayName.Consumer" 在 DevTools 中
+<MyContext.Provider /> // "MyDisplayName.Provider" 在 DevTools 中
+<MyContext.Consumer /> // "MyDisplayName.Consumer" 在 DevTools 中
 ```
 
 ### 注意事项
@@ -1699,27 +1829,30 @@ class App extends React.Component {
 ## 错误边界
 
 + 用于捕获错误，而不至于无法显示 UI 界面
++ 只能捕获 子组件 生命周期中出现的错误
 + 错误边界无法捕获以下场景中产生的错误
   + 事件处理
   + 异步代码（例如 setTimeout 或 requestAnimationFrame 回调函数）
   + 服务端渲染
   + 它自身抛出来的错误（并非它的子组件）
 
-+ 如果一个 class 组件中定义了 static getDerivedStateFromError() 或 componentDidCatch() 这两个生命周期方法中的任意一个（或两个）时，那么它就变成一个错误边界。
-+ 当抛出错误后，使用 static getDerivedStateFromError() 渲染备用 UI ，使用 componentDidCatch() 打印错误信息。
++ 如果一个 class 组件中定义了 static getDerivedStateFromError() 或 
++ componentDidCatch() 这两个生命周期方法中的任意一个（或两个）时，那么它就变成一个错误边界。
++ 当抛出错误后，
++ 使用 static getDerivedStateFromError() 渲染备用 UI ，
++ 使用 componentDidCatch() 打印错误信息。
 ```jsx
 class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
     this.state = { hasError: false };
-  }
 
   static getDerivedStateFromError(error) {
     // 更新 state 使下一次渲染能够显示降级后的 UI
+    console.log(error);
     return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
+    // 统计错误
     // 你同样可以将错误日志上报给服务器
     logErrorToMyService(error, errorInfo);
   }
@@ -1733,7 +1866,19 @@ class ErrorBoundary extends React.Component {
     return this.props.children; 
   }
 }
-// 可以将它作为一个常规组件去使用：
+
+render() {
+  const { state: { hasError }, props: { children } } = this;
+  return (
+      <>
+        {hasError ? <h1>APP出错了</h1> : children}
+      </>
+  );
+}
+
+
+// 可以将它作为一个常规组件去使用：包裹可能会出错的组件
+// 这样就可以吧错误限制在规定的一定的范围内
 <ErrorBoundary>
   <MyWidget />
 </ErrorBoundary>
@@ -1816,6 +1961,10 @@ render(){
 + [高阶组件](https://react.docschina.org/docs/higher-order-components.html)
 
 + 高阶组件（HOC）是 React 中用于复用组件逻辑的一种高级技巧。
++ 常见的一些高阶组件
+  + React.memo 就是一个高阶组件
+  + react-redux 中的 connect
+  + react-router 中的 withRouter
 + HOC 自身不是 React API 的一部分，它是一种基于 React 的组合特性而形成的设计模式。
 
 + 具体而言，高阶组件是参数为组件，返回值为新组件的函数。
@@ -2039,6 +2188,23 @@ function onRenderCallback(
 <DataProvider render={data => (
   <h1>Hello {data.target}</h1>
 )}/>
+// DataProvider 内部
+function DataProvider(props){
+
+  const {render} = props;
+  const [state,setState] = useState({target:'目标'});
+
+  return(
+    <div>
+      <span>固定内容</span>
+      { // 这样的渲染方式可以重复利用 DataProvider 组件来渲染不同的内容
+        // 且所有的内部渲染的组件都可以得到 DataProvider 组件的状态或是一些数据
+        render(state)
+      }
+    </div>
+  )
+
+}
 ```
 
 + 这种方法可以提高组件的复用率。
@@ -2085,7 +2251,9 @@ renderTheCat(mouse) {
 + render prop 是因为模式才被称为 render prop
 + 不一定要用名为 render 的 prop 来使用这种模式。
 + children prop 并不真正需要添加到 JSX 元素的 “attributes” 列表中。相反，你可以直接放置到元素的内部！
-```js
+```jsx
+// 在 render 内部书写方法会导致每一次都生成一个新函数
+// 将方法定义在 class 中,或是使用 useCallBack 进行优化创建
 <Mouse>
   {mouse => (
     <p>鼠标的位置是 {mouse.x}，{mouse.y}</p>

@@ -691,13 +691,13 @@ var ReactDOMServer = require('react-dom/server');
 
 ### checked
 
-+ 当 <input> 组件的 type 类型为 checkbox 或 radio 时，组件支持 checked 属性。
++ 当 `<input>` 组件的 type 类型为 checkbox 或 radio 时，组件支持 checked 属性。
 + defaultChecked 属性可以设置首次挂载时的默认选中。
 
 ### 名字的改变
 
 + class 改用 className 表示
-+ className 属性用于指定 CSS 的 class，此特性适用于所有常规 DOM 节点和 SVG 元素，如 <div>，<a> 及其它标签。
++ className 属性用于指定 CSS 的 class，此特性适用于所有常规 DOM 节点和 SVG 元素，如 `<div>，<a>` 及其它标签。
 
 + for 改用 htlFor 表示 ，label 标签。
 
@@ -705,7 +705,7 @@ var ReactDOMServer = require('react-dom/server');
 + 是因为 onChange 在浏览器中的行为和名称不对应，并且 React 依靠了该事件实时处理用户输入。
 
 + selected
-+ <option> 组件支持 selected 属性。你可以使用该属性设置组件是否被选择。这对构建受控组件很有帮助。
++ `<option>` 组件支持 selected 属性。你可以使用该属性设置组件是否被选择。这对构建受控组件很有帮助。
 
 + style
 + 不推荐直接使用 style 来设置元素的样式，一般只在需要动态计算样式时才使用
@@ -713,7 +713,7 @@ var ReactDOMServer = require('react-dom/server');
 + React 会自动添加 px 到内联样式为数值的属性后，不需要手动添加，如果使用其他的单位需要使用字符串的方式设置
 
 + value
-+ <input> 和 <textarea> 组件支持 value 属性。用于构建受控组件
++ `<input>` 和 `<textarea>` 组件支持 value 属性。用于构建受控组件
 
 # [合成事件](https://react.docschina.org/docs/events.html)
 
@@ -965,7 +965,7 @@ const isOnline = useFriendStatus(props.friend.id);
   + useContext
 + 额外的 [链接](https://react.docschina.org/docs/hooks-reference.html#additional-hooks)
   + useReducer
-  + useCallback
+  + useCallback -> 用于优化性能
   + useMemo
   + useRef
   + useImperativeHandle
@@ -1002,6 +1002,7 @@ const context = useContext(MyContext);
 
 ### useReducer
 
++ 一个模仿 redux 更新 state 的方式,传递给子组件的更新方法也会更加简单
 + `const [state, dispatch] = useReducer(reducer, initialArg, init);`
 + useState 的替代方案。
 + 它接收一个形如 (state, action) => newState 的 reducer，
@@ -1037,3 +1038,50 @@ function Counter() {
 
 + `const refContainer = useRef(initialValue);`
 + useRef 返回一个可变的 ref 对象，其 .current 属性被初始化为传入的参数（initialValue）。返回的 ref 对象在组件的整个生命周期内保持不变。
+
+### useCallback
+
++ `useCallback(callback, [])`, 返回该回调函数的 memoized 版本
++ `[]` : 更新依赖,传入更新所依赖的变量,
+  + 只有数组中传入的参数发生改变时才会更新传入回调函数,并返回一个新的函数
+  + 如果依赖没有变动,就会一直返回第一次返回的函数
+  + 依赖项数组不会作为参数传给回调函数。虽然从概念上来说它表现为：所有回调函数中引用的值都应该出现在依赖项数组中。
++ 可以避免传入 props 的回调函数发生改变
++ 配合 React.memo 可以防止传入 props 的函数引起的不必要更新
+```jsx
+React.memo(()=>{
+  // 不直接使用  callback 是因为每次更新组件会引起这个函数重新生成
+  // 这样导致 子组件更新 是没有必要的 所以需要使用 useCallback 记忆函数
+  const callback = () => {
+    setTitle("标题改变了");
+  };
+
+  // 通过 useCallback 进行记忆 callback，并将记忆的 callback 传递给 Child
+  const memoizedCallback = useCallback(callback, [])
+
+return <Child onClick={memoizedCallback} name="桃桃" />
+})
+```
++ `useCallback(fn, deps) 相当于 useMemo(() => fn, deps)`
+
+### useMemo
+
++ react 的性能优化就是减少不必要 render 和 计算的次数
++ React.memo 和 useCallback 有效的减少了 render 的次数
++ 而 useMemo 就是用来减少计算次数的
+```js
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+
+function computeExpensiveValue() {
+  // 计算量很大的代码
+  return xxx
+}
+
+const memoizedValue = useMemo(computeExpensiveValue, [a, b]);
+/*
+  第一个参数就是一个函数，这个函数返回的值会被缓存起来，同时这个值会作为 useMemo 的返回值
+  第二个参数是一个数组依赖，如果数组里面的值有变化，那么就会重新去执行第一个参数里面的函数，并将函数返回的值缓存起来并作为 useMemo 的返回值 。
+*/
+```
++ 如果没有提供依赖项数组，useMemo 在每次渲染时都会计算新的值；
++ 计算量如果很小的计算函数，也可以选择不使用 useMemo，因为这点优化并不会作为性能瓶颈的要点，反而可能使用错误还会引起一些性能问题。

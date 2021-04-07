@@ -6,6 +6,12 @@
 + [yarn](https://yarnpkg.com/)
   + [Learn](https://yarn.bootcss.com/docs/)
 
+## serve
+
++ 可以运行一个服务器,可以用来运行打包后的页面,会开启一个虚拟服务器
++ npm i -g serve
++ serve pathName , 执行指定文件夹
+
 ## PubSubJS
 
 + 订阅与发布
@@ -89,3 +95,8 @@ module.exports = override(
    }),
 );
 ```
+
+## 虚拟滚动
+
++ react-window 和 react-virtualized 
++ 在有限的时间内仅渲染有限的内容
