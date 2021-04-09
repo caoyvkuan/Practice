@@ -1496,57 +1496,8 @@ npm install --save-dev babel-cli
   + 通过配置 package.json 中的 ` "homepage":"." ` 来部署本地运行的版本
   + 这个是将内部的链接从绝对路径切换为相对路径
 
-## npm package
 
-### npm 的使用
-
-+ [网站](https://www.npmjs.com/)
-+ 默认安装目录 `node_modules`
-+ 淘宝景象 cnpm 国内的比较快
-+ yarn 修复了一些 npm 的 BUG
-+ `yarn config get registry` 查看当前镜像源
-+ `yarn config set registry https://registry.npm.taobao.org` 切换镜像源
-+ `yarn config set registry https://registry.yarnpkg.com` 切换自带
-+ ![yarn用法](./images/yran.png)
-
-+ `npm install -g name` 为全局安装 
-+ 不是全局默认安装在执行命令的文件夹
-+ 配置文件设置
-
-```js
-// 查看镜像的配置结果
-npm config get registry 
-npm config get disturl
-
-// 将 npm 切换设置为淘宝的镜像
-npm config set registry https://registry.npm.taobao.org --global
-npm config set disturl https://npm.taobao.org/dist --global
-
-// 使用 npm 工具进行切换
-npx nrm use taobao
-npx nrm use npm 切换回去
-```
-
-### 命令
-
-``` js
-npm -v //查看版本  npm install 可以直接将配置中的包全部下载
-npm install ModuleName  // 安装模块  install 可以简写为 i， npm i name
-npm install ModuleName -g // 全局安装
-npm update ModuleName // 更新模块版本  没有不会进行更新
-npm uninstall ModuleName // 卸载模块
-npm init --yes // 生成 package 配置文件 不加 --yes 可以自己来写配置项
-npm list -g // 查看全局安装的模块
-npm list name // 查看某个模块的版本号
-npm -g install npm@5.9.1 // @ 符号后跟版本号就可以切换
-npm install -save ModuleName // -save 在 package 文件的 dependencies 节点写入依赖
-npm install -save-dev ModuleName // -save-dev 在 package 文件的 devDependencies 节点写入依赖，dependencies：运行时的依赖，发布后，即生产环境下还需要使用的模块
-/* 
-devDependencies：开发时的依赖。里面的模块是开发时用的，发布时用不到它，不如项目中使用的 gulp，压缩css、js的模块，这一些是在项目部署的时候不需要的
-*/
-```
-
-### package
+## package
 
 ```json
 {
@@ -1580,7 +1531,7 @@ devDependencies：开发时的依赖。里面的模块是开发时用的，发�
 
 
 
-### 常用
+## 常用
 
 ```json
 "homepage": ".",// 打包的时候路劲设置为相对路径方便在本地使用

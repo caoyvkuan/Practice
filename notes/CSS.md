@@ -646,6 +646,7 @@ currentColor 80%,transparent 0);
   + **font-style** 
     + normal	正常
     + *italic*   倾斜
+  + font-size :calc(10px + 2vmin)
 
 + **text-indent** 首行缩进只对文本起作用
 

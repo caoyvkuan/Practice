@@ -59,43 +59,27 @@
 + [配置文档](https://ant.design/docs/react/customize-theme-cn)
 
 + 按需引入 antd 样式
-+ 安装这两个库
-+ react-app-rewired 修改执行规则
-+ customize-cra 修改默认的配置
-+ yarn add react-app-rewired customize-cra
++ 安装  yarn add  @craco/craco
 ```js
 /* 修改 package.json */
 "scripts": {
--   "start": "react-scripts start",
-+   "start": "react-app-rewired start",
--   "build": "react-scripts build",
-+   "build": "react-app-rewired build",
--   "test": "react-scripts test",
-+   "test": "react-app-rewired test",
+   "start": "craco start",
+   "build": "craco build",
+   "test": "craco test",
 }
 ```
-+ 在项目根目录创建一个 config-overrides.js 用于修改默认配置。
-```js
-module.exports = function override(config, env) {
-  // do stuff with the webpack config...
-  return config;
-};
-```
++ 在项目根目录创建一个 craco.config.js 用于修改默认配置。
 + 安装使用 : babel-plugin-import
-+ babel-plugin-import 是一个用于按需加载组件代码和样式的 babel 插件
 + yarn add babel-plugin-import
 ```js
-// 修改 config-overrides.js
-const { override, fixBabelImports } = require('customize-cra');
-module.exports = override(
-   fixBabelImports('import', {
-     libraryName: 'antd',
-     libraryDirectory: 'es',
-     style: 'css',
-   }),
-);
+module.exports = {
+   babel: {
+      plugins: [
+         ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' 		}]
+      ]
+   },
+};
 ```
-
 ## 虚拟滚动
 
 + react-window 和 react-virtualized 
