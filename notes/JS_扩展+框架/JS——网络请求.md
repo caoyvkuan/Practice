@@ -30,7 +30,7 @@
   + axios.all(iterable)
   + axios.spread(callback)
 
-+ 返回结果 : response
++ 返回结果 : promise -> response
   + config : 配置对象
   + data : 响应体,返回数据
   + headers : 响应头信息
@@ -843,7 +843,7 @@ app.all('/cors',(request, response) =>{
 // 创建请求标签
 const script = document.createElement('script');
 // 设置请求链接
-script.src = 'url';
+script.src = `url/?wd=${param}&callback=?`;
 // 加入网页中发送请求
 document.body.appendChild(script);
 
@@ -855,7 +855,7 @@ $.getJSON('url?callback=?', function (data) {
 app.all('/jsonp',(request, response) =>{
 	const data = {name:'Nice'}; // 数据
 	let str = JSON.stringify(data); // 转化为字符串
-	let cb = request.query,callback; // 前端发送过来的 callback 函数
+	let cb = request.query.callback; // 前端发送过来的 callback 函数
 	response.end(`${cb}(${str})`); // 返回函数调用的代码
 })
 ```

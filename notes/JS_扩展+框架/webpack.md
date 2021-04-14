@@ -685,15 +685,20 @@ if('serviceWorker' in navigator){
 
 ## externals
 
-+ 在打包时忽略一些第三方库,也就是不讲第三方库打包到文件当中
++ 在打包时忽略一些第三方库,也就是不将第三方库打包到文件当中
 + 这样需要在 html 中将第三方的库的 CDN 链接引入
++ 按需引入的情况下不推荐使用，这样引入 CDN 链接是全部引入
 ```js
 {
    entry:'...',
-   externals:{
-      //  拒绝 jQuery 被打包
-      jquery:'jQuery'
-   }
+    externals: {
+       // 需要忽略打包的 第三方库
+       // 包名 ： 暴露的全局变量名
+      // 'React': 'react',  错误
+      'react': 'React',
+      // 'ReactDOM': 'react-dom', 错误
+      'react-dom': 'ReactDOM',
+    },
 }
 ```
 

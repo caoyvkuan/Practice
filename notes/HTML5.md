@@ -405,7 +405,7 @@ video.playbackRate=2; 	2倍播放速度
     <meta http-equiv="refresh" content="3" url="">刷新3秒后跳转链接
     <meta http-equiv="expires" content=""/>缓存处理
   <meta name="theme-color" content="red"> 针对安卓地址栏的配色,兼容不好几乎没用
-    
+  
   + 辅助响应式布局   主要针对移动端
   + ```html
     <meta name="viewport" content="width=device-width"> 
@@ -537,6 +537,7 @@ video.playbackRate=2; 	2倍播放速度
   + 触发BFC   触发该规范,就可以使用block特性
     + 浮动(除了none)  定位( `absolute ,  fixed` )
     + `display: inline-block | table-cells | flex`
+    + flex 给父盒子添加,子盒子才会触发 BFC
     + `overflow:hidden | auto | scroll`
   + 触发BFC规范的容器可以形成一个独立的容器,不受外界的影响,从而解决一些布局问题
     + 解决margin叠加问题(发生在上下布局)

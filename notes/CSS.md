@@ -391,7 +391,7 @@ backface-visibility: hidden;
 
 1. ```css
    /* 连写	时间 第一个是执行时间	第二个是延迟执行时间 */
-   animation: name 2s infinite linear alternate 1s forwards;
+   animation: name 2s(持续时间) infinite(执行次数) linear(速度) alternate(方向) 1s(延迟) forwards(执行完毕停留位置);
    
    /* 调用  动画名称 */
    animation-name: rotate;
