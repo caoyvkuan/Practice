@@ -456,9 +456,12 @@ video.playbackRate=2; 	2倍播放速度
 
 + 超链接**a**
   + target属性可指向a链接的加载位置 		_blank 默认每次都在新窗口打开
+  + 使用 _blank 时,需要添加 rel="noopener noreferrer"
+  	+ 否则被打开的网页中就可以通过 window.opener 得到 当前页面的 window 对象
+	+ 设置 rel 将 window.opener 设置为空
   + `<a href="#add">` 锚点 add
   + 然后在需要跳转的内容中添加属性 `name="add"` 设置 id 属性也可以
-
+  
 + 图片**img**
 
   + alt  图片加载失败时的文字提示      设置为空可以让图片加载失败时，不显示加载失败的图片装饰
