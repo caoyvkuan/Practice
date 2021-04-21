@@ -339,7 +339,7 @@ window.addEventListener('mousemove', function(event) {
   + 在页面中设置事件处理程序所需的时间更少,只添加一个时间处理程序所需的 DOM 引用更少,所花时间也更短
   + 整个页面占用内存空间更少,能够提升整体性能
 
-```js
+```jsx
 <ul id="myLinks">
   <li data-id="1"> 需添加点击事件</li>
   <li data-id="2"> 需添加点击事件</li>
@@ -372,7 +372,7 @@ list.addEventListener("click",function(){
 },false);
 ```
 
-### 移除时间处理程序
+### 移除事件处理程序
 
 + 在带有事件处理程序的元素被删除时,先移除该元素的事件处理程序,
 + 删除按钮也能阻止事件冒泡,目标元素在文档中是事件冒泡的前提

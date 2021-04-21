@@ -1496,41 +1496,6 @@ npm install --save-dev babel-cli
   + 通过配置 package.json 中的 ` "homepage":"." ` 来部署本地运行的版本
   + 这个是将内部的链接从绝对路径切换为相对路径
 
-
-## package
-
-```json
-{
-    "name":"名字",
-    "version":"包的版本",
-    "homepage":"官网url", // . 打包为本地项目, 不写默认打包为服务端项目
-    "description":"描述",
-    "dependencies":{ // 发布时的依赖
-        "antd": "4.12.3", // 不加符号 固定使用的版本
-        "antd": "^4.12.3", // ^符号会自动更新 后两位小版本
-        "antd": "~4.12.3", // ~符号会自动更新 最后一位小版本
-    },
-    "devDependencies":{
-        // 开发时的依赖，打包时会排除
-    },
-    "script":{
-        "name":"执行命令,利用 npm run name 来执行"
-    }
-    "main":"指定程序主入口文件",
-    "keywords":[
-    	"关键字",
-    ]
-    "repository":{// 包存放的位置
-    	"type":"git",
-    	"url":"git"
-	},
-    "author":"作者姓名",
-    "contributors":"其他贡献者名字",
-}
-```
-
-
-
 ## 常用
 
 ```json
@@ -1597,28 +1562,6 @@ npm install envify browserify
 
 <!-- 引入 JSX ， 将使用 JSX 的 script 标签加上 type="text/babel" 属性 不适合生产环境 -->
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-```
-
-## 部署开发环境
-
-1. 创建项目 ``  npx create-react-app my-app  ``
-2. 启动 ``  cd myApp  ``  ``  npm start  ``
-3. 执行 npm run build 会在 build 文件夹内生成你应用的优化版本。生产版本
-
-+ 部署
-```js
-// 部署 JSX 项目文件夹
-npm init -y
-npm install babel-cli@6 babel-preset-react-app@3
-创建一个名为 src 的文件夹并执行这个终端命令：
-npx babel --watch src --out-dir . --presets react-app/prod 
-
-// 代码压缩
-1. Install Node.js
-2. Run npm init -y in your project folder  // (don't skip this step!)
-3. Run npm install terser
-// 压缩指令
-npx terser -c -m -o like_button.min.js -- like_button.js
 ```
 
 # Context

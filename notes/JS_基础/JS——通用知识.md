@@ -246,6 +246,9 @@ console.log('代码执行结束');
 					而 then 属于微任务
 */
 ```
++ process.nextTick() -> 会在宏任务结束后微任务开启前执行
++ Promise.then() -> 在微任务开始时执行
++ setTimeout() -> 在下一次宏任务开始时执行
 
 + 更加准确的划分
   + `macro - task(宏任务): 包括整体 script 代码,setTimeout,setInterval`
