@@ -51,6 +51,10 @@
   + 再输入 eval `ssh-agent -s`
 + 然后在测试链接
 
++ 自动登录,在 git 安装目录的 etc/bash.bashrc 后加两句
+  + eval `ssh-agent -s`
+  + eval `ssh-add D://SSH/id_rsa`
+
 # tag 标签
 
 + tag -> 给指定的版本打上 tag 默认都是轻量标签
@@ -141,7 +145,7 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 
 + git log --oneline --decorate --graph --all
 + 设置别名
-+ git config --global alias.list "log --oneline --decorate --graph --all"
++ git config --global alias.ls "log --oneline --decorate --graph --all"
 
 + git branch name -> 创建一个分支
 + git branch -> 查看所有分支,并显示当前所在分支

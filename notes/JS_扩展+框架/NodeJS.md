@@ -473,7 +473,58 @@ app.get('/list', (req, res, next) => {
 
 # koa
 
++ 主体 yarn add koa
++ 路由 yarn add @koa/router
++ 响应体 yarn add koa-bodyparser
++ 静态资源 yarn add koa-static
++ 会话 yarn add koa-session
++ yarn add koa-jwt
++ 视图模板 koa-views
++ 安全 npm i koa-helmet
++ 文件过大压缩传输 npm i koa-compress
 
+```js
+// 主体
+const Koa = require('koa');
+
+const app = new Koa(); // 创建 APP
+
+// 取出相应数据的 中间件  npm install --save koa-bodyparser@3
+const bodyParser = require('koa-bodyparser')
+app.use(bodyParser())
+
+// 静态资源
+const static = require('koa-static')
+app.use(static(path.join( __dirname,  staticPath)))
+
+app.use(async ctx => {
+   
+   const data = 'name'
+
+    //  body 来相应数据
+   cxt.body = data;
+})
+
+// 路由  npm install --save koa-router@7
+const Router = require('koa-router')
+// 创建路由
+let home = new Router()
+let page = new Router()
+// 设置路由
+home.get('/', async ( ctx )=>{});
+page.get('/', async ( ctx )=>{});
+// 装载路由
+let router = new Router()
+router.use('/', home.routes(), home.allowedMethods())
+router.use('/page', page.routes(), page.allowedMethods())
+// 使用路由
+app.use(router.routes()).use(router.allowedMethods())
+
+
+const port = 3131;
+app.listen(port);
+console.log(`服务已经在 : http://localhsot:${port}  启动了!`)
+```
 
 # MongoDB
 
@@ -596,6 +647,17 @@ app.get('/list', (req, res, next) => {
 
 ## 用户
 
++ 开启验证后链接数据库
+  + 修改 安装目录 mongod.cfg 文件,添加
+  + security:
+    + authorization: enabled
+```
+mongodb://[username]:[password]@[prot]/[db]?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false
+```
+
++ 查看已有用户 -> show users
++ 删除用户 -> db.dropUser("username")
++ db.changeUserPassword('root','rootNew'); 改密码
 ```
 // 创建用户
 db.createUser({
@@ -606,6 +668,8 @@ db.createUser({
     db: 'admin'  // 数据库
   }]
 })
+
+db.createUser({user: "root",pwd: "root",roles: [ { role: "root", db: "admin" } ]})
 
 // 登录数据库
 // 方式一
@@ -627,6 +691,67 @@ mongo admin -u admin -p 123456
 5. 所有数据库角色： readAnyDatabase、readWriteAnyDatabase、userAdminAnyDatabase、
 dbAdminAnyDatabase
 6. 超级用户角色：root
+
+## 数据迁移
+
++ [参考](https://www.cnblogs.com/lmh001/p/10069958.html)
+
+导出命令：mongoexport
+
+语法：mongoexport -d dbname -c collectionname -o filepath --type json/csv -f field
+
+-d：数据库名
+
+-c：集合名称
+
+-o : 导出数据文件的路径
+
+-type : 导出数据类型，默认json
+
+导入命令：mongoimport
+
+语法：mongoimport -d dbname -c collectionname --file filename --headerline --type json/csv -f field
+
+-d：数据库名
+
+-c：集合名称
+
+--file : 选择导入的文件
+
+-type : 文件类型，默认json
+
+-f : 字段，type为csv是必须设置此项
+
+# mongoose
+
++ 数据库连接
++ 创建 Schema , 规定参数与数据类型,数据结构
++ 创建 Model , 用来创建文档对象
++ new Model , 得到文档对象来进行操作数据库
+```js
+const mongoose = require('mongoose');
+// 消除警告
+const obj = {
+   useNewUrlParser: true,
+   useUnifiedTopology: true
+}
+// 连接数据库
+mongoose.connect('mongodb://127.0.0.1/MyBlog', obj);
+// 获取数据库对象
+const db = mongoose.connection;
+// 连接错误监听
+db.on('error', console.error.bind(console, 'connection error:'));
+// 成功监听
+db.once('open', function () {
+   console.log('数据库连接成功!')
+});
+// 关闭监听
+db.once('close', function () {
+   console.log('数据库链接已经断开!')
+});
+// 手动关闭链接
+mongoose.disconnect();
+```
 
 # npm & yarn
 

@@ -829,7 +829,7 @@ const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
    port: 3000,
    // 自动打开浏览器,为本机默认浏览器
    open: true,
-   hot: true
+   hot: true,
    // 域名
    host:'localhost',
    // 不要显示启动服务器日志信息
