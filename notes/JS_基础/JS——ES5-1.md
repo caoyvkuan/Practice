@@ -1097,7 +1097,7 @@ type.isRegExp(/abc/) // true
     - 如果设为false，会使得某些操作（比如for...in循环、Object.keys()、JSON.stringify方法）跳过该属性。
   + `writable:false`  
     - writable是一个布尔值，表示属性值（value）是否可改变（即是否可写），
-    - 默认为true。
+    - 默认为 true。
   + `value:'小明'`  
     - value是该属性的属性值，
     - 默认为undefined。
@@ -1108,7 +1108,7 @@ type.isRegExp(/abc/) // true
     - set是一个函数，表示该属性的存值函数（setter），
     - 默认为undefined。
 
-+ 注意，一旦定义了取值函数get（或存值函数set），就不能将writable属性设为true，或者同时定义value属性，否则会报错。
++ 注意，一旦定义了取值函数get（或存值函数set），就不能将 writable 属性设为 true，或者同时定义 value 属性，否则会报错。
 
 + 存取器
   - 除了直接定义以外，属性还可以用存取器定义。
@@ -1143,7 +1143,7 @@ var obj = {
 第二种写法，属性p的configurable和enumerable都为true，因此属性p是可遍历的。
 实际开发中，写法二更常用。
 
-注意，取值函数get不能接受参数，存值函数set只能接受一个参数（即属性的值）。
+注意，取值函数 get 不能接受参数，存值函数 set 只能接受一个参数（即属性的值）。
 
 存取器往往用于，属性的值依赖对象内部数据的场合。
 var obj ={
@@ -1569,6 +1569,7 @@ arr.filter(myFilter, obj) // [8, 4, 9]
     + thisValue 作用对象
   + `some()` 如果该函数任意一项返回 true , 则返回 true
 + 它们接受一个函数作为参数，所有数组成员依次执行该函数。该函数接受三个参数：当前成员、当前位置和整个数组，然后返回一个布尔值。
+  
   + 同样接受第二个函数来绑定内部 this 变量
   
 + reduce()，reduceRight()
