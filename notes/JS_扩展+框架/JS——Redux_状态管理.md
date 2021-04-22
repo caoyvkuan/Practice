@@ -184,6 +184,8 @@ export default createStore(calcReducer,
       applyMiddleware(thunk) // 不用异步 action 就可以不传
    )
 )
+// 因为开发者工具挂载在浏览器上,所以也可以这样设置第二个参数
+window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : undefined
 ```
 
 ## API
