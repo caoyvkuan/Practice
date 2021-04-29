@@ -737,7 +737,7 @@ const obj = {
    useUnifiedTopology: true
 }
 // 连接数据库
-mongoose.connect('mongodb://127.0.0.1/MyBlog', obj);
+mongoose.connect('mongodb://[username:password@]127.0.0.1/MyBlog', obj);
 // 获取数据库对象
 const db = mongoose.connection;
 // 连接错误监听
@@ -753,6 +753,12 @@ db.once('close', function () {
 // 手动关闭链接
 mongoose.disconnect();
 ```
+
+# 秘钥生成
+
++ 打开生成页面 -> openssl
++ 私钥 -> genrsa -out path/name 2048 , 2048 -> 私钥长度
++ 根据私钥生成公钥 -> rsa -in path/name -pubout -out path/name
 
 # npm & yarn
 

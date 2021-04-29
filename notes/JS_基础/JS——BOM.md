@@ -738,6 +738,81 @@ window.myFrame // [HTMLIFrameElement]
 frames.myframe === myFrame // true
 ```
 
+# API
+
+## IntersectionObserver
+
++ 交叉观察器
++ 触发为异步
++ 可以观察元素是否存在与视口的可见范围
+```js
+var io = new IntersectionObserver(callback[, option]);
+```
++ callback是可见性变化时的回调函数，option是配置对象（该参数可选）。
+```js
+// 开始观察, 观察多个对象可以多次调用
+io.observe(document.getElementById('example'));
+
+// 停止观察
+io.unobserve(element);
+
+// 关闭观察器
+io.disconnect();
+```
++ callback一般会触发两次。一次是目标元素刚刚进入视口（开始可见），另一次是完全离开视口（开始不可见）。
++ callback函数的参数（entries）是一个数组，每个成员都是一个IntersectionObserverEntry 对象。被观察的成员有多少,数组就有多少个对象.
+
++ IntersectionObserverEntry 对象提供目标元素的信息，一共有六个属性。
+```js
+{
+  time: 3893.92, // time：可见性发生变化的时间，是一个高精度时间戳，单位为毫秒
+  rootBounds: ClientRect {
+    bottom: 920,
+    height: 1024,
+    left: 0,
+    right: 1024,
+    top: 0,
+    width: 920
+    // rootBounds：根元素的矩形区域的信息，getBoundingClientRect() 方法的返回值，如果没有根元素（即直接相对于视口滚动），则返回null
+  },
+  boundingClientRect: ClientRect {
+     // ... 目标元素的矩形区域的信息
+  },
+  intersectionRect: ClientRect {
+    // ... 目标元素与视口（或根元素）的交叉区域的信息
+  },
+  intersectionRatio: 0.54,
+  // 目标元素的可见比例，即 intersectionRect 占 boundingClientRect 的比例，完全可见时为1，完全不可见时小于等于0
+  target: element // target：被观察的目标元素，是一个 DOM 节点对象
+}
+```
+
++ options
+  + threshold属性决定了什么时候触发回调函数。
+    + 每个成员都是一个门槛值，默认为[0]，即交叉比例（intersectionRatio）达到0时触发回调函数。
+  + root 属性，rootMargin 属性
+    + root 设置相对的根节点
+    + rootMargin 计算可见区域的大小范围
+```js
+new IntersectionObserver(
+  entries => {/* ... */},
+  {
+    threshold: [0, 0.25, 0.5, 0.75, 1]
+  }
+);
+
+var opts = {
+  root: document.querySelector('.container'),
+  rootMargin: "500px 0px" //  top、right、bottom 和 left
+};
+
+var observer = new IntersectionObserver(
+  callback,
+  opts
+);
+```
+
+
 # Navigator 对象，Screen 对象。
 
 ## Navigator 对象的属性

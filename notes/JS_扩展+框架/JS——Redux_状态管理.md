@@ -351,10 +351,10 @@ ReactDOM.render(// 在这里引入全局唯一的 store 对象
 + 连接 React 组件与 Redux store。
 + ownProps 就是传递给 connect 组件的 props , 不传递 mergeProps 会默认传递给 UI 组件
 ```js
-const APP = connect({
+const APP = connect(
    mapStateToProps,
    mapDispatchToProps,
-})(/* component */) // 通过第二次调用传入需要链接的 react Component
+)(/* component */) // 通过第二次调用传入需要链接的 react Component
 ```
 + 根据配置信息，返回一个注入了 state 和 action creator 的 React 组件
 
@@ -384,3 +384,9 @@ const APP = connect({
     + 前提是当前组件是一个“纯”组件，它不依赖于任何的输入或 state 而只依赖于 props 和 Redux store 的 state。默认值为 true。
   + `[withRef = false] (Boolean)`: 如果为 true，connector 会保存一个对被包装组件实例的引用，该引用通过 getWrappedInstance() 方法获得。默认值为 false。
   + withRef -> 被删除了
+
+# Redux Toolkit
+
++ 工具集,简化 Redux 的使用
+
+## configureStore()
