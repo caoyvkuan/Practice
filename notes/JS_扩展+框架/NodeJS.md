@@ -695,10 +695,14 @@ dbAdminAnyDatabase
 ## 数据迁移
 
 + [参考](https://www.cnblogs.com/lmh001/p/10069958.html)
++ [mongoexport](https://www.mongodb.org.cn/manual/198.html)
++ [mongoimport](https://www.mongodb.org.cn/manual/197.html)
 
 导出命令：mongoexport
 
 语法：mongoexport -d dbname -c collectionname -o filepath --type json/csv -f field
+
+-h: 服务器地址，本地不用指定
 
 -d：数据库名
 
