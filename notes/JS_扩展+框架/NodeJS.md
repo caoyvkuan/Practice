@@ -475,6 +475,7 @@ app.get('/list', (req, res, next) => {
 
 + 主体 yarn add koa
 + 路由 yarn add @koa/router
++ CORS 设置 yarn add @koa/cors
 + 响应体 yarn add koa-bodyparser
 + 静态资源 yarn add koa-static
 + 会话 yarn add koa-session
@@ -740,7 +741,7 @@ const obj = {
    useUnifiedTopology: true
 }
 // 连接数据库
-mongoose.connect('mongodb://127.0.0.1/MyBlog', obj);
+mongoose.connect('mongodb://[username:password@]127.0.0.1/MyBlog', obj);
 // 获取数据库对象
 const db = mongoose.connection;
 // 连接错误监听
@@ -757,6 +758,12 @@ db.once('close', function () {
 mongoose.disconnect();
 ```
 
+# 秘钥生成
+
++ 打开生成页面 -> openssl
++ 私钥 -> genrsa -out path/name 2048 , 2048 -> 私钥长度
++ 根据私钥生成公钥 -> rsa -in path/name -pubout -out path/name
+
 # npm & yarn
 
 + [网站](https://www.npmjs.com/)
@@ -772,6 +779,9 @@ mongoose.disconnect();
 + `yarn config get registry` 查看当前镜像源
 + `yarn config set registry https://registry.npm.taobao.org` 切换镜像源
 + `yarn config set registry https://registry.yarnpkg.com` 切换自带
++ yarn upgrade 升级
++ yarn info 显示信息
++ sudo yarn cache clean 清除缓存
 + ![yarn用法](./images/yran.png)
 
 ## npm

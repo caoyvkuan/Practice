@@ -11,6 +11,14 @@
 7. head    -> 只要返回请求头中的信息,不响应数据
    1. 用于检查链接的有效性 , 查看页面是否被修改
 
+## 请求头
+
++ 服务器端
+	+ *Access-Control-Allow-Origin* -> 允许前端进行跨域的响应头
+	+ *Access-Control-Allow-Methods* -> 允许请求类型的响应头
+	+ *Access-Control-Expose-Headers* -> 让前端可以获取到自定义请求头
+	+ *Access-Control-Allow-Headers* -> 设置允许前端发送的请求头
+
 
 # axios
 
@@ -369,7 +377,6 @@ instance.defaults.headers.common['Authorization'] = AUTH_TOKEN;
   },
 
   // `cancelToken` 指定用于取消请求的 cancel token
-  // （查看后面的 Cancellation 这节了解更多）
   cancelToken: new CancelToken(function (cancel) {
   })
 }
