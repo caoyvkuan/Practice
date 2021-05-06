@@ -59,6 +59,47 @@
     + `modules:[resolve(__dirname,'./node_modules'),'node_modules']`
     + 这样可以直接告诉 webpack 去哪个文件夹中找, 而不需要 webpack 往上级文件夹中寻找 模块文件夹
 
+# 优化
+
+## gzip 压缩
+
+```js
+// 启用 gzip 压缩 
+const isGzip = true;
+const gzipConfig = { // 基本配置
+  filename: '[file].gz',
+  algorithm: 'gzip',
+  test: /.(js|css)$/,
+  threshold: 10240,
+  minRatio: 0.8
+}
+// 引入包
+const CompressionPlugin = require('compression-webpack-plugin');
+plugins:[ // 配置位置
+    isGzip && new CompressionPlugin(gzipConfig),
+]
+```
+
+## externals
+
++ 在打包时忽略一些第三方库,也就是不将第三方库打包到文件当中
++ 这样需要在 html 中将第三方的库的 CDN 链接引入
++ 按需引入的情况下不推荐使用，这样引入 CDN 链接是全部引入
+
+```js
+{
+   entry:'...',
+    externals: {
+       // 需要忽略打包的 第三方库
+       // 包名 ： 暴露的全局变量名
+      // 'React': 'react',  错误
+      'react': 'React',
+      // 'ReactDOM': 'react-dom', 错误
+      'react-dom': 'ReactDOM',
+    },
+}
+```
+
 # 基本
 
 + Webpack 默认可以打包 js 和 json 资源,其他则不行
@@ -682,25 +723,6 @@ if('serviceWorker' in navigator){
    + --> 方法二
      + npm i serve -g
      + serve -s build 启动服务器, 将 build 目录下所有的资源作为静态资源暴露出去
-
-## externals
-
-+ 在打包时忽略一些第三方库,也就是不将第三方库打包到文件当中
-+ 这样需要在 html 中将第三方的库的 CDN 链接引入
-+ 按需引入的情况下不推荐使用，这样引入 CDN 链接是全部引入
-```js
-{
-   entry:'...',
-    externals: {
-       // 需要忽略打包的 第三方库
-       // 包名 ： 暴露的全局变量名
-      // 'React': 'react',  错误
-      'react': 'React',
-      // 'ReactDOM': 'react-dom', 错误
-      'react-dom': 'ReactDOM',
-    },
-}
-```
 
 ## dll
 
