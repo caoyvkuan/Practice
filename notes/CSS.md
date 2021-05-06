@@ -213,6 +213,35 @@
 
 + **::selection**           当被鼠标选中的时候或处于高亮状态的部分
 
+# 技巧
+
+## 文字对其
+
++ 问题 : 在布局的时候需要将字数不同的行对其
+
++ 方法,需要定宽的块元素,设置 `text-align: justify` 
+
+	+ 还需要在内部包含一个行内块宽度百分百的元素,这里使用了 `after`
+
+	```scss
+	span {
+	    display: block;	// 必要
+	    text-align: justify;  // 必要
+	    height: 26px;
+	    line-height: 26px;
+	    width: 100px;	// 必要
+	    margin-right: 5px;
+	
+	    &::after {
+	        content: '';
+	        display: inline-block;	// 必要
+	        width: 100%;
+	    }
+	}
+	```
+
+	
+
 # CSS属性
 
 ## 自定义变量属性
@@ -872,7 +901,7 @@ filter: opacity(10%) blur(2px) sepia(35%);
   + `flex-direction   |  flex-wrap  |  flex-flow  |  justify-content  |  align-items  |  align-content`
   
   ```css
-简写方式:flex-flow:flex-dirextion flex-wrap;
+  简写方式:flex-flow:flex-dirextion flex-wrap;
   ☞ 设置伸缩盒子主轴方向:flex-dirextion:row; 【默认值】
   	可选值 : row-reverse 反转	| column | column-reverse
   ☞ 设置是否可以换行:flex-wrap:nowrap;【默认不换行都在一行显示】
