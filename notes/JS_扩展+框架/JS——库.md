@@ -34,7 +34,7 @@
 	// 清除订阅
 	PubSub.unsubscribe(token);
 	// 清除使用指定函数的订阅
-PubSub.unsubscribe(mySubscriber);
+	PubSub.unsubscribe(mySubscriber);
 	
 	// 清除消息名的订阅
 	PubSub.subscribe('a', myFunc1);
@@ -70,7 +70,7 @@ PubSub.unsubscribe(mySubscriber);
 
 + JS 唯一 id 生成器
 + `import { nanoid } from 'nanoid'`
-+ yarn nanoid
++ yarn add nanoid
 
 ## Copy to clipboard
 
