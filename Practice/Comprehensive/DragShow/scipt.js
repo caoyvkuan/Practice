@@ -453,6 +453,8 @@ Nice.Bind = {
         case 'view': {
           if (ev.type == 'drop') {
             let files = ev.dataTransfer.files;
+            // console.log(ev);
+            // console.log(files);
             Nice.Logic.shunt(Nice.Const.Div, files);
             Nice.Const.hiddenDiv.classList.remove('dragshadeshow');
           }

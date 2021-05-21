@@ -573,8 +573,6 @@ console.log(`服务已经在 : http://localhsot:${port}  启动了!`)
 + db.callName.update({name:''},{$inc:{age:number}})
   + $inc 为指定的字段加上一定的量,只能计算 数字类型  1 + 1
 
-
-
 + 删除数据
 + db.callName.remove({}) -> 只能用 object
   + 会默认删除所有的匹配项

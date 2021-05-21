@@ -2,6 +2,14 @@
 
 + [官方文档](https://react.docschina.org/docs/getting-started.html)
 
+```jsx
+<div // dangerouslySetInnerHTML 属性可以渲染 
+    dangerouslySetInnerHTML={{ __html: '<p>这是一个段落</p><hr/>' }}
+/>
+```
+
+
+
 ## 保留属性
 
 + props 属性
