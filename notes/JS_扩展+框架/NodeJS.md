@@ -527,6 +527,37 @@ app.listen(port);
 console.log(`服务已经在 : http://localhsot:${port}  启动了!`)
 ```
 
+
+
+## 代理
+
++ `yarn add koa2-proxy-middleware`
+
+```js
+const proxy = require('koa2-proxy-middleware');
+const options = {
+   targets: {
+       // 请求链接 /api?id=5
+      '/api': {
+          // 目标代理地址
+         target: 'http://localhost:3346/test',
+         changeOrigin: true,
+          // 请求链接地址重写
+          // 如果不从写则请求的地址为 'http://localhost:3346/test/api?id=5'
+          // 这样请求地址就错了
+         pathRewrite: {
+             // 从写后 'http://localhost:3346/test?id=5'
+            '/api':''
+             // 重写目标 : 重写为
+         }
+      },
+   }
+}
+app.use(proxy(options));
+```
+
+
+
 # MongoDB
 
 + 需要配置全局环境变量才可以在全局进行使用

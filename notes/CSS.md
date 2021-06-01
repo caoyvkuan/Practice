@@ -215,6 +215,13 @@
 
 # 技巧
 
+## 函数
+
++ `calc()` 计算
++ `clamp(min,cur,max)` 限制最大和最小值，当中间值超过最大或最小值时会采用相应的值
+
+
+
 ## 文字对其
 
 + 问题 : 在布局的时候需要将字数不同的行对其
@@ -494,6 +501,9 @@ background-size：wdith height;   		/*规定背景图片的尺寸。*/
 background-attachment: fixed;背景固定
 /*	背景定位	  精灵图*/
 background-position
+
+/* 背景层的混合模式 */
+background-blend-mode
 ```
 
 ### 灵活的背景定位
@@ -811,7 +821,7 @@ white-space: no-wrap;
   + 遮罩使用各种形状的图片  透明区域隐藏    实体区域显示,形成遮罩
 
 + ```css
-  -webkit-mask:url('') no-pepeat center center / 100px 100px;
+  -webkit-mask:url('') no-repeat center center / 100px 100px;
   ```
 
 ## 背景滤镜
