@@ -744,32 +744,42 @@ xhr.onreadystatechange = function () {
 + 方式二
   + 在 src 中创建 setupProxy.js 文件
 ```js
-const proxy = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 // 发送请求的链接 : http://localhost:8080/api1/data
 // 给本地发送请求可以省略协议和域名 : /api1/data
 module.exports = function (app) {
-   app.use(//接收多个参数,也就是多个代理
-      proxy('/api1', { // 遇见 /api1 前缀的请求,才会触发这个代理
-         target: 'http://loaclhost:5000', // 请求转发目标
-         changeOrigin: true, // 默认 false , 控制服务器收到的请求头中 HOST 字段的值
-			/*
-				为 false 服务端得到的是 页面的 host
-				为 true 服务端得到的是 服务器的 host
-			*/
-         pathRewrite:{'^/api1':''} // 将 /api1 替换为空字符串,重写请求路径
-			/*
-			  可以将 : http://localhost:8080/api1/data
-			  重写为 : http://localhost:8080/data
-			*/
-      }),
-      proxy('/api2', {
-         target: 'http://loaclhost:5001',
-         changeOrigin: true,
-         pathRewrite:{'^/api1':''}
-      })
-   )
+    // 多个代理使用正则或是多次调用 use
+    app.use('/api2', createProxyMiddleware({
+        target: 'http://xxx.com', // 目标地址
+        changeOrigin: true, // 默认为 false 控制服务器接收到的请求头中 HOST 字段的值
+        /*
+			为 false 服务端得到的是 页面的 host
+			为 true 服务端得到的是 服务器的 host
+        */
+        // 重写请求地址,以
+        pathRewrite: { //路径替换
+          '^/api2': '/api', // axios 访问/api2 == target + /api
+        }
+  }));
 }
 ```
+
+## 方式三
+
++ 修改 eject 后的 config 目录下的 webpackDevServer.js 配置文件
+
+```js
+proxy: {
+  '/api2': {
+    target: 'http://xxx.com', // 后台服务地址以及端口号
+    ws: true, // websoket 服务
+    changeOrigin: true, //是否跨域
+    pathRewrite: { '^/api2': '/api' }
+  }
+}
+```
+
+
 
 # 服务端配置 nodejs
 

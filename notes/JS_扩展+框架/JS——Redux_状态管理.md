@@ -390,3 +390,48 @@ const APP = connect(
 + 工具集,简化 Redux 的使用
 
 ## configureStore()
+
+```js
+import { configureStore } from '@reduxjs/toolkit'
+
+import {
+   pageInfoReducer,
+   userInfoReducer,
+   blogInfoReducer
+} from './index'
+
+export default configureStore({
+    // reducer 数据管理
+   reducer: {
+      page: pageInfoReducer,
+      user: userInfoReducer,
+      blog: blogInfoReducer
+   },
+   devTools: true,
+   // preloadedState: {}
+})
+```
+
+
+
+## createSlice()
+
+```js
+import { createSlice } from '@reduxjs/toolkit'
+const pageInfo = createSlice({
+   name: 'pageInfo',
+   initialState: {/*初始化数据*/},
+   reducers: {
+       // 操作数据
+      setPageInfo: (state, action) => void (state = action.payload),
+      setEffect: (state, action) => {
+          state = action.payload
+      }
+   }
+});
+// 导出操作方法
+export const { setPageInfo, setEffect } = pageInfo.actions;
+// 导出 reducer 对象将其附加给 store j
+export const pageInfoReducer = pageInfo.reducer;
+```
+

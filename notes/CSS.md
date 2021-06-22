@@ -440,6 +440,11 @@ backface-visibility: hidden;
    
    /* 动画执行的速度类型	同过度速度类型一样 */
    animation-timing-function: linear;
+   /* steps(number, position) 步骤,将一个动画分步骤完成 */
+   number: 代表了动画被分为多少段来执行
+   position: 取值为 start 和 end 和 jump-none
+   step-start == steps(1,start)
+   step-end == steps(1,end)
    
    /* 设置动画逆波 	动画结束后从结尾回放到开头	*/
    /*	alternate:正常回放	alternate-reverse:交替反向	reverse:倒放	*/
@@ -1231,6 +1236,8 @@ filter: opacity(10%) blur(2px) sepia(35%);
       如果浏览器的高为300px、宽为500px，那么vmin就是3px，vmax就是5px；如果浏览器的高为800px，宽为1080px，那么vmin也是8px，vmax也是10.8px
       */
       ```
+
+6. ch 这是一个用于字体宽度的单位, 1ch 就是一个字体的宽度
 
 6. 其他单位：
 
