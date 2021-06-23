@@ -447,7 +447,7 @@ video.playbackRate=2; 	2倍播放速度
       
       <link rel="stylesheet" media="screen and (orientation: portrait) and 
       (min-width: 800px)" href="800wide-portrait-screen.css" /> 
-    
+      
       media="screen and (orientation: portrait) and(min-width: 800px),projection"
       projection后不接条件表示支持具备任何特性的该媒体类型,适配所有投影机
       ```
@@ -465,6 +465,7 @@ video.playbackRate=2; 	2倍播放速度
 + 图片**img**
 
   + alt  图片加载失败时的文字提示      设置为空可以让图片加载失败时，不显示加载失败的图片装饰
+  + `naturalHeight` : 图片原始宽高
   + loading 属性  延迟加载
     + lazy 延迟加载图片资源
     + eager 立即加载，默认状态

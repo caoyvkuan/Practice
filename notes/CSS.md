@@ -215,6 +215,13 @@
 
 # 技巧
 
+## 函数
+
++ `calc()` 计算
++ `clamp(min,cur,max)` 限制最大和最小值，当中间值超过最大或最小值时会采用相应的值
+
+
+
 ## 文字对其
 
 + 问题 : 在布局的时候需要将字数不同的行对其
@@ -433,6 +440,11 @@ backface-visibility: hidden;
    
    /* 动画执行的速度类型	同过度速度类型一样 */
    animation-timing-function: linear;
+   /* steps(number, position) 步骤,将一个动画分步骤完成 */
+   number: 代表了动画被分为多少段来执行
+   position: 取值为 start 和 end 和 jump-none
+   step-start == steps(1,start)
+   step-end == steps(1,end)
    
    /* 设置动画逆波 	动画结束后从结尾回放到开头	*/
    /*	alternate:正常回放	alternate-reverse:交替反向	reverse:倒放	*/
@@ -494,6 +506,9 @@ background-size：wdith height;   		/*规定背景图片的尺寸。*/
 background-attachment: fixed;背景固定
 /*	背景定位	  精灵图*/
 background-position
+
+/* 背景层的混合模式 */
+background-blend-mode
 ```
 
 ### 灵活的背景定位
@@ -811,7 +826,7 @@ white-space: no-wrap;
   + 遮罩使用各种形状的图片  透明区域隐藏    实体区域显示,形成遮罩
 
 + ```css
-  -webkit-mask:url('') no-pepeat center center / 100px 100px;
+  -webkit-mask:url('') no-repeat center center / 100px 100px;
   ```
 
 ## 背景滤镜
@@ -1221,6 +1236,8 @@ filter: opacity(10%) blur(2px) sepia(35%);
       如果浏览器的高为300px、宽为500px，那么vmin就是3px，vmax就是5px；如果浏览器的高为800px，宽为1080px，那么vmin也是8px，vmax也是10.8px
       */
       ```
+
+6. ch 这是一个用于字体宽度的单位, 1ch 就是一个字体的宽度
 
 6. 其他单位：
 

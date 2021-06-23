@@ -86,6 +86,90 @@
 + 在深层数据修改上可以很方便的节约性能
 + [链接](https://www.npmjs.com/package/immutable)
 
+
+
+## immer 
+
++ 不可变数据,通常配合 Redux 使用
++ 在深层数据修改上可以很方便的节约性能
++ [链接](https://immerjs.github.io/immer/)
+
+## cheerio
+
++ 用 jq 一样的方式操作 html 字符串
++ `let $ = cheerio.load('html');`
++ [链接](https://www.npmjs.com/package/cheerio)
+
+## prismjs
+
++ 代码高亮
+
++ [官网](https://prismjs.com/)
+
++ webpack 配置
+
+	```js
+	// 在 babel-loader 的 plugins 添加
+	plugins:[
+	    [
+	        'prismjs',
+	        { // 支持语言
+	            'languages': [
+	                'javascript',
+	                'css',
+	                'markup',
+	                'typescript',
+	                'tsconfig',
+	                'mongodb',
+	                'markdown',
+	                'scss',
+	                'jsx',
+	                'tsx'
+	            ],
+	            // 各种功能
+	            'plugins': [
+	                'line-numbers',
+	                'line-highlight',
+	                'autolinker',
+	                'show-language',
+	                'inline-color',
+	                'previewers',
+	                'match-braces'
+	            ],
+	            'theme': 'okaidia',
+	            'css': true
+	        }
+	    ],
+	]
+	```
+
++ 使用
+
+```js
+import Prism from 'prismjs'
+const pres = document.querySelectorAll('pre');
+pres.forEach(pre => {
+    pre.id = Math.random().toString().slice(-6);
+    pre.classList.add('linkable-line-numbers');
+    pre.classList.add('rainbow-braces');
+    pre.setAttribute('data-line', ' ');
+    const lang = pre.dataset.lang;
+    const childNodes = pre.childNodes;
+    childNodes.forEach(child => {
+        if (child.nodeName === 'CODE') {
+            child.classList.add('line-numbers');
+            let code = child.innerText;
+            child.innerHTML = Prism.highlight(
+                code,
+                Prism.languages[lang],
+                lang
+            )
+            Prism.highlightElement(child);
+        }
+    });
+});
+```
+
 # React
 
 + [精品推荐](https://ant.design/docs/react/recommendation-cn)
@@ -97,6 +181,14 @@
 
 + [自定义主题](https://ant.design/docs/react/use-with-create-react-app-cn#%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%BB%E9%A2%98)
 + [配置文档](https://ant.design/docs/react/customize-theme-cn)
+
+## styled-components
+
++ 样式组件
+
+## use-immer
+
++ 不可变数据
 
 ### @craco/craco
 
