@@ -94,6 +94,19 @@
 + 在深层数据修改上可以很方便的节约性能
 + [链接](https://immerjs.github.io/immer/)
 
+## html2canvas
+
++ `yarn add html2canvas`
+
+```js
+import html2canvas from 'html2canvas'
+html2canvas(element).then(canvas => {
+    element.appendChild(canvas)
+})
+```
+
+
+
 ## cheerio
 
 + 用 jq 一样的方式操作 html 字符串
