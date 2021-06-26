@@ -6,6 +6,12 @@
 
 ## 类型
 
++ 联合类型 
+  + 且 `{ name:string } & { age:number }`
+  + 或 ` number | string`
+  + 别名 `type myType = string;`
+    + myType 就相当于 string
+
 + 数值 ：number
 + 字面量 ：是什么就只能赋值什么
 + 字符串 ：string
@@ -88,4 +94,28 @@ let length: number = (<string>name).length;
 let length: number = (name as string).length;
 
 let a:'a' = 'a'; // 字面量，指定的值
+```
+
+### object
+
+```js
+// 这样的写法可以限制对象只有指定属性,且 `?:` 可以设置可选属性
+let obj: { name:string, age?:number }
+
+// [propName: string]: any 表示可以拥有任意类型的属性都可以
+let obj: { name:string, [propName:string]: any }
+// [propName: string | number]
+// 属性签名的类型只能是 字符串或数值
+
+// 限制为函数 指定参数和返回值类型
+let fn: (a:number, b:number)=>number;
+```
+
+
+# tsconfig
+
++ 配置信息 tsconfig.json
++ 编译的配置文件
+```json
+
 ```

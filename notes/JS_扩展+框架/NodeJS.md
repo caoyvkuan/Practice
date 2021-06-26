@@ -811,7 +811,7 @@ mongoose.disconnect();
 + yarn upgrade 升级
 + yarn info 显示信息
 + sudo yarn cache clean 清除缓存
-+ ![yarn用法](./images/yran.png)
++ ![yarn用法](./images/yarn.png)
 
 ## npm
 
