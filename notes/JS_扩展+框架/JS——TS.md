@@ -98,7 +98,7 @@ let a:'a' = 'a'; // 字面量，指定的值
 
 ### object
 
-```js
+```ts
 // 这样的写法可以限制对象只有指定属性,且 `?:` 可以设置可选属性
 let obj: { name:string, age?:number }
 
@@ -111,6 +111,83 @@ let obj: { name:string, [propName:string]: any }
 let fn: (a:number, b:number)=>number;
 ```
 
+# 接口
+
++ 用来定义需要那些参数和参数的类型
++ 通过关键字 `interface` 来定义
++ 通过约束的属性，在拼写错误时也会得到提示
+```ts
+interface fnParam {
+    label: string;
+    // 可选属性只需要加一个 ？ 即可
+    size?: number;
+    // 只读属性的创建,只能在创建的时候修改
+    readonly x: number;
+    // 任意数量的其他属性
+    [propName: string]: any;
+}
+// 只读属性不仅仅是用在对象属性中
+// ReadonlyArray<T>
+// 这种方式约束的数组也是无法修改的 ， 如何需要赋值给 普通的数组 还需要利用断言来进行重写
+let arr: ReadonlyArray<number> = [1, 2, 3, 4];
+let a: number[];
+a = <number[]>arr
+
+// 绕开报错
+interface SquareConfig {
+   color?: string;
+   width?: number;
+}
+function createSquare(config: SquareConfig) {
+   // ...
+}
+// 这样的拼写错误是会引发错误的，尽管你是想传输该属性
+let mySquare = createSquare({ colour: "red", width: 100 });
+// 通过类型断言来绕开错误
+let mySquare = createSquare({ colour: "red", width: 100 } as SquareConfig);
+```
+
+## 函数类型
+
++ 接口出了描述普通对象外，还能够描述函数类型
+```ts
+interface SearchFunc {
+   (source: string, subString: string): boolean;
+}
+let mySearch: SearchFunc;
+// 函数的类型限制，只要求对应位置上的 值 类型相同，而变量名可以不同
+mySearch = (source: string, subString: string) => true;
+```
+
+## 可索引的类型
+
+```ts
+interface StringArray {
+  [index: number]: string;
+}
+
+let myArray: StringArray;
+myArray = ["Bob", "Fred"];
+
+let myStr: string = myArray[0];
+```
+
+## 类类型
+
+```ts
+interface ClockInterface {
+    currentTime: Date;
+}
+
+class Clock implements ClockInterface {
+    currentTime: Date;
+    constructor(h: number, m: number) { }
+}
+```
+
+
+
+
 
 # tsconfig
 
@@ -119,3 +196,4 @@ let fn: (a:number, b:number)=>number;
 ```json
 
 ```
+
