@@ -185,9 +185,85 @@ class Clock implements ClockInterface {
 }
 ```
 
+## 继承接口
 
++ 和类一样接口也是可以继承的
+```ts
+interface Info{
+  color: string;
+}
 
+interface ColorInfo extends Info{
+  text: string;
+}
 
+let article = <ColorInfo>{};
+article.color = 'white';
+article.test = 'pink';
+
+// 并且一个接口可以继承多个不同的接口
+interface Header{
+  width: number;
+}
+
+interface Content extends Info,Header{
+  height: number;
+}
+```
+
+## 混合类型
+
++ 就是让一个对象可以同时作为函数和对象进行使用
+```ts
+interface GetNumber {
+   (start: number): boolean;
+   interval: number;
+   reset(init: number): void;
+}
+
+function setNumber(interval: number): GetNumber {
+  // 直接调用由于没有调用者，所以 this 是无法指向自身的，需要通过 给函数命名来实现
+  // 直接调用 this 因为类型原因会报错，通过断言就可以解决问题
+   let getNumber = <GetNumber>function self(start) {
+      return start > ((self as GetNumber).interval || 10);
+   }
+   // 给函数添加属性
+   getNumber.interval = interval;
+   getNumber.reset = function (init) {
+      (this as GetNumber).interval = init;
+   }
+   return getNumber;
+}
+
+let s = setNumber(5);
+log(s(6));
+log(s.reset(15));
+log(s.interval);
+```
+
+## 继承类
+
++ 当接口继承类类型的时候，会继承类的成员，但是不会继承成员的实现
++ 不论是私有的（private）还是受保护的（protected）都会被继承
+  + 不过当继承了这两种属性时，该接口只能被这个类或其子类实现（implement）
+```ts
+class Control {
+   private state: any;
+}
+
+interface SelectableControl extends Control {
+   select(): void;
+}
+
+class Button extends Control implements SelectableControl {
+   select() { }
+}
+
+// 这里会报错， GetImage 缺少属性 state , 但 SelectableControl 需要该属性
+class GetImage implements SelectableControl{
+   select(){}
+}
+```
 
 # tsconfig
 
