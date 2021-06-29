@@ -265,6 +265,202 @@ class GetImage implements SelectableControl{
 }
 ```
 
+# class 类
+
++ 在 ts 中声明一个类,实际也是声明了一个 类的 实例的类型
++ 因此类可以当做接口来进行使用
+
++ 新增了
++ public 公共属性 -- 默认值
++ private 私有属性
+  + 不能在声明类的外部访问
+  + 当两个类有相同的私有属性时,如果是来至同一处声明,则这两个类型是兼容的(能否进行赋值操作)
++ protected 受保护的
+  + 与 private 类型,但是在派生类中是可以访问的
+  + 也就是说继承者可以在自己的内部访问被继承者的 protected 属性
++ readonly 只读
+  + 只读关键字必须在声明或是构造函数里被初始化
++ static 静态属性
+```ts
+class Test{
+  public name: string;
+  private age: number;
+  protected sex: number;
+  // 只读属性的初始化
+  readonly game: string = 'hello world';
+  readonly say: string;
+  constructor(string: string){
+    this.say = string;
+  }
+}
+
+// 相同属性兼容问题
+class Animal {
+    private name: string;
+    constructor(theName: string) { this.name = theName; }
+}
+class Rhino extends Animal {
+    constructor() { super("Rhino"); }
+}
+class Employee {
+    private name: string;
+    constructor(theName: string) { this.name = theName; }
+}
+
+let animal = new Animal("Goat");
+let rhino = new Rhino();
+let employee = new Employee("Bob");
+
+animal = rhino;
+animal = employee; // 错误: Animal 与 Employee 不兼容.
+```
+
+## 存取器
+
++ getters/setters
++ 只有 getters 的属性将会被推断为只读属性
+```ts
+class Empty {
+   private _name: string;
+
+   get name(): string {
+      return this._name;
+   }
+
+   set name(newName) {
+      this._name = newName;
+   }
+}
+```
+
+## abstract 抽象类或属性
+
++ 不同于接口,抽象类可以包含实现的细节
++ 通过 abstract 来进行定义一个抽象类或是方法
+> 抽象类中的抽象方法不包含具体实现并且必须在派生类中实现。 抽象方法的语法与接口方法相似。
+>
+> > 两者都是定义方法签名但不包含方法体。
+
+```ts
+abstract class Test {
+  // 该函数必须在派生类中实现
+   abstract move(): void;
+   say() {
+      console.log('哈哈哈');
+   }
+}
+
+class getTest extends Test {
+   move(): void {
+      console.log('移动了!');
+   }
+   // 抽象类中不存在的方法是无效的
+   send(): void {
+      console.log('发送了!');
+   }
+}
+
+let test: Test; // 允许引用
+// 但是不允许创建实例
+test = new Test(); // Error 无法创建抽象类的实例
+// 可以创建子类的实例
+test = new getTest();
+test.move();
+test.say();
+test.send(); //Error 方法在抽象类中不存在
+```
+
+# function 函数
+
++ 为函数增加类型
+  + 定义参数的类型
+  + 定义返回值的类型
++ 定义类型的参数名称与实现函数的参数名称可以不一样
+  + 但是对应位置上的参数类型必须一致
+```ts
+// 定义类型
+let myAdd: (x: number, y: number) => number;
+// 实现方式
+myAdd = (num1, num2) => num1 + num2;
+myAdd = function (x: number, y: number): number {
+   return x + y;
+}
+```
+
+## 参数
+
++ 在 ts 中每个函数的参数都是必须的
+  + 函数需要多少个参数就必须要传递多少个参数
+  + 通过 `name?: string` 的定义方式让参数变为可选参数
+  + 可选参数的位置必须放函数参数的末尾
+  + 拥有默认值的参数也是可选的
+```ts
+// 以下两个函数的类型是共享的
+let name: (first: string, last?: string) => void;
+
+name = function (first: string, last?: string) {}
+name = function (first: string, last = "Smith") {}
+```
+
+## 剩余参数
+
++ 在ts 中如果不确定参数的数量就需要使用(...)扩展运算符来接取
+```ts
+function buildName(first: string, ...Names: string[]) {
+  return first + " " + Names.join(" ");
+}
+
+let allName = buildName("window", "linux", "iPad", "Mac");
+```
+
+## this 问题
+
++ 如果给编译器设置了--noImplicitThis 标记。它会指出 `this.suits[pickedSuit]` 里的 this 的类型为 any。
+  + 这是因为 this来自对象字面量里的函数表达式。
+  + 修改的方法是提供一个显式的 this 参数
+  + this 参数是个假的参数，它出现在参数列表的最前面
+  + ` function fn(this: void){} `
+```ts
+interface Deck {
+    Card(this: Deck): () => Card;
+}
+let deck: Deck = {
+    Card: function(this: Deck) {
+      // 显式的设置 this 的类型
+    }
+}
+// 通过这样指定 this 的类型后 --noImplicitThis 就不会报错了
+```
++ `this: void` 是希望函数是一个不需要 this 类型的函数
+
+## 重载
+
++ 让一个函数可以接接收多种不同的传参方式
+```ts
+let suits = ["hearts", "spades", "clubs", "diamonds"];
+
+// 重载一
+function pickCard(x: { card: number }): number;
+// 重载二
+function pickCard(x: number): { card: number; };
+function pickCard(x): any {
+   if (typeof x == "object") {
+      let pickedCard = Math.floor(Math.random() * x.card);
+      return pickedCard;
+   }
+   else if (typeof x == "number") {
+      return { card: x % 13 };
+   }
+}
+
+// 传入的参数不同会自动判断使用的重载来进行类型检查
+// 没有查找到对应重载的调用将会报错
+let myDeck = { card: 4 };
+let pickedCard1 = myDeck[pickCard(myDeck)];
+let pickedCard2 = pickCard(15);
+```
+
+
 # tsconfig
 
 + 配置信息 tsconfig.json

@@ -247,7 +247,37 @@
 	}
 	```
 
-	
+
+## 效果
+
+- 反方向进出
+
+```css
+/* 这样就完成了一个 鼠标划入, after 从下进上面出去的效果*/
+/* 同样的道理左右也是没有问题的 , 主要通过 bottom 为 0 时 高度过渡来实现从下往上的效果, 而出的时候 top 为 0, 高度的过渡效果就是往上收缩来实现这样一个动画 */
+.file-type{
+  width: calc(100% - 50% - 200px);
+  position: relative;
+  z-index: 1;
+}
+.file-type::after{
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 0; /* 关键 */
+  top: 0; /* 关键 */
+  z-index: -1;
+  background: linear-gradient(315deg, #eaf818 0%, #f6fc9c 74%);
+  transition: all 0.3s ease;
+}
+.file-type:hover::after{
+  top: auto; /* 关键 */
+  bottom: 0; /* 关键 */
+  height: 100%; /* 关键 */
+}
+```
+
+
 
 # CSS属性
 

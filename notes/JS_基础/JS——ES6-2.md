@@ -1605,7 +1605,6 @@ p3.printName() // "Oops"
 ### （getter）和（setter）
 
 + 取值函数（getter）和存值函数（setter）
-
 + 与 ES5 一样，在“类”的内部可以使用 get 和 set 关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为。
 ```js
 class MyClass {

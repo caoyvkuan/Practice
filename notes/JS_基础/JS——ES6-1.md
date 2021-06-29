@@ -1617,9 +1617,12 @@ fproxy.foo === "Hello, foo" // true
 
 ## Proxy 支持的拦截操作
 
-+ get(target, propKey, receiver)
++ get(target, propKey, [receiver])
   + 拦截对象属性的读取，比如 proxy.foo 和 proxy['foo']。
-
+  + target 为目标对象
+  + propKey 被修改属性的 key 值
+  + receiver   它总是指向原始的读操作所在的那个对象，一般情况下就是 Proxy 实例。
+  
 + set(target, propKey, value, receiver)
   + 拦截对象属性的设置，比如 proxy.foo = v 或 proxy['foo'] = v，返回一个布尔值。
 
