@@ -460,6 +460,16 @@ let pickedCard1 = myDeck[pickCard(myDeck)];
 let pickedCard2 = pickCard(15);
 ```
 
+# 泛型
+
++ 泛型是用来支持多种类型的类型,组件的类型就需要利用泛型来定义
++ 泛型通过 T 来表示
++ 泛型 T 会自动帮助用户捕获传入的类型,泛型可以自动适应各种类型而又不像 any 一样会丢失类型的跟踪
+```ts
+function get<T>(arg: T): T {
+   return arg;
+}
+```
 
 # tsconfig
 
