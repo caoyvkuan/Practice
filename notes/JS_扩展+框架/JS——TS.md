@@ -111,6 +111,31 @@ let obj: { name:string, [propName:string]: any }
 let fn: (a:number, b:number)=>number;
 ```
 
+## 类型推论
+
++ 主要作用就是帮助 TypeScript 在没有明确指出类型的位置会提供帮助类型
++ 如泛型就很好的使用了 类型推论
+
+## 类型兼容性
+
++ 在 ts 中想要 x 兼容 y ， y 就至少要拥有与 x 相同的属性
+```ts
+interface Named {
+    name: string;
+}
+
+let x: Named;
+let y = { name: 'Alice', location: 'Seattle' };
+x = y; // 因为 y 拥有 name：string 所以 x 兼容 y
+
+// 函数之间的兼容
+let x = (a: number) => 0;
+let y = (b: number, s: string) => 0;
+
+y = x; // OK 兼容，因为参数列表中的类型可以对应
+x = y; // Error 不兼容，因为 x 没有 y 所需要的参数
+```
+
 # 接口
 
 + 用来定义需要那些参数和参数的类型
@@ -174,6 +199,7 @@ let myStr: string = myArray[0];
 
 ## 类类型
 
++ implements 使用接口的关键字，与继承不同，只继承属性类型，不会将实现的方法继承过来
 ```ts
 interface ClockInterface {
     currentTime: Date;
@@ -465,10 +491,404 @@ let pickedCard2 = pickCard(15);
 + 泛型是用来支持多种类型的类型,组件的类型就需要利用泛型来定义
 + 泛型通过 T 来表示
 + 泛型 T 会自动帮助用户捕获传入的类型,泛型可以自动适应各种类型而又不像 any 一样会丢失类型的跟踪
++ 简单讲就是既可以保持类型的准确性又能支持多种不同的类型
 ```ts
 function get<T>(arg: T): T {
    return arg;
 }
+
+// 使用方法 一 通过 <string> 指定泛型为 string 类型并使用
+let output = get<string>('myString');
+
+// 使用方法 二 使用泛型的自动类型推论自动确认类型
+let output = get('myString');
+
+```
+
+## 泛型函数
+
++ 使用了泛型的变量编译器就会要求在函数体中正确的使用这个通用类型
++ 所以直接当做数组或是其他类型调用该类型才有的方法是会报错的
+```ts
+function get<T>(arg: T): T {
+    console.log(arg.length);  // Error: T doesn't have .length
+    return arg;
+}
+
+// 泛型数组 Array<T>
+function get<T>(arg: T[]): T[] {
+    console.log(arg.length); // 这时候就可以这样使用了
+    return arg;
+}
+```
+
+## 泛型类型与接口
+
++ 用于定义泛型的字母不一定非要用 T ，使用其他名称也是可以的
+```ts
+function identity<Fn>(arg: Fn): Fn {
+   return;
+}
+
+// 只需要在使用时名称是对应的即可
+let fn: <F>(arg: F) => F = identity;
+
+// 通过代用签名的对象字面量来定义泛型函数
+let myIdentity: {<T>(arg: T): T} = identity;
+
+// 通过对象字面量的引导定义泛型接口
+interface interIdentity {
+   <T>(arg: T): T;
+}
+
+let myIdentity: interIdentity = identity;
+
+// 不描述泛型函数，而是把非泛型函数签名作为泛型类型一部分
+interface GenericIdentityFn<T> {
+    (arg: T): T;
+}
+// 在使用时，需要指定泛型的类型进行传递
+let myIdentity: interIdentity<number> = identity;
+```
+
+## 泛型类
+
++ 泛型类看上去和韩星接口是差不错的
++ 类只有实例部分能够使用泛型定义，而静态属性部分是无法使用泛型来定义的
+```ts
+class GenericType<T> {
+    zeroValue: T;
+    add: (x: T, y: T) => T;
+}
+
+let Generic = new GenericType<number>();
+Generic.zeroValue = 0;
+Generic.add = function(x, y) { return x + y; };
+```
+
+## 泛型的约束
+
++ 因为泛型的类型是不被确定的，所以你直接通过泛型调用各种类型才有的属性
+  + 如：数组的 length 属性是会报错的
+  + 想要调用类似属性的方法除了确定泛型的类型之外，还可以进行约束
+```ts
+interface Lengthwise {
+   length: number;
+}
+
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+   console.log(arg.length); // 通过让泛型继承目标属性就可以进行调用
+   return arg;
+}
+
+// 但是在继承了约束后泛型不在适用于任意类型了
+loggingIdentity(3); // 这样是会报错的
+loggingIdentity({length: 10, value: 3}); // 需要传入对象且拥有指定属性
+
+// 在泛型约束中使用类型参数
+function getProperty(obj: T, key: K) {
+    return obj[key];
+}
+let x = { a: 1, b: 2, c: 3, d: 4 };
+getProperty(x, "a"); // okay
+getProperty(x, "m"); // error: Argument of type 'm' isn't assignable to 'a' | 'b' | 'c' | 'd'.
+
+// 在泛型里使用类类型 使用泛型创建工厂函数时，需要引用构造函数的类类型
+function create<T>(c: { new(): T }): T {
+    return new c();
+}
+```
+
+# 枚举
+
++ 可以定义一些带名字的常量
+```ts
+// 默认的增长是从 0 开始的， 默认的类型也是 number
+// 在枚举设定数值 1 后， 后面的会自动开始增长
+enum Direction {
+   UP = 1,
+   Down, // 2
+   Left, // 3
+   Right // 4
+}
+
+// 枚举使用起来也很方便
+Direction.UP; // 这样就可以轻松的访问
+```
+
++ 字符串类型的枚举
+  + 该类型的枚举每一个成员都必须进行初始化
+  + 字符串枚举不会自动增长
+```ts
+enum Direction {
+   UP = 'UP,
+   Down = 'Down',
+   Left = 'Left',
+   Right = 'Right'
+}
+```
+
++ 异构枚举
+  + 也就是混合字符串和数字成员共同构成的枚举
+
+# 高级类型
+
++ 更加复杂的类型结构
++ 最简单的类型，字面量，写的是什么就只能是什么 `type name = 'Join'`
+
++ 联合类型 `number | string`
+  + 如果是复杂的联合类型，
+  + 如接口，只能使用两个类型都拥有的属性，使用单独一个接口拥有的属性就会报错
+  + 此时如果需要使用对应的接口属性就需要使用相应的类型断言后在继续调用
+
++ 类型保护
+  + 通过确认类型的方式来进行类型保护，在 if 过后确定 联合类型变量的准确类型来进行使用
+  + 通过 typeof 能够识别基础类型
+  + 通过 instanceof 也是可以确定类型并进行使用的，称为类型细化
+  + `parameterName is Type` 来让一个变量成为你想要的属性
+```ts
+function isFish(pet: Fish | Bird): pet is Fish {
+    return (<Fish>pet).swim !== undefined;
+}
+// 这样就不需要频繁的使用断言来确定类型
+if (isFish(pet)) {
+    pet.swim();
+}
+else {
+    pet.fly();
+}
+```
+
++ 可为 null 的类型
+  + ts 中拥有 null 和 undefined 两种特殊的类型
+  + 这两种类型可以赋值给任意的类型
+  + 通过 --strictNullChecks 标记可以让，所有类型不自动包含这两个类型
+  + 当排除后如果想要使用就可以使用联合类型来从新包含他们
+    + `string | null`
+    + 这样的使用方式，需要通过类型保护或是断言在使用的时候去除 null
+  + 去空断言 `Parson!.age` 通过在变量后加 ` ！` 来确认非 `null 和 undefined`
+
++ 可选参数
+  + 使用了 --strictNullChecks，可选参数会被自动地加上 | undefined
+  + 可选属性也会有同样的处理
+
++ 类型别名 使用 type 定义
+  + `type MyString = string` 现在 MyString 也是 string 类型了
+  + `type Container<T> = { value: T };` 类型别名也是可以用泛型的
+  + 与接口的区别
+    + 接口创建了一个新的名字，可以在任何敌方使用，但类型别名并不创建新名字
+    + 类型别名不能被 extends 和 implements ，同时自己也不能使用
+```ts
+// 同交叉类型一起使用
+type LinkedList<T> = T & { next: LinkedList<T> };
+
+interface Person {
+    name: string;
+}
+
+var people: LinkedList<Person>;
+var s = people.name;
+var s = people.next.name;
+var s = people.next.next.name;
+var s = people.next.next.next.name;
+```
+
+## 交叉类型
+
++ 可以同时包含多个不同类型的特性
++ `Person & Info` 同时是 Person 和 Info 类
+```ts
+function extends<T, U>(first: T, second: U): T & U {
+   let result = <T & U>{};
+   for (let id in first) {
+      (<any>result)[id] = (<any>first)[id];
+   }
+   for (let id in second) {
+      if (!result.hasOwnProperty(id)) {
+         (<any>result)[id] = (<any>second)[id];
+      }
+   }
+   return result;
+}
+
+class Person {
+   constructor(public name: string) { }
+}
+interface Info {
+   log(): void;
+}
+// 既拥有 Person 的属性，也拥有 Info 的属性
+var jim = extends(new Person("Jim"), new Info());
+var n = jim.name;
+jim.log();
+```
+
+## 可辨别联合
+
++ 拥有类型保护的作用
++ 具有可识别的特征
++ 一个类型别名包含了多个类型
+```ts
+interface Square {
+   kind: "square";
+   size: number;
+}
+interface Rectangle {
+   kind: "rectangle";
+   width: number;
+   height: number;
+}
+interface Circle {
+   kind: "circle";
+   radius: number;
+}
+// 在这里每个接口的 kind 就是可识别的特征
+// 通过不同的字面量就可以让编译器辨识到联合类型的准确类型
+type Shape = Square | Rectangle | Circle;
+function area(s: Shape) {
+   switch (s.kind) {
+      case "square": return s.size * s.size;
+      case "rectangle": return s.height * s.width;
+      case "circle": return Math.PI * s.radius ** 2;
+   }
+}
+
+// 完整性检查 如果在 Shape 的基础上在添加一个类型 那么同时也需要更新 area 函数
+// 方法一 启用 --strictNullChecks 并指定一个返回值类型
+/*
+因为 switch没有包涵所有情况，所以TypeScript认为这个函数有时候会返回 undefined。
+如果你明确地指定了返回值类型为 number，
+那么你会看到一个错误，因为实际上返回值的类型为 number | undefined。
+然而，这种方法存在些微妙之处且 --strictNullChecks 对旧代码支持不好。
+*/
+
+// 方法二 通过 never 类型来抛出错误，提示缺少了一个 case
+```
+
+## 多态的 this 类型
+
++ 多态的 this类型表示的是某个包含类或接口的 子类型。
++ 这被称做 F-bounded多态性。 它能很容易的表现连贯接口间的继承
+
+## 索引类型
+
++ 使用索引类型就能够检查使用了动态属性名的代码
++ `keyof T` 索引类型查询操作符
+  + > 对于任何类型 T， keyof T 的结果为 T 上已知的公共属性名的联合。
++ `T[K]` 索引访问操作符
+  + 如 `Person[name]` 就是访问 Person 中 name 属性的类型，在这里是 string
+```ts
+function pluck(o, names) {
+    return names.map(n => o[n]);
+}
+
+// ts 的实现方式
+function pluck<T, K extends keyof T>(o: T, names: K[]): T[K][] {
+  return names.map(n => o[n]);
+}
+
+interface Person {
+    name: string;
+    age: number;
+}
+// keyof 的作用 为 Person 所有公共属性的联合
+let personProps: keyof Person; // 'name' | 'age'
+
+let person: Person = {
+    name: 'Join',
+    age: 35
+};
+let strings: string[] = pluck(person, ['name']); // ok, string[]
+
+// 索引类型和字符串索引签名
+interface Map<T> {
+    [key: string]: T;
+}
+let keys: keyof Map<number>; // string
+let value: Map<number>['foo']; // number
+```
+
+## 映射类型
+
++ 讲一个已知的类型每个属性都变为可选或是只读
+```ts
+// Readonly<T> 和 Partial<T> 用处不小，
+// 因此它们与 Pick 和 Record 一同被包含进了 TypeScript 的标准库里：
+type Readonly<T> = {
+    // 通过索引类型查询操作符得到 T 中的所有属性名联合
+    // 然后通过索引访问操作符得到 T 所有属性的类型
+    readonly [P in keyof T]: T[P];
+}
+type Partial<T> = {
+    [P in keyof T]?: T[P];
+}
+// 使用
+// 只读
+type ReadonlyPerson = Readonly<Person>;
+// 可选
+type PersonPartial = Partial<Person>;
+
+// 标准库中
+type Pick<T, K extends keyof T> = {
+    [P in K]: T[P];
+}
+type Record<K extends string, T> = {
+    [P in K]: T;
+}
+// Readonly， Partial 和 Pick 是同态的，但 Record 不是。
+// 因为 Record 并不需要输入类型来拷贝属性，所以它不属于同态：
+type ThreeStringProps = Record<'prop1' | 'prop2' | 'prop3', string>
+
+// 映射类型的组成
+type Keys = 'option1' | 'option2';
+type Flags = { [K in Keys]: boolean };
+```
++ 映射类型内部有使用了 for...in 循环，具有三个部分
+  + 类型变量 K 会一次绑定到每个属性
+  + 字符串联合的 Keys ， 他包含了要迭代的属性名集合
+  + 属性的结果类型
+
+## 预定义
+
++ `Exclude<T, U>` -- 从T中剔除可以赋值给U的类型。
++ `Extract<T, U>` -- 提取T中可以赋值给U的类型。
++ `NonNullable<T>` -- 从T中剔除null和undefined。
++ `ReturnType<T>` -- 获取函数返回值类型。
++ `InstanceType<T>` -- 获取构造函数类型的实例类型。
+```ts
+type T00 = Exclude<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "b" | "d"
+type T01 = Extract<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "a" | "c"
+
+type T02 = Exclude<string | number | (() => void), Function>;  // string | number
+type T03 = Extract<string | number | (() => void), Function>;  // () => void
+
+type T04 = NonNullable<string | number | undefined>;  // string | number
+type T05 = NonNullable<(() => string) | string[] | null | undefined>;  // (() => string) | string[]
+
+function f1(s: string) {
+    return { a: 1, b: s };
+}
+
+class C {
+    x = 0;
+    y = 0;
+}
+
+type T10 = ReturnType<() => string>;  // string
+type T11 = ReturnType<(s: string) => void>;  // void
+type T12 = ReturnType<(<T>() => T)>;  // {}
+type T13 = ReturnType<(<T extends U, U extends number[]>() => T)>;  // number[]
+type T14 = ReturnType<typeof f1>;  // { a: number, b: string }
+type T15 = ReturnType<any>;  // any
+type T16 = ReturnType<never>;  // any
+type T17 = ReturnType<string>;  // Error
+type T18 = ReturnType<Function>;  // Error
+
+type T20 = InstanceType<typeof C>;  // C
+type T21 = InstanceType<any>;  // any
+type T22 = InstanceType<never>;  // any
+type T23 = InstanceType<string>;  // Error
+type T24 = InstanceType<Function>;  // Error
 ```
 
 # tsconfig
