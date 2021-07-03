@@ -891,6 +891,220 @@ type T23 = InstanceType<string>;  // Error
 type T24 = InstanceType<Function>;  // Error
 ```
 
+# 模块
+
++ 接口和类型别名也是可以通过 export 来进行导出的
++ 大部分都和 es6 拥有一样的工作模式
+```ts
+export interface MyTools {
+   isString(str: any): boolean;
+}
+```
+
+## 其他模块方法支持
+
++ CommonJs 和 AMD 模块化方法中都有一个 exports 变量，这个变量包含了一个模块所有导出内容
++ 因为 es6 的 export default 并不兼容 CommonJs 和 AMD 的 exports
++ 为了支持 CommonJs 和 AMD 的 exports， ts 提供了 `export = ` 的语法
++ 若是使用 `export = ` 语法进行导出的模块就必须使用特定的方法来引入
+  + `import moduleName = require('module')` 的方式来进行引入
+
+## 模块解析
+
++ `import { a } from "moduleA"` 在导入一个模块后，编译器为了知道 对 a 的使用表示什么，
+  + 回去检查定义它的模块 moduleA ，ModuleA 可能在某个 .ts / .tsx 亦或者 .d.ts 中
+  + 编译器会通过两种(Classic/Node)不同的策略寻找该文件,如果都失败了，编译器会尝试定位一个外部声明模块
++ 这就涉及到 非相对导入
+  + `相对导入是以/，./或../开头的。` 如：
+    + `import Entry from "./components/Entry";`
+    + `import "/mod";`
+  + 非相对导入
+    + `import React from "react";`
+    + `import Test from "@C/Test";`
+
+> 相对导入在解析时是相对于导入它的文件，并且不能解析为一个外部模块声明。
+> > 一般自己书写的的模块使用相对导入，这样能确保它们在运行时的相对位置。
+
+> 非相对模块的导入可以相对于 baseUrl 或通过下文会讲到的路径映射来进行解析。
+> > 它们还可以被解析成 外部模块声明。 使用非相对路径来导入你的外部依赖。
+
+
++ 跟踪模块解析
+  + 通过 --traceResolution 标记启用编译器的模块解析跟踪
+  + 这样编译器就会告诉我们在模块解析过程中发生了什么
+
++ --noResolve 标记可以让编译器只编译在命令行中指定的文件
+
+## 模块解析策略
+
++ 通过 --moduleResolution 标记来指定使用的解析策略
++ 若为指定在使用 --module AMD | System | Es2015 的时候默认使用 Classic
++ 其他情况使用 Node
+
++ Classic 对于导入的模块 moduleA
+  + 相对导入会依次查找 module.ts 和 module.d.ts 文件
+  + 非相对导入会当前目录到根目录开始依次查找以上两个文件
+
+## 路径映射
+
++ ts 编译器通过使用 tsconfig.json 文件中的 paths 来支持声明映射关系
+```json
+{
+   "compilerOptions":{
+      "baseUrl":"./src", // 基础路径是必须指定的
+      "paths":{ // 映射关系是相对于 baseUrl 开始的
+         "@C":"./components",
+         // 更加复杂的映射关系
+         "*":["*","./pages/*"]
+         // "*"： 匹配所有值,所以映射为<moduleName> => <baseUrl>/<moduleName>
+         // 通配符后导入 components/Test
+         // 因为 * 所以不论写什么都是可以匹配的， ./src/components/Test 找到后就不会继续找了
+         // 如果没找到就会继续寻找 ./src/pages/components/Test 从数组依次往后寻找
+      }
+   }
+}
+```
+
+## 虚拟目录
+
++ 通过虚拟目录，可以让一个目录中的文件轻松的引入另一个目录中的文件
+```json
+{
+  "compilerOptions": {
+    "rootDirs": [
+      "src/views",
+      "generated/templates/views"
+    ]
+  }
+}
+// src/views 中的 view1 引用 generated/templates/views 下的 templates
+// import './templates'
+
+// generated/templates/views 下的 templates 引用 src/views 下的 view2
+// import './view2'
+```
+
+# 命名空间
+
++ 命名空间就是位于全局命名空间下的一个普通带有名字的 JS 对象
+  + 对模块不应该使用命名空间
++ 一种组织代码的手段，可以有效的避免在同一个模块文件中的命名冲突
++ 通过 namespace 关键字来声明 命名空间
++ 在命名空间外部需要通过 命名空间的名称打点来调用导出的选项
+  + 在命名空间未导出的部分是无法在外部进行调用的
+```ts
+namespace Validation {
+   export interface MyTools {
+      isString(str: any): boolean;
+   }
+
+   export class TypeValidation implements MyTools {
+      isString(s: string) {
+         return typeof s === 'string';
+      }
+   }
+
+   function Test() {
+   }
+}
+
+// 使用方式
+let Validations: { [s: string]: Validation.MyTools; } = {};
+Validations['type'] = new Validation.TypeValidation();
+
+Validation.Test(); // Error 属性不存在
+```
+
+## 在多个文件中的命名空间
+
++ 尽管在多个文件中，只要使用的空间名字是一样的就被视为在同一命名空间中
+```ts
+// Validation.ts
+namespace Validation {
+   export interface MyTools {
+      isString(str: any): boolean;
+   }
+}
+
+// LettersOnlyValidator.ts
+// 在不同文件中声明的同时也需要通过 `/// <reference path="xxx.ts" />` 指定依赖关系
+/// <reference path="Validation.ts" />
+namespace Validation {
+   export class TypeValidation implements MyTools {
+      isString(s: string) {
+         return typeof s === 'string';
+      }
+   }
+}
+
+// 使用 , 在使用的同时也需要指定依赖引入
+/// <reference path="Validation.ts" />
+/// <reference path="LettersOnlyValidator.ts" />
+
+let Validations: { [s: string]: Validation.MyTools; } = {};
+Validations['type'] = new Validation.TypeValidation();
+
+// 使用时，为了确保所有文件都被加载了，可以通过 --outFile 将其输出为一个文件
+// 或是进行单独编译后按照依赖顺序进行引入
+```
+
+## 别名
+
++ 通过简化命名空间操作的方法使用 import name = namespace.name;
+```ts
+namespace Shapes{
+   export namespace Polygons {
+      export class Triangle { }
+      export class Square { }
+   }
+}
+
+import polygons = Shapes.Polygons;
+let sq = new polygons.Square(); // Same as "new Shapes.Polygons.Square()"
+```
+
+# 声明合并
+
++ 编译器会针对多个拥有同一个名字的声明合并为单一声明，合并后会拥有原先所有声明的特性
++ ts 会创建实体的有三种：命名空间，类型或值
+
++ 最常见的声明合并类型是接口，简单就是吧多个命名相同的接口合并到一个接口中
+  + 如果两个接口同时声明了相同的非函数成员且类型不同，则会报错
+  + 而函数类型不同就会被当成重载，按照执行循序后合并的接口优先级更高，也就是后声明的在合并后是顺序更加靠前，而本身属性的顺序不变
+  + 唯一的不同是，出现函数签名时，拥有字符串字面量的函数签名会被提升到最上方
+```ts
+interface Document {
+    createElement(tagName: any): Element;
+}
+interface Document {
+    createElement(tagName: "div"): HTMLDivElement;
+    createElement(tagName: "span"): HTMLSpanElement;
+}
+interface Document {
+    createElement(tagName: string): HTMLElement;
+    createElement(tagName: "canvas"): HTMLCanvasElement;
+}
+
+// 合并后 函数签名参数为字面量的被提升到了最前方
+interface Document {
+    createElement(tagName: "canvas"): HTMLCanvasElement;
+    createElement(tagName: "div"): HTMLDivElement;
+    createElement(tagName: "span"): HTMLSpanElement;
+    createElement(tagName: string): HTMLElement;
+    createElement(tagName: any): Element;
+}
+```
+
++ 命名空间合并，接口会被提升，其他类型按照声明依赖顺序添加
+  + 且只有被导出的才会被共享，如没有被导出的变量，只有声明改变了的那个命名空间才可以使用
+
++ 命名空间、类、函数、枚举类型都可以进行合并
+
++ 类不能与类或是变量进行合并
+  + 但是可以自己手动合并
+
+
+
 # tsconfig
 
 + 配置信息 tsconfig.json
