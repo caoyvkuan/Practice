@@ -1103,7 +1103,215 @@ interface Document {
 + 类不能与类或是变量进行合并
   + 但是可以自己手动合并
 
+# JSX
 
++ ts 在编译阶段拥有三种不同的编译模式
+  + preserve
+    + 会保留 jsx 一共后续的转换操作，如 babel
+  + react
+    + 会生成 React.createElement 不需要进行转换
+  + react-native
+    + 保留 jsx 但后缀为 js
+
++ 在 tsx 文件中的类型断言只能使用 as 的模式，而尖括号的模式被禁用了
+
++ 固有元素
+  + DOM 原本就存在的元素 如： div、span
++ 基于值的元素
+  + 基于值的元素，如：MySpan、foo 等自定义组件或元素
+
+## 类型检测描述接口
+
+```tsx
+declare namespace JSX {
+   interface Element{
+      // 表示 JSX 元素
+   }
+
+   interface IntrinsicElements {
+      foo: { bar?: boolean }
+   }
+
+   interface IntrinsicAttributes {
+      // 指定需要的额外属性
+      bar: string;
+   }
+   interface IntrinsicClassAttributes<T>{
+      // 与 IntrinsicAttributes 效果是一样的
+   }
+
+   interface ElementChildrenAttribute {
+      children: {}; // 指定 children 要使用的，名字，与 ElementAttributesProperty 类似
+   }
+   interface ElementAttributesProperty {
+      props; // 指定用来增加 props 描述使用的属性名
+   }
+}
+
+class MyComponent {
+   props: {
+      foo: string
+   }
+}
+
+<MyComponent foo="str" bar="string" />
+```
+
+## 利用函数重载实现无状态组件
+
+```tsx
+interface ClickableProps {
+    children: JSX.Element[] | JSX.Element
+}
+
+interface HomeProps extends ClickableProps {
+    home: JSX.Element;
+}
+
+interface SideProps extends ClickableProps {
+    side: JSX.Element | string;
+}
+
+function MainButton(prop: HomeProps): JSX.Element;
+function MainButton(prop: SideProps): JSX.Element {
+    ...
+}
+```
+
+## 类组件
+
++ 元素类的类型
+  + 类类型就是类的构造函数和静态部分
+  + 如果是工厂函数，类类型为这个函数
++ 元素实例的类型
+  + 实例类型由类构造器或调用签名的返回值构成
+  + 工厂函数，实例类型为这个函数返回值类型
+```tsx
+class MyComponent {
+    render() {}
+}
+
+// 使用构造签名
+var myComponent = new MyComponent();
+
+// 元素类的类型 => MyComponent
+// 元素实例的类型 => { render: () => void }
+
+function MyFactoryFunction() {
+    return {
+    render: () => {
+    }
+    }
+}
+
+// 使用调用签名
+var myComponent = MyFactoryFunction();
+
+// 元素类的类型 => FactoryFunction
+// 元素实例的类型 => { render: () => void }
+```
+
+## 属性类型检查
+
++ 属性类型检查的第一步就是确定元素类型
++ 固有元素
+```tsx
+declare namespace JSX {
+    // 可以自定义一些原本没有的元素，且对 props 进行限制
+    interface IntrinsicElements {
+    foo: { bar?: boolean }
+    }
+}
+
+// `foo`的元素属性类型为`{bar?: boolean}`
+<foo bar />;
+```
++ 基于值的元素
+```tsx
+// 只有通过命名空间描述了，类上的 props 限制才会生效
+declare namespace JSX {
+    interface ElementAttributesProperty {
+    props; // 指定用来使用的属性名
+    }
+}
+
+class MyComponent {
+    // 在元素实例类型上指定属性
+    props: {
+    foo?: string;
+    }
+}
+// `MyComponent`的元素属性类型为`{foo?: string}`
+<MyComponent foo="bar" />
+```
+
+# 装饰器
+
++ 实验阶段，使用需要在 tsconfig 里添加 --experimentalDecorators 标记
+```json
+{
+   "compilerOptions":{
+      "target": "ES5",
+      "experimentalDecorators": true,
+   }
+}
+```
+
++ 装饰器是一种特殊类型的声明，它能被附加到类声明，方法吗，访问符，属性或参数上
++ 装饰器通过 `@expression` 这中形式定义
+  + > expression求值后必须为一个函数，它会在运行时被调用，被装饰的声明信息做为参数传入。
+
+## 装饰器工厂
+
+```ts
+function color(value: string) { // 这是一个装饰器工厂
+    return function (target) { //  这是装饰器
+        // do something with "target" and "value"...
+    }
+}
+
+// 使用 
+@color;
+```
++ 多个装饰器应用在同一个声明上时，
+  + 会依次由上倒下对装饰器求值
+  + 求值的结果会被当做函数，由上至下依次调用
+```ts
+function f() {
+    console.log("f(): evaluated");
+    return function (target, propertyKey: string, descriptor: PropertyDescriptor) {
+        console.log("f(): called");
+    }
+}
+
+function g() {
+    console.log("g(): evaluated");
+    return function (target, propertyKey: string, descriptor: PropertyDescriptor) {
+        console.log("g(): called");
+    }
+}
+
+class C {
+    @f()
+    @g()
+    method() {}
+}
+// 结果
+f(): evaluated
+g(): evaluated
+g(): called
+f(): called
+```
+
+## 装饰器求值
+
++ 类中不同声明上的装饰器将按以下规定的顺序应用
+  1. 参数装饰器，然后依次是方法装饰器，访问符装饰器，或属性装饰器应用到每个实例成员。
+  2. 参数装饰器，然后依次是方法装饰器，访问符装饰器，或属性装饰器应用到每个静态成员。
+  3. 参数装饰器应用到构造函数。
+  4. 类装饰器应用到类。
+
+## 类装饰器
 
 # tsconfig
 
