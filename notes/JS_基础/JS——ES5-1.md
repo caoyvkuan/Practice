@@ -1082,9 +1082,9 @@ type.isRegExp(/abc/) // true
 {
   // 属性描述对象的各个属性称为“元属性”，因为它们可以看作是控制属性的属性.
   value: 123,
-  writable: false,
-  enumerable: true,
-  configurable: false,
+  writable: false, // 是否可以写入改变，禁止修改后，修改不会生效，但是也不会报错
+  enumerable: true, // 是否允许遍历
+  configurable: false, // 是否可以配置，
   get: undefined,
   set: undefined
 }

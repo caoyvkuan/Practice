@@ -1015,6 +1015,18 @@ Validations['type'] = new Validation.TypeValidation();
 Validation.Test(); // Error 属性不存在
 ```
 
+## 三斜线指令
+
++ 三斜线指令是包含单个 XML 标签的单行注释
+  + 注释内容会被作为编译器指令使用
++ 三斜线指令仅可放在包含它的文件最顶端
+  + > 一个三斜线指令的前面只能出现单行或多行注释，这包括其它的三斜线指令
+  + > 如果它们出现在一个语句或声明之后，那么它们会被当做普通的单行注释，并且不具有特殊的涵义。
++ ` /// <reference path="..." /> ` 是最常见的一个指令，用于处理文件件的依赖
+  + 在输出为单文件时，也能作为调整文件输出内容顺序的一种方法
+
++ 编译选项 -- noResolve 可以忽略三斜线指令
+
 ## 在多个文件中的命名空间
 
 + 尽管在多个文件中，只要使用的空间名字是一样的就被视为在同一命名空间中
@@ -1261,6 +1273,10 @@ class MyComponent {
 + 装饰器通过 `@expression` 这中形式定义
   + > expression求值后必须为一个函数，它会在运行时被调用，被装饰的声明信息做为参数传入。
 
++ 约束，（类、方法、访问器、属性、参数）装饰器
+  + 不能用在声明文件（.d.ts） 中
+  + 也不能在任何外部上下文中如（declare 的类）
+
 ## 装饰器工厂
 
 ```ts
@@ -1312,6 +1328,226 @@ f(): called
   4. 类装饰器应用到类。
 
 ## 类装饰器
+
++ 类装饰器在了声明之前被声明
++ 类装饰器应用于类的构造函数，可以用来见识修改或替换类定义
+```ts
+// 通过装饰器来密封类的构造函数和原型
+function sealed(constructor: Function) {
+   Object.seal(constructor);
+   Object.seal(constructor.prototype);
+}
+
+// 声明类装饰器
+@sealed
+class GreeterOne {
+   greeting: string;
+   constructor(message: string) {
+      this.greeting = message;
+   }
+   greet() {
+      return "Hello, " + this.greeting;
+   }
+}
+
+function classDecorator<T extends { new(...args: any[]): {} }>(constructor: T) {
+   return class extends constructor {
+      newProperty = "new property";
+      hello = "override";
+   }
+}
+
+// 通过装饰器修改了 类的 属性值，将构造函数进行了重载
+@classDecorator
+class GreeterTwo {
+   property = "property";
+   hello: string;
+   constructor(m: string) {
+      this.hello = m;
+   }
+}
+
+console.log(new GreeterTwo("world"));
+```
+
+## 方法装饰器
+
++ 声明方式与类相同，是声明在方法之前
+  + 装饰器会被应用到方法的 属性描述符上，
+  + 可以用来监视，修改或替换方法定义
++ 方法装饰器表达式会在运行时当做函数被调用，传入三个参数
+  1. 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象
+  2. 成员的名字
+  3. 成员的属性描述符（小于 ES5 属性描述符不存在，所以是 undefined）
++ 如果方法装饰器返回一个值，会被用作方法的属性描述符（同样小于 ES5 会被忽略）
+```ts
+function enumerable(value: boolean) {
+   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+      descriptor.enumerable = value;
+   };
+}
+
+class Greeter {
+   greeting: string;
+   constructor(message: string) {
+      this.greeting = message;
+   }
+
+   // 出现 作为表达式调用时，无法解析方法修饰器的签名。的问题
+   // 需要在 tsconfig 编译选项中添加 target 标记
+   @enumerable(false)
+   greet() {
+      return "Hello, " + this.greeting;
+   }
+}
+```
+
+## 访问器装饰器
+
++ 访问器装饰器声明在一个访问器的声明前
+  + 访问器装饰器应用于访问器的属性描述符并且可以用来监视
++ TS 不允许同时装饰一个成员的 get 和 set 访问器
+  + 取而代之的是，一个成员的所有装饰器必须应用在文档顺序的第一个访问器上
+  + 因为，在装饰器应用于一个属性描述符时，他联合了 get 和 set 访问器，而不是分开声明的
+
++ 访问器装饰器表达式会在运行时当做函数被调用，传入参数与方法装饰器相同
++ 函数的返回值会被当成方法的属性描述符
+```ts
+function configurable(value: boolean) {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        descriptor.configurable = value;
+    };
+}
+
+class Point {
+    private _x: number;
+    private _y: number;
+    constructor(x: number, y: number) {
+        this._x = x;
+        this._y = y;
+    }
+
+    @configurable(false)
+    get x() { return this._x; }
+
+    @configurable(false)
+    get y() { return this._y; }
+}
+```
+
+## 属性装饰器
+
++ 声明方式不变
++ 调用时传入的参数有两个
+  + 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象
+  + 成员的名字
+```ts
+function format(formatString: string) {
+   return function (target, Key) {
+      target[Key] = '这就离谱了'
+      log(target, Key);
+      log(`访问器执行成功了！${formatString}`);
+   }
+}
+
+class Greeter {
+   @format("Hello, %s")
+   greeting: string;
+
+   constructor(message: string) {
+      // this.greeting = message;
+   }
+}
+log(new Greeter('').greeting) // 这就离谱了
+```
+
+## 参数装饰器
+
++ 参数装饰器声明在一个参数之前，需要紧靠着参数声明
++ 参数装饰器应用于类构造函数或方法声明
+
++ 当做函数调用时传入的参数
+  1. 对于静态成员来说是类的构造函数，对于实例成员是类的原型对象
+  2. 成员的名字
+  3. 参数在函数参数列表中的索引
++ 参数装饰器只能用来监视一个方法的参数是否被传入
++ 参数装饰器的返回值会被忽略
+```ts
+function validate(target: Object, Key: string | symbol, Index: number) {
+   log(target); // {}
+   log(Key); // greet
+   log(Index); // 0
+}
+
+class Greeter {
+   greet(@validate name: string) {
+      return 'Hello ' + name + ', ';
+   }
+}
+
+log(new Greeter().greet('真不错')) // Hello 真不错
+```
+
+## 元数据
+
++ tsconfig.json 里启用 emitDecoratorMetadata 编译器选项来支持元数据
+
+## Mixin
+
++ 混入，通过预留定义实现，把类当借口使用，而非继承
+```ts
+// 工具类 mixin
+class Disposable {
+   isDisposed: boolean;
+   dispose() {
+      this.isDisposed = true;
+   }
+}
+
+// 工具类 mixin
+class Activation {
+   isActive: boolean;
+   activate() {
+      this.isActive = true;
+   }
+   deactivate() {
+      this.isActive = false;
+   }
+}
+
+class SmartObject implements Disposable, Activation {
+   constructor() {
+      setInterval(() => console.log(this.isActive + " : " + this.isDisposed), 500);
+   }
+
+   interact() {
+      this.activate();
+   }
+
+   // 预留定义
+   isDisposed: boolean = false;
+   dispose: () => void;
+   // 预留定义
+   isActive: boolean = false;
+   activate: () => void;
+   deactivate: () => void;
+}
+applyMixin(SmartObject, [Disposable, Activation]);
+
+let smartObj = new SmartObject();
+setTimeout(() => smartObj.interact(), 1000);
+
+// 运行库中
+// 这个函数会帮助实现 mixin 混入操作，遍历 mixin 上的所有属性，并复制到目标上去
+// 将占位属性替换成真正实现的代码
+function applyMixin(derivedCtor: any, baseCtors: any[]) {
+   baseCtors.forEach(baseCtor => {
+      Object.getOwnPropertyNames(baseCtor.prototype).forEach(name => {
+         derivedCtor.prototype[name] = baseCtor.prototype[name];
+      });
+   });
+}
+```
 
 # tsconfig
 
