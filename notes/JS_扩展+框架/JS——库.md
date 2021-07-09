@@ -105,7 +105,9 @@ html2canvas(element).then(canvas => {
 })
 ```
 
+## clamp.js
 
++ 超出省略文字，可以多行和单行都可以
 
 ## cheerio
 

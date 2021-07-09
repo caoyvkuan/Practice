@@ -1608,25 +1608,24 @@ p3.printName() // "Oops"
 + 与 ES5 一样，在“类”的内部可以使用 get 和 set 关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为。
 ```js
 class MyClass {
+  _prop: 'getter';
   constructor() {
     // ...
   }
   get prop() {
-    return 'getter';
+    return this._prop;
   }
   set prop(value) {
-    console.log('setter: '+value);
+    this._prop = value;
+    console.log('setter: '+ this._prop);
   }
 }
 
 let inst = new MyClass();
-
-inst.prop = 123;
-// setter: 123
-
 inst.prop
 // 'getter'
-
+inst.prop = 123;
+// setter: 123
 // prop 属性有对应的存值函数和取值函数，因此赋值和读取行为都被自定义了。
 ```
 

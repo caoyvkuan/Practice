@@ -11,6 +11,7 @@
   + 或 ` number | string`
   + 别名 `type myType = string;`
     + myType 就相当于 string
+    + 同时 type 关键字也可以用来进行类型的声明
 
 + 数值 ：number
 + 字面量 ：是什么就只能赋值什么
@@ -139,7 +140,10 @@ x = y; // Error 不兼容，因为 x 没有 y 所需要的参数
 # 接口
 
 + 用来定义需要那些参数和参数的类型
++ 接口是用来定义一个对象的结构
+  + 与抽象类不同的是，所有的方法都是抽象方法，不能有具体的实现
 + 通过关键字 `interface` 来定义
+  + 多个名字相同的接口是会进行合并的
 + 通过约束的属性，在拼写错误时也会得到提示
 ```ts
 interface fnParam {
@@ -300,6 +304,7 @@ class GetImage implements SelectableControl{
 + public 公共属性 -- 默认值
 + private 私有属性
   + 不能在声明类的外部访问
+  + 只能在当前类的内部进行修改访问
   + 当两个类有相同的私有属性时,如果是来至同一处声明,则这两个类型是兼容的(能否进行赋值操作)
 + protected 受保护的
   + 与 private 类型,但是在派生类中是可以访问的
@@ -320,7 +325,7 @@ class Test{
   }
 }
 
-// 相同属性兼容问题
+// 类与类之间的兼容性问题，决定能否相互赋值
 class Animal {
     private name: string;
     constructor(theName: string) { this.name = theName; }
@@ -341,6 +346,26 @@ animal = rhino;
 animal = employee; // 错误: Animal 与 Employee 不兼容.
 ```
 
++ 简洁的语法
+```ts
+class A{
+   // 直接在 constructor 声明部分完成属性的赋值
+   constructor(
+      public name: string,
+      public age: number
+   ){}
+}
+// 相当于
+class B{
+   name: string;
+   age: number;
+   constructor(name: string,age: number){
+      this.name = name;
+      this.age = age;
+   }
+}
+```
+
 ## 存取器
 
 + getters/setters
@@ -359,12 +384,21 @@ class Empty {
 }
 ```
 
+## 继承与实现
+
++ 在 ts 中类实现接口一般使用 implements (实现)
++ 一个类实现一个接口
++ 与继承不同的是，实现并不会让类拥有接口中的任何东西，只是负责实现这个接口
+
++ 继承 extends ，当继承一个类或抽象类的时候
+  + 就能够直接继承到类当中的属性和方法
+
 ## abstract 抽象类或属性
 
 + 不同于接口,抽象类可以包含实现的细节
 + 通过 abstract 来进行定义一个抽象类或是方法
++ 抽象类不能够直接创造实例进行使用吗，而必须由派生类继承
 > 抽象类中的抽象方法不包含具体实现并且必须在派生类中实现。 抽象方法的语法与接口方法相似。
->
 > > 两者都是定义方法签名但不包含方法体。
 
 ```ts
@@ -489,7 +523,8 @@ let pickedCard2 = pickCard(15);
 # 泛型
 
 + 泛型是用来支持多种类型的类型,组件的类型就需要利用泛型来定义
-+ 泛型通过 T 来表示
++ 泛型通过 `<Name>`(如：`<T>`) 来表示
+  + 多个泛型 `<T, K>`
 + 泛型 T 会自动帮助用户捕获传入的类型,泛型可以自动适应各种类型而又不像 any 一样会丢失类型的跟踪
 + 简单讲就是既可以保持类型的准确性又能支持多种不同的类型
 ```ts
@@ -1554,6 +1589,71 @@ function applyMixin(derivedCtor: any, baseCtors: any[]) {
 + 配置信息 tsconfig.json
 + 编译的配置文件
 ```json
-
+{
+   // 需要编译的文件路径
+   "include": [
+      //    "./src/**/*"
+      "./**/*"
+   ],
+   "exclude": [
+      // 需要忽略的文件
+   ],
+   // 继承的配置文件
+   // "extends": "./tsconfig.json",
+   // 需要编译的文件,用于少数文件的情况
+   // "files": [],
+   // 编译选项
+   "compilerOptions": {
+      // 编译输出目标,也就是 输出的 js 版本
+      "target": "ES6",
+      // 编译后模块化的的方案
+      "jsx": "preserve",
+      "experimentalDecorators": true,
+      "module": "ES6",
+      // 用来指定项目中使用的库
+      // 一般不写,默认是在浏览器的运行环境中使用的运行环境
+      // "lib": [
+      //    "DOM",
+      //    "ESNext"
+      // ],
+      "baseUrl": "./src", // 基础路径是必须指定的
+      "paths": { // 映射关系是相对于 baseUrl 开始的
+         // "@C": "./components",
+         // 更加复杂的映射关系
+         "*": [
+            "*",
+            "./pages/*"
+         ]
+         // "*"： 匹配所有值,所以映射为<moduleName> => <baseUrl>/<moduleName>
+         // 通配符后导入 components/Test
+         // 因为 * 所以不论写什么都是可以匹配的， ./src/components/Test 找到后就不会继续找了
+         // 如果没找到就会继续寻找 ./src/pages/components/Test 从数组依次往后寻找
+      },
+      // 编译后的输出目录
+      "outDir": "./dist",
+      // 输出的文件,将全局作用域代码合并为一个文件,模块化只支持 amd 和 system 模块化方案
+      // "outFile": "./dist/main.js"
+      // 是否会编译 JS 文件
+      "allowJs": false,
+      // 是否检查 JS 文件类型
+      "checkJs": false,
+      // 是否移除注释
+      "removeComments": true,
+      // 不生成编译后的文件
+      "noEmit": false,
+      // 当有错误的时候不生成编译后的文件
+      "noEmitOnError": true,
+      // 所有严格检查的总开关
+      "strict": false,
+      // 编译后使用严格模式
+      "alwaysStrict": true,
+      // 不允许隐式的 any 类型
+      "noImplicitAny": true,
+      // 不允许隐式类型的 this
+      "noImplicitThis": true,
+      // 严格检查类型的空值
+      "strictNullChecks": true,
+   }
+}
 ```
 

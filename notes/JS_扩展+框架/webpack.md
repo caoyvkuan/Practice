@@ -21,12 +21,25 @@
   + 输出(Output)指示 Webpack 打包后的资源 bundles 输出到哪里,以及如何命名
   + 对象 => 属性:
     + `filename : 'JS/[name].[hash:5].js'` -> 文件名称
+    
     + `path : resolve(__dirname,'build')` -> 文件输出目录
+    
     + `publicPath : '/'` -> 公共资源前缀
+    
     + `chunkFilename : [name]_chunk.js` // 修改非入口 chunk 的名称
+    
     + `library : '[name]'` => 整个库向外暴露的变量名
+    
     + `libraryTarget : 'window'` // 变量名添加到哪个全局变量名上 browser
-
+    
+      ```json
+      environment: { // 不使用箭头函数，兼容不支持箭头函数的浏览器，不兼容 ie 基本用不上
+          arrowFunction: false
+      }
+      ```
+    
+      
+  
 + Loader -> 相当于将各种文件翻译成 Webpack 能够理解的文件
   + Loader 让 Webpack 能够处理非 JS 文件,因为 Webpack 本身只能理解 JS 文件
   + module 对象 -> rules 数组 -> 对象 属性:
@@ -286,6 +299,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // 引入压缩 css 插件 optimize-css-assets-webpack-plugin
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin')
+// 清除打包目录中的文件
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+// 复制文件
+const CopyPlugin = require('copy-webpack-plugin');
 
 
 
@@ -333,9 +350,41 @@ module.exports = {
                         plugins: [require('postcss-preset-env')]
                      },
                   }
-               }
+               }，
+               'sass-loader'
             ]
          },
+          {
+            test: /\.ts$/,
+            use: [
+               { 
+                 /*
+                    "@babel/core": "^7.14.6",
+                    "@babel/preset-env": "^7.14.7",
+                    "babel-loader": "^8.2.2",
+                    "core-js": "^3.15.2",
+               	 */
+                  loader: 'babel-loader',
+                  options: {
+                     // 设置预定义的环境
+                     presets: [
+                        [
+                           '@babel/preset-env',
+                           {
+                              targets: {
+                                 'chrome': '88',
+                              },
+                              'corejs': '3',
+                              'useBuiltIns': 'usage'
+                           }
+                        ]
+                     ]
+                  }
+               },
+               'ts-loader'
+            ],
+            exclude: /node-modules/
+         }
          {
             test: /\.(jpg|png|gif)$/,
             // 使用一个loader
@@ -372,6 +421,17 @@ module.exports = {
    // 1.下载 , 2.引入 , 3.使用
    plugins: [
       // 配置
+       // 清除打包目录中的文件
+      new CleanWebpackPlugin(),
+      // 复制静态文件
+      new CopyPlugin({
+           patterns: [
+              {
+                  from: Root('public/favicon.ico'),
+                  to: Root('dist')
+              }
+          ]
+      }),
       // html-webpack-plugin
       new HtmlWebpackPlugin({
          // 默认打包的是一个空的HTML ,且引入了打包输出的所有资源
@@ -923,3 +983,140 @@ const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
    }
 }
 ```
+
+# TS 基本打包配置
+
+```js
+/*
+    "scripts": {
+        "build": "webpack",
+        "start": "webpack server --open chrome.exe"
+      },
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "copy-webpack-plugin": "^9.0.1",
+    "core-js": "^3.15.2",
+    "css-loader": "^5.2.6",
+    "html-webpack-plugin": "^5.3.2",
+    "mini-css-extract-plugin": "^2.1.0",
+    "optimize-css-assets-webpack-plugin": "^6.0.1",
+    "postcss-loader": "^6.1.1",
+    "sass": "^1.35.2",
+    "sass-loader": "^12.1.0",
+    "strip-ansi": "^7.0.0",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.5",
+    "webpack": "^5.44.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+*/
+// tsconfig
+{
+   "compilerOptions": {
+      "target": "ES6",
+      "module": "ES6",
+      "strict": true,
+      "noEmitOnError": true,
+      "baseUrl": "./src",
+      "paths": {},
+      "removeComments": true,
+      "jsx": "preserve",
+   }
+}
+
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+
+function Src(url) {
+   return path.resolve(__dirname, `./src/${url}`);
+}
+function Root(url) {
+   return path.resolve(__dirname, `./${url}`);
+}
+
+const isDev = false;
+module.exports = {
+   mode: isDev ? 'development' : 'production',
+   entry: Src('index.ts'),
+   output: {
+      path: Root('dist'),
+      filename: 'Main.js',
+      environment: {
+         arrowFunction: false
+      }
+   },
+   resolve: {
+      extensions: ['.ts', '.js']
+   },
+   module: {
+      rules: [
+         {
+            test: /\.scss$/,
+            use: [
+               MiniCssExtractPlugin.loader,
+               'css-loader',
+               'postcss-loader',
+               'sass-loader'
+            ],
+            exclude: /node-modules/
+         },
+         {
+            test: /\.ts$/,
+            use: [
+               {
+                  loader: 'babel-loader',
+                  options: {
+                     presets: [
+                        [
+                           '@babel/preset-env',
+                           {
+                              targets: {
+                                 'chrome': '88',
+                              },
+                              'corejs': '3',
+                              'useBuiltIns': 'usage'
+                           }
+                        ]
+                     ]
+                  }
+               },
+               'ts-loader'
+            ],
+            exclude: /node-modules/
+         }
+      ]
+   },
+   plugins: [
+      new CleanWebpackPlugin(),
+      new CopyPlugin({
+         patterns: [
+            {
+               from: Root('public/favicon.ico'),
+               to: Root('dist')
+            }
+         ]
+      }),
+      new HtmlWebpackPlugin({
+         template: Root('public/index.html'),
+         minify: {
+            collapseWhitespace: true,
+            removeComments: true
+         }
+      }),
+      new MiniCssExtractPlugin({
+         filename: 'main.css',
+      }),
+      new OptimizeCssAssetsWebpackPlugin(),
+   ],
+   devServer: {
+      port: 3000,
+   }
+}
+```
+
