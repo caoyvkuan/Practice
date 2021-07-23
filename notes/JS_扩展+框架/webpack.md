@@ -342,6 +342,20 @@ module.exports = {
                // 使用 loader 的默认配置
                // 'postcss-loader',
                // 修改 loader 的配置
+                /* package.json 中添加配置
+                "browserslist": {
+                "production": [
+                      ">0.2%",
+                      "not dead",
+                      "not op_mini all"
+                ],
+                "development": [
+                      "last 1 chrome version",
+                      "last 1 firefox version",
+                      "last 1 safari version"
+                    ]
+                  },
+                */
                {
                   loader: 'postcss-loader',
                   options: {
@@ -350,7 +364,7 @@ module.exports = {
                         plugins: [require('postcss-preset-env')]
                      },
                   }
-               }，
+               },
                'sass-loader'
             ]
          },
@@ -896,6 +910,7 @@ const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
 ```js
 {
    entry:'...',
+   target: 'web', //解决不自动刷新问题
    devServer: {
    // 项目构建后的路径 , 运行代码的目录
    contentBase: resolve(__dirname, 'build'),

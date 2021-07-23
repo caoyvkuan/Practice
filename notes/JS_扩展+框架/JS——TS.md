@@ -3,15 +3,16 @@
 + 作用
   + 能够给 JS 带来全新的类型检验功能
 
-
 ## 类型
 
 + 联合类型 
   + 且 `{ name:string } & { age:number }`
   + 或 ` number | string`
-  + 别名 `type myType = string;`
-    + myType 就相当于 string
-    + 同时 type 关键字也可以用来进行类型的声明
+  + 当 ts 不决定联合类型的准确类型时，只能够访问共有的方法，否则会报错
+  + 被赋值时也会采用类型推论进行推断
++ 别名 `type myType = string;`
+  + myType 就相当于 string
+  + 同时 type 关键字也可以用来进行类型的声明
 
 + 数值 ：number
 + 字面量 ：是什么就只能赋值什么
@@ -39,18 +40,6 @@ let name: string = 'doge';
 
 // 布尔值
 let isDone: boolean = false;
-
-// 数组 有两种方式，一、指定元素类型的数组，二、泛型数组
-// 一、
-let list: number[] = [1, 2, 3]; 
-let list: Array<number> = [1, 2, 3]; 
-// 二、
-let list: any[] = [1, 'two', { three：3 }];
-
-// 元组 Tuple 可以指定数组不同位置的类型
-let arr: [string, number] = ['type', 2];
-// 当索引超过限定的长度时，类型限定将为 (string | number)
-arr[2] = 'type' || 4; // 只要是指定类型的其中之一就行
 
 // 枚举 这是对 js 中类型的补充
 enum Color { Red, Green, Blue };
@@ -85,21 +74,50 @@ function error(message: string): never {
     throw new Error(message);
 }
 
-// object 表示非原始类型，也就是除 number，string，boolean，symbol，null 或 undefined之外的类型。
-// 任意的 js 对象类型
-let obj:object = [{name:'啊哈哈'}];
-
-// 类型断言 两种写法，在 JSX 语法中只能使用 as 语法
-// 断言就是主动告诉编译器变量的类型
-let length: number = (<string>name).length;
-let length: number = (name as string).length;
-
 let a:'a' = 'a'; // 字面量，指定的值
 ```
 
-### object
+## 数组 & 元组 Tuple
+
++ 泛型数组 ： `Array<any>`
++ 类型加方括号 : `let arr: number[]` 数值类型数组
++ 接口类型数组
 
 ```ts
+// 数组 有两种方式，一、指定元素类型的数组，二、泛型数组
+// 一、
+let list: number[] = [1, 2, 3]; 
+let list: any[] = [1, 'two', { three：3 }];
+// 二、
+let list: Array<number> = [1, 2, 3]; 
+
+// 元组 Tuple 可以指定数组不同位置的类型
+let arr: [string, number] = ['type', 2];
+// 当索引超过限定的长度时，类型限定将为联合类型 (string | number)
+arr[2] = 'type' || 4; // 只要是指定类型的其中之一就行
+
+// 表示：只要索引的类型是数字时，那么值的类型必须是数字。
+interface IndexArray{
+   [index: number]: number;
+}
+// 接口的方式可以用来描述类数组
+// ts已经定义好类型 IArguments
+function sum() {
+    let args: {
+        [index: number]: number;
+        length: number;
+        callee: Function;
+    } = arguments;
+}
+```
+
+## object
+
+```ts
+// object 表示非原始类型，也就是除 number，string，boolean，symbol，null 或 undefined之外的类型。
+// 任意的 js 对象类型
+let obj: object = [{name:'啊哈哈'}];
+
 // 这样的写法可以限制对象只有指定属性,且 `?:` 可以设置可选属性
 let obj: { name:string, age?:number }
 
@@ -112,10 +130,40 @@ let obj: { name:string, [propName:string]: any }
 let fn: (a:number, b:number)=>number;
 ```
 
+## 断言
+
++ 断言有两种不同的语法，目的是用来手动指定一个值的类型
++ 类型断言 两种写法，在 JSX 语法中只能使用 as 语法
++ 断言不会影响变量的真实类型，所以不能当做类型转换来使用
+```ts
+// 断言就是主动告诉编译器变量的类型
+let length: number = (<string>name).length;
+let length: number = (name as string).length;
+
+// 通过断言给 Window 增加属性
+(window as any).foo = 1;
+
+// 双重断言，这可以打破很多限制，如下面第5条约束
+// 将一个类型断言为 any 然后就可以进行任意类型的断言了
+// 但是这样很容易出错，并不推荐
+cat as any as Fish
+```
++ 类可以使用 instanceof 来进行判断
++ 接口只能使用 断言，因为接口在编译时会被删除
++ 两个互相兼容的类型是可以相互断言的，反之则不行
+
+1. 联合类型可以被断言为其中一个类型
+2. 父类可以被断言为子类
+3. 任何类型都可以被断言为 any
+4. any 可以被断言为任何类型
+5. 要使得 A 能够被断言为 B，只需要 A 兼容 B 或 B 兼容 A 即可
+
 ## 类型推论
 
 + 主要作用就是帮助 TypeScript 在没有明确指出类型的位置会提供帮助类型
 + 如泛型就很好的使用了 类型推论
++ 如果变量未指定类型，但是有初始化操作就会进行类型推论
+  + `const a = 'string'` 这就会被推论为  `String` 类型
 
 ## 类型兼容性
 
@@ -137,16 +185,85 @@ y = x; // OK 兼容，因为参数列表中的类型可以对应
 x = y; // Error 不兼容，因为 x 没有 y 所需要的参数
 ```
 
+# 签名
+
+## 构造签名
+
+```ts
+class Name {
+   constructor(public name: string) {
+   }
+}
+// 通过构造签名，定义了构造函数的样子
+interface C<T> {
+   new(name: string): T
+}
+
+// 参数是一个类，返回一个类的实例
+function getInstance<T extends Name>(name:C<T>): T {
+   return new name('Jack');
+}
+
+getInstance<Name>(Name);
+```
+
+# 默认类型
+
++ TS 内置对象都在核心库中定义
++ [对象定义位置](https://github.com/Microsoft/TypeScript/tree/main/src/lib)
+
++ TS 默认不包含 nodejs 的部分，需要额外引入
++ `npm install @types/node --save-dev`
+
+## ECMAScript 内置对象
+
++ 如 ： Boolean、Error、Date、RegExp等
++ [更多](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects)
+
+## ts 内置类型
+
+### arguments
+
+```ts
+interface IArguments {
+    [index: number]: any;
+    length: number;
+    callee: Function;
+}
+```
+
+## 事件对象 Event
+
+- `ClipboardEvent<T = Element> ` 剪切板事件对象
+
+- `DragEvent<T =Element>`  拖拽事件对象
+
+- `ChangeEvent<T = Element>`  Change 事件对象
+
+- `KeyboardEvent<T = Element> ` 键盘事件对象
+
+- `MouseEvent<T = Element>`  鼠标事件对象
+
+- `TouchEvent<T = Element>`  触摸事件对象
+
+- `WheelEvent<T = Element>`  滚轮时间对象
+
+- `AnimationEvent<T = Element>`  动画事件对象
+
+- `TransitionEvent<T = Element>`  过渡事件对象
+
 # 接口
 
 + 用来定义需要那些参数和参数的类型
 + 接口是用来定义一个对象的结构
   + 与抽象类不同的是，所有的方法都是抽象方法，不能有具体的实现
++ 接口是对行为的抽象，而具体的实现需要由类（class）来完成
 + 通过关键字 `interface` 来定义
+  + 接口一般首字母大写
   + 多个名字相同的接口是会进行合并的
 + 通过约束的属性，在拼写错误时也会得到提示
 ```ts
-interface fnParam {
+interface FnParam {
     label: string;
     // 可选属性只需要加一个 ？ 即可
     size?: number;
@@ -154,6 +271,8 @@ interface fnParam {
     readonly x: number;
     // 任意数量的其他属性
     [propName: string]: any;
+    // 一旦定义了任意属性，那么确定的属性和可选属性的类型都必须是它的子集
+    // 如 任意类型 是 string ， 则 可选属性 size 就只能是 string 的子集， 所以 number 是会报错的
 }
 // 只读属性不仅仅是用在对象属性中
 // ReadonlyArray<T>
@@ -273,12 +392,21 @@ log(s.interval);
 
 ## 继承类
 
++ 在 TS 中接口可以继承类是因为 在类声明的时候同时也会创建一个同名的类型（实例的类型）
 + 当接口继承类类型的时候，会继承类的成员，但是不会继承成员的实现
 + 不论是私有的（private）还是受保护的（protected）都会被继承
   + 不过当继承了这两种属性时，该接口只能被这个类或其子类实现（implement）
++ 静态方法和静态属性不会被继承，构造函数也是如此
 ```ts
 class Control {
    private state: any;
+   constructor(state:any){
+      this.state = state;
+   }
+}
+// 同时会创建的类型
+interface ControlInstanceType {
+    state: any;
 }
 
 interface SelectableControl extends Control {
@@ -311,6 +439,7 @@ class GetImage implements SelectableControl{
   + 也就是说继承者可以在自己的内部访问被继承者的 protected 属性
 + readonly 只读
   + 只读关键字必须在声明或是构造函数里被初始化
+  + 如果只读修饰符与其他修饰符一同出现，则需要写在后面
 + static 静态属性
 ```ts
 class Test{
@@ -366,6 +495,17 @@ class B{
 }
 ```
 
+## 只允许继承的类
+
++ 通过 protected 修饰构造函数的类
+```ts
+class Animal {
+   protected constructor(){
+      // 该类只允许被继承
+   }
+}
+```
+
 ## 存取器
 
 + getters/setters
@@ -387,20 +527,44 @@ class Empty {
 ## 继承与实现
 
 + 在 ts 中类实现接口一般使用 implements (实现)
-+ 一个类实现一个接口
++ 一个类可以实现多个接口
 + 与继承不同的是，实现并不会让类拥有接口中的任何东西，只是负责实现这个接口
 
 + 继承 extends ，当继承一个类或抽象类的时候
   + 就能够直接继承到类当中的属性和方法
+```ts
+interface Alarm {
+    alert(): void;
+}
+
+interface Light {
+    lightOn(): void;
+    lightOff(): void;
+}
+
+class Door {
+}
+// 继承 一个类 并实现一个接口
+class SecurityDoor extends Door implements Alarm {
+    alert() {console.log('SecurityDoor alert');}
+}
+
+class Car implements Alarm, Light {
+    alert() {console.log('Car alert');}
+    lightOn() {console.log('Car light on');}
+    lightOff() {console.log('Car light off');}
+}
+```
 
 ## abstract 抽象类或属性
 
 + 不同于接口,抽象类可以包含实现的细节
 + 通过 abstract 来进行定义一个抽象类或是方法
-+ 抽象类不能够直接创造实例进行使用吗，而必须由派生类继承
++ 抽象类不能够直接创造实例（不允许实例化）进行使用吗，而必须由派生类继承
 > 抽象类中的抽象方法不包含具体实现并且必须在派生类中实现。 抽象方法的语法与接口方法相似。
+>
 > > 两者都是定义方法签名但不包含方法体。
-
++ 抽象方法必须在子类中实现
 ```ts
 abstract class Test {
   // 该函数必须在派生类中实现
@@ -444,6 +608,11 @@ let myAdd: (x: number, y: number) => number;
 myAdd = (num1, num2) => num1 + num2;
 myAdd = function (x: number, y: number): number {
    return x + y;
+}
+
+// 通过接口来定义函数
+interface SearchFunc {
+    (source: string, subString: string): boolean;
 }
 ```
 
@@ -522,6 +691,7 @@ let pickedCard2 = pickCard(15);
 
 # 泛型
 
++ 泛型（Generics）是指在定义函数、接口或类的时候，不预先指定具体的类型，而在使用的时候再指定类型的一种特性。
 + 泛型是用来支持多种类型的类型,组件的类型就需要利用泛型来定义
 + 泛型通过 `<Name>`(如：`<T>`) 来表示
   + 多个泛型 `<T, K>`
@@ -554,6 +724,10 @@ function get<T>(arg: T): T {
 function get<T>(arg: T[]): T[] {
     console.log(arg.length); // 这时候就可以这样使用了
     return arg;
+}
+
+// 为泛型指定默认类型
+function createArray<T = string>(length: number, value: T): Array<T> {
 }
 ```
 
@@ -958,9 +1132,11 @@ export interface MyTools {
     + `import Test from "@C/Test";`
 
 > 相对导入在解析时是相对于导入它的文件，并且不能解析为一个外部模块声明。
+>
 > > 一般自己书写的的模块使用相对导入，这样能确保它们在运行时的相对位置。
 
 > 非相对模块的导入可以相对于 baseUrl 或通过下文会讲到的路径映射来进行解析。
+>
 > > 它们还可以被解析成 外部模块声明。 使用非相对路径来导入你的外部依赖。
 
 
@@ -998,6 +1174,33 @@ export interface MyTools {
       }
    }
 }
+
+
+// 例子
+// tsconfig
+"baseUrl": "./src",
+"paths": {
+    "@DOM": [
+        "./auxiliary/dom.ts"
+    ],
+    "@utils": [
+        "./auxiliary/utils.ts"
+    ],
+    "@Class/*": [
+        "./class/*"
+    ]
+},
+// webpack
+function Src(url) {
+   return path.resolve(__dirname, `./src/${url}`);
+}
+resolve: {
+    alias: {
+        '@DOM': Src('auxiliary/dom.ts'),
+        '@utils': Src('auxiliary/utils.ts'),
+        '@Class': Src('class')
+    }
+},
 ```
 
 ## 虚拟目录
@@ -1581,6 +1784,65 @@ function applyMixin(derivedCtor: any, baseCtors: any[]) {
          derivedCtor.prototype[name] = baseCtor.prototype[name];
       });
    });
+}
+```
+
+# 声明文件
+
++ 当使用第三方库时，我们需要引用它的声明文件，才能获得对应的代码补全、接口提示等功能。
+
++ 声明只能定义类型，切勿定义具体实现
+
++ `declare var` 声明全局变量
+  + 同时也可以使用 let 和 const
+  + let 在声明文件中与 var 并没有区别
+  + const 声明的不允许更改
++ `declare function` 声明全局方法
+  + 方法可以多次声明来定义函数重载
++ `declare class` 声明全局类
++ `declare enum` 声明全局枚举类型
++ `declare namespace` 声明（含有子属性的）全局对象
++ `interface` 和 `type` 声明全局类型
++ `export` 导出变量
++ `export namespace` 导出（含有子属性的）对象
++ `export default` ES6 默认导出
++ `export = commonjs` 导出模块
++ `export as namespace` UMD 库声明全局变量
++ `declare global` 扩展全局变量
++ `declare module` 扩展模块
++ `/// <reference />` 三斜线指令
+
++ 声明并不会正真的定义一个变量，只是定义了一个类型
++ 会在编译结果中被删除
++ `.d.ts` 就是一个声明文件
+
+## 在使用第三方库时
+
++ 因为编译器无法得知第三方库的类型
++ 如 Jquery , ts 并不知道 Jquery 是什么东西
+```ts
+// 通过这样声明后，才能够正常使用
+declare var jQuery: (selector: string) => any;
+// 在没有定义声明前，这样使用是会报错的
+jQuery('#foo');
+```
+
+## 声明命名空间
+
++ 随着 ES6 的广泛应用，现在已经不建议再使用 ts 中的 namespace，而使用 ES6 的模块化代替
++ 在声明文件中 命名空间还是比较常用的，可以用来表示全局变量是一个对象，包含很多子属性
+```ts
+// 声明一个拥有很多个子属性的全局变量
+declare namespace jQuery {
+   // 在命名空间中，定义可以不需要添加 declare 关键字
+    function ajax(url: string, settings?: any): void;
+    const version: number;
+    class Event {
+        blur(eventType: EventType): void
+    }
+    enum EventType {
+        CustomClick
+    }
 }
 ```
 
