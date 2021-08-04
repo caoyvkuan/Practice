@@ -6,15 +6,20 @@
 + [yarn](https://yarnpkg.com/)
   + [Learn](https://yarn.bootcss.com/docs/)
 
-## serve
+## serve 虚拟服务器
 
 + 可以运行一个服务器,可以用来运行打包后的页面,会开启一个虚拟服务器
 + npm i -g serve
 + serve pathName , 执行指定文件夹
 
-## PubSubJS
+## 日期处理
 
-+ 订阅与发布
+1. dayjs
+   + `yarn add dayjs`
+   + [链接](https://www.npmjs.com/package/dayjs)
+2. moment
+
+## PubSubJS 发布订阅
 
 + npm i pubsub-js
 
@@ -53,48 +58,43 @@
 	
 	
 
-## axios
+## axios 网络请求
 
-+ 发送网络请求
 + npm i axios
 
-## JSON-Server
+## JSON-Server  请求测试服务
 
-+ 网络请求测试服务
 + 安装 : npm install -g json-server
 + 启动 : json-server --watch db.json
 
 + ![配置](./images/json-server.webp)
 
-## Nano ID
+## Nano ID (id生成)
 
 + JS 唯一 id 生成器
 + `import { nanoid } from 'nanoid'`
 + yarn add nanoid
 
-## Copy to clipboard
+## Copy to clipboard 复制到剪切板
 
-+ 复制到剪切板
 + npm i copy-to-clipboard
 + import copy from 'copy-to-clipboard'
 + copy('Text');
 + [链接](https://www.npmjs.com/package/copy-to-clipboard)
 
-## immutable
+## 不可变数据
 
-+ 不可变数据,通常配合 Redux 使用
-+ 在深层数据修改上可以很方便的节约性能
-+ [链接](https://www.npmjs.com/package/immutable)
+1. immutable
+   + 不可变数据,通常配合 Redux 使用
+   + 在深层数据修改上可以很方便的节约性能
+   + [链接](https://www.npmjs.com/package/immutable)
 
+2. immer
+   + 不可变数据,通常配合 Redux 使用
+   + 在深层数据修改上可以很方便的节约性能
+   + [链接](https://immerjs.github.io/immer/)
 
-
-## immer 
-
-+ 不可变数据,通常配合 Redux 使用
-+ 在深层数据修改上可以很方便的节约性能
-+ [链接](https://immerjs.github.io/immer/)
-
-## html2canvas
+## html2canvas 页面生成图片
 
 + `yarn add html2canvas`
 
@@ -105,19 +105,17 @@ html2canvas(element).then(canvas => {
 })
 ```
 
-## clamp.js
+## clamp.js 省略文字
 
 + 超出省略文字，可以多行和单行都可以
 
-## cheerio
+## cheerio (html字符串操作)
 
 + 用 jq 一样的方式操作 html 字符串
 + `let $ = cheerio.load('html');`
 + [链接](https://www.npmjs.com/package/cheerio)
 
-## prismjs
-
-+ 代码高亮
+## prismjs 代码高亮
 
 + [官网](https://prismjs.com/)
 

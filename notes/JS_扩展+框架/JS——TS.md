@@ -1850,6 +1850,7 @@ declare namespace jQuery {
 
 + 配置信息 tsconfig.json
 + 编译的配置文件
++ [参考](https://www.tslang.cn/docs/handbook/compiler-options.html)
 ```json
 {
    // 需要编译的文件路径
