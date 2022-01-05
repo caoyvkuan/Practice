@@ -395,7 +395,6 @@ video.playbackRate=2; 	2倍播放速度
 # head中的标签
 
 + **<meta>**
-
   + 用于定义页面描述
   + <meta charset="utf-8">  编码
     <meta name="description" content="描述信息 seo优化">
@@ -410,7 +409,7 @@ video.playbackRate=2; 	2倍播放速度
   + ```html
     <meta name="viewport" content="width=device-width"> 
     按照设备宽度来渲染页面内容
-    <meta name="viewport" content="initial-scale=2.0,width=device-width"/> 
+    <meta name="viewport" content="initial-scale=1.0,width=device-width"/> 
     content:
     initial-scale=2.0	把内容放大为实际的两倍大小
     width=device-width	页面宽度等于设备宽度
@@ -426,19 +425,12 @@ video.playbackRate=2; 	2倍播放速度
     ```
 
 + **<link>**
-
   + `<link rel="stylesheet" href="">` 样式引入
-
   + `<link rel="icon" type="image/x-icon" href="">`  网页标题图标引入
-
   + `<link rel="dns-prefetch" href="">`  dns预解析
-  
   + `<link rel="apple-touch-icon" href="">` 只支持苹果手机,快捷方式图标
-  
   + `<link ref="manifest" href="json配置文件,">` 应用加壳,就是做手机端APP。
-  
   + 媒体查询
-  
     + ```html
       在CSS2中
       <link rel="style sheet" type="text/css" media="screen" href="m.css">
@@ -452,6 +444,9 @@ video.playbackRate=2; 	2倍播放速度
       projection后不接条件表示支持具备任何特性的该媒体类型,适配所有投影机
       ```
 
++ **<base>**
+  + 用于所有链接标签的默认 URL 地址
+
 # 常用标签
 
 + 超链接**a**
@@ -463,7 +458,6 @@ video.playbackRate=2; 	2倍播放速度
   + 然后在需要跳转的内容中添加属性 `name="add"` 设置 id 属性也可以
   
 + 图片**img**
-
   + alt  图片加载失败时的文字提示      设置为空可以让图片加载失败时，不显示加载失败的图片装饰
   + `naturalHeight` : 图片原始宽高
   + loading 属性  延迟加载
@@ -471,25 +465,24 @@ video.playbackRate=2; 	2倍播放速度
     + eager 立即加载，默认状态
 
 + 列表标签
-
   + `unordered list = ul`
   + `ordered list = ol`
   +  `list item = li`
 
 + Void元素 (单标签)
-
   + **<hr>**
   + **br**
   + **<img>**
 
 + 字符实体
-
   + ```html
     空格&nbsp;: &amp;nbsp;
     小于号 ：&lt; &amp;lt;
     大于号 : &gt; &amp;gt;
     &符号 : &amp;
     ```
+
++ `noscript` ：不支持 JavaScript 时显示
 
 # 基本知识
 
@@ -518,10 +511,6 @@ video.playbackRate=2; 	2倍播放速度
 + **spellcheck** 检测元素是否拼写错误`spellcheck="true|false"`
 + **tabindex**  设置元素的 Tab 键控制次序。
 + **translate** 指定是否一个元素的值在页面载入时是否需要翻译`translate="yes|no"`
-
-## 冷门标签
-
-+ `noscript` ：不支持 JavaScript 时显示
 
 ## 路径
 

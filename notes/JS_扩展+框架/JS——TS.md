@@ -194,6 +194,7 @@ class Name {
    constructor(public name: string) {
    }
 }
+
 // 通过构造签名，定义了构造函数的样子
 interface C<T> {
    new(name: string): T
