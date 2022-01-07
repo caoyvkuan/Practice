@@ -37,11 +37,11 @@ foo={}//将foo指向另一个对象,就会报错
 //可以修改其内容,但是不可修改其本身,也就是将它指向另一个对象
 
 //彻底冻结对象的函数
-var constantize = (obj) => {
+var AllFreeze = (obj) => {
   Object.freeze(obj);
   Object.keys(obj).forEach( (key, i) => {
     if ( typeof obj[key] === 'object' ) {
-      constantize( obj[key] );
+      AllFreeze( obj[key] );
     }
   });
 };
@@ -691,19 +691,14 @@ const { SourceMapConsumer, SourceNode } = require("source-map");
 
 + 符号的使用
   + 符号需要使用 `Symbol()` 函数初始化 ， 因为符号本身是原始类型， 所以 typeof 操作符对符号返回 symbol
-  + 该函数不能用构造函数的方式调用 想要使用符号的包装对象 `Object(Symbol());`
-  + Symbol 函数前不能使用 new 命令，否则会报错。
-  + Symbol 值不能与其他类型的值进行运算，会报错。
-  + 在调用该函数时可以传入一个字符串参数作为对符号的描述，将来可以通过这个字符串来调试代码，但这个字符串并与符号定义或标记完全无关
-  + 创建 Symbol 的时候，可以添加一个描述。
+  + Symbol 函数不能用*构造函数的方式*(new)调用,想要使用符号的包装对象 `Object(Symbol());`
+  + Symbol 值不能进行运算
+  + Symbol函数可以接受一个字符串参数作为返回符号的描述。将来可以通过这个字符串来调试代码，但这个字符串与符号定义或标记完全无关
 ```js
 let s1 = Symbol('foo');
 let s2 = Symbol('bar');
 
 s1 // Symbol(foo)
-s2 // Symbol(bar)
-
-s1.toString() // "Symbol(foo)"
 s2.toString() // "Symbol(bar)"
 - Symbol 值可以显式转为字符串。
 - 另外，Symbol 值也可以转为布尔值，但是不能转为数值。
@@ -711,9 +706,7 @@ let sym = Symbol();
 Boolean(sym) // true
 
 
-
-const sym = Symbol('foo');
-// sym 的描述就是字符串 foo。
+const sym = Symbol('foo');  // sym 的描述就是字符串 foo。
 // 但是，读取这个描述需要将 Symbol 显式转为字符串，即下面的写法。
 String(sym) // "Symbol(foo)"
 sym.toString() // "Symbol(foo)"
@@ -876,27 +869,16 @@ Object.getOwnPropertySymbols(x) // [Symbol(size)]
 ### for(),keyFor()
 
 + 重新使用同一个 Symbol 值，Symbol.for() 方法可以做到这一点。
-+ 它接受一个字符串作为参数，然后搜索有没有以该参数作为名称的 Symbol 值。
-+ 如果有，就返回这个 Symbol 值，否则就新建一个以该字符串为名称的 Symbol 值，并将其注册到全局。
++ Symbol.for(string) 会将一个符号注册到**全局注册表**中,通过传入的 string 进行搜索
+  + 运行时会检查注册表是否已经有对应的符号
+  + 有则返回,无则新建一个符号添加到注册表中并返回
 ```js
 let s1 = Symbol.for('foo');
 let s2 = Symbol.for('foo');
 s1 === s2 // true
 ```
 
-+ Symbol.for() 与 Symbol() 这两种写法，都会生成新的 Symbol。
-+ 它们的区别是，前者会被登记在全局环境中供搜索，后者不会。
-+ Symbol.for() 不会每次调用就返回一个新的 Symbol 类型的值，而是会先检查给定的 key 是否已经存在，如果不存在才会新建一个值。
-+ 比如，如果你调用 Symbol.for("cat") 30 次，每次都会返回同一个 Symbol 值，但是调用 Symbol("cat")30 次，会返回 30 个不同的 Symbol 值。
-```js
-Symbol.for("bar") === Symbol.for("bar"); //登记
-// true
-
-Symbol("bar") === Symbol("bar"); //未登记
-// false
-```
-
-+ Symbol.keyFor() 方法返回一个已登记的 Symbol 类型值的 key。
++ Symbol.keyFor(Symbol) 方法返回一个已登记的 Symbol 类型值的 key(描述)。
 + 注意，Symbol.for() 为 Symbol 值登记的名字，是全局环境的，不管有没有在全局环境运行。
 + Symbol.for() 的这个全局登记特性，可以用在不同的 iframe 或 service worker 中取到同一个值。
 ```js
@@ -905,10 +887,9 @@ Symbol.keyFor(s1) // "foo"
 
 let s2 = Symbol("foo");
 Symbol.keyFor(s2) // undefined
-
 ```
 
-### 实例：模块的 Singleton 模式
+### 实例：模块的 Singleton(单例) 模式
 
 + Singleton 模式指的是调用一个类，任何时候返回的都是同一个实例。
 + 对于 Node 来说，模块文件可以看成是一个类。怎么保证每次执行这个模块文件，返回的都是同一个实例呢？
@@ -981,7 +962,6 @@ class MyClass {
   }
 }
 [1, 2, 3] instanceof new MyClass() // true
-// MyClass 是一个类，new MyClass() 会返回一个实例。
 // 该实例的 Symbol.hasInstance 方法，会在进行 instanceof 运算时自动调用，判断左侧的运算子是否为 Array 的实例。
 
 // 例子
@@ -990,12 +970,6 @@ class Even {
     return Number(obj) % 2 === 0;
   }
 }
-// 等同于
-const Even = {
-  [Symbol.hasInstance](obj) {
-    return Number(obj) % 2 === 0;
-  }
-};
 
 1 instanceof Even // false
 2 instanceof Even // true
@@ -1005,8 +979,7 @@ const Even = {
 ### 2. Symbol.isConcatSpreadable
 
 + 对象的 Symbol.isConcatSpreadable 属性等于一个布尔值，表示该对象用于 Array.prototype.concat() 时，是否可以展开。
-+ 数组的默认行为是可以展开。
-+ 类似数组的对象正好相反，默认不展开。
++ 数组的默认行为是可以展开。类似数组的对象正好相反，默认不展开。
 + Symbol.isConcatSpreadable 属性也可以定义在类里面。
 ```js
 let arr1 = ['c', 'd']; // 数组默认可以展开
@@ -1170,8 +1143,8 @@ class MySplitter {
       return string;
     }
     return [
-      string.substr(0, index),
-      string.substr(index + this.value.length)
+      string.substring(0, index),
+      string.substring(index + this.value.length)
     ];
   }
 }
@@ -1395,9 +1368,7 @@ String(1n)  // "1"
 + 比较运算符（比如>）和相等运算符（==）允许 BigInt 与其他类型的值混合计算，因为这样做不会损失精度。
 + BigInt 与字符串混合运算时，会先转为字符串，再进行运算。
 
-## string
-
-### 模板字符串
+## 模板字符串
 
 + 模板字符串通过 (`) 反引号来表示
 + 可以当做普通字符串使用，也可以用来定义多行字符串，或是字字符串总嵌入变量
@@ -1418,40 +1389,60 @@ String(1n)  // "1"
 + 模板字符串特性
   + 字符串保留字符字面量 （即空格或换行等制表符）
 
-+ 模板字面量标签函数
-  + 第一个参数为字符串数组，数组长度为插入值个数加 1 ， 也就是参数个数 `n` ，长度为 `n+1`
 ```js
 //如果需要引用模板字符串本身，在需要时执行，可以写成函数。
 let func = (name) => `Hello ${name}!`;
 func('Jack') // "Hello Jack!"
 //模板字符串写成了一个函数的返回值。执行这个函数，就相当于执行这个模板字符串了。
-
-//模板字面量标签函数，调用
-simple`我${s}是${y}NiceYuan${n}`;
-//这个调用的第一个参数 strings 数组：['我'，'是', 'NiceYuan', '']
-
-//第一个参数字符串数组的组成
-let ac = str`（数组一：如果为空就是空字符串）${a}（+，二）${b}（=，三）${a + b}（四，规则都一样）`;
-
-function simple(strings, ...expressions){
-  for(const expression of expressions){
-    console.log(expression);
-  }
-  return 'foobar';
-}
 ```
 
 + 模板字符串甚至还能嵌套。
 ```js
-const tmpl = addrs => `
+const tmpl = adds => `
   <table>
-  ${addrs.map(addr => `
-    <tr><td>${addr.first}</td></tr>
-    <tr><td>${addr.last}</td></tr>
+  ${adds.map(addr => `
+    <tr><td>${add.first}</td></tr>
+    <tr><td>${add.last}</td></tr>
   `).join('')}
   </table>
 `;
 ```
+
+## 模板字符标签函数
+
++ 模板字面量标签函数 ` simple(strings, ...expressions) `
+  + 第一个参数为字符串数组，数组长度为插入值个数加 1 ， 也就是参数个数 `n` ，长度为 `n+1`
+```js
+//模板字面量标签函数，调用
+function simple(strings, ...expressions) {
+   log(strings);
+   for (const expression of expressions) {
+      log(expression);
+   }
+}
+simple`我${6}是${9}NiceYuan${6 + 9}`;
+//这个调用的第一个参数 strings 数组：['我'，'是', 'NiceYuan', '']
+/*
+[ '我', '是', 'NiceYuan', '' ]
+6
+9
+15
+
+ToDo 参数 strings 是一个数组 插入值个数为 n 则数组长度为 n+1
+插入值在字符串两边没有字符的话会插入 '' 空字符串
+// ${6}是${9}NiceYuan${6 + 9}
+[ '', '是', 'NiceYuan', '' ]
+// 我${6}是${9}NiceYuan
+[ '我', '是', 'NiceYuan' ]
+*/
+```
+
+---
+
++ 原始字符
+  + 也就是不进行默认的转义显示,如 `\n` 为换行符 - 直接输出 `\n` 而不是换行符
+  + 通过标签函数 `` String.raw`\n` `` 来进行输出
+  + 也可通过标签函数中第一个参数字符串数组的 raw 属性来获取原始字符
 
 # 操作符
 
@@ -1603,14 +1594,14 @@ var handler = {
   }
 };
 
-var fproxy = new Proxy(function(x, y) {
+var FProxy = new Proxy(function(x, y) {
   return x + y;
 }, handler);
 
-fproxy(1, 2) // 1
-new fproxy(1, 2) // {value: 2}
-fproxy.prototype === Object.prototype // true
-fproxy.foo === "Hello, foo" // true
+FProxy(1, 2) // 1
+new FProxy(1, 2) // {value: 2}
+FProxy.prototype === Object.prototype // true
+FProxy.foo === "Hello, foo" // true
 
 // 对于可以设置、但没有设置拦截的操作，则直接落在目标对象上，按照原先的方式产生结果。
 ```
@@ -1640,7 +1631,7 @@ fproxy.foo === "Hello, foo" // true
   + 拦截 Object.getOwnPropertyDescriptor(proxy, propKey)，返回属性的描述对象。
 
 + defineProperty(target, propKey, propDesc)
-  + 拦截 Object.defineProperty(proxy, propKey, propDesc）、Object.defineProperties(proxy, propDescs)，返回一个布尔值。
+  + 拦截 Object.defineProperty(proxy, propKey, propDesc）、Object.defineProperties(proxy, props)，返回一个布尔值。
 
 + preventExtensions(target)
   + 拦截 Object.preventExtensions(proxy)，返回一个布尔值。
@@ -1651,8 +1642,8 @@ fproxy.foo === "Hello, foo" // true
 + isExtensible(target)
   + 拦截 Object.isExtensible(proxy)，返回一个布尔值。
 
-+ setPrototypeOf(target, proto)
-  + 拦截 Object.setPrototypeOf(proxy, proto)，返回一个布尔值。
++ setPrototypeOf(target, prototype)
+  + 拦截 Object.setPrototypeOf(proxy, prototype)，返回一个布尔值。
   + 如果目标对象是函数，那么还有两种额外操作可以拦截。
 
 + apply(target, object, args)
@@ -1689,14 +1680,14 @@ proxy.name // "张三"
 proxy.age // 抛出一个错误
 
 // get 方法可以继承。
-let proto = new Proxy({}, {
+let prototype = new Proxy({}, {
   get(target, propertyKey, receiver) {
     console.log('GET ' + propertyKey);
     return target[propertyKey];
   }
 });
 
-let obj = Object.create(proto);
+let obj = Object.create(prototype);
 obj.foo // "GET foo"
 ```
 
@@ -1704,7 +1695,7 @@ obj.foo // "GET foo"
 ```js
 var pipe = function (value) {
   var funcStack = [];
-  var oproxy = new Proxy({} , {
+  var OProxy = new Proxy({} , {
     get : function (pipeObject, fnName) {
       if (fnName === 'get') {
         return funcStack.reduce(function (val, fn) {
@@ -1712,11 +1703,11 @@ var pipe = function (value) {
         },value);
       }
       funcStack.push(window[fnName]);
-      return oproxy;
+      return OProxy;
     }
   });
 
-  return oproxy;
+  return OProxy;
 }
 
 var double = n => n * 2;
@@ -2104,7 +2095,7 @@ var proxy = new Proxy({}, {
 });
 
 Object.preventExtensions(proxy)
-// Uncaught TypeError: 'preventExtensions' on proxy: trap returned truish but the proxy target is extensible
+// 'preventExtensions'在proxy: trap上返回true，但是代理目标是可扩展的
 
 // proxy.preventExtensions() 方法返回 true，但这时 Object.isExtensible(proxy) 会返回 true，因此报错。
 // 为了防止出现这个问题，通常要在 proxy.preventExtensions() 方法里面，调用一次 Object.preventExtensions()。

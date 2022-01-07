@@ -30,7 +30,7 @@
   + Date
   + Function
 
-+ `symbol` 
++ `symbol`
 
 + JavaScript 是一种 **「弱类型」** 或者说 **「动态语言」**。这意味着你不用提前声明变量的类型，在程序运行过程中，类型会被自动确定。这也意味着你可以使用同一个变量保存不同类型的数据
 
@@ -266,7 +266,7 @@ s[4] // "o"
   + \" ：双引号（\u0022）
   + \\ ：反斜杠（\u005C）
   + `\xnn`  以十六进制代码`nn`表示一个字符
-  + `unnnn` 一十六进制代码`nnnn`表示一个`Unicode`(其中n为0~F)
+  + `u---` 一十六进制代码`---`表示一个`Unicode`(其中n为0~F)
 
 + 字符串方法
   + `toString()`
@@ -657,7 +657,7 @@ s.charAt(s.length - 1) // "c"
       + `$$` 直接量符号
     + `replaceAll` 替换所有
 
-##### slice()、substring()、substr()
+##### slice()、substring()
 
 + String.prototype.slice()
   + slice() 方法用于从原字符串取出子字符串并返回，不改变原字符串。
@@ -672,14 +672,6 @@ s.charAt(s.length - 1) // "c"
   + 省略第二个参数，则表示子字符串一直到原字符串的结束。
   + 第一个参数大于第二个参数，substring方法会自动更换两个参数的位置。
   + 参数是负数，substring方法会自动将负数转为0。
-
-+ String.prototype.substr()
-  + substr 方法用于从原字符串取出子字符串并返回，不改变原字符串
-  + 跟 slice 和 substring 方法的作用相同。
-  + substr 方法的第一个参数是子字符串的开始位置（从0开始计算），第二个参数是子字符串的长度。
-  + 省略第二个参数，则表示子字符串一直到原字符串的结束。
-  + 第一个参数是负数，表示倒数计算的字符位置。
-  + 如果第二个参数是负数，将被自动转为0，因此会返回空字符串。
 
 ##### indexOf()、lastIndexOf()、trim()
 
@@ -1626,7 +1618,9 @@ function add(prev, cur) {
   + 两个方法都接收两个参数：要查找的项和（可选的）查找的起点位置
   + 返回给定元素在数组中第一次出现的位置，如果没有出现则返回-1。
 
-# 自动转换
+# 类型变换
+
+## 自动转换
 
 + 有三种情况 js 会完成自动转换
   + 第一种情况，不同类型的数据互相运算。
@@ -1644,8 +1638,9 @@ function add(prev, cur) {
 + typeof
   + 主要用于判断基本类型
 + instanceof
+  + 判断对象原型
 
-### typeof
+## typeof
 
 + **typeof** 操作符 **检测数据类型**
 + 两种形式：`typeof x` 或者 `typeof(x)`。		以字符串的形式返回类型名称，例如 `"string"`。
@@ -1679,7 +1674,7 @@ function add(prev, cur) {
   null == undefined  /* true */
 ```
 
-### instanceof
+## instanceof
 
 + 判断对象的构造函数 来确定类型
 + `result = target instanceof constructor`
