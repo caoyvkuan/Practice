@@ -640,7 +640,7 @@ const arr = [
   'peach',
   'straw',
   'apple',
-  'spork'
+  'spore'
 ];
 
 const stableSorting = (s1, s2) => {
@@ -649,10 +649,10 @@ const stableSorting = (s1, s2) => {
 };
 
 arr.sort(stableSorting)
-// ["apple", "peach", "straw", "spork"]
+// ["apple", "peach", "straw", "spore"]
 /**
  * 上面代码对数组 arr 按照首字母进行排序。
- * 排序结果中，straw 在 spork 的前面，跟原始顺序一致，所以排序算法 stableSorting 是稳定排序。
+ * 排序结果中，straw 在 spore 的前面，跟原始顺序一致，所以排序算法 stableSorting 是稳定排序。
 */
 
 const unstableSorting = (s1, s2) => {
@@ -661,9 +661,9 @@ const unstableSorting = (s1, s2) => {
 };
 
 arr.sort(unstableSorting)
-// ["apple", "peach", "spork", "straw"]
+// ["apple", "peach", "spore", "straw"]
 /**
- * 排序结果是 spork 在 straw 前面，跟原始顺序相反，所以排序算法 unstableSorting 是不稳定的。
+ * 排序结果是 spore 在 straw 前面，跟原始顺序相反，所以排序算法 unstableSorting 是不稳定的。
 */
 ```
 
@@ -1563,7 +1563,7 @@ Object.setPrototypeOf('foo', {}) === 'foo' // true
 Object.setPrototypeOf(true, {}) === true // true
 
 // 由于 undefined 和 null 无法转为对象，所以如果第一个参数是 undefined 或 null，就会报错。
-bject.setPrototypeOf(undefined, {})
+Object.setPrototypeOf(undefined, {})
 // TypeError: Object.setPrototypeOf called on null or undefined
 
 Object.setPrototypeOf(null, {})
@@ -1766,7 +1766,7 @@ set.size // 56
 
 // 去除数组的重复成员
 [...new Set(array)]
-[...new Set('ababbc')].join('');  // "abc"
+[...new Set('1223344')].join('');  // "1234"
 ```
 
 + 向 Set 加入值的时候，不会发生类型转换，所以 5 和 "5" 是两个不同的值
@@ -1950,20 +1950,20 @@ ws.has(window);    // false
 
 + WeakSet 的一个用处，是储存 DOM 节点，而不用担心这些节点从文档移除时，会引发内存泄漏。
 ```js
-const foos = new WeakSet()
-class Foo {
+const fos = new WeakSet()
+class Fo {
   constructor() {
-    foos.add(this)
+    fos.add(this)
   }
   method () {
-    if (!foos.has(this)) {
+    if (!fos.has(this)) {
       throw new TypeError('Foo.prototype.method 只能在Foo的实例上调用！');
     }
   }
 }
 // 上面代码保证了 Foo 的实例方法，只能在 Foo 的实例上调用。
-// 这里使用 WeakSet 的好处是，foos 对实例的引用，不会被计入内存回收机制
-// 所以删除实例的时候，不用考虑 foos，也不会出现内存泄漏。
+// 这里使用 WeakSet 的好处是，fos 对实例的引用，不会被计入内存回收机制
+// 所以删除实例的时候，不用考虑 fos，也不会出现内存泄漏。
 ```
 
 ## Map
@@ -2211,15 +2211,15 @@ arr [1] = null;
 
 + 前文说过，WeakMap 应用的典型场合就是 DOM 节点作为键名。
 ```js
-let myWeakmap = new WeakMap();
+let myWeakMap = new WeakMap();
 
-myWeakmap.set(
+myWeakMap.set(
   document.getElementById('logo'),
   {timesClicked: 0})
 ;
 
 document.getElementById('logo').addEventListener('click', function() {
-  let logoData = myWeakmap.get(document.getElementById('logo'));
+  let logoData = myWeakMap.get(document.getElementById('logo'));
   logoData.timesClicked++;
 }, false);
 
