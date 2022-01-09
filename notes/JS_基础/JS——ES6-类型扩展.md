@@ -4,7 +4,7 @@
 
 ### 字符的 Unicode 表示法
 
-+ ES6 加强了对 Unicode 的支持，允许采用\uxxxx形式表示一个字符，其中xxxx表示字符的 Unicode 码点。
++ ES6 加强了对 Unicode 的支持，允许采用\U---形式表示一个字符，其中---表示字符的 Unicode 码点。
 ```js
 "\u0061"  // "a"
 //但是，这种表示法只限于码点在\u0000~\uFFFF之间的字符。超出这个范围的字符，必须用两个双字节的形式表示。
@@ -511,6 +511,7 @@ str.replaceAll(regex, replacer)
 
 + RegExp.prototype.flags
 + 会返回正则表达式的修饰符。
+
 ## RegExp 构造函数
 
 + 在 ES5 中 RegExp 构造函数的参数有两种情况

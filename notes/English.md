@@ -90,4 +90,13 @@
 
 # 状语
 
-+ 
++ 说明谓语的情况,只跟**谓语**有关系
++ 多数状语放句子后面
++ 一句话中状语可以出现多个
++ 分类 -> 时间、地点、方式、原因、目的
+  + in Beijing -> 地点状语
+  + I _teach_ English __in Beijing__
+  + I _am happy_ __in Hubei__
+  + slowly 方式状语
+  + I _speak_ English __slowly__
+  + I __usually__ _go_ home __after work__

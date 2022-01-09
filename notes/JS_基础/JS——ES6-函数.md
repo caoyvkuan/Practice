@@ -1665,17 +1665,17 @@ var clock = function() {
   if (ticking)
     console.log('Tick!');
   else
-    console.log('Tock!');
+    console.log('Tack!');
   ticking = !ticking;
 }
-// clock 函数一共有两种状态（ Tick 和 Tock ），每运行一次，就改变一次状态。
+// clock 函数一共有两种状态（ Tick 和 Tack ），每运行一次，就改变一次状态。
 
 // 这个函数如果用 Generator 实现，就是下面这样。
 var clock = function* () {
   while (true) {
     console.log('Tick!');
     yield;
-    console.log('Tock!');
+    console.log('Tack!');
     yield;
   }
 };
@@ -2415,7 +2415,7 @@ run(g);
 
 ## co 模块
 
-+ co 模块是著名程序员 TJ Holowaychuk 于 2013 年 6 月发布的一个小工具，用于 Generator 函数的自动执行。
++ co 模块是著名程序员 TJ 于 2013 年 6 月发布的一个小工具，用于 Generator 函数的自动执行。
 
 ```js
 //  Generator 函数，用于依次读取两个文件。
@@ -2599,8 +2599,8 @@ function* somethingAsync(x) {
 const co = require('co');
 const fs = require('fs');
 
-const stream = fs.createReadStream('./les_miserables.txt');
-let valjeanCount = 0;
+const stream = fs.createReadStream('./les_ms.txt');
+let variableCount = 0;
 
 co(function*() {
   while(true) {
@@ -2615,13 +2615,13 @@ co(function*() {
     stream.removeAllListeners('data');
     stream.removeAllListeners('end');
     stream.removeAllListeners('error');
-    valjeanCount += (res.toString().match(/valjean/ig) || []).length;
+    variableCount += (res.toString().match(/variable/ig) || []).length;
   }
-  console.log('count:', valjeanCount); // count: 1120
+  console.log('count:', variableCount); // count: 1120
 });
 /**
  * 对于每个数据块都使用 stream.once 方法，在 data、end、error 三个事件上添加一次性回调函数。
- * 变量 res 只有在 data 事件发生时才有值，然后累加每个数据块之中 valjean 这个词出现的次数。
+ * 变量 res 只有在 data 事件发生时才有值，然后累加每个数据块之中 variable 这个词出现的次数。
 */
 ```
 # async 函数
@@ -2703,8 +2703,8 @@ function mineReadFile(url) {
 }
 async function main(){
     try{
-        let data1 = awiat mineReadFile('./1.tet');
-        let data2 = awiat mineReadFile('./2.tet');
+        let data1 = await mineReadFile('./1.tet');
+        let data2 = await mineReadFile('./2.tet');
     }catch(e){
         console.log(e)
     }
