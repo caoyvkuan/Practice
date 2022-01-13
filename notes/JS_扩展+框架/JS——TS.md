@@ -1,81 +1,105 @@
 # TypeScript
 
-+ 作用
-  + 能够给 JS 带来全新的类型检验功能
+# 原始数据类型
 
-## 类型
++ boolean 、number 、string 、null 、undefined
++ ES6 新增 Symbol
++ ES10 新增 BigInt
+
+---
+
++ 类型定义方式
+```ts
+// 基本格式
+let VariableName : Type = Value;
+// 例如
+let str: string = 'string';
+```
+
++ 注意
+  + 原始包装类型对象不能赋值给原始数据类型.
+  + 如 : new Boolean() , 创建的是一个对象,并不是原始类型
+  + 所以 new Boolean() 不能赋值给 boolean 类型的变量,其他包装类型也是一样的
+
+# 类型
 
 + 联合类型 
   + 且 `{ name:string } & { age:number }`
   + 或 ` number | string`
-  + 当 ts 不决定联合类型的准确类型时，只能够访问共有的方法，否则会报错
+  + 当 ts 不确定联合类型的准确类型时，只能够访问共有的方法，否则会报错
   + 被赋值时也会采用类型推论进行推断
+---
 + 别名 `type myType = string;`
   + myType 就相当于 string
   + 同时 type 关键字也可以用来进行类型的声明
-
+---
 + 数值 ：number
+  + 数值 二进制、八进制、十进制、十六进制都支持
+  + ` let num: number = 10; `
+---
 + 字面量 ：是什么就只能赋值什么
+  + ` let a:'a' = 'a'; `
+---
 + 字符串 ：string
-+ 联合类型 ：number | string
+  + ` let name: string = 'doge'; `
+---
 + 布尔值 ： boolean
+  + ` let isDone: boolean = false; `
+---
 + 数组 ： `Array<any>`
 + 元组 ：`[number, string]`
+---
 + 任意类型 ： any || unknown
   + 不声明类型，隐式就是 any
-+ 枚举 ：enum
-+ 空值 ：void
-+ 没有值-永远不会返回结果 ：never
-+ 任意对象 ：object
-+ null 和 undefined
-+ 断言 ：`<string>name` || `name as string`
-
-+ 声明类型的方式也非常的简单
 ```ts
-// 数值 二进制、八进制、十进制、十六进制都支持
-let num: number = 10; 
+// any 可以赋值给其他类型
+let type: any = false || 'type';
 
-// 字符串
-let name: string = 'doge';
-
-// 布尔值
-let isDone: boolean = false;
-
-// 枚举 这是对 js 中类型的补充
-enum Color { Red, Green, Blue };
-let color: Color = Color.Red;
-// 枚举元素可以采用编号， 默认从 0 开始
-enum Color { Red = 1, Green, Blue };
-
-// any  任何类型
-// any 可以赋值给其他类型，但是可能因为其他类型从而导致报错
-let type:any = false || 'type';
 // unknown 是安全的 any，不允许将类型不确定的类型赋值给类型确定的赋值
-let safeType:unknown = false || 'type';
+let safeType: unknown = false || 'type';
 // 如果想将 unknown 类型赋值给其他类型需要判断或是断言
 let str: string;
 if(typeof safeType === 'string'){
    str = safeType;
 }
 str = <string>safeType;
-
-// 没有任何类型 一般作为作用与没有返回值的函数 - 空值或是 undefined
-let empty:void = undefined;
-
-// Null 和 Undefined , 这两个类型是所有类型的子类型，也就是说可以吧这两个值赋值给任意类型
-let u: undefined = undefined;
-let n: null = null;
-// 指定了 --strictNullChecks 标记后， 这两个类型除了之身就只能赋值给 void
-
+```
+---
++ 枚举 ：enum
+```ts
+// 枚举 这是对 js 中类型的补充
+enum Color { Red, Green, Blue };
+let color: Color = Color.Red;
+// 枚举元素可以采用编号， 默认从 0 开始
+enum Color { Red = 1, Green, Blue };
+```
+---
++ 空值 ：void
+  + 没有任何类型
+  + 一般作为作用与没有返回值的函数
+  + 空值或是 undefined
+  + ` let empty:void = undefined; `
+---
++ 没有值-永远不会返回结果 ：never
+```ts
 // never 可以赋值给任意类型，但是不能被任意类型赋值，表示永远不存在的值类型
 // 一般存在总是会抛出异常的函数，或是根本不会有返回值的函数表达式或箭头函数
 // 如： 抛出异常用的函数 或是 无限循环的函数（即不会执行完）
 function error(message: string): never {
     throw new Error(message);
 }
-
-let a:'a' = 'a'; // 字面量，指定的值
 ```
+---
++ 任意对象 ：object
+---
++ null 和 undefined
+  + 这两个类型是所有类型的子类型
+  + 可以吧这两个值赋值给任意类型
+  + 指定了 --strictNullChecks 标记后， 这两个类型除了之身就只能赋值给 void
+---
++ 断言 两种方式
+  + ` <string>name `
+  + ` name as string `
 
 ## 数组 & 元组 Tuple
 
@@ -161,7 +185,7 @@ cat as any as Fish
 ## 类型推论
 
 + 主要作用就是帮助 TypeScript 在没有明确指出类型的位置会提供帮助类型
-+ 如泛型就很好的使用了 类型推论
++ 泛型就使用了 类型推论
 + 如果变量未指定类型，但是有初始化操作就会进行类型推论
   + `const a = 'string'` 这就会被推论为  `String` 类型
 
