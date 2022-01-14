@@ -192,3 +192,120 @@
   + __her__ 宾语
   + __happy__ 形容词做宾补
   + __yesterday__ 时间状语
+
+# 名词 n = noun
+
++ 名词的定义,各种东西的名称都叫**名词**
+
++ 名词分类
+  + 普通
+  + 专有
+
++ 复合名词 -> 名词(不能变化) + 名词(分可数和不可数)
+  + English book(英语书)
+  + school gate(学校大门)
+  + Room number(房间号码)
+
+## 普通名词
+
++ 可数 -> __c = countable noun__
+  + 一般为能够分清数量的，如: 书、手机
+  + 一个可数名词的单数不能单独在句子或短语中出现,需要加限定词
++ 不可数 -> __u = uncountable noun__
+  + 一般无法分清数量的,如: 水、牛奶、米、头发
+  + 不可数名词没有复数形式
+  + **量词 + 不可数名词** -> two cups of water
+
++ 量词构成 - 量词中的 of 没有意思
+  + 不是所有名词都可以构成量词
+  + 一般为容器或有内部空间的词
+  + 符合逻辑的
++ A/an/one + 可数名词单数 + of
+  + a cup of
+  + a bucket of
++ 数词 + 可数名词的复数 + of
+  + two bottles of (两瓶)
+  + three tins of (三罐)
++ 量词也可以修饰**可数名词的复数**
+
+## 专有名词
+
++ 人名、地名、各种机构、组织、术语
+
+## 复数形式
+
++ 26个字母中除了5个元音字母 __A、U、I、O、E__ 其他都是辅音字母
+
++ 大部分名词变复数 -> __+ s__
+  + pen(钢笔) -> pens
+  + cup(杯子) -> cups
+---
++ 当可数名词以字母 __s 、sh 、x 、ch__ 结尾 -> __+ es__
+  + box(箱子) -> boxes
+  + kiss(吻) -> kisses
+  + watch(手表) -> watches
+  + brush(刷子) -> brushes
+> 例外 : stomach(胃) -> stomachs
+---
++ 以辅音字母 + y 结尾 -> 改 __y 为 i__ __+ es__
+  + city(城市) -> cities
+  + baby(婴儿) -> babies
+  + country(国家) -> countries
+  + dictionary(字典) -> dictionaries
++ 元音字母 + y 结尾 -> 直接 + s
+  + toy(玩具) -> toys
+  + boy(男孩) -> boys
+  + day(天) -> days
+---
++ 以字母 f 或 fe 结尾 -> 改 __f 或 fe 为 v__ __+ es__
+  + wife(妻子) -> wives
+  + knife(小刀) -> knives
+  + thief(小偷) -> thieves
+> roof(房顶) -> roofs
+> gulf(海湾) -> gulfs
+> cliff(悬崖) -> cliffs
+---
++ 辅音字母 + o 结尾 -> __+ es__
+  + tomato(西红柿) -> tomatoes
+  + potato(土豆) -> potatoes
++ 元音字母 + o 结尾 -> __+ s__
+  + video(视频) -> videos
+  + studio(工作室) -> studios
+---
++ 不规则变化
+  + man(男人) -> men
+  + mouse(老是) -> mice
+  + goose(鹅) -> geese
+  + ox(牛) -> oxen
+  + child(小孩) -> children
++ 还有单复数相同的
+  + Deer(鹿)
+  + Chinese(中国人)
+  + sheep(绵羊)
++ 复数名词 -> 没有单数形式
+  + People(人们)
+  + police(警察)
+  + public(公众)
+
+# 动词 v = verb
+
++ 不及物动词 -> __vi = intransitive verb__
++ 及物动词 -> __vt = transitive verb__
++ 助动词 -> __aux.v = auxiliary verb__
++ 情态动词 -> __model verb__
+
+# 连接词 conj = conjunction
+
+# 形容词 adj = adjective
+
+# 副词 adv = adverb
+
+# 冠词 art = article
+
+# 介词 prep = preposition
+
+# 代名词 pron = pronoun
+
+# 数词 num = numeral
+
+# 感叹词 int = interjection
