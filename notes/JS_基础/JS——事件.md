@@ -1657,62 +1657,222 @@ div.onclick = clickHandler;
   - oncancel
   - onclose
 
-# JavaScript
+# 自定义事件
 
-## 本地储存
++ 观察者设计模式
+  + 观察者模式由两类对象组成:主体和观察者。主体负责发布事件，同时观察者通过订阅这些事件来观察该主体。
+  + 该模式的一个关键概念是主体并不知道观察者的任何事情,也就是说它可以独自存在并正常运作即使观察者不存在。从另一方面来说,观察者知道主体并能注册事件的回调函数(事件处理程序).
+  + 涉及DOM上时，DOM元素便是主体，你的事件处理代码便是观察者。
 
-+ ```javascript
-  ☞  localStorage：
-  1. 永久生效
-  2. 多窗口共享
-  3. 容量大约为20M
-  
-  ◆window.localStorage.setItem(key,value)  设置存储内容
-  ◆window.localStorage.getItem(key)  		 获取内容
-  ◆window.localStorage.key(0)
-  ◆window.localStorage.key
-  ◆window.localStorage.removeItem(key)	 删除内容
-  ◆window.localStorage.clear()			清空内容
-  
-  ☞ sessionStorage：
-  1. 生命周期为关闭当前浏览器窗口
-  2. 可以在同一个窗口下访问
-  3. 数据大小为5M左右
-  
-  ◆window.sessionStorage.setItem(key,value)
-  ◆window.sessionStorage.getItem(key)
-  ◆window.sessionStorage.removeItem(key)
-  ◆window.sessionStorage.clear()
-  
-  window.sessionStorage.setItem("name","123");
-  
-  var list=
-  '[{"name":"zhans","age":"18","gender":"男"},
-  {"name":"lis","age":"23","gender": "女"}]';
-  window.sessionStorage.setItem("list",list);
-  ```
++ 自定义事件的概念是创建一个管理事件的对象,让其他对象监听那些事件.实现此功能的基本模式可以如下定义
+```js
+//自定义事件
+function EventTarget() {
+  this.handlers = {};//用于储存事件处理程序
+}
+
+EventTarget.prototype = {
+  constructor: EventTarget,
+  //用于注册给定类型的事件处理程序
+  //接收两个参数:事件类型,用于处理该事件的函数
+  addHandler: function (type, handler) {
+    //查看是否由针对该类型的数组
+    if (typeof this.handlers[type] == "undefined") {
+      //没有则创建新数组
+      this.handlers[type] = [];
+    }
+    //将事件事件处理程序添加到数组末尾
+    this.handlers[type].push(handler);
+  },
+  //用于触发一个事件
+  //该方法接收一个单独的参数,是一个至少包含type属性的对象,还可以在event上定义额外信息
+  fire: function (event) {
+    if (!event.target) {
+      //没有target属性,就设置target属性
+      event.target = this;
+    }
+    if (this.handlers[event.type] instanceof Array) {
+      //有事件数组
+      let handlers = this.handlers[event.type];
+      for (let i = 0, len = handlers.length; i < len; i++) {
+        //触发事件数组中的所有事件
+        handlers[i](event);
+      }
+    }
+  },
+  //用于注销某个事件类型的事件处理程序
+  //接收两个参数:事件类型,用于处理该事件的函数
+  removeHandler: function (type, handler) {
+    if (this.handlers[type] instanceof Array) {
+      let handlers = this.handlers[type];
+      let i = 0;
+      for (let len = handlers.length; i < len; i++) {
+        if (handlers[i] === handler) {
+          break;
+        }
+      }
+      handlers.splice(i, 1);
+    }
+  }
+};
+//使用自定义事件
+function handleMessage(event) {
+  console.log("Message received:", event.message);
+}
+//创建一个对象
+let target = new EventTarget();
+//添加一个事件处理程序
+target.addHandler("message", handleMessage);
+//触发事件
+target.fire({ type: "message", message: "Hello world!" });
+//删除事件处理程序
+target.removeHandler("message", handleMessage);
+//再次触发,应没有处理程序
+target.fire({ type: "message", message: "Hello world!" });
 
 
-## 获取网络状态
+//继承EventTarget
+function Person(name, age) {
+  EventTarget.call(this);
+  this.name = name;
+  this.age = age;
+}
+inheritPrototype(Person, EventTarget)
+Person.prototype.say = function (message) {
+  this.fire({ type: "message", message: message });
+};
 
-+ ```javascript
-    ☞ 获取当前网络状态
-    		 window.navigator.onLine 返回一个布尔值
-    
-    ☞ 网络状态事件
-    		 1. window.ononline		网络链接时触发
-    		 2. window.onoffline	网络断开是触发
-  ```
+function Message(event) {
+  console.log(event.target.name + " says:" + event.message);
+}
+//创建新person
+let person = new Person("My", 20);
+//添加事件处理程序
+person.addHandler("message", Message);
+//在该对象上调用
+person.say("Hi threr.");
 
-## 获取当前位置
+//自定义事件有助于解耦相关对象,保持功能的隔绝,使触发事件的代码和监听事件的代码完全分离,易于维护
+```
 
-+ ```javascript
-    ☞  获取一次当前位置
-    	  window.navigator.geolocation.getCurrentPosition(success,error);
-    
-    1. coords.latitude   维度
-        2. coords.longitude   经度
-    
-    ☞  实时获取当前位置
-    	  window.navigator.geolocation.watchPosition(success,error);
-  ```
+# 拖放
+
++ 拖放配合自定义事件的使用,可以实现更多的功能
+```js
+document.addEventListener("mousedown", function(e){
+  let target = e.target;
+  switch (target.id) {
+    case "1":
+    case "2":
+      move(e,target);
+      break;
+    default:
+      break;
+  }
+}, false);
+function move(e,target) {
+  let StartY = e.clientY;
+  let StartX = e.clientX;
+  if(event.button === 0){
+    // let Y = StartY - (parseInt(box1.style.top) ? parseInt(box1.style.top) : 0);
+    // let X = StartX - (parseInt(box1.style.left) ? parseInt(box1.style.left) : 0);
+    let Y = StartY - target.offsetTop;
+    let X = StartX - target.offsetLeft;
+    document.onmousemove = function(event){
+      event = event || window.event;
+      target.style.top = (event.clientY - Y) + "px";
+      target.style.left = (event.clientX - X) + "px";
+    };
+  }
+  //松开时取消移动
+  document.onmouseup = function(){
+    document.onmousemove = null;
+  };
+  target.onmouseup = function(ev){
+    //鼠标移动超出范围则不触发点击事件
+    let i = Math.sqrt((ev.clientY - StartY) * (ev.clientY - StartY) + (ev.clientX - StartX) * (ev.clientX - StartX))
+    // if(ev.clientY < (StartY + 5) && ev.clientY > (StartY - 5) && ev.clientX < (StartX + 5) && ev.clientX > (StartX - 5) ){
+    // console.log(i);
+    if(i <= 5){
+      target.onclick = function(){
+        if(this.style.background === "blue"){
+          this.style.background = "red";
+        }else{
+          this.style.background = "blue";
+        }
+      };
+    }else{
+      target.onclick = null;
+    }
+  };
+}
+//取消默认拖放行为,解决检测不到鼠标松开事件的问题
+document.ondragstart = function(ev){
+    ev.preventDefault();
+};
+document.ondragend = function(ev){
+    ev.preventDefault();
+};
+```
+
+```js
+//可开启关闭的拖放, 需要拖放元素只需设置开启的属性
+let DragDrop = (function () {
+  let dragging = null,
+    diffX = 0,
+    diffY = 0;
+
+  function handleEvent(event) {
+    //获取事件和目标
+    event = event || window.event;
+    let target = event.target;
+    //缺定事件类型
+    switch (event.type) {
+      case "mousedown":
+        {
+          if (target.className.indexOf("draggable") > -1) {
+            dragging = target;
+            diffX = event.clientX - target.offsetLeft;
+            diffY = event.clientY - target.offsetTop;
+          }
+          break;
+        }
+      case "mousemove":
+        {
+          if (dragging !== null) {
+            //assign location
+            dragging.style.left = (event.clientX - diffX) + "px";
+            dragging.style.top = (event.clientY - diffY) + "px";
+          }
+          break;
+        }
+      case "mouseup":
+        {
+          dragging = null;
+          break;
+        }
+      default:
+        break;
+    }
+  }
+  return {
+    enable: function () {
+      document.addEventListener("mousedown", handleEvent, false);
+      document.addEventListener("mousemove", handleEvent, false);
+      document.addEventListener("mouseup", handleEvent, false);
+    },
+    disable: function () {
+      document.removeEventListener("mousedown", handleEvent, false);
+      document.removeEventListener("mousemove", handleEvent, false);
+      document.removeEventListener("mouseup", handleEvent, false);
+    }
+  }
+})();
+document.ondragstart = function (ev) {
+  ev.preventDefault();
+};
+document.ondragend = function (ev) {
+  ev.preventDefault();
+};
+DragDrop.enable();
+```

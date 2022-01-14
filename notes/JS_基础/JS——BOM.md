@@ -856,7 +856,6 @@ for (var i = 0; i < pluginsLength; i++) {
 ```js
 navigator.onLine // true
 //用户变成在线会触发 online 事件，变成离线会触发 offline 事件
-
 ```
 
 5. Navigator.language，Navigator.languages

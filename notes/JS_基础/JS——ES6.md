@@ -1,4 +1,3 @@
-
 # Promise 对象
 
 + Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。
@@ -1402,1419 +1401,1232 @@ run(g);
 // 它返回的就是一个 Promise 对象。函数 run 用来处理这个 Promise 对象，并调用下一个 next 方法。
 ```
 
-# Class 的基本语法
+# Proxy
 
-+ 静态方法可以直接调用，动态可继承方法需要使用 new 后才可以调用。
-
-## 简介
-
-### 类的由来
-
-+ JavaScript 语言中，生成实例对象的传统方法是通过构造函数。
++ Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程。
++ 代理器，在目标前拦截操作，外部访问该目标都必须通过代理器，可以对外界的访问进行过滤和改写
 ```js
-function Point(x, y) {
-  this.x = x;
-  this.y = y;
-}
-
-Point.prototype.toString = function () {
-  return '(' + this.x + ', ' + this.y + ')';
-};
-
-var p = new Point(1, 2);
-```
-
-+ ES6 提供了更接近传统语言的写法，引入了 Class（类）这个概念，作为对象的模板。
-+ 通过 class 关键字，可以定义类。
-
-+ ES6 的 class 可以看作只是一个语法糖，它的绝大部分功能，ES5 都可以做到，新的 class 写法只是让对象原型的写法更加清晰、更像面向对象编程的语法而已。
-+ 上面的代码用 ES6 的 class 改写，就是下面这样。
-```js
-class Point {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
+var obj = new Proxy({}, {
+  get: function (target, propKey, receiver) {
+    console.log(`getting ${propKey}!`);
+    return Reflect.get(target, propKey, receiver);
+  },
+  set: function (target, propKey, value, receiver) {
+    console.log(`setting ${propKey}!`);
+    return Reflect.set(target, propKey, value, receiver);
   }
-
-  toString() {
-    return '(' + this.x + ', ' + this.y + ')';
-  }
-}
-// ES6 的类，完全可以看作构造函数的另一种写法。
-class Point {
-  // ...
-}
-
-typeof Point // "function"
-Point === Point.prototype.constructor // true
-// 上面代码表明，类的数据类型就是函数，类本身就指向构造函数。
-
-// 使用的时候，也是直接对类使用new命令，跟构造函数的用法完全一致。
-class Bar {
-  doStuff() {
-    console.log('stuff');
-  }
-}
-
-const b = new Bar();
-b.doStuff() // "stuff"
-```
-+ 上面代码定义了一个“类”，可以看到里面有一个 constructor() 方法，这就是构造方法，而 this 关键字则代表实例对象。
-+ 这种新的 Class 写法，本质上与本章开头的 ES5 的构造函数 Point 是一致的。
-
-+ Point 类除了构造方法，还定义了一个 toString() 方法。
-+ 注意，定义 toString() 方法的时候，前面不需要加上 function 这个关键字，直接把函数定义放进去了就可以了。
-+ 另外，方法与方法之间不需要逗号分隔，加了会报错。
-
-+ 构造函数的 prototype 属性，在 ES6 的“类”上面继续存在。事实上，类的所有方法都定义在类的 prototype 属性上面。
-```js
-class Point {
-  constructor() {/**/}
-  toString() {/**/}
-  toValue() {/**/}
-}
-
-// 等同于
-Point.prototype = {
-  constructor() {},
-  toString() {},
-  toValue() {},
-};
-```
-+ 因此，在类的实例上面调用方法，其实就是调用原型上的方法。
-```js
-class B {}
-const b = new B();
-
-b.constructor === B.prototype.constructor // true
-
-// 由于类的方法都定义在 prototype 对象上面，所以类的新方法可以添加在 prototype 对象上面。
-// Object.assign() 方法可以很方便地一次向类添加多个方法。
-class Point {
-  constructor(){
-    // ...
-  }
-}
-
-Object.assign(Point.prototype, {
-  toString(){},
-  toValue(){}
 });
 
-Point.prototype.constructor === Point // true
-
-class Point {
-  constructor(x, y) {/**/}
-  toString() {/**/}
-}
-Object.keys(Point.prototype)
-// []
-Object.getOwnPropertyNames(Point.prototype)
-// ["constructor","toString"]
-```
-+ prototype 对象的 constructor() 属性，直接指向“类”的本身，这与 ES5 的行为是一致的。
-+ 另外，类的内部所有定义的方法，都是不可枚举的（non-enumerable）。
-+ toString() 方法是 Point 类内部定义的方法，它是不可枚举的。这一点与 ES5 的行为不一致。
-```js
-var Point = function (x, y) {/**/};
-Point.prototype.toString = function () {/**/};
-
-Object.keys(Point.prototype)
-// ["toString"]
-Object.getOwnPropertyNames(Point.prototype)
-// ["constructor","toString"]
-// 采用 ES5 的写法，toString() 方法就是可枚举的。
-```
-
-### constructor 方法
-
-+ constructor() 方法是类的默认方法，通过 new 命令生成对象实例时，自动调用该方法。
-+ 一个类必须有 constructor() 方法，如果没有显式定义，一个空的 constructor() 方法会被默认添加。
-```js
-class Point {
-}
-
-// 等同于
-class Point {
-  constructor() {}
-}
-```
-+ constructor() 方法默认返回实例对象（即 this），完全可以指定返回另外一个对象。
-```js
-class Foo {
-  constructor() {
-    return Object.create(null);
-  }
-}
-new Foo() instanceof Foo
-// false
-// constructor() 函数返回一个全新的对象，结果导致实例对象不是 Foo 类的实例。
-```
-
-+ 类必须使用 new 调用，否则会报错。这是它跟普通构造函数的一个主要区别，后者不用 new 也可以执行。
-
-### 类的实例
-
-+ 生成类的实例的写法，与 ES5 完全一样，也是使用 new 命令。
-+ 前面说过，如果忘记加上 new，像函数那样调用 Class，将会报错。
-
-+ 与 ES5 一样，实例的属性除非显式定义在其本身（即定义在 this 对象上），否则都是定义在原型上（即定义在 class 上）。
-```js
-//定义类
-class Point {
-
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-
-  toString() {
-    return '(' + this.x + ', ' + this.y + ')';
-  }
-
-}
-
-var point = new Point(2, 3);
-
-point.toString() // (2, 3)
-
-point.hasOwnProperty('x') // true
-point.hasOwnProperty('y') // true
-point.hasOwnProperty('toString') // false
-point.__proto__.hasOwnProperty('toString') // true
-
-/**
- * x 和 y 都是实例对象 point 自身的属性（因为定义在 this 变量上），
- * 所以 hasOwnProperty() 方法返回 true，而 toString() 是原型对象的属性（因为定义在 Point 类上），
- * 所以 hasOwnProperty() 方法返回 false。这些都与 ES5 的行为保持一致。
+/*
+  上面代码对一个空对象架设了一层拦截，重定义了属性的读取（get）和设置（set）行为。
+  对设置了拦截行为的对象 obj，去读写它的属性，就会得到下面的结果。
+  Proxy 实际上重载（overload）了点运算符，即用自己的定义覆盖了语言的原始定义。
 */
+obj.count = 1
+//  setting count!
+++obj.count
+//  getting count!
+//  setting count!
+//  2
 ```
-+ 与 ES5 一样，类的所有实例共享一个原型对象。
+
++ ES6 原生提供 Proxy 构造函数，用来生成 Proxy 实例。
++ 注意，要使得 Proxy 起作用，必须针对 Proxy 实例（上例是 proxy 对象）进行操作，
 ```js
-var p1 = new Point(2,3);
-var p2 = new Point(3,2);
+var proxy = new Proxy(target, handler);
+/* 
+  Proxy 对象的所有用法，都是上面这种形式，不同的只是 handler 参数的写法。
+  new Proxy() 表示生成一个 Proxy 实例
+  target 参数表示所要拦截的目标对象，handler 参数也是一个对象，用来定制拦截行为。
 
-p1.__proto__ === p2.__proto__
-//true
-// p1 和 p2 都是 Point 的实例，它们的原型都是 Point.prototype，所以 __proto__ 属性是相等的。
-```
-+ 生产环境中，我们可以使用 Object.getPrototypeOf 方法来获取实例对象的原型，然后再来为原型添加方法/属性。
-```js
-var p1 = new Point(2,3);
-var p2 = new Point(3,2);
-
-p1.__proto__.printName = function () { return 'Oops' };
-
-p1.printName() // "Oops"
-p2.printName() // "Oops"
-
-var p3 = new Point(4,2);
-p3.printName() // "Oops"
-/**
- * 上面代码在 p1 的原型上添加了一个 printName() 方法，由于 p1 的原型就是 p2 的原型，因此 p2 也可以调用这个方法。
- * 而且，此后新建的实例 p3 也可以调用这个方法。
- * 这意味着，使用实例的 __proto__ 属性改写原型，必须相当谨慎，不推荐使用，因为这会改变“类”的原始定义，影响到所有实例。
+  下面是另一个拦截读取属性行为的例子。
+  Proxy 接受两个参数。第一个参数是所要代理的目标对象
+  第二个参数是一个配置对象,对于每一个被代理的操作，需要提供一个对应的处理函数，该函数将拦截对应的操作
+  配置对象有一个 get 方法，用来拦截对目标对象属性的访问请求
 */
+var proxy = new Proxy({}, {
+  // get 方法的两个参数分别是目标对象和所要访问的属性。
+  get: function(target, propKey) {
+    return 35;
+  }
+});
+proxy.time // 35
+proxy.name // 35
+proxy.title // 35
+
+// 如果 handler 没有设置任何拦截，那就等同于直接通向原对象。
+var target = {};
+var handler = {};
+var proxy = new Proxy(target, handler);
+proxy.a = 'b';
+target.a // "b"
+// handler 是一个空对象，没有任何拦截效果，访问 proxy 就等同于访问 target。
 ```
 
-### （getter）和（setter）
-
-+ 取值函数（getter）和存值函数（setter）
-+ 与 ES5 一样，在“类”的内部可以使用 get 和 set 关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为。
++ 一个技巧是将 Proxy 对象，设置到 object.proxy 属性，从而可以在 object 对象上调用。
 ```js
-class MyClass {
-  _prop: 'getter';
-  constructor() {
-    // ...
+var object = { proxy: new Proxy(target, handler) };
+
+// Proxy 实例也可以作为其他对象的原型对象。
+var proxy = new Proxy({}, {
+  get: function(target, propKey) {
+    return 35;
   }
-  get prop() {
-    return this._prop;
-  }
-  set prop(value) {
-    this._prop = value;
-    console.log('setter: '+ this._prop);
-  }
-}
+});
 
-let inst = new MyClass();
-inst.prop
-// 'getter'
-inst.prop = 123;
-// setter: 123
-// prop 属性有对应的存值函数和取值函数，因此赋值和读取行为都被自定义了。
-```
+let obj = Object.create(proxy);
+obj.time // 35
+// proxy 对象是 obj 对象的原型，obj 对象本身并没有 time 属性，所以根据原型链，会在 proxy 对象上读取该属性，导致被拦截。
 
-+ 存值函数和取值函数是设置在属性的 Descriptor 对象上的。
-```js
-class CustomHTMLElement {
-  constructor(element) {
-    this.element = element;
-  }
+// 同一个拦截器函数，可以设置拦截多个操作。
+var handler = {
+  get: function(target, name) {
+    if (name === 'prototype') {
+      return Object.prototype;
+    }
+    return 'Hello, ' + name;
+  },
 
-  get html() {
-    return this.element.innerHTML;
-  }
+  apply: function(target, thisBinding, args) {
+    return args[0];
+  },
 
-  set html(value) {
-    this.element.innerHTML = value;
-  }
-}
-
-var descriptor = Object.getOwnPropertyDescriptor(
-  CustomHTMLElement.prototype, "html"
-);
-
-"get" in descriptor  // true
-"set" in descriptor  // true
-```
-+ 上面代码中，存值函数和取值函数是定义在 html 属性的描述对象上面，这与 ES5 完全一致。
-
-### 属性表达式
-
-+ 类的属性名，可以采用表达式。
-```js
-let methodName = 'getArea';
-// Square 类的方法名 getArea，是从表达式得到的
-class Square {
-  constructor(length) {
-    // ...
-  }
-
-  [methodName]() {
-    // ...
-  }
-}
-```
-
-### Class 表达式
-
-+ 与函数一样，类也可以使用表达式的形式定义。
-```js
-const MyClass = class Me {
-  getClassName() {
-    return Me.name;
+  construct: function(target, args) {
+    return {value: args[1]};
   }
 };
-/**
- * 上面代码使用表达式定义了一个类。
- * 需要注意的是，这个类的名字是 Me，但是 Me 只在 Class 的内部可用，指代当前类。
- * 在 Class 外部，这个类只能用 MyClass 引用。
-*/
-let inst = new MyClass();
-inst.getClassName() // Me
-Me.name // ReferenceError: Me is not defined
-// Me 只在 Class 内部有定义。
+
+var FProxy = new Proxy(function(x, y) {
+  return x + y;
+}, handler);
+
+FProxy(1, 2) // 1
+new FProxy(1, 2) // {value: 2}
+FProxy.prototype === Object.prototype // true
+FProxy.foo === "Hello, foo" // true
+
+// 对于可以设置、但没有设置拦截的操作，则直接落在目标对象上，按照原先的方式产生结果。
 ```
-+ 如果类的内部没用到的话，可以省略 Me，也就是可以写成下面的形式。
-+ `` const MyClass = class { /* ... */ }; ``
-+ 采用 Class 表达式，可以写出立即执行的 Class。
+
+## Proxy 支持的拦截操作
+
++ get(target, propKey, [receiver])
+  + 拦截对象属性的读取，比如 proxy.foo 和 proxy['foo']。
+  + target 为目标对象
+  + propKey 被修改属性的 key 值
+  + receiver   它总是指向原始的读操作所在的那个对象，一般情况下就是 Proxy 实例。
+  
++ set(target, propKey, value, receiver)
+  + 拦截对象属性的设置，比如 proxy.foo = v 或 proxy['foo'] = v，返回一个布尔值。
+
++ has(target, propKey)
+  + 拦截 propKey in proxy 的操作，返回一个布尔值。
+
++ deleteProperty(target, propKey)
+  + 拦截 delete proxy[propKey] 的操作，返回一个布尔值。
+
++ ownKeys(target)
+  + 拦截 Object.getOwnPropertyNames(proxy)、Object.getOwnPropertySymbols(proxy)、Object.keys(proxy)、for...in 循环
+  + 返回一个数组。该方法返回目标对象所有自身的属性的属性名，而 Object.keys() 的返回结果仅包括目标对象自身的可遍历属性。
+
++ getOwnPropertyDescriptor(target, propKey)
+  + 拦截 Object.getOwnPropertyDescriptor(proxy, propKey)，返回属性的描述对象。
+
++ defineProperty(target, propKey, propDesc)
+  + 拦截 Object.defineProperty(proxy, propKey, propDesc）、Object.defineProperties(proxy, props)，返回一个布尔值。
+
++ preventExtensions(target)
+  + 拦截 Object.preventExtensions(proxy)，返回一个布尔值。
+
++ getPrototypeOf(target)
+  + 拦截 Object.getPrototypeOf(proxy)，返回一个对象。
+
++ isExtensible(target)
+  + 拦截 Object.isExtensible(proxy)，返回一个布尔值。
+
++ setPrototypeOf(target, prototype)
+  + 拦截 Object.setPrototypeOf(proxy, prototype)，返回一个布尔值。
+  + 如果目标对象是函数，那么还有两种额外操作可以拦截。
+
++ apply(target, object, args)
+  + 拦截 Proxy 实例作为函数调用的操作，比如 proxy(...args)、proxy.call(object, ...args)、proxy.apply(...)。
+
++ construct(target, args)
+  + 拦截 Proxy 实例作为构造函数调用的操作，比如 new proxy(...args)。
+
+## Proxy 实例的方法
+
+### 1. get()
+
++ get 方法用于拦截某个属性的读取操作，可以接受三个参数
++ 依次为目标对象、属性名和 proxy 实例本身（严格地说，是操作行为所针对的对象）
++ 其中最后一个参数可选。
++ 如果一个属性不可配置（configurable）且不可写（writable），则 Proxy 不能修改该属性，否则通过 Proxy 对象访问该属性会报错。
 ```js
-let person = new class {
+// 例子
+var person = {
+  name: "张三"
+};
+
+var proxy = new Proxy(person, {
+  get: function(target, propKey) {
+    if (propKey in target) {
+      return target[propKey];
+    } else {
+      throw new ReferenceError("Prop name \"" + propKey + "\" does not exist.");
+    }
+  }
+});
+
+proxy.name // "张三"
+proxy.age // 抛出一个错误
+
+// get 方法可以继承。
+let prototype = new Proxy({}, {
+  get(target, propertyKey, receiver) {
+    console.log('GET ' + propertyKey);
+    return target[propertyKey];
+  }
+});
+
+let obj = Object.create(prototype);
+obj.foo // "GET foo"
+```
+
++ 利用 Proxy，可以将读取属性的操作（get），转变为执行某个函数，从而实现属性的链式操作。
+```js
+var pipe = function (value) {
+  var funcStack = [];
+  var OProxy = new Proxy({} , {
+    get : function (pipeObject, fnName) {
+      if (fnName === 'get') {
+        return funcStack.reduce(function (val, fn) {
+          return fn(val);
+        },value);
+      }
+      funcStack.push(window[fnName]);
+      return OProxy;
+    }
+  });
+
+  return OProxy;
+}
+
+var double = n => n * 2;
+var pow    = n => n * n;
+var reverseInt = n => n.toString().split("").reverse().join("") | 0;
+
+pipe(3).double.pow.reverseInt.get; // 63
+```
+
++ get 方法的第三个参数的例子，它总是指向原始的读操作所在的那个对象，一般情况下就是 Proxy 实例。
+```js
+const proxy = new Proxy({}, {
+  get: function(target, key, receiver) {
+    return receiver;
+  }
+});
+proxy.getReceiver === proxy // true
+// proxy 对象的 getReceiver 属性是由 proxy 对象提供的，所以 receiver 指向 proxy 对象。
+const proxy = new Proxy({}, {
+  get: function(target, key, receiver) {
+    return receiver;
+  }
+});
+
+const d = Object.create(proxy);
+d.a === d // true
+```
+
+### 2. set()
+
++ set 方法用来拦截某个属性的赋值操作，可以接受四个参数，依次为目标对象、属性名、属性值和 Proxy 实例本身，其中最后一个参数可选。
++ 假定 Person 对象有一个 age 属性，该属性应该是一个不大于 200 的整数，那么可以使用 Proxy 保证 age 的属性值符合要求。
+```js
+let validator = {
+  set: function(obj, prop, value) {
+    if (prop === 'age') {
+      if (!Number.isInteger(value)) {
+        throw new TypeError('The age is not an integer');
+      }
+      if (value > 200) {
+        throw new RangeError('The age seems invalid');
+      }
+    }
+
+    // 对于满足条件的 age 属性以及其他属性，直接保存
+    obj[prop] = value;
+  }
+};
+
+let person = new Proxy({}, validator);
+
+person.age = 100;
+
+person.age // 100
+person.age = 'young' // 报错
+person.age = 300 // 报错
+
+// 由于设置了存值函数 set，任何不符合要求的 age 属性赋值，都会抛出一个错误，这是数据验证的一种实现方法。
+// 利用 set 方法，还可以数据绑定，即每当对象发生变化时，会自动更新 DOM。
+```
+
++ 有时，我们会在对象上面设置内部属性，属性名的第一个字符使用下划线开头，表示这些属性不应该被外部使用。
++ 结合 get 和 set 方法，就可以做到防止这些内部属性被外部读写。
+```js
+const handler = {
+  get (target, key) {
+    invariant(key, 'get');
+    return target[key];
+  },
+  set (target, key, value) {
+    invariant(key, 'set');
+    target[key] = value;
+    return true;
+  }
+};
+function invariant (key, action) {
+  if (key[0] === '_') {
+    throw new Error(`Invalid attempt to ${action} private "${key}" property`);
+  }
+}
+const target = {};
+const proxy = new Proxy(target, handler);
+proxy._prop
+// Error: Invalid attempt to get private "_prop" property
+proxy._prop = 'c'
+// Error: Invalid attempt to set private "_prop" property
+
+// 只要读写的属性名的第一个字符是下划线，一律抛错，从而达到禁止读写内部属性的目的。
+```
+
++ set方法第四个参数的例子。
+```js
+const handler = {
+  set: function(obj, prop, value, receiver) {
+    obj[prop] = receiver;
+  }
+};
+const proxy = new Proxy({}, handler);
+proxy.foo = 'bar';
+proxy.foo === proxy // true
+
+// set 方法的第四个参数 receiver，指的是原始的操作行为所在的那个对象，一般情况下是proxy实例本身
+```
+
+### 3. apply()
+
++ apply 方法拦截函数的调用、call 和 apply 操作。
++ apply 方法可以接受三个参数，分别是目标对象、目标对象的上下文对象（this）和目标对象的参数数组。
+```js
+var handler = {
+  apply (target, ctx, args) {
+    return Reflect.apply(...arguments);
+  }
+};
+
+// 例子
+var target = function () { return 'I am the target'; };
+var handler = {
+  apply: function () {
+    return 'I am the proxy';
+  }
+};
+
+var p = new Proxy(target, handler);
+
+p()
+// "I am the proxy"
+// 变量 p 是 Proxy 的实例，当它作为函数调用时（p()），就会被 apply 方法拦截，返回一个字符串。
+
+// 例子
+var twice = {
+  apply (target, ctx, args) {
+    return Reflect.apply(...arguments) * 2;
+  }
+};
+function sum (left, right) {
+  return left + right;
+};
+var proxy = new Proxy(sum, twice);
+proxy(1, 2) // 6
+proxy.call(null, 5, 6) // 22
+proxy.apply(null, [7, 8]) // 30
+
+// 每当执行 proxy 函数（直接调用或 call 和 apply 调用），就会被 apply 方法拦截。
+// 另外，直接调用 Reflect.apply 方法，也会被拦截。
+
+Reflect.apply(proxy, null, [9, 10]) // 38
+```
+
+### 4. has()
+
++ has() 方法用来拦截 HasProperty 操作，即判断对象是否具有某个属性时，这个方法会生效。典型的操作就是in运算符。
++ has() 方法可以接受两个参数，分别是目标对象、需查询的属性名。
++ 下面的例子使用 has() 方法隐藏某些属性，不被 in 运算符发现。
++ 如果原对象不可配置或者禁止扩展，这时 has() 拦截会报错。
++ 值得注意的是，has() 方法拦截的是 HasProperty 操作，而不是 HasOwnProperty 操作，即 has() 方法不判断一个属性是对象自身的属性，还是继承的属性。
++ 虽然 for...in 循环也用到了 in 运算符，但是 has() 拦截对 for...in 循环不生效。
+```js
+var handler = {
+  has (target, key) {
+    if (key[0] === '_') {
+      return false;
+    }
+    return key in target;
+  }
+};
+var target = { _prop: 'foo', prop: 'foo' };
+var proxy = new Proxy(target, handler);
+'_prop' in proxy // false
+
+// 如果原对象的属性名的第一个字符是下划线，proxy.has() 就会返回 false，从而不会被 in 运算符发现。
+```
+
+### 5. construct()
+
++ construct() 方法用于拦截 new 命令，下面是拦截对象的写法。
+```js
+const handler = {
+  construct (target, args, newTarget) {
+    return new target(...args);
+  }
+};
+```
+
++ construct() 方法可以接受三个参数。
+  + target：目标对象。
+  + args：构造函数的参数数组。
+  + newTarget：创造实例对象时，new 命令作用的构造函数（下面例子的p）。
++ construct() 方法返回的必须是一个对象，否则会报错。
++ 由于 construct() 拦截的是构造函数，所以它的目标对象必须是函数，否则就会报错。
+```js
+const p = new Proxy(function () {}, {
+  construct: function(target, args) {
+    console.log('called: ' + args.join(', '));
+    return { value: args[0] * 10 };
+  }
+});
+
+(new p(1)).value
+// "called: 1"
+// 10
+
+// construct() 方法中的 this 指向的是 handler，而不是实例对象。
+const handler = {
+  construct: function(target, args) {
+    console.log(this === handler);
+    return new target(...args);
+  }
+}
+
+let p = new Proxy(function () {}, handler);
+new p() // true
+```
+
+### 6. deleteProperty()
+
++ deleteProperty 方法用于拦截 delete 操作，如果这个方法抛出错误或者返回 false，当前属性就无法被 delete 命令删除。
++ 注意，目标对象自身的不可配置（configurable）的属性，不能被 deleteProperty 方法删除，否则报错。
+```js
+var handler = {
+  deleteProperty (target, key) {
+    invariant(key, 'delete');
+    delete target[key];
+    return true;
+  }
+};
+function invariant (key, action) {
+  if (key[0] === '_') {
+    throw new Error(`Invalid attempt to ${action} private "${key}" property`);
+  }
+}
+
+var target = { _prop: 'foo' };
+var proxy = new Proxy(target, handler);
+delete proxy._prop
+// Error: Invalid attempt to delete private "_prop" property
+// deleteProperty 方法拦截了 delete 操作符，删除第一个字符为下划线的属性会报错。
+```
+
+### 7. defineProperty()
+
++ defineProperty() 方法拦截了 Object.defineProperty() 操作。
+```js
+var handler = {
+  defineProperty (target, key, descriptor) {
+    return false;
+  }
+};
+var target = {};
+var proxy = new Proxy(target, handler);
+proxy.foo = 'bar' // 不会生效
+/*
+  defineProperty() 方法内部没有任何操作，只返回 false，导致添加新属性总是无效。
+  注意，这里的 false 只是用来提示操作失败，本身并不能阻止添加新属性。
+  注意，如果目标对象不可扩展（non-extensible），则 defineProperty() 不能增加目标对象上不存在的属性，否则会报错。
+  另外，如果目标对象的某个属性不可写（writable）或不可配置（configurable），则defineProperty() 方法不得改变这两个设置。
+*/
+```
+
+### 8. getOwnPropertyDescriptor()
+
++ getOwnPropertyDescriptor() 方法拦截 Object.getOwnPropertyDescriptor()，返回一个属性描述对象或者 undefined。
+```js
+var handler = {
+  getOwnPropertyDescriptor (target, key) {
+    if (key[0] === '_') {
+      return;
+    }
+    return Object.getOwnPropertyDescriptor(target, key);
+  }
+};
+var target = { _foo: 'bar', baz: 'tar' };
+var proxy = new Proxy(target, handler);
+Object.getOwnPropertyDescriptor(proxy, 'wat')
+// undefined
+Object.getOwnPropertyDescriptor(proxy, '_foo')
+// undefined
+Object.getOwnPropertyDescriptor(proxy, 'baz')
+// { value: 'tar', writable: true, enumerable: true, configurable: true }
+```
++ handler.getOwnPropertyDescriptor() 方法对于第一个字符为下划线的属性名会返回 undefined。
+
+### 9. getPrototypeOf()
+
++ getPrototypeOf() 方法主要用来拦截获取对象原型。
++ 具体来说，拦截下面这些操作。
+  + Object.prototype.__proto__
+  + Object.prototype.isPrototypeOf()
+  + Object.getPrototypeOf()
+  + Reflect.getPrototypeOf()
+  + instanceof
+```js
+var proto = {};
+var p = new Proxy({}, {
+  getPrototypeOf(target) {
+    return proto;
+  }
+});
+Object.getPrototypeOf(p) === proto // true
+
+/*
+  getPrototypeOf() 方法拦截 Object.getPrototypeOf()，返回 proto 对象。
+  注意，getPrototypeOf() 方法的返回值必须是对象或者 null，否则报错。
+  另外，如果目标对象不可扩展（non-extensible）， getPrototypeOf() 方法必须返回目标对象的原型对象。
+*/
+```
+
+### 10. isExtensible()
+
++ isExtensible() 方法拦截 Object.isExtensible() 操作。
++ 注意，该方法只能返回布尔值，否则返回值会被自动转为布尔值。
++ 这个方法有一个强限制，它的返回值必须与目标对象的 isExtensible 属性保持一致，否则就会抛出错误。
+```js
+var p = new Proxy({}, {
+  isExtensible: function(target) {
+    console.log("called");
+    return true;
+  }
+});
+// 设置了 isExtensible() 方法，在调用 Object.isExtensible 时会输出 called。
+Object.isExtensible(p)
+// "called"
+// true
+
+// 返回值保持一致
+Object.isExtensible(proxy) === Object.isExtensible(target)
+
+var p = new Proxy({}, {
+  isExtensible: function(target) {
+    return false;
+  }
+});
+
+Object.isExtensible(p)
+// Uncaught TypeError: 'isExtensible' on proxy: trap result does not reflect extensibility of proxy target (which is 'true')
+```
+
+### 11. ownKeys()
+
++ ownKeys() 方法用来拦截对象自身属性的读取操作。
++ 具体来说，拦截以下操作。
+  + Object.getOwnPropertyNames()
+  + Object.getOwnPropertySymbols()
+  + Object.keys()
+  + for...in循环
++ 注意，使用 Object.keys() 方法时，有三类属性会被 ownKeys() 方法自动过滤，不会返回。
+  + 目标对象上不存在的属性
+  + 属性名为 Symbol 值
+  + 不可遍历（enumerable）的属性
++ ownKeys() 方法返回的数组成员，只能是字符串或 Symbol 值
++ 如果有其他类型的值，或者返回的根本不是数组，就会报错。
++ 如果目标对象是不可扩展的（non-extensible），这时 ownKeys() 方法返回的数组之中,
+  + 必须包含原对象的所有属性，且不能包含多余的属性，否则报错。
+```js
+// 拦截 Object.keys() 的例子。
+let target = {
+  a: 1,
+  b: 2,
+  c: 3
+};
+
+let handler = {
+  ownKeys(target) {
+    return ['a'];
+  }
+};
+
+let proxy = new Proxy(target, handler);
+// 拦截了对于 target 对象的 Object.keys() 操作，只返回 a、b、c 三个属性之中的 a 属性。
+Object.keys(proxy)
+// [ 'a' ]
+```
+
+### 12. preventExtensions()
+
++ preventExtensions() 方法拦截 Object.preventExtensions()。
++ 该方法必须返回一个布尔值，否则会被自动转为布尔值。
+
++ 这个方法有一个限制，只有目标对象不可扩展时（即 Object.isExtensible(proxy) 为 false），proxy.preventExtensions 才能返回 true，否则会报错。
+```JS
+var proxy = new Proxy({}, {
+  preventExtensions: function(target) {
+    return true;
+  }
+});
+
+Object.preventExtensions(proxy)
+// 'preventExtensions'在proxy: trap上返回true，但是代理目标是可扩展的
+
+// proxy.preventExtensions() 方法返回 true，但这时 Object.isExtensible(proxy) 会返回 true，因此报错。
+// 为了防止出现这个问题，通常要在 proxy.preventExtensions() 方法里面，调用一次 Object.preventExtensions()。
+var proxy = new Proxy({}, {
+  preventExtensions: function(target) {
+    console.log('called');
+    Object.preventExtensions(target);
+    return true;
+  }
+});
+
+Object.preventExtensions(proxy)
+// "called"
+// Proxy {}
+```
+
+### 13. setPrototypeOf()
+
++ setPrototypeOf() 方法主要用来拦截 Object.setPrototypeOf() 方法。
+```JS
+var handler = {
+  setPrototypeOf (target, proto) {
+    throw new Error('Changing the prototype is forbidden');
+  }
+};
+var proto = {};
+var target = function () {};
+var proxy = new Proxy(target, handler);
+Object.setPrototypeOf(proxy, proto);
+// Error: Changing the prototype is forbidden
+
+// 只要修改 target 的原型对象，就会报错。
+```
+
++ 注意，该方法只能返回布尔值，否则会被自动转为布尔值。
++ 另外，如果目标对象不可扩展（non-extensible），setPrototypeOf() 方法不得改变目标对象的原型。
+
+## Proxy.revocable()
+
++ Proxy.revocable() 方法返回一个可取消的 Proxy 实例。
+```js
+let target = {};
+let handler = {};
+
+let {proxy, revoke} = Proxy.revocable(target, handler);
+
+proxy.foo = 123;
+proxy.foo // 123
+
+revoke();
+proxy.foo // TypeError: Revoked
+```
++ Proxy.revocable() 方法返回一个对象，该对象的 proxy 属性是Proxy实例， revoke 属性是一个函数，可以取消 Proxy 实例。
++ 上面代码中，当执行 revoke 函数之后，再访问 Proxy 实例，就会抛出一个错误。
+
++ Proxy.revocable() 的一个使用场景是，目标对象不允许直接访问，必须通过代理访问，一旦访问结束，就收回代理权，不允许再次访问。
+
+## this 问题
+
++ 虽然 Proxy 可以代理针对目标对象的访问，但它不是目标对象的透明代理，即不做任何拦截的情况下，也无法保证与目标对象的行为一致。
++ 主要原因就是在 Proxy 代理的情况下，目标对象内部的 this 关键字会指向 Proxy 代理。
+```js
+const target = {
+  m: function () {
+    console.log(this === proxy);
+  }
+};
+const handler = {};
+
+const proxy = new Proxy(target, handler);
+
+target.m() // false
+proxy.m()  // true
+
+// 一旦 proxy 代理 target，target.m() 内部的 this 就是指向 proxy，而不是 target。
+
+// 由于 this 指向的变化，导致 Proxy 无法代理目标对象。
+const _name = new WeakMap();
+
+class Person {
   constructor(name) {
-    this.name = name;
+    _name.set(this, name);
   }
-
-  sayName() {
-    console.log(this.name);
-  }
-}('张三');
-
-person.sayName(); // "张三"
-```
-
-### 注意点
-
-1. 严格模式
-   + 类和模块的内部，默认就是严格模式，所以不需要使用 use strict 指定运行模式。
-   + 只要你的代码写在类或模块之中，就只有严格模式可用。
-   + 考虑到未来所有的代码，其实都是运行在模块之中，所以 ES6 实际上把整个语言升级到了严格模式。
-
-2. 不存在提升
-   + 类不存在变量提升（hoist），这一点与 ES5 完全不同。
-   + ES6 不会把类的声明提升到代码头部。
-   + 这种规定的原因与下文要提到的继承有关，必须保证子类在父类之后定义。
-   + 所以不能在定义前使用
-```js
-{
-  let Foo = class {};
-  class Bar extends Foo {
+  get name() {
+    return _name.get(this);
   }
 }
-/**
- * 上面的代码不会报错，因为 Bar 继承 Foo 的时候，Foo 已经有定义了。
- * 但是，如果存在 class 的提升，上面代码就会报错，因为 class 会被提升到代码头部，
- * 而 let 命令是不提升的，所以导致 Bar 继承 Foo 的时候，Foo 还没有定义。
+
+const jane = new Person('Jane');
+jane.name // 'Jane'
+
+const proxy = new Proxy(jane, {});
+proxy.name // undefined
+/*
+  目标对象 jane 的 name 属性，实际保存在外部 WeakMap 对象 _name 上面，通过 this 键区分。
+  由于通过 proxy.name 访问时，this 指向 proxy，导致无法取到值，所以返回 undefined。
 */
 ```
 
-3. name 属性
-   + 由于本质上，ES6 的类只是 ES5 的构造函数的一层包装，所以函数的许多特性都被 Class 继承，包括 name 属性。
-   + `` class Point {}     Point.name // "Point"    ``
-   + name 属性总是返回紧跟在 class 关键字后面的类名。
-
-4. Generator 方法
-   + 如果某个方法之前加上星号（*），就表示该方法是一个 Generator 函数。
++ 有些原生对象的内部属性，只有通过正确的 this 才能拿到，所以 Proxy 也无法代理这些原生对象的属性。
 ```js
-class Foo {
-  constructor(...args) {
-    this.args = args;
-  }
-  * [Symbol.iterator]() {
-    for (let arg of this.args) {
-      yield arg;
+const target = new Date();
+const handler = {};
+const proxy = new Proxy(target, handler);
+
+proxy.getDate();
+// TypeError: this is not a Date object.
+```
++ 上面代码中，getDate() 方法只能在 Date 对象实例上面拿到，如果 this 不是 Date 对象实例就会报错。
++ 这时，this 绑定原始对象，就可以解决这个问题。
+```js
+const target = new Date('2015-01-01');
+const handler = {
+  get(target, prop) {
+    if (prop === 'getDate') {
+      return target.getDate.bind(target);
     }
+    return Reflect.get(target, prop);
   }
+};
+const proxy = new Proxy(target, handler);
+
+proxy.getDate() // 1
+```
+
++ 另外，Proxy 拦截函数内部的 this，指向的是 handler 对象。
+```js
+const handler = {
+  get: function (target, key, receiver) {
+    console.log(this === handler);
+    return 'Hello, ' + key;
+  },
+  set: function (target, key, value) {
+    console.log(this === handler);
+    target[key] = value;
+    return true;
+  }
+};
+
+const proxy = new Proxy({}, handler);
+
+proxy.foo
+// true
+// Hello, foo
+
+proxy.foo = 1
+// true
+
+// get() 和 set() 拦截函数内部的 this，指向的都是 handler 对象。
+```
+
+# Reflect
+
++ Reflect 对象与 Proxy 对象一样，也是 ES6 为了操作对象而提供的新 API。
++ Reflect 对象的设计目的有这样几个。
+
+1. 更改内部方法的部署位置
+  +  将 Object 对象的一些明显属于语言内部的方法（比如 Object.defineProperty），放到 Reflect 对象上。
+  +  现阶段，某些方法同时在 Object 和 Reflect 对象上部署，未来的新方法将只部署在 Reflect 对象上。
+  +  也就是说，从 Reflect 对象上可以拿到语言内部的方法。
+
+2. 修改方法的一些行为，让其更合理
+   +  修改某些 Object 方法的返回结果，让其变得更合理。
+   +  比如，Object.defineProperty(obj, name, desc) 在无法定义属性时，会抛出一个错误
+   +  而 Reflect.defineProperty(obj, name, desc) 则会返回 false。
+```js
+// 老写法
+try {
+  Object.defineProperty(target, property, attributes);
+  // success
+} catch (e) {
+  // failure
 }
 
-for (let x of new Foo('hello', 'world')) {
-  console.log(x);
+// 新写法
+if (Reflect.defineProperty(target, property, attributes)) {
+  // success
+} else {
+  // failure
 }
+```
+
+3. 让 Object 操作都变成函数行为
+   + 某些 Object 操作是命令式，比如 name in obj 和 delete obj[name]
+   + 而 Reflect.has(obj, name) 和 Reflect.deleteProperty(obj, name) 让它们变成了函数行为。
+```js
+// 老写法
+'assign' in Object // true
+
+// 新写法
+Reflect.has(Object, 'assign') // true
+```
+
+4. Reflect 对象的方法与 Proxy 对象的方法一一对应
+   + 只要是 Proxy 对象的方法，就能在 Reflect 对象上找到对应的方法。
+   + 这就让 Proxy 对象可以方便地调用对应的 Reflect 方法，完成默认行为，作为修改行为的基础。
+   + 也就是说，不管 Proxy 怎么修改默认行为，你总可以在 Reflect 上获取默认行为。
+```js
+Proxy(target, {
+  set: function(target, name, value, receiver) {
+    var success = Reflect.set(target, name, value, receiver);
+    if (success) {
+      console.log('property ' + name + ' on ' + target + ' set to ' + value);
+    }
+    return success;
+  }
+});
+// Proxy 方法拦截 target 对象的属性赋值行为
+// 它采用 Reflect.set 方法将值赋值给对象的属性，确保完成原有的行为，然后再部署额外的功能。
+
+// 例子
+var loggedObj = new Proxy(obj, {
+  get(target, name) {
+    console.log('get', target, name);
+    return Reflect.get(target, name);
+  },
+  deleteProperty(target, name) {
+    console.log('delete' + name);
+    return Reflect.deleteProperty(target, name);
+  },
+  has(target, name) {
+    console.log('has' + name);
+    return Reflect.has(target, name);
+  }
+});
 /**
- * Foo 类的 Symbol.iterator 方法前有一个星号，表示该方法是一个 Generator 函数。
- * Symbol.iterator 方法返回一个 Foo 类的默认遍历器，for...of 循环会自动调用这个遍历器。
+ * 每一个 Proxy 对象的拦截操作（get、delete、has），
+ * 内部都调用对应的 Reflect 方法，保证原生行为能够正常执行。
+ * 添加的工作，就是将每一个操作输出一行日志。
 */
 ```
 
-5. this 的指向
-   + 类的方法内部如果含有 this，它默认指向类的实例。
-   + 但是，必须非常小心，一旦单独使用该方法，很可能报错。
++ 有了 Reflect 对象以后，很多操作会更易读。
 ```js
-class Logger {
-  printName(name = 'there') {
-    this.print(`Hello ${name}`);
-  }
+// 老写法
+Function.prototype.apply.call(Math.floor, undefined, [1.75]) // 1
 
-  print(text) {
-    console.log(text);
-  }
-}
-
-const logger = new Logger();
-const { printName } = logger;
-printName(); // TypeError: Cannot read property 'print' of undefined
-
-/**
- * printName 方法中的 this，默认指向 Logger 类的实例。
- * 但是，如果将这个方法提取出来单独使用，this 会指向该方法运行时所在的环境
- * （由于 class 内部是严格模式，所以 this 实际指向的是 undefined），从而导致找不到 print 方法而报错。
-*/
-
-// 一个比较简单的解决方法是，在构造方法中绑定 this，这样就不会找不到 print 方法了。
-class Logger {
-  constructor() {
-    this.printName = this.printName.bind(this);
-  }
-  // ...
-}
-
-// 另一种解决方法是使用箭头函数。
-class Obj {
-  constructor() {
-    this.getThis = () => this;
-  }
-}
-
-const myObj = new Obj();
-myObj.getThis() === myObj // true
-/**
- * 箭头函数内部的 this 总是指向定义时所在的对象。
- * 上面代码中，箭头函数位于构造函数内部，它的定义生效的时候，是在构造函数执行的时候。
- * 这时，箭头函数所在的运行环境，肯定是实例对象，所以 this 会总是指向实例对象。
-*/
-
-// 还有一种解决方法是使用 Proxy，获取方法的时候，自动绑定 this。
-function selfish (target) {
-  const cache = new WeakMap();
-  const handler = {
-    get (target, key) {
-      const value = Reflect.get(target, key);
-      if (typeof value !== 'function') {
-        return value;
-      }
-      if (!cache.has(value)) {
-        cache.set(value, value.bind(target));
-      }
-      return cache.get(value);
-    }
-  };
-  const proxy = new Proxy(target, handler);
-  return proxy;
-}
-
-const logger = selfish(new Logger());
+// 新写法
+Reflect.apply(Math.floor, undefined, [1.75]) // 1
 ```
 
 ## 静态方法
 
-+ 类相当于实例的原型，所有在类中定义的方法，都会被实例继承。
-+ 如果在一个方法前，加上 static 关键字，就表示该方法不会被实例继承，而是直接通过类来调用，这就称为“静态方法”。
-```js
-class Foo {
-  // 声明静态方法
-  static classMethod() {
-    return 'hello';
-  }
-}
-Foo.classMethod() // 'hello'
++ Reflect 对象一共有 13 个静态方法。
+  - Reflect.apply(target, thisArg, args)
+  - Reflect.construct(target, args)
+  - Reflect.get(target, name, receiver)
+  - Reflect.set(target, name, value, receiver)
+  - Reflect.defineProperty(target, name, desc)
+  - Reflect.deleteProperty(target, name)
+  - Reflect.has(target, name)
+  - Reflect.ownKeys(target)
+  - Reflect.isExtensible(target)
+  - Reflect.preventExtensions(target)
+  - Reflect.getOwnPropertyDescriptor(target, name)
+  - Reflect.getPrototypeOf(target)
+  - Reflect.setPrototypeOf(target, prototype)
++ 大部分与 Object 对象的同名方法的作用都是相同的，而且它与 Proxy 对象的方法是一一对应的。
 
-// 方法无法被继承，所以使用就会报错
-var foo = new Foo();
-foo.classMethod()
-// TypeError: foo.classMethod is not a function
+### 1. get(target, name, receiver)
+
++ Reflect.get 方法查找并返回 target 对象的 name 属性，如果没有该属性，则返回 undefined。
++ 如果第一个参数不是对象，Reflect.get 方法会报错。
++ 参数
+  + 目标对象  target
+  + 属性名称  name
+  + 扩展对象（可以替换使用的方法） receiver
+```js
+var myObject = {
+  foo: 1,
+  bar: 2,
+  get baz() {
+    return this.foo + this.bar;
+  },
+}
+Reflect.get(myObject, 'foo') // 1
+Reflect.get(myObject, 'bar') // 2
+Reflect.get(myObject, 'baz') // 3
 ```
-
-+ 注意，如果静态方法包含 this 关键字，这个 this 指的是类，而不是实例。
++ 如果 name 属性部署了读取函数（getter），则读取函数的 this 绑定 receiver。
 ```js
-class Foo {
-  static bar() {
-    this.baz();
-  }
-  static baz() {
-    console.log('hello');
-  }
-  baz() {
-    console.log('world');
-  }
-}
-
-Foo.bar() // hello
-
-/**
- * 静态方法 bar 调用了 this.baz，这里的 this 指的是 Foo 类，而不是 Foo 的实例，等同于调用 Foo.baz。
- * 另外，从这个例子还可以看出，静态方法可以与非静态方法重名。
-*/
-```
-
-+ 父类的静态方法，可以被子类继承。
-```js
-class Foo {
-  static classMethod() {
-    return 'hello';
-  }
-}
-
-class Bar extends Foo {
-}
-
-Bar.classMethod() // 'hello'
-```
-
-+ 静态方法也是可以从 super 对象上调用的。
-```js
-class Foo {
-  static classMethod() {
-    return 'hello';
-  }
-}
-// super 指向当前对象的原型对象，在这里就是 Foo
-class Bar extends Foo {
-  static classMethod() {
-    return super.classMethod() + ', too';
-  }
-}
-
-Bar.classMethod() // "hello, too"
-```
-
-## 实例属性的新写法
-
-+ 实例属性除了定义在 constructor() 方法里面的 this 上面，也可以定义在类的最顶层。
-```js
-class IncreasingCounter {
-  constructor() {
-    this._count = 0;
-  }
-  get value() {
-    console.log('Getting the current value!');
-    return this._count;
-  }
-  increment() {
-    this._count++;
-  }
-}
-
-// 上面代码中，实例属性 this._count 定义在 constructor() 方法里面。
-// 另一种写法是，这个属性也可以定义在类的最顶层，其他都不变。
-class IncreasingCounter {
-  _count = 0;
-}
-// 实例属性 _count 与取值函数 value() 和 increment() 方法，处于同一个层级。
-// 这时，不需要在实例属性前面加上 this。
-```
-+ 这种新写法的好处是，所有实例对象自身的属性都定义在类的头部，看上去比较整齐，一眼就能看出这个类有哪些实例属性。
-```js
-class foo {
-  bar = 'hello';
-  baz = 'world';
-
-  constructor() {
-    // ...
-  }
-}
-```
-
-## 静态属性
-
-+ 静态属性指的是 Class 本身的属性，即 Class.propName，而不是定义在实例对象（this）上的属性。
-```js
-class Foo {
-}
-// 为 Foo 类定义了一个静态属性 prop。
-Foo.prop = 1;
-Foo.prop // 1
-```
-+ 目前，只有这种写法可行，因为 ES6 明确规定，Class 内部只有静态方法，没有静态属性。
-+ 现在有一个提案提供了类的静态属性，写法是在实例属性的前面，加上 static 关键字。
-```js
-class MyClass {
-  static myStaticProp = 42;
-
-  constructor() {
-    console.log(MyClass.myStaticProp); // 42
-  }
-}
-```
-
-## 私有方法和私有属性
-
-+ 私有方法和私有属性不论是静态还是动态都不能在外部调用
-+ 用 # 还声明私有属性和方法。
-
-### 现有的解决方案
-
-+ 私有方法和私有属性，是只能在类的内部访问的方法和属性，外部不能访问。
-+ 这是常见需求，有利于代码的封装，但 ES6 不提供，只能通过变通方法模拟实现。
-
-+ 一种做法是在命名上加以区别。
-```js
-// _bar() 方法前面的下划线，表示这是一个只限于内部使用的私有方法。
-// 但是，这种命名是不保险的，在类的外部，还是可以调用到这个方法。
-lass Widget {
-  // 公有方法
-  foo (baz) {
-    this._bar(baz);
-  }
-
-  // 私有方法
-  _bar(baz) {
-    return this.snaf = baz;
-  }
-  // ...
-}
-```
-+ 另一种方法就是索性将私有方法移出类，因为类内部的所有方法都是对外可见的。
-```js
-class Widget {
-  foo (baz) {
-    bar.call(this, baz);
-  }
-  // ...
-}
-function bar(baz) {
-  return this.snaf = baz;
-}
-// foo 是公开方法，内部调用了 bar.call(this, baz)。
-// 这使得 bar() 实际上成为了当前类的私有方法。
-```
-+ 还有一种方法是利用 Symbol 值的唯一性，将私有方法的名字命名为一个 Symbol 值。
-```js
-const bar = Symbol('bar');
-const snaf = Symbol('snaf');
-export default class myClass{
-  // 公有方法
-  foo(baz) {
-    this[bar](baz);
-  }
-  // 私有方法
-  [bar](baz) {
-    return this[snaf] = baz;
-  }
-  // ...
-};
-// ar 和 snaf 都是 Symbol 值，一般情况下无法获取到它们，因此达到了私有方法和私有属性的效果。
-// 但是也不是绝对不行，Reflect.ownKeys() 依然可以拿到它们。
-const inst = new myClass();
-
-Reflect.ownKeys(myClass.prototype)
-// [ 'constructor', 'foo', Symbol(bar) ]
-// Symbol 值的属性名依然可以从类的外部拿到。
-```
-
-### 私有属性的提案
-
-+ 目前，有一个提案，为 class 加了私有属性。方法是在属性名之前，使用 # 表示。
-```js
-class IncreasingCounter {
-  #count = 0;
-  get value() {
-    console.log('Getting the current value!');
-    return this.#count;
-  }
-  increment() {
-    this.#count++;
-  }
-}
-// #count 就是私有属性，只能在类的内部使用（this.#count）。如果在类的外部使用，就会报错。
-const counter = new IncreasingCounter();
-counter.#count // 报错
-counter.#count = 42 // 报错
-```
-
-+ 因为 # 是属性名的一部分，所以使用时必须带上 # 才能够使用。所以 #x 并不是 x 。
-
-+ 之所以要引入一个新的前缀 # 表示私有属性，而没有采用 private 关键字，
-+ 是因为 JavaScript 是一门动态语言，没有类型声明，使用独立的符号似乎是唯一的比较方便可靠的方法，
-+ 能够准确地区分一种属性是否为私有属性。
-+ 另外，Ruby 语言使用 @ 表示私有属性，ES6 没有用这个符号而使用 #，是因为 @ 已经被留给了 Decorator。
-
-+ 这种写法不仅可以写私有属性，还可以用来写私有方法。
-+ 另外，私有属性也可以设置 getter 和 setter 方法。
-```js
-class Foo {
-  #a;
-  #b;
-  constructor(a, b) {
-    this.#a = a;
-    this.#b = b;
-  }
-  #sum() {
-    return this.#a + this.#b;
-  }
-  printSum() {
-    console.log(this.#sum());
-  }
-}
-
-// #x 是一个私有属性，它的读写都通过 get #x() 和 set #x() 来完成。
-class Counter {
-  #xValue = 0;
-
-  constructor() {
-    super();
-    // ...
-  }
-
-  get #x() { return #xValue; }
-  set #x(value) {
-    this.#xValue = value;
-  }
-}
-```
-
-+ 私有属性不限于从 this 引用，只要是在类的内部，实例也可以引用私有属性。
-```js
-class Foo {
-  #privateValue = 42;
-  static getPrivateValue(foo) {
-    return foo.#privateValue;
-  }
-}
-Foo.getPrivateValue(new Foo()); // 42
-```
-
-+ 私有属性和私有方法前面，也可以加上 static 关键字，表示这是一个静态的私有属性或私有方法。
-+ 静态的私有方法和属性都只能在类的内部调用，不能够像公共的静态方法和属性一样在外部调用。
-
-## new.target 属性
-
-+ new 是从构造函数生成实例对象的命令。
-+ ES6 为 new 命令引入了一个 new.target 属性，该属性一般用在构造函数之中，返回 new 命令作用于的那个构造函数。
-+ 如果构造函数不是通过 new 命令或 Reflect.construct() 调用的，new.target 会返回 undefined，因此这个属性可以用来确定构造函数是怎么调用的。
-```js
-function Person(name) {
-  if (new.target !== undefined) {
-    this.name = name;
-  } else {
-    throw new Error('必须使用 new 命令生成实例');
-  }
-}
-
-// 另一种写法
-function Person(name) {
-  if (new.target === Person) {
-    this.name = name;
-  } else {
-    throw new Error('必须使用 new 命令生成实例');
-  }
-}
-
-var person = new Person('张三'); // 正确
-var notAPerson = Person.call(person, '张三');  // 报错
-
-// 确保构造函数只能通过new命令调用。
-```
-
-+ Class 内部调用 new.target，返回当前 Class。
-```js
-class Rectangle {
-  constructor(length, width) {
-    console.log(new.target === Rectangle);
-    this.length = length;
-    this.width = width;
-  }
-}
-
-var obj = new Rectangle(3, 4); // 输出 true
-```
-+ 需要注意的是，子类继承父类时，new.target 会返回子类。
-```js
-class Rectangle {
-  constructor(length, width) {
-    console.log(new.target === Rectangle);
-    // ...
-  }
-}
-class Square extends Rectangle {
-  constructor(length, width) {
-    super(length, width);
-  }
-}
-
-var obj = new Square(3); // 输出 false
-// new.target 会返回子类。
-```
-+ 利用这个特点，可以写出不能独立使用、必须继承后才能使用的类。
-```js
-class Shape {
-  constructor() {
-    if (new.target === Shape) {
-      throw new Error('本类不能实例化');
-    }
-  }
-}
-
-class Rectangle extends Shape {
-  constructor(length, width) {
-    super();
-    // ...
-  }
-}
-var x = new Shape();  // 报错
-var y = new Rectangle(3, 4);  // 正确
-// Shape 类不能被实例化，只能用于继承。
-// 注意，在函数外部，使用 new.target 会报错。
-```
-
-# Class 的继承
-
-+ Class 可以通过 extends 关键字实现继承，这比 ES5 的通过修改原型链实现继承，要清晰和方便很多。
-```js
-class Point {
-}
-
-class ColorPoint extends Point {
-}
-/**
- * 定义了一个 ColorPoint 类，该类通过 extends 关键字，继承了 Point 类的所有属性和方法。
- * 但是由于没有部署任何代码，所以这两个类完全一样，等于复制了一个Point类。
-*/
-// 下面，在 ColorPoint 内部加上代码。
-class ColorPoint extends Point {
-  constructor(x, y, color) {
-    super(x, y); // 调用父类的constructor(x, y)
-    this.color = color;
-  }
-
-  toString() {
-    return this.color + ' ' + super.toString(); // 调用父类的toString()
-  }
-}
-/**
- * constructor 方法和 toString 方法之中，都出现了 super 关键字，它在这里表示父类的构造函数，用来新建父类的 this 对象。
-*/
-```
-+ 子类必须在 constructor 方法中调用 super 方法，否则新建实例时会报错。
-+ 这是因为子类自己的 this 对象，必须先通过父类的构造函数完成塑造，
-+ 得到与父类同样的实例属性和方法，然后再对其进行加工，加上子类自己的实例属性和方法。
-+ 如果不调用 super 方法，子类就得不到 this 对象。
-```js
-class Point { /* ... */ }
-
-class ColorPoint extends Point {
-  constructor() {
-  }
-}
-// ColorPoint 继承了父类 Point，但是它的构造函数没有调用 super 方法，导致新建实例时报错。
-let cp = new ColorPoint(); // ReferenceError
-```
-+ ES5 的继承，实质是先创造子类的实例对象 this，然后再将父类的方法添加到 this 上面（Parent.apply(this)）。
-+ ES6 的继承机制完全不同，实质是先将父类实例对象的属性和方法，加到 this 上面（所以必须先调用 super 方法），然后再用子类的构造函数修改 this。
-
-+ 如果子类没有定义 constructor 方法，这个方法会被默认添加，代码如下。
-+ 也就是说，不管有没有显式定义，任何一个子类都有 constructor 方法。
-```js
-class ColorPoint extends Point {
-}
-
-// 等同于
-class ColorPoint extends Point {
-  constructor(...args) {
-    super(...args);
-  }
-}
-```
-+ 另一个需要注意的地方是，在子类的构造函数中，只有调用 super 之后，才可以使用 this 关键字，否则会报错。
-+ 这是因为子类实例的构建，基于父类实例，只有 super 方法才能调用父类实例。
-```js
-class Point {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
-
-class ColorPoint extends Point {
-  constructor(x, y, color) {
-    this.color = color; // ReferenceError
-    super(x, y);
-    this.color = color; // 正确
-    // 子类的 constructor 方法没有调用 super 之前，就使用 this 关键字，结果报错，
-    // 而放在 super 方法之后就是正确的。
-  }
-}
-
-// 生成子类实例的代码。
-let cp = new ColorPoint(25, 8, 'green');
-
-cp instanceof ColorPoint // true
-cp instanceof Point // true
-// 实例对象 cp 同时是 ColorPoint 和 Point 两个类的实例，这与 ES5 的行为完全一致。
-```
-
-+ 父类的静态方法，也会被子类继承。但是不会被实例继承
-```js
-class A {
-  static hello() {
-    console.log('hello world');
-  }
-}
-
-class B extends A {
-}
-
-B.hello()  // hello world
-```
-
-## Object.getPrototypeOf()
-
-+ Object.getPrototypeOf 方法可以用来从子类上获取父类。
-+ ``  Object.getPrototypeOf(ColorPoint) === Point  // true  ``
-+ 因此，可以使用这个方法判断，一个类是否继承了另一个类。
-
-## super 关键字
-
-+ super 这个关键字，既可以当作函数使用，也可以当作对象使用。在这两种情况下，它的用法完全不同。
-
-+ 第一种情况，super 作为函数调用时，代表父类的构造函数。ES6 要求，子类的构造函数必须执行一次 super 函数。
-```js
-class A {}
-
-class B extends A {
-  constructor() {
-    super(); // 子类 B 的构造函数之中的 super()，代表调用父类的构造函数。这是必须的，否则 JavaScript 引擎会报错。
-  }
-}
-```
-+ 注意，super 虽然代表了父类 A 的构造函数，但是返回的是子类 B 的实例，即 super 内部的 this 指的是 B 的实例，
-+ 因此 super() 在这里相当于 A.prototype.constructor.call(this)。
-```js
-class A {
-  constructor() {
-    console.log(new.target.name);
-  }
-}
-class B extends A {
-  constructor() {
-    super();
-  }
-}
-new A() // A
-new B() // B
-// new.target 指向当前正在执行的函数。可以看到，在 super() 执行时，它指向的是子类 B 的构造函数，而不是父类 A 的构造函数。
-// 也就是说，super() 内部的 this 指向的是 B。
-```
-+ 作为函数时，super() 只能用在子类的构造函数之中，用在其他地方就会报错。
-
-+ 第二种情况，super 作为对象时，在普通方法中，指向父类的原型对象；在静态方法中，指向父类。
-```js
-class A {
-  p() {
-    return 2;
-  }
-}
-
-class B extends A {
-  constructor() {
-    super();
-    console.log(super.p()); // 2
-  }
-}
-
-let b = new B();
-/**
- * 子类 B 当中的 super.p()，就是将 super 当作一个对象使用。
- * 这时，super 在普通方法之中，指向 A.prototype，所以 super.p() 就相当于 A.prototype.p()。
-*/
-```
-+ 这里需要注意，由于 super 指向父类的原型对象，所以定义在父类实例上的方法或属性，是无法通过 super 调用的。
-+ 如果属性定义在父类的原型对象上，super 就可以取到。 ``  A.prototype.x = 2;  ``
-```js
-class A {
-  constructor() {
-    this.p = 2;
-  }
-}
-
-class B extends A {
-  get m() {
-    return super.p;
-  }
-}
-// p 是父类 A 实例的属性，super.p 就引用不到它。
-let b = new B();
-b.m // undefined
-```
-
-+ ES6 规定，在子类普通方法中通过 super 调用父类的方法时，方法内部的 this 指向当前的子类实例。
-```js
-class A {
-  constructor() {
-    this.x = 1;
-  }
-  print() {
-    console.log(this.x);
-  }
-}
-
-class B extends A {
-  constructor() {
-    super();
-    this.x = 2;
-  }
-  m() {
-    super.print();
-  }
-}
-
-let b = new B();
-b.m() // 2
-/**
- * super.print() 虽然调用的是 A.prototype.print()，但是 A.prototype.print() 内部的 this 指向子类 B 的实例，
- * 导致输出的是 2，而不是 1。也就是说，实际上执行的是 super.print.call(this)
-*/
-```
-
-+ 由于 this 指向子类实例，所以如果通过 super 对某个属性赋值，这时 super 就是 this，赋值的属性会变成子类实例的属性。
-```js
-class A {
-  constructor() {
-    this.x = 1;
-  }
-}
-
-class B extends A {
-  constructor() {
-    super();
-    this.x = 2;
-    super.x = 3;
-    console.log(super.x); // undefined
-    console.log(this.x); // 3
-  }
-}
-
-let b = new B();
-/**
- * super.x 赋值为 3，这时等同于对 this.x 赋值为 3。
- * 而当读取 super.x 的时候，读的是 A.prototype.x，所以返回 undefined。
-*/
-```
-+ 如果 super 作为对象，用在静态方法之中，这时 super 将指向父类，而不是父类的原型对象。
-```js
-class Parent {
-  static myMethod(msg) {
-    console.log('static', msg);
-  }
-
-  myMethod(msg) {
-    console.log('instance', msg);
-  }
-}
-
-class Child extends Parent {
-  static myMethod(msg) {
-    super.myMethod(msg);
-  }
-
-  myMethod(msg) {
-    super.myMethod(msg);
-  }
-}
-
-Child.myMethod(1); // static 1
-
-var child = new Child();
-child.myMethod(2); // instance 2
-// super 在静态方法之中指向父类，在普通方法之中指向父类的原型对象。
-```
-+ 另外，在子类的静态方法中通过 super 调用父类的方法时，方法内部的 this 指向当前的子类，而不是子类的实例。
-```js
-class A {
-  constructor() {
-    this.x = 1;
-  }
-  static print() {
-    console.log(this.x);
-  }
-}
-
-class B extends A {
-  constructor() {
-    super();
-    this.x = 2;
-  }
-  static m() {
-    super.print();
-  }
-}
-
-B.x = 3;
-B.m() // 3
-// 静态方法 B.m 里面，super.print 指向父类的静态方法。
-// 这个方法里面的 this 指向的是 B，而不是 B 的实例。
-```
-+ 注意，使用 super 的时候，必须显式指定是作为函数、还是作为对象使用，否则会报错。
-```js
-class A {}
-
-class B extends A {
-  constructor() {
-    super();
-    console.log(super); // 报错
-  }
-}
-// console.log(super) 当中的 super，无法看出是作为函数使用，
-// 还是作为对象使用，所以 JavaScript 引擎解析代码的时候就会报错。
-// 这时，如果能清晰地表明 super 的数据类型，就不会报错。
-console.log(super.valueOf() instanceof B); // true
-// super.valueOf() 表明 super 是一个对象，因此就不会报错。
-// 同时，由于 super 使得 this 指向 B 的实例，所以 super.valueOf() 返回的是一个 B 的实例。
-```
-
-+ 最后，由于对象总是继承其他对象的，所以可以在任意一个对象中，使用 super 关键字。
-```js
-var obj = {
-  toString() {
-    return "MyObject: " + super.toString();
-  }
+var myObject = {
+  foo: 1,
+  bar: 2,
+  get baz() {
+    return this.foo + this.bar;
+  },
 };
 
-obj.toString(); // MyObject: [object Object]
-```
-
-## 类的 prototype 属性和__proto__属性
-
-+ 大多数浏览器的 ES5 实现之中，每一个对象都有 `__proto__` 属性，指向对应的构造函数的 prototype 属性。
-+ Class 作为构造函数的语法糖，同时有 prototype 属性和 `__proto__` 属性，因此同时存在两条继承链。
-
-1. 子类的 `__proto__` 属性，表示构造函数的继承，总是指向父类。
-2. 子类 prototype 属性的 `__proto__` 属性，表示方法的继承，总是指向父类的 prototype 属性。
-```js
-class A {
-}
-
-class B extends A {
-}
-
-B.__proto__ === A // true
-B.prototype.__proto__ === A.prototype // true
-// 子类 B 的 __proto__ 属性指向父类 A，子类 B 的 prototype 属性的 __proto__ 属性指向父类 A 的 prototype 属性。
-```
-
-+ 这样的结果是因为，类的继承是按照下面的模式实现的。
-```js
-class A {
-}
-
-class B {
-}
-
-// B 的实例继承 A 的实例
-Object.setPrototypeOf(B.prototype, A.prototype);
-
-// B 继承 A 的静态属性
-Object.setPrototypeOf(B, A);
-
-const b = new B();
-
-// Object.setPrototypeOf 方法的实现。
-Object.setPrototypeOf = function (obj, proto) {
-  obj.__proto__ = proto;
-  return obj;
-}
-
-// 因此，就得到了上面的结果。
-Object.setPrototypeOf(B.prototype, A.prototype);
-// 等同于
-B.prototype.__proto__ = A.prototype;
-
-Object.setPrototypeOf(B, A);
-// 等同于
-B.__proto__ = A;
-```
-
-+ 这两条继承链，可以这样理解：作为一个对象，子类（B）的原型（__proto__属性）是父类（A）；
-+ 作为一个构造函数，子类（B）的原型对象（prototype属性）是父类的原型对象（prototype属性）的实例。
-```js
-B.prototype = Object.create(A.prototype);
-// 等同于
-B.prototype.__proto__ = A.prototype;
-```
-+ extends 关键字后面可以跟多种类型的值。
-+ ``  class B extends A {}  ``
-+ A，只要是一个有 prototype 属性的函数，就能被 B 继承。
-+ 由于函数都有 prototype 属性（除了 Function.prototype 函数），因此 A 可以是任意函数。
-
-1. 子类继承 Object 类。
-```js
-class A extends Object {
-}
-
-A.__proto__ === Object // true
-A.prototype.__proto__ === Object.prototype // true
-```
-+ 这种情况下，A 其实就是构造函数 Object 的复制，A 的实例就是 Object 的实例。
-
-2. 不存在任何继承。
-```js
-class A {
-}
-
-A.__proto__ === Function.prototype // true
-A.prototype.__proto__ === Object.prototype // true
-```
-+ 这种情况下，A 作为一个基类（即不存在任何继承），就是一个普通函数，所以直接继承 Function.prototype。
-+ 但是，A 调用后返回一个空对象（即 Object 实例），所以 ` A.prototype.__proto__ ` 指向构造函数（Object）的 prototype 属性。
-
-### 实例的 __proto__ 属性
-
-+ 子类实例的 `__proto__` 属性的 `__proto__` 属性，指向父类实例的 `__proto__` 属性。
-+ 也就是说，子类的原型的原型，是父类的原型。
-```js
-var p1 = new Point(2, 3);
-var p2 = new ColorPoint(2, 3, 'red');
-
-p2.__proto__ === p1.__proto__ // false
-p2.__proto__.__proto__ === p1.__proto__ // true
-// ColorPoint 继承了 Point，导致前者原型的原型是后者的原型。
-```
-+ 因此，通过子类实例的 `__proto__.__proto__` 属性，可以修改父类实例的行为。
-```js
-p2.__proto__.__proto__.printName = function () {
-  console.log('Ha');
+var myReceiverObject = {
+  foo: 4,
+  bar: 4,
 };
 
-p1.printName() // "Ha"
-// ColorPoint 的实例 p2 上向 Point 类添加方法，结果影响到了 Point 的实例 p1。
+Reflect.get(myObject, 'baz', myReceiverObject) // 8
 ```
 
-## 原生构造函数的继承
+### 2. set(target, name, value, receiver)
 
-+ 原生构造函数是指语言内置的构造函数，通常用来生成数据结构。ECMAScript 的原生构造函数大致有下面这些。
-  + Boolean()
-  + Number()
-  + String()
-  + Array()
-  + Date()
-  + Function()
-  + RegExp()
-  + Error()
-  + Object()
-
-+ 以前，这些原生构造函数是无法继承的，比如，不能自己定义一个 Array 的子类。
++ Reflect.set 方法设置 target 对象的 name 属性等于 value。
++ 如果第一个参数不是对象，Reflect.set 会报错。
 ```js
-function MyArray() {
-  Array.apply(this, arguments);
+var myObject = {
+  foo: 1,
+  set bar(value) {
+    return this.foo = value;
+  },
 }
 
-MyArray.prototype = Object.create(Array.prototype, {
-  constructor: {
-    value: MyArray,
-    writable: true,
-    configurable: true,
-    enumerable: true
-  }
-});
-// 上面代码定义了一个继承 Array 的 MyArray 类。但是，这个类的行为与 Array 完全不一致。
+myObject.foo // 1
 
-var colors = new MyArray();
-colors[0] = "red";
-colors.length  // 0
+Reflect.set(myObject, 'foo', 2);
+myObject.foo // 2
 
-colors.length = 0;
-colors[0]  // "red"
-/**
- * 之所以会发生这种情况，是因为子类无法获得原生构造函数的内部属性，通过 Array.apply() 或者分配给原型对象都不行。
- * 原生构造函数会忽略 apply 方法传入的 this，也就是说，原生构造函数的 this 无法绑定，导致拿不到内部属性。
- * 
- * ES5 是先新建子类的实例对象 this，再将父类的属性添加到子类上，由于父类的内部属性无法获取，导致无法继承原生的构造函数。
- * 比如，Array 构造函数有一个内部属性 [[DefineOwnProperty]] ，用来定义新属性时，更新 length 属性，这个内部属性无法在子类获取，导致子类的 length 属性行为不正常。
-*/
+Reflect.set(myObject, 'bar', 3)
+myObject.foo // 3
 ```
 
-+ ES6 允许继承原生构造函数定义子类，因为 ES6 是先新建父类的实例对象 this，
-+ 然后再用子类的构造函数修饰 this，使得父类的所有行为都可以继承。
-+ 下面是一个继承 Array 的例子。
++ 如果 name 属性设置了赋值函数，则赋值函数的 this 绑定 receiver。
 ```js
-class MyArray extends Array {
-  constructor(...args) {
-    super(...args);
-  }
-}
+var myObject = {
+  foo: 4,
+  set bar(value) {
+    return this.foo = value;
+  },
+};
 
-var arr = new MyArray();
-arr[0] = 12;
-arr.length // 1
+var myReceiverObject = {
+  foo: 0,
+};
 
-arr.length = 0;
-arr[0] // undefined
-/**
- * 上面代码定义了一个 MyArray 类，继承了 Array 构造函数，因此就可以从 MyArray 生成数组的实例。
- * 这意味着，ES6 可以自定义原生数据结构（比如 Array、String 等）的子类，这是 ES5 无法做到的。
-*/
-```
-+ 上面这个例子也说明，extends 关键字不仅可以用来继承类，还可以用来继承原生的构造函数。
-+ 因此可以在原生数据结构的基础上，定义自己的数据结构。
-+ 下面就是定义了一个带版本功能的数组。
-```js
-class VersionedArray extends Array {
-  constructor() {
-    super();
-    this.history = [[]];
-  }
-  commit() {
-    this.history.push(this.slice());
-  }
-  revert() {
-    this.splice(0, this.length, ...this.history[this.history.length - 1]);
-  }
-}
-
-var x = new VersionedArray();
-
-x.push(1);
-x.push(2);
-x // [1, 2]
-x.history // [[]]
-
-x.commit();
-x.history // [[], [1, 2]]
-
-x.push(3);
-x // [1, 2, 3]
-x.history // [[], [1, 2]]
-
-x.revert();
-x // [1, 2]
-/**
- * VersionedArray 会通过 commit 方法，将自己的当前状态生成一个版本快照，存入 history 属性。
- * revert 方法用来将数组重置为最新一次保存的版本。
- * 除此之外，VersionedArray 依然是一个普通数组，所有原生的数组方法都可以在它上面调用。
-*/
+Reflect.set(myObject, 'bar', 1, myReceiverObject); // 改变了 this 的指向
+myObject.foo // 4
+myReceiverObject.foo // 1
 ```
 
-+ 下面是一个自定义 Error 子类的例子，可以用来定制报错时的行为。
++ 注意，如果 Proxy 对象和 Reflect 对象联合使用，前者拦截赋值操作，后者完成赋值的默认行为
++ 而且传入了 receiver，那么 Reflect.set 会触发 Proxy.defineProperty 拦截。
 ```js
-class ExtendableError extends Error {
-  constructor(message) {
-    super();
-    this.message = message;
-    this.stack = (new Error()).stack;
-    this.name = this.constructor.name;
-  }
-}
-
-class MyError extends ExtendableError {
-  constructor(m) {
-    super(m);
-  }
-}
-
-var myerror = new MyError('ll');
-myerror.message // "ll"
-myerror instanceof Error // true
-myerror.name // "MyError"
-myerror.stack
-// Error
-//     at MyError.ExtendableError
-//     ...
-```
-
-+ 注意，继承 Object 的子类，有一个行为差异。
-```js
-class NewObj extends Object{
-  constructor(){
-    super(...arguments);
-  }
-}
-var o = new NewObj({attr: true});
-o.attr === true  // false
-
-/**
- * 上面代码中，NewObj 继承了 Object，但是无法通过 super 方法向父类 Object 传参。
- * 这是因为 ES6 改变了 Object 构造函数的行为，一旦发现 Object 方法不是通过 new Object() 这种形式调用，
- * ES6 规定 Object 构造函数会忽略参数。
-*/
-```
-
-## Mixin 模式的实现
-
-+ Mixin 指的是多个对象合成一个新的对象，新对象具有各个组成成员的接口。它的最简单实现如下。
-```js
-const a = {
+let p = {
   a: 'a'
 };
-const b = {
-  b: 'b'
+
+let handler = {
+  set(target, key, value, receiver) {
+    console.log('set');
+    Reflect.set(target, key, value, receiver);// 传入 receiver 导致触发拦截
+  },
+  defineProperty(target, key, attribute) {
+    console.log('defineProperty');
+    Reflect.defineProperty(target, key, attribute);
+  }
 };
-const c = {...a, ...b}; // {a: 'a', b: 'b'}
-// c 对象是 a 对象和 b 对象的合成，具有两者的接口。
+
+let obj = new Proxy(p, handler);
+obj.a = 'A';
+// set
+// defineProperty
+/**
+ * Proxy.set 拦截里面使用了 Reflect.set，而且传入了 receiver , 导致触发 Proxy.defineProperty 拦截。
+ * 这是因为 Proxy.set 的 receiver 参数总是指向当前的 Proxy 实例（即上例的 obj）
+ * 而 Reflect.set 一旦传入 receiver，就会将属性赋值到 receiver 上面（即 obj）,导致触发 defineProperty 拦截。
+ * 如果 Reflect.set 没有传入 receiver，那么就不会触发 defineProperty 拦截。
+*/
 ```
-+ 下面是一个更完备的实现，将多个类的接口“混入”（mix in）另一个类。
+
+### 3. has(obj, name)
+
++ Reflect.has 方法对应 name in obj 里面的 in 运算符。
++ 如果 Reflect.has() 方法的第一个参数不是对象，会报错。
 ```js
-function mix(...mixins) {
-  class Mix {
-    constructor() {
-      for (let mixin of mixins) {
-        copyProperties(this, new mixin()); // 拷贝实例属性
-      }
-    }
-  }
+var myObject = {
+  foo: 1,
+};
 
-  for (let mixin of mixins) {
-    copyProperties(Mix, mixin); // 拷贝静态属性
-    copyProperties(Mix.prototype, mixin.prototype); // 拷贝原型属性
-  }
+// 旧写法
+'foo' in myObject // true
 
-  return Mix;
-}
-
-function copyProperties(target, source) {
-  for (let key of Reflect.ownKeys(source)) {
-    if ( key !== 'constructor'
-      && key !== 'prototype'
-      && key !== 'name'
-    ) {
-      let desc = Object.getOwnPropertyDescriptor(source, key);
-      Object.defineProperty(target, key, desc);
-    }
-  }
-}
-
-// 上面代码的 mix 函数，可以将多个对象合成为一个类。使用的时候，只要继承这个类即可。
-class DistributedEdit extends mix(Loggable, Serializable) {
-  // ...
-}
+// 新写法
+Reflect.has(myObject, 'foo') // true
 ```
+
+### 4. deleteProperty(obj, name)
+
++ Reflect.deleteProperty 方法等同于 delete obj[name]，用于删除对象的属性。
++ 该方法返回一个布尔值。
+  + 如果删除成功，或者被删除的属性不存在，返回 true；
+  + 删除失败，被删除的属性依然存在，返回 false。
++ 如果 Reflect.deleteProperty() 方法的第一个参数不是对象，会报错。
+```js
+const myObj = { foo: 'bar' };
+
+// 旧写法
+delete myObj.foo;
+
+// 新写法
+Reflect.deleteProperty(myObj, 'foo');
+```
+
+### 5. construct(target, args)
+
++ Reflect.construct 方法等同于 new target(...args)，这提供了一种不使用 new，来调用构造函数的方法。
++ 如果 Reflect.construct() 方法的第一个参数不是函数，会报错。
+```js
+function Greeting(name) {
+  this.name = name;
+}
+
+// new 的写法
+const instance = new Greeting('张三');
+
+// Reflect.construct 的写法
+const instance = Reflect.construct(Greeting, ['张三']);
+```
+
+### 6. getPrototypeOf(obj)
+
++ Reflect.getPrototypeOf 方法用于读取对象的 __proto__ 属性，对应 Object.getPrototypeOf(obj) 。
+```js
+const myObj = new FancyThing();
+
+// 旧写法
+Object.getPrototypeOf(myObj) === FancyThing.prototype;
+
+// 新写法
+Reflect.getPrototypeOf(myObj) === FancyThing.prototype;
+```
++ Reflect.getPrototypeOf 和 Object.getPrototypeOf 的一个区别是，如果参数不是对象
++ Object.getPrototypeOf 会将这个参数转为对象，然后再运行
++ 而 Reflect.getPrototypeOf 会报错。
+
+### 7. setPrototypeOf(obj, newProto)
+
++ Reflect.setPrototypeOf 方法用于设置目标对象的原型（prototype）
++ 对应 Object.setPrototypeOf(obj, newProto) 方法。它返回一个布尔值，表示是否设置成功。
++ 如果无法设置目标对象的原型（比如，目标对象禁止扩展），Reflect.setPrototypeOf 方法返回 false。
++ 如果第一个参数不是对象，Object.setPrototypeOf 会返回第一个参数本身，而 Reflect.setPrototypeOf 会报错。
++ 如果第一个参数是 undefined 或 null，Object.setPrototypeOf 和 Reflect.setPrototypeOf 都会报错。
+```js
+const myObj = {};
+
+// 旧写法
+Object.setPrototypeOf(myObj, Array.prototype);
+
+// 新写法
+Reflect.setPrototypeOf(myObj, Array.prototype);
+
+myObj.length // 0
+```
+
+### 8. apply(func, thisArg, args)
+
++ Reflect.apply 方法等同于 Function.prototype.apply.call(func, thisArg, args)，用于绑定 this 对象后执行给定函数。
+
++ 一般来说，如果要绑定一个函数的 this 对象，可以这样写 fn.apply(obj, args)
++ 但是如果函数定义了自己的 apply 方法，就只能写成 Function.prototype.apply.call(fn, obj, args)
++ 采用 Reflect 对象可以简化这种操作。
+```js
+const ages = [11, 33, 12, 54, 18, 96];
+
+// 旧写法
+const youngest = Math.min.apply(Math, ages);
+const oldest = Math.max.apply(Math, ages);
+const type = Object.prototype.toString.call(youngest);
+
+// 新写法
+const youngest = Reflect.apply(Math.min, Math, ages);
+const oldest = Reflect.apply(Math.max, Math, ages);
+const type = Reflect.apply(Object.prototype.toString, youngest, []);
+```
+
+### 9. defineProperty(target, propertyKey, attributes)
+
++ Reflect.defineProperty 方法基本等同于 Object.defineProperty，用来为对象定义属性。
++ 未来，后者会被逐渐废除，请从现在开始就使用 Reflect.defineProperty 代替它。
++ 如果 Reflect.defineProperty 的第一个参数不是对象，就会抛出错误，比如 Reflect.defineProperty(1, 'foo')。
++ 
+```js
+function MyDate() {
+  /*…*/
+}
+
+// 旧写法
+Object.defineProperty(MyDate, 'now', {
+  value: () => Date.now()
+});
+
+// 新写法
+Reflect.defineProperty(MyDate, 'now', {
+  value: () => Date.now()
+});
+```
++ 这个方法可以与 Proxy.defineProperty 配合使用。
+```js
+const p = new Proxy({}, {
+  defineProperty(target, prop, descriptor) {
+    console.log(descriptor);
+    return Reflect.defineProperty(target, prop, descriptor);
+  }
+});
+
+p.foo = 'bar';
+// {value: "bar", writable: true, enumerable: true, configurable: true}
+
+p.foo // "bar"
+// 上面代码中，Proxy.defineProperty 对属性赋值设置了拦截，然后使用 Reflect.defineProperty 完成了赋值。
+```
+
+### 10. getOwnPropertyDescriptor(target, propertyKey)
+
++ Reflect.getOwnPropertyDescriptor 基本等同于 Object.getOwnPropertyDescriptor
++ 用于得到指定属性的描述对象，将来会替代掉后者。
+```js
+var myObject = {};
+Object.defineProperty(myObject, 'hidden', {
+  value: true,
+  enumerable: false,
+});
+
+// 旧写法
+var theDescriptor = Object.getOwnPropertyDescriptor(myObject, 'hidden');
+
+// 新写法
+var theDescriptor = Reflect.getOwnPropertyDescriptor(myObject, 'hidden');
+```
++ Reflect.getOwnPropertyDescriptor 和 Object.getOwnPropertyDescriptor 的一个区别是
++ 如果第一个参数不是对象，Object.getOwnPropertyDescriptor(1, 'foo') 不报错，返回 undefined
++ 而 Reflect.getOwnPropertyDescriptor(1, 'foo') 会抛出错误，表示参数非法。
+
+### 11. isExtensible (target)
+
++ Reflect.isExtensible 方法对应 Object.isExtensible，返回一个布尔值，表示当前对象是否可扩展。
++ 如果参数不是对象，Object.isExtensible 会返回 false，因为非对象本来就是不可扩展的
++ 而 Reflect.isExtensible 会报错。
+```js
+const myObject = {};
+
+// 旧写法
+Object.isExtensible(myObject) // true
+
+// 新写法
+Reflect.isExtensible(myObject) // true
+```
+
+### 13. preventExtensions(target)
+
++ Reflect.preventExtensions 对应 Object.preventExtensions 方法，用于让一个对象变为不可扩展。
++ 它返回一个布尔值，表示是否操作成功。
+```js
+var myObject = {};
+
+// 旧写法
+Object.preventExtensions(myObject) // Object {}
+
+// 新写法
+Reflect.preventExtensions(myObject) // true
+```
++ 如果参数不是对象，Object.preventExtensions 在 ES5 环境报错，在 ES6 环境返回传入的参数
++ 而 Reflect.preventExtensions 会报错。
+
+### 13. ownKeys (target)
+
++ Reflect.ownKeys 方法用于返回对象的所有属性，基本等同于 Object.getOwnPropertyNames 与 Object.getOwnPropertySymbols 之和。
++ 如果 Reflect.ownKeys() 方法的第一个参数不是对象，会报错。
+```js
+var myObject = {
+  foo: 1,
+  bar: 2,
+  [Symbol.for('baz')]: 3,
+  [Symbol.for('bing')]: 4,
+};
+
+// 旧写法
+Object.getOwnPropertyNames(myObject)
+// ['foo', 'bar']
+
+Object.getOwnPropertySymbols(myObject)
+//[Symbol(baz), Symbol(bing)]
+
+// 新写法
+Reflect.ownKeys(myObject)
+// ['foo', 'bar', Symbol(baz), Symbol(bing)]
+```
+
+## 实例：使用 Proxy 实现观察者模式
+
++ 观察者模式（Observer mode）指的是函数自动观察数据对象，一旦对象有变化，函数就会自动执行。
+```js
+const person = observable({
+  name: '张三',
+  age: 20
+});
+
+function print() {
+  console.log(`${person.name}, ${person.age}`)
+}
+
+observe(print);
+person.name = '李四';
+// 输出
+// 李四, 20
+// 数据对象 person 是观察目标，函数 print 是观察者。一旦数据对象发生变化，print 就会自动执行。
+```
+
++ 使用 Proxy 写一个观察者模式的最简单实现，即实现 observable 和 observe 这两个函数。
++ 思路是 observable 函数返回一个原始对象的 Proxy 代理，拦截赋值操作，触发充当观察者的各个函数。
+```js
+const queuedObservers = new Set();
+
+const observe = fn => queuedObservers.add(fn);
+const observable = obj => new Proxy(obj, {set});
+
+function set(target, key, value, receiver) {
+  const result = Reflect.set(target, key, value, receiver);
+  queuedObservers.forEach(observer => observer());
+  return result;
+}
+/**
+ * 先定义了一个 Set 集合，所有观察者函数都放进这个集合
+ * 然后，observable 函数返回原始对象的代理，拦截赋值操作
+ * 拦截函数 set 之中，会自动执行所有观察者
+*/
+```
+
+# 优化
+
+## 垃圾收集
+
++ 通过对象池来保存会经常更替的对象,避免垃圾收集过于频繁
 
 # Module 的语法
 
@@ -4060,3 +3872,190 @@ true
 ```
 
 + 这个例子要是改写成 CommonJS，就根本无法执行，会报错。
+
+# 编程风格
+
++ https://wangdoc.com/es6/style.html
+
+## 块级作用域
+
+### let 取代 var
+
++ 功能基本相似，没有副作用
++ let 没有变量提升使用更加的安全，且不会成为全局对象 window 的属性
++ 拥有块级作用域可以在 if 等块级作用域中声明变量
++ 保证了先声明后使用的编程风格
+
+### 全局常量和线程安全
+
++ 在 let 和 const 之间，建议优先使用 const，尤其是在全局环境，不应该设置变量，只应设置常量。
++ const 优于 let 有几个原因。一个是 const 可以提醒阅读程序的人，这个变量不应该改变；
++ 另一个是 const 比较符合函数式编程思想，运算不改变值，只是新建值，而且这样也有利于将来的分布式运算；
++ 最后一个原因是 JavaScript 编译器会对 const 进行优化，
++ 所以多使用 const，有利于提高程序的运行效率，也就是说 let 和 const 的本质区别，其实是编译器内部的处理不同。
+```js
+// bad
+var a = 1, b = 2, c = 3;
+
+// good
+const a = 1;
+const b = 2;
+const c = 3;
+
+// best
+const [a, b, c] = [1, 2, 3];
+```
++ const 声明常量还有两个好处，
++ 一是阅读代码的人立刻会意识到不应该修改这个值，
++ 二是防止了无意间修改变量值所导致的错误。
++ 所有的函数都应该设置为常量。
+
+## 字符串
+
++ 静态字符串一律使用单引号或反引号，不使用双引号。动态字符串使用反引号。
+```js
+// good
+const a = 'foobar';
+const b = `foo${a}bar`;
+```
+
+## 解构赋值
+
++ 使用数组成员对变量赋值时，优先使用解构赋值。
++ 函数的参数如果是对象的成员，优先使用解构赋值。
++ 如果函数返回多个值，优先使用对象的解构赋值，而不是数组的解构赋值。这样便于以后添加返回值，以及更改返回值的顺序。
+```js
+const arr = [1, 2, 3, 4];
+// bad
+const first = arr[0];
+const second = arr[1];
+// good
+const [first, second] = arr;
+
+
+// good
+function getFullName(obj) {
+  const { firstName, lastName } = obj;
+}
+// best
+function getFullName({ firstName, lastName }) {
+}
+```
+
+## 对象
+
++ 单行定义的对象，最后一个成员不以逗号结尾。多行定义的对象，最后一个成员以逗号结尾。
++ 对象尽量静态化，一旦定义，就不得随意添加新的属性。如果添加属性不可避免，
+  + 要使用 ``  Object.assign(obj,{x:3});  `` 方法。
++ 如果对象的属性名是动态的，可以在创造对象的时候，使用属性表达式定义。
+```js
+// bad
+const obj = {
+  id: 5,
+  name: 'San Francisco',
+};
+obj[getKey('enabled')] = true;
+
+// good
+const obj = {
+  id: 5,
+  name: 'San Francisco',
+  [getKey('enabled')]: true,
+};
+```
++ 对象 obj 的最后一个属性名，需要计算得到。这时最好采用属性表达式，在新建 obj 的时候，将该属性与其他属性定义在一起。
++ 这样一来，所有属性就在一个地方定义了。
++ 尽量采用简洁表示法。
+
+## 数组
+
++ 使用扩展运算符（...）拷贝数组。
++ 使用 Array.from 方法，将类似数组的对象转为数组。
+
+## 函数
+
++ 立即执行函数可以写成箭头函数的形式。
++ 那些使用匿名函数当作参数的场合，尽量用箭头函数代替。
+  + 因为这样更简洁，而且绑定了 this。``  [1, 2, 3].map(x => x * x);  ``
+
++ 箭头函数取代 Function.prototype.bind ，不应再用 self/_this/that 绑定 this。
+```js
+// bad
+const self = this;
+const boundMethod = function(...params) {
+  return method.apply(self, params);
+}
+
+// acceptable
+const boundMethod = method.bind(this);
+
+// best
+const boundMethod = (...params) => method.apply(this, params);
+```
++ 简单的、单行的、不会复用的函数，建议采用箭头函数。如果函数体较为复杂，行数较多，还是应该采用传统的函数写法。
++ 所有配置项都应该集中在一个对象，放在最后一个参数，布尔值不可以直接作为参数。
+```js
+// bad
+function divide(a, b, option = false ) {
+}
+
+// good
+function divide(a, b, { option = false } = {}) {
+}
+```
++ 不要在函数体内使用 arguments 变量，使用 rest 运算符（...）代替。
++ 因为 rest 运算符显式表明你想要获取参数，而且 arguments 是一个类似数组的对象，而 rest 运算符可以提供一个真正的数组。
+```js
+// bad
+function concatenateAll() {
+  const args = Array.prototype.slice.call(arguments);
+  return args.join('');
+}
+
+// good
+function concatenateAll(...args) {
+  return args.join('');
+}
+```
+
++ 使用默认值语法设置函数参数的默认值。
+
+## Map 结构
+
++ 注意区分 Object 和 Map，只有模拟现实世界的实体对象时，才使用 Object
++ 如果只是需要 key: value 的数据结构，使用 Map 结构。因为 Map 有内建的遍历机制。
+```js
+let map = new Map(arr);
+
+for (let key of map.keys()) {
+  console.log(key);
+}
+
+for (let value of map.values()) {
+  console.log(value);
+}
+
+for (let item of map.entries()) {
+  console.log(item[0], item[1]);
+}
+```
+
+## Class
+
++ 总是用 Class，取代需要 prototype 的操作。因为 Class 的写法更简洁，更易于理解。
++ 使用 extends 实现继承，因为这样更简单，不会有破坏 instanceof 运算的危险。
+
+## 模块
+
++ 首先，Module 语法是 JavaScript 模块的标准写法，坚持使用这种写法。
+
++ 如果模块只有一个输出值，就使用 export default，如果模块有多个输出值，就不使用 export default，export default 与普通的 export 不要同时使用。
+
++ 不要在模块输入中使用通配符。因为这样可以确保你的模块之中，有一个默认输出（export default）。
+
++ 如果模块默认输出一个函数，函数名的首字母应该小写。
++ 如果模块默认输出一个对象，对象名的首字母应该大写。
+
+## ESLint 的使用
+
++ https://wangdoc.com/es6/style.html#eslint-%E7%9A%84%E4%BD%BF%E7%94%A8

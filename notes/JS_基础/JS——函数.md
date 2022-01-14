@@ -1,3 +1,1270 @@
+# 函数
+
++ 函数是 JavaScript 的第一等公民
++ 在 ECMAScript 中函数在定义时不必指定是否返回值
++ 函数的返回值
+  + 函数在执行完 return 语句后会立刻停止退出 ， 位于之后的代码都不会被执行
+  + 在函数任意位置，指定 `return` 指令来停止函数的执行，并返回函数指定的返回值。
+  + 默认空值的 return 或没有 return 的函数返回值为 undefined 。
+---
++ 理解参数 -> 所有的参数都是按值传递
+  + 不论是引用类型还是原始值都会被复制到函数的局部变量(形参中)
+  + 外部的引用类型会受影响是因为,外部变量和函数的形参指向的是同一个对象(而不是因为按引用传递)
++ 没有重载
+  + 在两个函数名相同参数不同的情况下并不会有重载
+  + 同名函数会被覆盖，相当于给变量函数名重新赋值
+---
++ 严格模式对函数有一些限制
++ 函数和参数都不能命名为 `eval、arguments`, 参数不能同名
++ 每个函数都是 Function 类型的实例，和其他引用类型一样都具有属性和方法
++ 由于函数是对象，因此函数名实际上也是一个指向函数对象的指针
++   `let func = function(){};`
+---
++ 函数声明方式
++ 函数内部也会发生变量和函数的提升
+```js
+//函数声明定义      函数声明会提升      提升到作用域顶部
+function print(s){
+   console.log(s);
+}
+
+
+//函数表达式    函数表达式不会提升，所以不能在声明前调用
+var print = s => console.log(s)；
+// 通过函数表达式声明函数，要像声明变量一样以分号结尾
+// 通过赋值创建的函数也叫匿名函数，因为function关键字后面没有标识符
+// 匿名函数有时也叫拉姆达函数，匿名函数的 name 属性是空字符串
+// 把函数当作返回值时，可以使用匿名函数
+
+//构造函数    函数声明，还能通过`Function`的构造函数声明  但是不推荐
+var add = new Function(
+   'x',
+   'y',
+   'return x + y'
+);
+//方便递归
+let fun = function f(){
+   return n < 3 ? 1 : n * f(n - 1);
+}
+```
+---
+
++ 立即调用的函数表达式 IIFE
++ 立即调用 在声明函数后立即调用
+  + `(function $(a){})(a);`  这里需要用括号括起来，因为语句不应该以圆括号结尾所以会报错
+  + `let $ = function(a){}(a);`  这里不报错是因为这里是作为表达式被解析的 （函数定义被引擎当做一个值）
+  + 通常情况下，只对匿名函数使用这种“立即执行的函数表达式”。它的目的有两个：一是不必为函数命名，避免了污染全局变量；二是 IIFE 内部形成了一个单独的作用域，可以封装一些外部无法读取的私有变量。
+  + 推而广之，任何让解释器以表达式来处理函数定义的方法，都能产生同样的效果，
+```js
+var i = function(){ return 10; }();
+true && function(){ /* code */ }();
+0, function(){ /* code */ }();
+!function () { /* code */ }();
+~function () { /* code */ }();
+-function () { /* code */ }();
++function () { /* code */ }();
+// 写法一
+var tmp = newData;
+processData(tmp);
+storeData(tmp);
+// 写法二
+(function () {
+  var tmp = newData;
+  processData(tmp);
+  storeData(tmp);
+}());
+```
+
+## 函数本身的作用域
+
++ 函数本身也是一个值，也有自己的作用域。它的作用域与变量一样，就是其声明时所在的作用域，与其运行时所在的作用域无关。
++ 总之，函数执行时所在的作用域，是定义时的作用域，而不是调用时所在的作用域。
+
+## 作为值的函数
+  + 因为ECMAScript中的函数名本身就是变量，所以函数也可以作为值来使用，
+  + 不仅可以将函数作为参数传递，还能作为返回结果
+
+## 函数内部属性
+  + 函数内部有两个特殊对象： `arguments 和 this`
+  + `arguments` 是一个类数组对象，里面包含传入函数的参数
+    + 对象还有一个callee的属性，是一个指针，指向拥有这个`arguments`对象的函数
+    + 在递归时使用 `arguments.callee` 可以指向函数本身, 这样无论函数名怎么变化都可以完成递归操作
+  + `this` 引用的是函数-据以执行的环境对象，——this的值（当在网页的全局作用域中调用函数this对象引用的就是window）
+  + 函数调用位置的环境对象
+  + 因为函数名仅仅是一个指针，所以尽管如此调用，仍然用的是同一个函数
+  + ES5 规范的函数对象属性： caller  保存着调用当前函数的函数的引用，在全局作用域中调用当前函数，他的值为null
+  + 在严格模式中无法使用 arguments以及其属性
+
+## 函数属性和方法
+
++ name 属性 返回函数名， 匿名函数表达式返回变量名
+
++ 每个函数都包含两个属性： `length 和 prototype`
+
++ `length` 表示希望接收的命名参数的个数  `function sum(sum1,sum2){}   // sum.length  的值为2`
++ `prototype` 属性对于ES中的引用类型而言，是保存他们所有实例方法的真正所在
+  + 该属性不可枚举的  ， 因此无法使用 for-in 发现
++ 每个函数都包含两个非继承而来的方法：`apply()  和  call()`
+  + 这两个方法的用途都是在特定的作用域中调用函数，实际上等于设置函数体内this对象的值
+  + `apply()` 方法接收两个参数：一个是在其中运行函数的作用域，另一个是参数数组，可以是`Array`的实例也可以是`arguments`对象
+  + `call()`  方法接收的参数, 第一个为在其中运行函数的作用域, 其他为传入参数
++ ES5还定义了一个 `bind()` 方法, 这个方法会创建一个函数的实例,其 this 值会被绑定到传给 `bind()` 函数的值
+  + `func.bind(o);`
+
++ toString() 返回函数的字符串，值为函数的源码
+```js
+//利用这个实现多行字符串
+var multiline = function (fn) {
+    console.log(fn.toString());
+    var arr = fn.toString().split('\n');
+    console.log(arr);
+    return arr.slice(1, arr.length - 1).join('\n');
+};
+function f() {/*
+    这是一个
+    多行注释
+*/}
+console.log(multiline(f));
+```
+
+## 理解参数
+
++ 函数的原始类型参数是按值传递(数值，字符串，布尔值)
+  + 这意味着，在函数体内修改参数值，不会影响到函数外部。
++ 复合类型的值(数组，对象，其他函数)，传递方式是传址传递
+  + 也就是说，传入函数的原始值的地址，因此在函数内部修改参数，将会影响到原始值。
+```js
+//按值传递
+var p = 2;
+function f(p) {
+  p = 3;
+}
+f(p); // p // 2
+//传址传递
+var obj = { p: 1 };
+function f(o) {
+  o.p = 2;
+}
+f(obj);  //obj.p // 2
+//注意，如果函数内部修改的，不是参数对象的某个属性，而是替换掉整个参数，这时不会影响到原始值。
+```
++ 如果有同名的参数，则取最后出现的那个值。
+
++ ECMAScript函数不介意传递的参数有多少个，或是什么类型
++ 即便定义的函数只接收两个参数，在调用时未必一定要传两个参数，可以传递一个、三个甚至不传，而不会出现解析错误
++ 因为在ECMAScript中的参数在内部是用一个数组来表示的，函数接收的始终都是这个数组，而不关心数组中包含哪些参数
+
++ 在函数内部可以通过 `arguments`对象来访问这个数组，从而获取传递给函数的每一个参数
+  + `arguments`对象只是与数组类似,并不是`array`的实例,因为可以使用方括号语法访问它的每一个元素,使用`length`属性来确定传进来多少个参数
+  + callee 属性 指向自身函数 在严格模式禁用
+
++ `arguments`可以和命名参数一起使用
+  + 值永远同对应的命名参数保持一致
+  + 但是对应的内存空间是独立的,并不是同一个内存空间
+  + 如果只传入一个参数,`arguments[1]`设置的值并不会反应到命名参数中,因为`arguments`对象的长度是由传入参数个数决定的,不是由定义函数时的命名参数的个数决定的
+  + 没有传递值的命名参数将自动被赋予`undefined`值
+
++ 严格模式对`arguments`对象做出了限制
+  + arguments对象与函数参数不具有联动关系。也就是说，修改arguments对象不会影响到实际的函数参数。
+  + 赋值无效
+  + 重写值会导致语法错误
+
+## 递归
+
++ 递归是在一个函数通过名字调用自身的情况下构成的
+```js
+function factorial(num){
+  if(num <= 1){
+    return 1;
+  }else{
+    return num * arguments.callee(num - 1); //通过内部指向自身的指针调用自己，避免函数名改变后报错
+  }
+}
+//在严格模式下，不能通过脚本访问 arguments.callee  可以通过匿名函数的方式达成同样的效果
+let factorial = (function f(num){
+  if(num <= 1){
+    return 1;
+  }else{
+    return num * f(num - 1);
+  }
+});
+//这种方式把函数f()赋值给了factorial但是函数名仍然有效，所以递归能正确完成
+```
+
+# 继承
+
+## 拷贝继承(混入继承：mixin)
+
++ 场景：有时候想使用某个对象中的属性，但是又不能直接修改它，于是就可以创建一个该对象的拷贝
++ 实际运用：
+  - jquery：$.extend：编写jquery插件的必经之路
+    - 基于jquery封装一个表格控件
+
+```js
+    var o1={ age:2 };
+
+    var o2 = o1;
+    o2.age=18;      
+    //1、修改了o2对象的age属性
+    //2、由于o2对象跟o1对象是同一个对象
+    //3、所以此时o1对象的age属性也被修改了
+```
+
+```js
+    var o3={gender:"男",grade:"初三",group:"第五组",name:"张三"};
+    var o4={gender:"男",grade:"初三",group:"第五组",name:"李四"};
+    //上述代码中，如果使用拷贝继承对代码进行优化会非常和谐
+
+    //实现拷贝继承：
+    //1、已经拥有了o3对象
+    //2、创建一个o3对象的拷贝(克隆)：for...in循环
+    var o4={};
+
+	//a、取出o3对象中的每一个属性
+    for (var key in o3) {
+        //key就是o3对象中的每一个属性
+        //b、获取到对应的属性值
+        var value = o3[key];
+        //c、把属性值放到o4中
+        o4[key] = value;
+    }
+ 
+    //3、修改克隆对象，把该对象的name属性改为"李四" 
+	//3、修改克隆对象，把该对象的name属性改为"李四"
+    o4.name="李四"
+    console.log(o4);    //最终的目标对象的结果
+
+    //。。。后续如果修改了o4对象中的相关属性，就不会影响到o3
+```
+
++ 实现1：
+
+```js
+    var source={name:"李白",age:15}
+    var target={};
+    target.name=source.name
+    target.age=source.age; 
+```
+
++ 浅拷贝和深拷贝
+  + 浅拷贝只是拷贝一层属性，没有内部对象
+  + 深拷贝其实是利用了递归的原理，将对象的若干层属性拷贝出来
+
+```js
+   JSON.parse(JSON.parse(Object)); //最快的深拷贝方式?
+
+	var students=[
+        {name:"",age:""},
+        {name:"",age:""}
+    ]
+```
+
++ 上面的方式很明显无法重用，实际代码编写过程中，很多时候都会使用拷贝继承的方式，所以为了重用，可以编写一个函数把他们封装起来：
+
+```js
+    function extend(target,source){
+        for(let key in source){
+            target[key]=source[key];
+        }
+        return target;
+    }
+    extend(target,source)
+```
+
++ 由于拷贝继承在实际开发中使用场景非常多，所以很多库都对此有了实现
+  - jquery：$.extend
+
++ es6中有了 <对象扩展运算符> 仿佛就是专门为了拷贝继承而生：
+  - 优点：简单的令人发指
+
+```js
+    var source={name:"李白",age:15}
+    //让target是一个新对象，同时拥有了name、age属性
+    var target={ ...source }
+    
+    var target2={ ...source,age:18 }
+```
+
+## 原型式继承：(道格拉斯在蝴蝶书中提出来的)
+
++ 场景：
+  - a、创建一个纯洁的对象：对象什么属性都没有
+  - b、创建一个继承自某个父对象的子对象
+```js
+function object(o) {
+function F(){}
+F.prototype = o;
+return new F();
+}
+/* 在函数内部创建一个临时的构造函数，然后将传入的对象作为这个构造函数的原型，
+   * 最后返回这个临时类型的一个新实例，从本质上讲object()对传入其中的对象执行了一次浅复制
+   */
+
+let person = {
+name:"Nicholas",
+friends:["Shelby", "Court", "Van"]
+};
+
+let anotherPerson = object(person);
+anotherPerson.name = "Greg";
+anotherPerson.friends.push("Rob");
+
+let yetAnotherPerson = object(person);
+yetAnotherPerson.name = "Linda";
+yetAnotherPerson.friends.push("Barbie");
+
+alert(person.friends);    //"Shelby,Court,Van,Rob,Barbie"
+
+/* 这种原型继承模式，要求必须有一个对象可以作为另一个对象的基础
+* ES5 新增的Object.create()方法规范了原型式继承，接受两个参数，
+* 一个作为新对象的原型，一个为新对象定义额外属性的对象
+* 在传入一个参数情况下，Object.create()与Object()方法的行为相同
+*/
+
+var parent = { age:18, gender:"男"};
+var student = Object.create(parent);
+   在不使用构造函数的情况下拷贝对象
+   //student.__proto__===parent
+```
+
++ 使用方式：
+  - 空对象：Object.create(null)
+```js
+var o1={ say:function(){} }
+var o2=Object.create(o1);
+```
+
+## 借用构造函数实现继承
+
++ 场景：适用于2种构造函数之间逻辑有相似的情况
++ 原理：函数的call、apply调用方式
+
+```js
+function Animal(name,age,gender){
+    this.name=name;
+    this.age=age;
+    this.gender=gender;
+}
+function Person(name,age,gender,say){
+    this.name=name;
+    this.age=age;
+    this.gender=gender;
+    //这段代码调用错误   为什么错误？
+    //因为这种函数的调用方式，函数内部的this只能指向window
+	//Animal(name,age,gender);
+    
+    //目的：将Animal函数内部的this指向Person的实例
+    //Animal.call(this,name,age,gender)
+    //-->等价于：Animal.apply(this,[name,age,gender])
+    this.say=function(){
+
+    }
+}
+```
+
++ 局限性：Animal(父类构造函数)的代码必须完全适用于Person(子类构造函数)
+
++ 以上代码用借用构造函数实现
+
+```js
+function Animal(name,age){
+    this.name=name;
+    this.age=age;
+}
+function Person(name,age,address){
+    Animal.call(this,name,age);
+    //Animal.apply(this,[name,age])
+    //this.name=name;
+    //this.age=age;
+    this.address=address;
+}
+```
+
+## 组合继承
+
++ 也叫做伪经典继承
++ 指的是将原型链和借用构造函数的技术组合到一起，从而发挥二者之长的一种继承模式。
++ 使用原型链实现对原型属性和方法的继承，而又借用构造函数来实现对实例属性的继承
++ 这样，即通过在原型上定义方法实现了函数复用，有能够保证每个实例都有它自己的属性
+```js
+function SuperType(name){
+this.name = name;
+this.colors = ["red", "blue", "green"];
+}
+
+SuperType.prototype.sayName = function() {
+alert(this.name);
+};
+function SubType(name, age) {
+SuperType.call(this,name);            //第二次调用SuperType()
+this.age = age;  
+}
+SubType.prototype = new SuperType();    //第一次调用SuperType()
+SubType.prototype.sayAge = function() {
+alert(this.age);
+}
+
+let instance1 = new SubType("Nicholas", 29);
+instance1.colors.push("black");
+alert(instance1.colors);      //"red,blue,green,black"
+instance1.sayName();      //"Nicholas"
+instance1.sayAge();       //29
+
+let instance2 = new SubType("Greg", 27);
+alert(instance2.colors);       //"red,blue,green"
+instance2.sayName();      //"Greg"
+instance2.sayAge();       //27
+```
++ 组合继承最大的问题就是无论什么情况下,都会调用两次超类型构造函数:
+  + 一次是在创建子类型原型的时候,一次是在子类型构造函数内部
+  + 子类型最终会包含超类型的全部实例属性,但我们不得不在调用子类型构造函数时重写这些属性
+  + 两次的调用使SubType有了两组一样的属性,一组的实例上,一组在SubType原型中
+
+## 寄生式继承
+
++ 寄生式继承是与原型式继承紧密相关的一种思路,寄生式继承思路与寄生构造函数和工厂模式类似,
++ 即创建一个仅用于封装继承过程的函数
+```js
+function createAnother(original){
+let clone = object(original);   //通过调用函数创建一个新对象
+clone.sayHi = function(){       //以某种方式来增强这个对象
+   alert("hi");
+};
+return clone;                   //返回这个对象
+}
+//在这个例子中,createAnother()函数接收了一个参数,也就是将要作为新对象基础的对象.
+let person = {friends : ["shelby", "Court", "Van"]};
+let anotherPerson = createAnother(person);
+anotherPerson.sayHi();  //"hi"
+```
++ 不能做到函数复用而降低效率
+
+## 寄生组合式继承
+
++ 寄生式继承解决了组合式继承的缺点
+  + 寄生组合继承,即通过借用构造函数来继承属性,通过原型链的混成形式来继承方法.
+  + 不必伪类指定子类型的原型而调用超类型的构造函数
+```js
+function inheritPrototype(subType, superType){
+let prototype = Object(superType.prototype);     //创建对象
+prototype.constructor = subType;                //增强对象
+subType.prototype = prototype;          //指定对象
+}
+//inheritPrototype() 函数实现了寄生组合式继承的最简单形式,这个函数接收两个参数
+//子类型构造函数和超类型构造函数,
+
+function SuperType(name){
+this.name = name;
+this.colors = ["red", "blue", "green"];
+}
+
+SuperType.prototype.sayName = function() {
+alert(this.name);
+};
+function SubType(name, age) {
+SuperType.call(this,name);
+this.age = age;  
+}
+inheritPrototype(SubType, SuperType);
+SubType.prototype.say.Age = function(){
+alert(this.age);
+}
+//这个例子的高效率体现在它只调用了一次 SuperType 构造函数,
+//因此避免了在 SubType.prototype上面创建不必要的、多余的属性。同时还能让原型链保持不变
+//还能够正常使用instanceof 和 isPrototypeOf()
+```
+
+## 原型链(家族族谱)
+
++ 概念：JS里面的对象可能会有父对象，父对象还会有父对象，。。。。。祖先
++ 根本：继承
+  - 属性：对象中几乎都会有一个`__proto__`属性，指向他的父对象
+    - 意义：可以实现让该对象访问到父对象中相关属性
++ 根对象：Object.prototype
+
+  - var arr=[1,3,5]
+  - `arr.__proto__ === Array.prototype` true
+  - `arr.__proto__.__proto__`找到了根对象
+
+```js
+   function Animal(){}
+   var cat=new Animal();
+   //cat.__proto__ ：Animal.prototype
+   //cat.__proto__.__proto__:根对象
+```
+
++ 错误的理解：万物继承自 Object ？
+  + 因为万物都继承自 Object.prototype
+
+# 闭包
+
++ 闭包是指由权访问另一个函数作用域中的变量的函数
++ 在一个作用域访问另一个函数作用域中的变量
++ 创建闭包的常见方式，就是在一个函数内部创建另一个函数
+
++ this对象通常是在运行时基于函数的执行环境绑定的
+
+## 变量作用域
+
++ 变量作用域的概念：就是一个变量可以使用的范围
++ JS中首先有一个最外层的作用域：称之为全局作用域
++ JS中还可以通过函数创建出一个独立的作用域，其中函数可以嵌套，所以作用域也可以嵌套
+
+```js
+var age=18;     //age是在全局作用域中声明的变量：全局变量
+
+function f1(){
+    console.log(name);      //可以访问到name变量
+    var name="周董" //name是f1函数内部声明的变量，所以name变量的作用域就是在f1函数内部
+
+    console.log(name);      //可以访问到name变量
+
+    console.log(age);       //age是全局作用域中声明的，所以age也可以访问
+}
+
+console.log(age);       //也可以访问
+```
+
+```js
+    //多级作用域
+    //-->1级作用域
+    var gender="男";
+    function fn(){
+        //问题：
+        //gender:可以访问
+        //age:  可以访问
+        //height:不能访问
+
+        //-->2级作用域
+        return function(){
+            //问题：
+            //gender:   通过一级一级作用域的查找，发现gender是全局作用域中声明的变量
+            //age:
+            //height：
+            console.log(gender);
+
+            //-->3级作用域
+            var height=180;
+        }
+        var age=5;
+    }
+```
+
+## 作用域链
+
++ 由于作用域是相对于变量而言的，而如果存在多级作用域，这个变量又来自于哪里？这个问题就需要好好地探究一下了，我们把这个变量的查找过程称之为变量的作用域链
++ 作用域链的意义：查找变量（确定变量来自于哪里，变量是否可以访问）
++ 简单来说，作用域链可以用以下几句话来概括：(或者说：确定一个变量来自于哪个作用域)
+  - 查看当前作用域，如果当前作用域声明了这个变量，就确定结果
+    - 查找当前作用域的上级作用域，也就是当前函数的上级函数，看看上级函数中有没有声明
+      - 再查找上级函数的上级函数，直到全局作用域为止
+        - 如果全局作用域中也没有，我们就认为这个变量未声明(xxx is not defined)
++ 多查找作用域链中的一个层次,就会在一定程度上影响查找速度.而这正是使用闭包和私有变量的一个明显的不足之处
++ 举例1：
+
+```js
+    var name="张三";
+    function f1(){
+        var name="abc";
+        console.log(name);
+    }
+    f1();
+```
+
++ 举例2：
+
+```js
+    var name="张三";
+    function f1(){
+        console.log(name);
+        var name="abc";
+    }
+    f1();
+```
+
++ 举例3：
+
+```js
+    var name="张三";
+    function f1(){
+        console.log(name);
+        var name="abc";
+    }
+    f1();
+```
+
++ 举例4：
+
+```js
+    var name="张三";
+    function f1(){
+        return function(){
+            console.log(name);
+        }
+        var name="abc";
+    }
+    var fn=f1();
+    fn();
+```
+
++ 举例5：
+
+```js
+    var name="张三";
+    function f1(){
+        return {
+            say:function(){
+                console.log(name);
+                var name="abc";
+            }
+        }
+    }
+    var fn=f1();
+```
+
++ 举例6
+
+  ```js
+  function fn(callback){
+          
+          var age=18;
+          callback()
+      }
+      
+  fn(function(){
+      console.log(age);
+      //分析：age变量：
+      //1、查找当前作用域：并没有
+      //2、查找上一级作用域：全局作用域
+      //-->难点：看上一级作用域，不是看函数在哪里调用，而是看函数在哪里编写
+      //-->因为这种特别，我们通常会把作用域说成是：词法作用域
+  
+  
+  })
+  ```
+
+## 词法作用域和动态作用域
+
++ 词法作用域
+  + 简单地说，词法作用域就是定义在词法阶段的作用域，是由写代码时将变量和块作用域写在哪里来决定的，因此当词法分析器处理代码时会保持作用域不变
+  + 无论函数在哪里被调用，也无论它如何被调用，它的词法作用域都只由函数被声明时所处的位置决定
+```js
+/*	一级气泡	*/
+function foo(a) {
+   var b = a * 2;/*	二级气泡	*/
+   function bar(c) {
+      /*	三级气泡	*/
+      console.log( a, b, c );
+   }
+   bar(b * 3);
+}
+foo( 2 ); // 2 4 12
+
+在这个例子中有三个逐级嵌套的作用域。为了帮助理解，可以将它们想象成几个逐级包含的气泡
+
+气泡1包含着整个全局作用域，其中只有一个标识符：foo
+气泡2包含着foo所创建的作用域，其中有三个标识符：a、bar和b
+气泡3包含着bar所创建的作用域，其中只有一个标识符：c
+
+作用域气泡的结构和互相之间的位置关系给引擎提供了足够的位置信息，引擎用这些信息来查找标识符的位置
+
+在代码片段中，引擎执行console.log(...)声明，并查找a、b和c三个变量的引用。它首先从最内部的作用域，也就是bar(...)函数的作用域开始查找。引擎无法在这里找到a，因此会去上一级到所嵌套的foo(...)的作用域中继续查找。在这里找到了a，因此引擎使用了这个引用。对b来讲也一样。而对c来说，引擎在bar(...)中找到了它
+
+[注意]词法作用域查找只会查找一级标识符，如果代码引用了foo.bar.baz，词法作用域查找只会试图查找foo标识符，找到这个变量后，对象属性访问规则分别接管对bar和baz属性的访问
+
+foo = {
+   bar:{
+      baz: 1
+   }
+};
+console.log(foo.bar.baz);//1
+```
++ **遮蔽**
+  + 作用域查找从运行时所处的最内部作用域开始，逐级向外或者说向上进行，直到遇见第一个匹配的标识符为止
+  + 在多层的嵌套作用域中可以定义同名的标识符，这叫作“遮蔽效应”，内部的标识符“遮蔽”了外部的标识符
+```js
+var a = 0;
+function test(){
+      var a = 1;
+      console.log(a);//1
+}
+test();
+
+全局变量会自动为全局对象的属性，因此可以不直接通过全局对象的词法名称，而是间接地通过对全局对象属性的引用来对其进行访问
+
+var a = 0;
+function test(){
+      var a = 1;
+      console.log(window.a);//0
+}
+test();
+
+通过这种技术可以访问那些被同名变量所遮蔽的全局变量。但非全局的变量如果被遮蔽了，无论如何都无法被访问到
+```
++ **动态作用域**
+  + javascript使用的是词法作用域，它最重要的特征是它的定义过程发生在代码的书写阶段
+  + 那为什么要介绍动态作用域呢？实际上动态作用域是javascript另一个重要机制this的表亲。作用域混乱多数是因为词法作用域和this机制相混淆，傻傻分不清楚
+  + 动态作用域并不关心函数和作用域是如何声明以及在任何处声明的，只关心它们从何处调用。换句话说，作用域链是基于调用栈的，而不是代码中的作用域嵌套
+```js
+var a = 2;
+function foo() {
+   console.log( a );
+}
+function bar() {
+   var a = 3;
+   foo();
+}
+bar();
+```
++ 如果处于词法作用域，也就是现在的javascript环境。变量a首先在foo()函数中查找，没有找到。于是顺着作用域链到全局作用域中查找，找到并赋值为2。所以控制台输出2
++ 如果处于动态作用域，同样地，变量a首先在foo()中查找，没有找到。这里会顺着调用栈在调用foo()函数的地方，也就是bar()函数中查找，找到并赋值为3。所以控制台输出3
+  两种作用域的区别，简而言之，词法作用域是在定义时确定的，而动态作用域是在运行时确定的
+
+## 模仿块级作用域
+
++ `(function(){ //块级作用域 })();` 双括号的这种语法表示函数创建后立即调用该函数，后面的括号传入参数
++ 用括号将函数包裹是为了将函数声明转换为函数表达式，函数表达式function后面可以跟括号
++ 而函数声明function后直接跟括号会导致语法错误
+```js
+function outputNumbers(count){
+(function(){
+   for(var i = 0; i < count; i++){
+      alert(i);
+   }
+})();
+alert(i);   //报错
+}
+//通过这种方式模仿块级作用域
+//ES6因为有let 变量声明方式所以不用
+```
+
+## 私有变量
+
++ 严格来说js中没有私有成员的概念，所有对象属性都是公有的。
++ 但是有私有变量的概念，在任何函数中定义的变量，都可以认为是私有变量，不能在函数外部访问这些变量
++ 私有变量包含函数的参数、局部变量、和在函数内部定义的其他函数
++ 利用闭包可以，可以通过闭包的作用域链访问到私有变量，
++ 把有权访问私有变量和私有函数的公有方法称为特权方法(privileged method)，有两种在对象上创建特权方法的方式，
++ 第一种是在构造函数中定义特权方法
+```js
+function MyObject(){
+  //私有变量加私有函数
+  let privateVariable = 10;
+
+  function PrivateFunction(){
+    return false;
+  }
+
+  //特权方法
+  this.publicMethod = function(){
+    privateVariable++;
+    return PrivateFunction();
+  };
+}
+```
+
+## 闭包的问题
+
+```js
+function fn(){
+    var a=5;
+    return function(){
+        a++;
+        console.log(a);		//a变量肯定是可以访问的
+    }
+}
+//因为闭包,导致fn函数的作用域一直在被f1引用所以变量a不会被释放销毁
+var f1=fn();		//f1指向匿名函数
+f1();	//6
+f1();	//7
+f1();	//8
+//把a变量的值放在f1函数可以访问到的地方
+
+//代码执行到20行fn函数执行完毕，返回匿名函数
+//      -->一般认为函数执行完毕，变量就会释放，但是此时由于js引擎发现匿名函数要使用a变量，所以a变量并不能得到释放，而是把a变量放在匿名函数可以访问到的地方去了
+//      -->a变量存在于f1函数可以访问到的地方，当然此时a变量只能被f1函数访问
+
+var f2=fn();
+    f2();       //6
+    f2();       //7
+    f2();       //8
+    //又一次执行了fn，又初始化了一个新的a变量，值为5；返回匿名函数f2，并且把新的a变量放在了f2可以访问到的地方
+
+    var f3=fn();
+    f3();       //6
+    //又一次执行了fn，又初始化了一个新的a变量，值为5；返回匿名函数f2，并且把新的a变量放在了f2可以访问到的地方
+
+
+function q1(){
+    var a={};
+    return a;
+}
+var r1=q1();
+var r2=q1();
+console.log(r1==r2);
+
+
+function q2(){
+    var a={}
+    return function(){
+
+        return a;
+    }
+}
+var t3=q2();//创建一个新的a对象，把a对象放在t3可以访问到的位置
+
+var o5=t3();    //返回值a就是那个a   并没有去创建新的a
+var o6=t3();
+console.log(o5 == o6)  //true
+
+
+var w3=q2();//创建了一个新的a对象，把新的a对象放在w3可以访问到的位置
+
+var o8=w3();//此时获取到的是一个新的a对象
+console.log(o5==o8);    //false
+
+```
+
+## 闭包问题的产生原因
+
++ 函数执行完毕后，作用域中保留了最新的a变量的值
+
+## 闭包的应用场景
+
++ 模块化
+
++ ```js
+  //模块化思想：也是一种设计模式
+  var ktv=(function KTV(){
+      //为了保护leastPrice变量，将它放在函数内部
+      var leastPrice=1000;
+  
+      var total=0;
+  
+      return {
+          //购物
+          buy:function(price){
+              total+=price;
+          },
+          //结账
+          pay:function(){
+              if(total<leastPrice){
+                  console.log('请继续购物');
+              }else{
+                  console.log('欢迎下次光临');
+              }
+          },
+          //通过闭包修改保护的变量
+          editLeast:function(id,price){
+              if(id===888){
+                  leastPrice=price;
+                  console.log("现在最低消费金额为：",leastPrice);
+              }else{
+                  console.log('权限不足');
+              }
+          }
+      }
+  
+  })()
+  
+  //有问题：来了一个工商局的朋友要来唱K
+  //——>可能老板需要去修改最低消费的金额
+  //-->但是并不能让老板直接去修改leastPrice，或者说不能把leastPrice作为全局变量
+  
+  
+  //模块化开发思想
+  var datePicker=(function(){
+      var hour=3600*1000;
+      return function(){
+          console.log('日期控件初始化');
+      }
+  })();
+  
+  var common=(function(){
+      return {
+          isStr:function(){
+  
+          },
+          isNumber:function(){
+  
+          }
+      }
+  })()
+  ```
+
++ 防止变量被破坏
+
+# 高级函数
+
++ 安全的类型检测
+  + javaScript 内置的类型检测机制并非完全靠谱
+  + typeof  和 instanceof  都会由检测错误的情况发生
+```js
+  /* 在任何值上调用Object 原生的 toString() 方法都会返回一个
+  *  [object NativeConstructorName] 格式的字符串,每个类在内部都有一个
+  *  [[CLass]]属性,这个属性中就指定了上述字符串中的构造函数名
+  */
+  alert(Object.prototype.toString.call(value));   // "[objecct Array]"
+  
+  //利用者一点可以检测是否属于原生
+  function isArray(value){
+    return Object.prototype.toString.call(value) === "[object Array]";
+  }
+  function isFunction(value){
+    return Object.prototype.toString.call(value) === "[object Function]";
+  }
+  
+  function isRegExp(value){
+    return Object.prototype.toString.call(value) === "[object RegExp]";
+  }
+  
+  let isNativeJSON = window.JOSN && Object.prototype.toString.call(JSON) === "[object JSON]";
+```
+
+## 作用域安全的构造函数
+
++ 使用 new 关键字创建的实例, this会指向该实例
++ 如果不适用 new 关键字创建实例,  使用 this 赋值的属性在全局作用域中调用,会把属性添加在window对象上
+
+```js
+  //使用这个模式就锁定了可以调用构造函数的环境,不会应为忘记new关键字导致的赋值错误
+  function Person(name, age, job) {
+  	if (this instanceof Person) {
+  		this.name = name;
+  		this.age = age;
+  		this.jon = job;
+  	} else {
+  		return new Person(name, age, job);
+  	}
+  }
+  //使用构造函数窃取模式的继承且不适用原型链,那么这个继承很可能被破坏;例如:
+  function Polygon(sides) {
+  	if (this instanceof Polygon) {
+  		this.sides = sides;
+  		this.getArea = function () {
+  			return 0;
+  		};
+  	} else {
+  		return new Polygon(sides);
+  	}
+  }
+  function Rectangle(width, height) {
+  	Polygon.call(this, 2);
+  	this.width = width;
+  	this.height = height;
+  	this.getArea = function () {
+  		return this.width * this.height;
+  	};
+  }
+  
+  let rect = new Rectangle(5, 10);
+  alert(rect.sides);		//undefined
+  //因为Polygon的作用域是安全的,所以利用Polygon.call();获取到的并不是属性,而是Polygon的实例,    所以在Rectangle的实例中并没有sides属性
+  //Rectangle构造函数中的this并没有得到增长,Polygon.call();返回的值也没有用到
+  
+  //配合使用原型链或寄生组合可以解决这个问题   在创建构造函数前使用
+  Rectangle.prototype = new Polygon();
+  
+  let rect = new Rectangle(5, 10);
+  alert(rect.sides);		//2
+  //但是此时rect的constructor属性指向 Polygon 而不是 Rectangle
+```
+
+## 惰性载入函数
+
++ 因为浏览器的差异大多于用if语句来做跨浏览器兼容,导致代码中包含了大量的if语句
+
++ 该该方法主要用来避免重复执行不必要的代码
+
++ ```js
+  //第一种实现惰性载入方式
+  function createXHR() {
+      if (typeof XMLHttpRequest != "undefined") {
+          createXHR = function () {
+              return new XMLHttpRequest();
+          };
+      }else if (typeof ActiveXObject != "undefined") {
+          createXHR = function () {
+              if (typeof arguments.callee.activeXString != "string") {
+                  let versions = ["MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0", "MSXML2.XMLHttp"],
+                      i, len;
+                  for (i = 0, len = versions.length; i < len; i++){
+                      try {
+                          new ActiveXObject(versions[i]);
+                          arguments.callee.activeXString = versions[i];
+                          break;
+                      } catch (ex) {
+                          //skip
+                      }
+                  }
+              }
+              return new ActiveXObject(arguments.callee.activeXString);
+          };
+      } else {
+          createXHR = function () {
+              throw new Error("NO XHR object available.");
+          };
+      }
+      return createXHR();
+  }
+  //在这个惰性载入的createXHR()中,每个分支都会为createXHR变量赋值,有效覆盖了原有的函数.当调用后createXHR会被新的函数覆盖,那么之后在调用的话,就不会在执行if判断了,
+  
+  
+  //第二种方式
+  //创建一个匿名的自执行的函数,用以确定用哪一个函数实现
+  let createXHR = (function () {
+      if (typeof XMLHttpRequest != "undefined") {
+          return function () {
+              return new XMLHttpRequest();
+          }
+      } else if (typeof ActiveXObject != "undefined") {
+          return function () {
+              if (typeof arguments.callee.activeXString != "string") {
+                  let versions = ["MSXML2.XMLHttp.6.0", "MSXML2.XMLHttp.3.0", "MSXML2.XMLHttp"],
+                      i, len;
+                  for (i = 0, len = versions.length; i < len; i++) {
+                      try {
+                          new ActiveXObject(versions[i]);
+                          arguments.callee.activeXString = versions[i];
+                          break;
+                      } catch (ex) {
+                          //skip
+                      }
+                  }
+              }
+              return new ActiveXObject(arguments.callee.activeXString);
+          };
+      } else {
+          return function () {
+              throw new Error("NO XHR object available.");
+          };
+      }
+  })();
+  ```
+
+## 函数绑定
+
++ 函数绑定要创建一个函数,可以在特定的this环境中已指定参数调用另一个函数,该技巧常常和回调函数于事件处理程序一起使用,以便在将函数作为变量传递的同时保留代码执行环境
+
++ ```js
+  //这个事件触发的提示为 undefined  而不是 "Event Handled",因为this指向的是按钮
+  //而不是handler   所以需要保存handler.handleClick 的环境
+  let handler = {
+      message: "Event Handled",
+  
+      handleClick: function (e) {
+          alert(this.message);
+      }
+  };
+  
+  let btn = document.querySelector("my-btu");
+  //直接将方法赋值给按钮
+  btn.addEventListener("click", handler.handleClick, false);
+  
+  //这个解决方案  使用了一个闭包直接调用handler.handleClick().
+  btn.addEventListener("click", function(event){
+      //间接调用该方法
+      handler.handleClick(event)
+  }, false);
+  
+  //控制台版
+  let handler = {
+      message: "Event Handled",
+      handleClick: function (e) {
+          console.log(this.message);
+      }
+  };
+  
+  let func = handler.handleClick;
+  func(); //undefined
+  let func = function (event) {
+      handler.handleClick(event);
+  };
+  func();	//"Event Handled"
+  ```
+
++ 创建多个闭包可能会令代码变得难于理解和调试
+
++ 使用bind()方法,接收一个函数和一个环境
+
+  + ```js
+    function bind(fn, context) {
+    	return function () {
+    		return fn.apply(context, arguments);
+    	};
+    }
+    //在 bind() 中创建了一个闭包, 闭包使用apply()调用传入的函数,并给apply()传递context对象和参数, 这里使用的  arguments 对象是内部函数的,而非bind方法的,当调用返回的函数时,它会在给定环境中执行被传入的函数并给出所有参数
+    btn.addEventListener("click", bind(handler.handleClick, handler), false);
+    
+    //ES5原生的bind方法
+    btn.addEventListener("click", handler.handleClick.bind(handler), false);
+    
+    //会占用更多内存,同时也因为多重函数调用速度会慢一点
+    ```
+
+## 函数柯里化
+
++ 用于创建已经设置好了一个或多个参数的函数,基本方法于函数绑定一样,利用闭包,
+
++ 创建一个或多个参数固定的函数
+
++ 区别在于,被函数调用时,返回的函数还需要设置一些传入的参数
+
+```js
+function add(num1, num2) {
+   return num1 + num2;
+}
+
+function curriedAdd(unm2) {
+   return add(5, num2);
+}
+//这段代码定义了两个函数: add ()和curriedAdd()。后者本质上是在任何情况下第一个参数为5的add()版本。尽管从技术上来说curriedAdd()并非柯里化的函数,但它很好地展示了其概念。柯里化函数通常由以下步骤动态创建:调用另一个函数并为它传人要柯里化的函数和必要参数。
+//下面是创建柯里化函数的通用方式。
+function curry(fn) {
+   //截取索引为1以后的      获取第一个参数之后的所有参数
+   //args 包含了来自外部函数的参数
+   let args = Array.prototype.slice.call(arguments, 1);
+   return function () {
+         //空数组        内部函数的参数数组包含了传入的参数
+         let innerArgs = Array.prototype.slice.call(arguments);
+         //拼接外部固定参数和内部传入参数
+         let finalArgs = args.concat(innerArgs);
+         //不改变this指向,向fn传入finalArgs参数数组
+         //不考虑执行环境
+         return fn.apply(null, finalArgs);
+   };
+}
+curry函数的主要工作就是将被返回函数的参数进行排序,curry()第一个参数是要进行柯里化的函数,其他参数是要传入的值,
+
+function add(num1, num2) {
+return num1 + num2;
+}
+var curriedAdd = curry(add, 5);
+//curriedAdd 此时是curry方法返回的匿名函数, 执行的方法和第一个参数已经固定
+console.log(curriedAdd(7));	//12
+
+//Array.prototype.slice.call(); 方法  arguments 为Array.prototype.slice方法执行的对象, 后面接的是参数
+function test(a,b,c,d) { 
+   var arg = Array.prototype.slice.call(arguments, 1,2); 
+   console.log(arguments);
+   console.log(arg);
+} 
+test("a","b","c","d"); //b
+```
+
+## 结合函数绑定和柯里化
+
+```js
+function bind(fn, context) {
+   let args = Array.prototype.slice.call(arguments, 2);
+   return function () {
+         let innerArgs = Array.prototype.slice.call(arguments);
+         let finalArgs = args.concat(innerArgs);
+         return fn.apply(context, finalArgs);
+   };
+}
+btn.addEventListener("click", bind(handler.handleClick, handler, "my-btn"), false);
+
+//ES5原生的bind方法     ES5的bind函数也实现了柯里化
+btn.addEventListener("click", handler.handleClick.bind(handler, "my-btn"), false);
+```
+
+## 高级定时器
+
++ 因为js是单线程的运行环境
+  + js在执行时,会有一个执行队列,需要执行的代码都会被加入执行队列中等待执行
++ 所以定时器定在150ms后执行,这只是在150ms后将代码插入到了执行队列中,并不是立刻就会执行
+  + 这也是导致js定时器并不准确的原因
++ 定时器指定是时间表示何时将代码插入执行队列,而不是实际执行代码
+
++ 重复的定时器
+  + 使用`setInterval ()`创建的定时器确保了定时器代码规则地插入队列中。这个方式的问题在于,定时器代码可能在代码再次被添加到队列之前还没有完成执行,结果导致定时器代码连续运行好几次，而之间没有任何停顿。幸好，JavaScript 引擎够聪明，能避免这个问题。当使用`setInterval()`时,仅当没有该定时器的任何其他代码实例时，才将定时器代码添加到队列中。这确保了定时器代码加人到队列中的最小时间间隔为指定间隔
+  + 缺点有二
+    + 某些间隔会被跳过
+    + 多个定时器的代码执行之间的间隔可能会比预期的小
+  + 避免缺点  使用链式`setTimeout()`
+```js
+//这种方式确保了在代码执行完前不会向队列插入新的定时器代码,确保不会有任何缺失的间隔,而且还可以保证在下次定时器代码执行前,至少要等待指定的间隔,避免了连续的运行
+setTimeout(function () {
+   setTimeout(arguments.callee, interval);
+}, interval);
+```
+
++ `Yielding Processes`
+  + js一旦超过浏览器限制的执行时间或特定的语句数量,就会给用户警告,是否继续执行代码
+  + 定时器是绕开此限制的方法之一
+  + 一般脚本长时间运行的问题通常是由:过长的 ,过深嵌套的函数调用或是大量处理的循环导致的
+    + 由于js执行是一个阻塞操作,脚本运行时间越长,用户无法于页面交互的时间也越长
+    + 在展开循环前,的问题
+      + 该处理是否必需同步完成
+      + 数据是否必需按顺序完成
+    + 如果不必需就可以使用定时器分割这个循环,数组分块技术
+```js
+setTimeout(function () {
+//取除下一个条目并处理
+let item = array.shift();
+process(item);//处理
+
+//若还有条目,再设置另一个定时器
+if (array.length > 0) {
+   setTimeout(arguments.callee, 100);
+}
+}, 100);
+
+//封装函数  三个参数:要处理的项目的数组,用于处理项目的函数, 以及可选的该函数的执行环境
+//这样就不会因为循环时间过长而影响用户操作或报错
+function chunk(array, process, context) {
+setTimeout(function () {
+         //此操作在改变数组的条目,想保持数组不变,需将该数组的克隆传入
+   let item = array.shift();
+   process.call(context, item);
+   if (array.length > 0) {
+      setTimeout(arguments.callee, 100);
+   }
+}, 100);
+}
+//可利用数组的concat()方法克隆数组
+chunk(data.concat(),func);
+```
+
++ 函数节流
+  + DOM操作比起DOM交互需要更多的内存和CPU时间,过多的DOM相关操作可能会导致浏览器挂起,甚至崩溃
+  + 比如在浏览器调整大小时操作DOM元素,可能就会崩溃
+  + 可以使用定时器对该函数进行节流
+    + 基本思想,某些代码不可以在没有间断的情况下连续重复执行
+    + 第一次调用函数创建一个定时器
+    + 第二次调用清除前一次的定时器,并设置另一个
+    + 如果前一个定时器尚未执行,就替换为一个新的定时器
+    + 目的是只有在执行函数的请求停止了一段时间才后执行
+```js
+let processor = {
+   timeoutId: null,
+   //实际执行处理的方法
+   performProcessing: function () {
+      //实际执行的代码
+   },
+   
+   //初始处理调用的方法
+   process: function () {
+      clearTimeout(this.timeoutId);
+      let that = this;
+      this.timeoutId = setTimeout(function () {
+            that.performProcessing();
+      }, 100);
+   }
+}
+//这就实现了在100ms内不管调用多少次process方法performProcessing方法都只会执行一遍
+
+//利用函数进行优化   两个参数: 要执行的函数,以及在哪个作用域种执行
+function throttle(method, context) {
+clearTimeout(method.tId);
+method.tId = setTimeout(function () {
+   method.call(context);
+}, 100);
+}
+```
+
+# ES6
 # 函数的扩展
 
 ## 函数参数的默认值
