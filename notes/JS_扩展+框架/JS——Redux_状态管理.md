@@ -238,7 +238,7 @@ combineReducers({
 
 ### applyMiddleware
 
-+ `applyMiddleware(...middlewares)`
++ `applyMiddleware(...middleware)`
 + 使用包含自定义功能的 middleware 来扩展 Redux 是一种推荐的方式。
 
 ### bindActionCreators

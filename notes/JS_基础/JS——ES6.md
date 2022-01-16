@@ -239,7 +239,7 @@ new Promise((resolve, reject) => {
   + 状态是 promise 是实例对象中的一个  `[[PromiseState]]` 属性
   + 状态拥有三种不同的值
     + `pending` 初始化还为决定
-    + `resolved / fullfilled` 成功
+    + `resolved / fulfilled` 成功
     + `reject` 失败
   + 变化只有两种可能 ,成功和失败不能相互变化
     + `pending`  变为 `resolved`
@@ -254,7 +254,7 @@ new Promise((resolve, reject) => {
 
 ### Promise 对象的 API
 
-+ Promise 构造函数：`Promise(excutor){}`
++ Promise 构造函数：`Promise(executor){}`
   + executor 函数：执行器 `(resolve,reject)=>{}`
   + resolve 函数：内部定义成功时调用的函数 `value=>{}`
   + reject 函数：内部定义失败时调用的函数 `reason=>{}`
@@ -1160,7 +1160,7 @@ Promise.resolve('foo')
 // 等价于
 new Promise(resolve => resolve('foo'))
 // 如果传入的参入为非 Promise 类型的对象,则返回的结果为成功的 Promise 对象
-// 如果传入的对象为 Promsie ,则返回 Promise 执行的结果
+// 如果传入的对象为 Promise ,则返回 Promise 执行的结果
 ```
 
 + Promise.resolve() 方法的参数分成四种情况。
@@ -1350,7 +1350,7 @@ Promise.try(() => database.users.get({id: userId}))
 
 + 我们可以将图片的加载写成一个 Promise，一旦加载完成，Promise 的状态就发生变化。
 ```js
-const preloadImage = function (path) {
+const PreLoadImage = function (path) {
   return new Promise(function (resolve, reject) {
     const image = new Image();
     image.onload  = resolve;
@@ -3156,7 +3156,7 @@ import {db, users} from './constants/index';
 ```js
 // 报错
 if (x === 2) {
-  import MyModual from './myModual';
+  import MyModule from './myModule';
 }
 /**
  * 引擎处理 import 语句是在编译时，这时不会去分析或执行 if 语句，所以 import 语句放在 if 代码块之中毫无意义，因此会报句法错误，而不是执行时错误。
@@ -3169,7 +3169,7 @@ if (x === 2) {
 + 因为 require 是运行时加载模块，import 命令无法取代 require 的动态加载功能。
 ```js
 const path = './' + fileName;
-const myModual = require(path);
+const myModule = require(path);
 // require 到底加载哪一个模块，只有运行时才知道。import 命令做不到这一点。
 ```
 

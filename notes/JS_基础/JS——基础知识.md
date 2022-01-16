@@ -1427,6 +1427,33 @@ obj[Symbol.iterator] = () => 1;
 
 + 有了遍历器接口，数据结构就可以用 for...of 循环遍历，也可以使用 while 循环遍历。
 
+## 自定义迭代器
+
+```js
+class Counter {
+  constructor(limit) {
+    this.limit = limit;
+  }
+
+  [Symbol.iterator]() {
+    let count = 1, limit = this.limit;
+    return {
+      next() {
+        if (count < limit)
+          return { done: false, value: count++ };
+        // 迭代结束
+        return { done: true, value: undefined };
+      },
+      // 提前终止迭代,如 break, continue, return, throw 提前退出循环
+      return() {
+        console.log('Exiting early');
+        return { done: true };
+      }
+  }
+  }
+}
+```
+
 ## 调用 Iterator 接口的场合
 
 + 有一些场合会默认调用 Iterator 接口（即 Symbol.iterator 方法），除了下文会介绍的 for...of 循环，还有几个别的场合。

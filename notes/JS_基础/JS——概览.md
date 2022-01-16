@@ -891,8 +891,14 @@ function createPerson(name, age, job) {
 ### 原型模式
 
 + 每一个函数都有 `prototype(原型)属性`，这个属性是一个指针，指向一个对象，而这个对象的用途就是包含可以由特定类型的所有实例共享的属性和方法
-+ `function Person(){}     Person.prototype = { constructor:Person，  name:"name"}`
-  + 重写`constructor`属性是因为这样构建相当于重新创建了构造函数的`prototype`原型对象，默认自动获取的`constructor`属性指向的构造函数也变成了指向`Object`构造函数，所以需要重新给`constructor`属性赋值为，原来的构造函数
+  + 
+```js
+function Person(){}
+Person.prototype = { constructor:Person, name:"name" };
+// 重写`constructor`属性是因为这样构建相当于重新创建了构造函数的`prototype`原型对象
+// 默认自动获取的`constructor`属性指向的构造函数也变成了指向`Object`构造函数
+// 所以需要重新给`constructor`属性赋值为，原来的构造函数
+```
 
 + 理解原型对象
   + 每创建一个新函数，就会为该函数创建一个 `prototype`属性，指向函数的原型对象，所有原型对象都会获取一个 `constructor` （构造函数）属性，这个属性包含一个指向 `prototype` 属性所在函数的指针

@@ -261,6 +261,8 @@ arr.filter(myFilter, obj) // [8, 4, 9]
   
   + 同样接受第二个函数来绑定内部 this 变量
   
+### 归并
+
 + reduce()，reduceRight()
   + reduce方法和reduceRight方法依次处理数组的每个成员，最终累计为一个值。
   + 一个从头开始迭代，一个从末尾开始迭代

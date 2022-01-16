@@ -297,8 +297,8 @@ F.prototype = o;
 return new F();
 }
 /* 在函数内部创建一个临时的构造函数，然后将传入的对象作为这个构造函数的原型，
-   * 最后返回这个临时类型的一个新实例，从本质上讲object()对传入其中的对象执行了一次浅复制
-   */
+* 最后返回这个临时类型的一个新实例，从本质上讲object()对传入其中的对象执行了一次浅复制
+*/
 
 let person = {
 name:"Nicholas",
@@ -904,7 +904,7 @@ console.log(o5==o8);    //false
   *  [object NativeConstructorName] 格式的字符串,每个类在内部都有一个
   *  [[CLass]]属性,这个属性中就指定了上述字符串中的构造函数名
   */
-  alert(Object.prototype.toString.call(value));   // "[objecct Array]"
+  alert(Object.prototype.toString.call(value));   // "[object Array]"
   
   //利用者一点可以检测是否属于原生
   function isArray(value){
@@ -918,7 +918,7 @@ console.log(o5==o8);    //false
     return Object.prototype.toString.call(value) === "[object RegExp]";
   }
   
-  let isNativeJSON = window.JOSN && Object.prototype.toString.call(JSON) === "[object JSON]";
+  let isNativeJSON = window.JSON && Object.prototype.toString.call(JSON) === "[object JSON]";
 ```
 
 ## 作用域安全的构造函数
@@ -1267,6 +1267,10 @@ method.tId = setTimeout(function () {
 # ES6
 # 函数的扩展
 
++ new.target 函数通过 new 关键字调用
+  + 如没有使用 new 调用, 则该属性为 undefined
+  + 如果使用,则引用被调用的构造函数
+
 ## 函数参数的默认值
 
 + ES6 之前，不能直接为函数的参数指定默认值，只能采用变通的方法。
@@ -1282,7 +1286,7 @@ function log(x, y) {
   }
 }
 ```
-
+---
 + ES6 允许为函数的参数设置默认值，即直接写在参数定义的后面。
 + 参数变量是默认声明的，所以不能用 let 或 const 再次声明。
 + 使用参数默认值时，函数不能有同名参数。
@@ -1303,6 +1307,7 @@ foo() // 100
 x = 100;
 foo() // 101
 ```
+---
 
 ### 与解构赋值默认值结合使用
 

@@ -287,6 +287,31 @@
   + police(警察)
   + public(公众)
 
+## 所有格
+
++ 表示所属关系的一种格式
+  + 小明的书包 -> __小明的__ 就是所有格
+  + 因为书包是属于小明的
+
++ 构成方式
+  + 有生命的名词 + __'s__ , 一般指人或动物
+    + 名词以 s 结尾直接 + __'__, 可以省略 s
+    + 一般人名都可以直接 + 's
+      + NY's
+    + 普通名词单数不能单独使用
+      + My friend's (需要加限定词 My 才可以构成所有格)
+      + The Doctor's
+  + 没生命的名词用 __of + 无生命名词__
+    + 可数名词不可直接用, 需要加限定词
+    + _the_ center __of the city__(城市的中心)
+    + 所有格做后置定语-修饰的-名词-都需要加-定冠词(_the_ prices)
+    + of the house(房子的) _the_ prices of the house is 500$
+
++ 名词所有格作前置定语可以修饰 可数名词和不可数名词
+  + Lily's tea
+  + My sister's friends
+  + The dog's food
+
 # 动词 v = verb
 
 + 不及物动词 -> __vi = intransitive verb__
