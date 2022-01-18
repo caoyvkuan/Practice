@@ -312,6 +312,86 @@
   + My sister's friends
   + The dog's food
 
+# 代名词 pron = pronoun
+
++ 专门为了避免重复而代替名词的词语
+  + 人称代词
+  + 物主代词
+  + 反身代词
+  + 相互代词
+  + 指示代词
+  + 不定代词
+  + 疑问代词
+  + 连接代词
+  + 关系代词
+
+## 人称代词
+
++ 主格 - 宾格
+  + 我 - I - me
+  + 我们 - we - us
+  + 你/你们 - You - you
+  + 他 - he - him
+  + 她 - she - her
+  + 它 - it - it
+  + they - them - 他们 - 她们 - 它们
++ 主格做主语,不能做宾语
++ 宾格做宾语,不能做主语
++ 都可以做表语
+
++ 两个以上人称代词做主格的顺序(先说别人在说自己)
+  + you, she(he) and I
+  + we, you and they
+  + He and I are both form DaYe;
+  + She and I like money.
+
+## 物主代词
+
++ 表示所有关系的代词
++ 形容词性物主代词 - 名词性物主代词
+  + my - 我的 - mine
+  + your - 你的/你们的 - yours
+  + her - 她的 - hers
+  + his - 他的 - his
+  + its - 它的 - its
+  + our - 我们的 - ours
+  + their - 她们的 - 他们的 - 它们的 - theirs
+
++ 名词性物主代词例子 - 主语 - 表语 - 宾语
+  + 这是 *我的* 书 - This is my book.
+    + 这里表示 *书* 是 *我的* 所以用 my
+  + 你的书比 *我的* 贵
+    + Your book is more expensive than mine.
+    + 这里的 *我的* 是指的 *我的书*, 而不是自己 所以用 mine
+  + 你的就是我的,我的还是我的.
+    + Yours is mine, mine is still mine
+  + 不能重复使用
+    + your book is better than yours. 错的
+    + yours 在英语中不能一个人比较
+    + yours 改为 his 或其他才行
+
++ 形容词性物主代词
+  + 只有一个作用,就是作定语,且是前置定语
+  + 没有名词就不可能出现
+  + 可数不可数名词都可以修饰,修饰名词不需要加冠语
+  + my house
+  + My houses
+
+## 指示代词
+
++ 可以作 : 主语 , 宾语 , 表语 , 定语
++ 单数 - 复数
+  + this(这个) - these(这些)
+  + that(那个) - those(那些)
+
++ 单数形式可以修饰单数,也可以修饰不可数名词
+  + This computer 这台电脑
+  + This water 这水 / 这些水
+
++ 复数形式,只能修饰可数名词复数
+  + These houses
+  + Those boys
+
 # 动词 v = verb
 
 + 不及物动词 -> __vi = intransitive verb__
@@ -329,7 +409,7 @@
 
 # 介词 prep = preposition
 
-# 代名词 pron = pronoun
+
 
 # 数词 num = numeral
 

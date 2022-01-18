@@ -309,7 +309,7 @@ all_my_elements.forEach(doubleHeight);
   + 在全局作用域中声明的变量,函数都会成为 window 对象的属性和方法
   + 全局变量不能通过 delete 删除,而直接在 window 对象上定义的属性可以
 
-## window.xxx 对象的属性
+## 属性
 
 ### name
 
@@ -435,7 +435,7 @@ if (window.scrollY < 75) {
 + window.isSecureContext 属性返回一个布尔值，表示当前窗口是否处在加密环境。
 + 如果是 HTTPS 协议，就是true，否则就是false。
 
-## window.xxx() 对象的方法
+## 方法
 
 ### alert(),prompt(),confirm()
 
@@ -465,8 +465,14 @@ var result = prompt('您的年龄？', 25); // 25为默认值，用户没有输�
 
 ### open(),close(),stop()
 
-1. window.open()
+1. `window.open(url,窗口名称[,打开新窗口的属性(一般用不上)])`
    + 打开一个新窗口
+   + 窗口名称,特殊窗口名
+     + _self
+     + _parent
+     + _top
+     + _blank
+   + 方法的返回值为 null 则代表,弹窗被屏蔽
 
 2. window.close()
    + window.close 方法用于关闭当前窗口.
@@ -815,7 +821,7 @@ var observer = new IntersectionObserver(
 
 # Navigator 对象，Screen 对象。
 
-## Navigator 对象的属性
+## 属性
 
 1. Navigator.userAgent
    + navigator.userAgent 属性返回浏览器的 User Agent 字符串，表示浏览器的厂商和版本信息。
@@ -882,7 +888,7 @@ navigator.languages  // ["en-US", "en", "zh-CN", "zh", "zh-TW"]
    + 注意，这个属性反映的是浏览器总的特性，与是否储存某个具体的网站的 Cookie 无关。
    + 用户可以设置某个网站不得储存 Cookie，这时cookieEnabled返回的还是true。
 
-## Navigator 对象的方法
+## 方法
 
 1. Navigator.javaEnabled()
    + Navigator.javaEnabled() 方法返回一个布尔值，表示浏览器是否能运行 Java Applet 小程序。
