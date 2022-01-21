@@ -1,6 +1,8 @@
 # TypeScript
 
-# 原始数据类型
++ [内置对象类型](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects)
+
+## 原始数据类型
 
 + boolean 、number 、string 、null 、undefined
 + ES6 新增 Symbol
@@ -28,10 +30,6 @@ let str: string = 'string';
   + 或 ` number | string`
   + 当 ts 不确定联合类型的准确类型时，只能够访问共有的方法，否则会报错
   + 被赋值时也会采用类型推论进行推断
----
-+ 别名 `type myType = string;`
-  + myType 就相当于 string
-  + 同时 type 关键字也可以用来进行类型的声明
 ---
 + 数值 ：number
   + 数值 二进制、八进制、十进制、十六进制都支持
@@ -81,6 +79,7 @@ enum Color { Red = 1, Green, Blue };
   + ` let empty:void = undefined; `
 ---
 + 没有值-永远不会返回结果 ：never
+  + 特性: 会被类型忽略, `T extends U ? never : T;` 忽略部分类型
 ```ts
 // never 可以赋值给任意类型，但是不能被任意类型赋值，表示永远不存在的值类型
 // 一般存在总是会抛出异常的函数，或是根本不会有返回值的函数表达式或箭头函数
@@ -154,6 +153,38 @@ let obj: { name:string, [propName:string]: any }
 let fn: (a:number, b:number)=>number;
 ```
 
+## 枚举
+
++ 可以定义一些带名字的常量
+```ts
+// 默认的增长是从 0 开始的， 默认的类型也是 number
+// 在枚举设定数值 1 后， 后面的会自动开始增长
+enum Direction {
+   UP = 1,
+   Down, // 2
+   Left, // 3
+   Right // 4
+}
+
+// 枚举使用起来也很方便
+Direction.UP; // 这样就可以轻松的访问
+```
+
++ 字符串类型的枚举
+  + 该类型的枚举每一个成员都必须进行初始化
+  + 字符串枚举不会自动增长
+```ts
+enum Direction {
+   UP = 'UP,
+   Down = 'Down',
+   Left = 'Left',
+   Right = 'Right'
+}
+```
+
++ 异构枚举
+  + 也就是混合字符串和数字成员共同构成的枚举
+
 ## 断言
 
 + 断言有两种不同的语法，目的是用来手动指定一个值的类型
@@ -181,6 +212,13 @@ cat as any as Fish
 3. 任何类型都可以被断言为 any
 4. any 可以被断言为任何类型
 5. 要使得 A 能够被断言为 B，只需要 A 兼容 B 或 B 兼容 A 即可
+
+## 类型别名
+
++ 通过 type 关键字定义
++ 别名 `type myType = string;`
+  + myType 就相当于 string
+  + 同时 type 关键字也可以用来进行类型的声明
 
 ## 类型推论
 
@@ -332,10 +370,12 @@ let mySearch: SearchFunc;
 mySearch = (source: string, subString: string) => true;
 ```
 
-## 可索引的类型
+## 索引签名 Index Signature
 
++ 索引签名用于快速建立一个内部字段类型相同的接口
 ```ts
 interface StringArray {
+   // 接口 StringArray 的字段全部为 string 类型
   [index: number]: string;
 }
 
@@ -802,6 +842,7 @@ Generic.add = function(x, y) { return x + y; };
 
 ## 泛型的约束
 
++ 通过 extends 关键字实现
 + 因为泛型的类型是不被确定的，所以你直接通过泛型调用各种类型才有的属性
   + 如：数组的 length 属性是会报错的
   + 想要调用类似属性的方法除了确定泛型的类型之外，还可以进行约束
@@ -809,7 +850,8 @@ Generic.add = function(x, y) { return x + y; };
 interface Lengthwise {
    length: number;
 }
-
+// 通过 extends 关键字 T 继承了接口 Lengthwise
+// 所以只有拥有 Lengthwise 接口属性的对象才可以传入
 function loggingIdentity<T extends Lengthwise>(arg: T): T {
    console.log(arg.length); // 通过让泛型继承目标属性就可以进行调用
    return arg;
@@ -818,52 +860,107 @@ function loggingIdentity<T extends Lengthwise>(arg: T): T {
 // 但是在继承了约束后泛型不在适用于任意类型了
 loggingIdentity(3); // 这样是会报错的
 loggingIdentity({length: 10, value: 3}); // 需要传入对象且拥有指定属性
-
-// 在泛型约束中使用类型参数
-function getProperty(obj: T, key: K) {
-    return obj[key];
-}
-let x = { a: 1, b: 2, c: 3, d: 4 };
-getProperty(x, "a"); // okay
-getProperty(x, "m"); // error: Argument of type 'm' isn't assignable to 'a' | 'b' | 'c' | 'd'.
-
-// 在泛型里使用类类型 使用泛型创建工厂函数时，需要引用构造函数的类类型
-function create<T>(c: { new(): T }): T {
-    return new c();
-}
 ```
 
-# 枚举
+## 条件类型 Conditional Types
 
-+ 可以定义一些带名字的常量
++ 无法即时进行类型推论的情况,如三元表达式
++ 通过 extends 限制时返回指定类型, 不通过时则返回另一种类型
 ```ts
-// 默认的增长是从 0 开始的， 默认的类型也是 number
-// 在枚举设定数值 1 后， 后面的会自动开始增长
-enum Direction {
-   UP = 1,
-   Down, // 2
-   Left, // 3
-   Right // 4
-}
-
-// 枚举使用起来也很方便
-Direction.UP; // 这样就可以轻松的访问
+T extends U ? X : Y
+// 延迟类型推论
+declare function strOrNum<T extends boolean>(
+  x: T
+  // T 的类型不确定,所以无法得知返回 string 还是 number
+): T extends true ? string : number;
 ```
 
-+ 字符串类型的枚举
-  + 该类型的枚举每一个成员都必须进行初始化
-  + 字符串枚举不会自动增长
+## keyof 索引类型
+
++ 索引类型可以动态的获取对象的键名列表
++ `keyof T` 索引类型查询操作符
+  + > 对于任何类型 T， keyof T 的结果为 T 上已知的公共属性名的联合。
+  + K keyof T , 在取得 T 对象属性 K 后就可以通过 `T[K]` 访问对象中的属性
 ```ts
-enum Direction {
-   UP = 'UP,
-   Down = 'Down',
-   Left = 'Left',
-   Right = 'Right'
+interface Person {
+    name: string;
+    age: number;
 }
+// keyof 的作用 为 Person 所有公共属性的联合
+type personProps: keyof Person; // 'name' | 'age'
+
+// 限制 T 继承自 object , 而 U 是对象 T 的键值
+// keyof T 得到键值的联合类型, U 通过 extends 关键字继承联合类型
+function <T extends object, U extends keyof T>(
+   obj:T,
+   key: U
+): T[U] {
+   return obj[key];
+}
+
+// 如需传入键名数组 和返回 值数组
+function pick<T extends object, U extends keyof T>(obj: T, keys: U[]): T[U][] {
+  return keys.map(key => obj[key]);
+}
+
+// pick(obj, ['a', 'b'])
 ```
 
-+ 异构枚举
-  + 也就是混合字符串和数字成员共同构成的枚举
+## in 映射类型 Mapped Types
+
++ 主要作用, 类型拷贝
++ 通过 `[K in keyof T]` 实现一种特别的遍历
+```ts
+// 已知一个类型 A
+interface A {
+  a: boolean;
+  b: string;
+  c: number;
+  d: () => void;
+}
+// 需要一个与 A 相同的对象(拥有 A 所有的键名), 但是类型全部为 string
+type StringifyA<T> = {
+   // 这里的 in 相当于是 for...in/for...of 这种遍历的思路
+   // 而这里使用 in 关键字 遍历了通过 keyof T 得到的联合类型
+  [K in keyof T]: string;
+};
+
+// 这样的话,实现完整了克隆也很简单了
+type Clone<T> = {
+   // [K in keyof T] 拷贝键名
+   // T[K] 拷贝对应键名的类型
+  [K in keyof T]: T[K];
+};
+
+// 让所有字段 只读 或是 可选
+type Readonly<T> = {
+    readonly [P in keyof T]: T[P];
+}
+type Partial<T> = {
+    [P in keyof T]?: T[P];
+}
+```
+---
++ 标准库中
+```ts
+type Pick<T, K extends keyof T> = {
+    [P in K]: T[P];
+}
+type Record<K extends string, T> = {
+    [P in K]: T;
+}
+// Readonly， Partial 和 Pick 是同态的，但 Record 不是。
+// 因为 Record 并不需要输入类型来拷贝属性，所以它不属于同态：
+type ThreeStringProps = Record<'prop1' | 'prop2' | 'prop3', string>
+
+// 映射类型的组成
+type Keys = 'option1' | 'option2';
+type Flags = { [K in Keys]: boolean };
+```
++ 映射类型内部有使用了 for...in 循环，具有三个部分
+  + 类型变量 K 会一次绑定到每个属性
+  + 字符串联合的 Keys ， 他包含了要迭代的属性名集合
+  + 属性的结果类型
 
 # 高级类型
 
@@ -1004,89 +1101,11 @@ function area(s: Shape) {
 + 多态的 this类型表示的是某个包含类或接口的 子类型。
 + 这被称做 F-bounded多态性。 它能很容易的表现连贯接口间的继承
 
-## 索引类型
-
-+ 使用索引类型就能够检查使用了动态属性名的代码
-+ `keyof T` 索引类型查询操作符
-  + > 对于任何类型 T， keyof T 的结果为 T 上已知的公共属性名的联合。
-+ `T[K]` 索引访问操作符
-  + 如 `Person[name]` 就是访问 Person 中 name 属性的类型，在这里是 string
-```ts
-function pluck(o, names) {
-    return names.map(n => o[n]);
-}
-
-// ts 的实现方式
-function pluck<T, K extends keyof T>(o: T, names: K[]): T[K][] {
-  return names.map(n => o[n]);
-}
-
-interface Person {
-    name: string;
-    age: number;
-}
-// keyof 的作用 为 Person 所有公共属性的联合
-let personProps: keyof Person; // 'name' | 'age'
-
-let person: Person = {
-    name: 'Join',
-    age: 35
-};
-let strings: string[] = pluck(person, ['name']); // ok, string[]
-
-// 索引类型和字符串索引签名
-interface Map<T> {
-    [key: string]: T;
-}
-let keys: keyof Map<number>; // string
-let value: Map<number>['foo']; // number
-```
-
-## 映射类型
-
-+ 讲一个已知的类型每个属性都变为可选或是只读
-```ts
-// Readonly<T> 和 Partial<T> 用处不小，
-// 因此它们与 Pick 和 Record 一同被包含进了 TypeScript 的标准库里：
-type Readonly<T> = {
-    // 通过索引类型查询操作符得到 T 中的所有属性名联合
-    // 然后通过索引访问操作符得到 T 所有属性的类型
-    readonly [P in keyof T]: T[P];
-}
-type Partial<T> = {
-    [P in keyof T]?: T[P];
-}
-// 使用
-// 只读
-type ReadonlyPerson = Readonly<Person>;
-// 可选
-type PersonPartial = Partial<Person>;
-
-// 标准库中
-type Pick<T, K extends keyof T> = {
-    [P in K]: T[P];
-}
-type Record<K extends string, T> = {
-    [P in K]: T;
-}
-// Readonly， Partial 和 Pick 是同态的，但 Record 不是。
-// 因为 Record 并不需要输入类型来拷贝属性，所以它不属于同态：
-type ThreeStringProps = Record<'prop1' | 'prop2' | 'prop3', string>
-
-// 映射类型的组成
-type Keys = 'option1' | 'option2';
-type Flags = { [K in Keys]: boolean };
-```
-+ 映射类型内部有使用了 for...in 循环，具有三个部分
-  + 类型变量 K 会一次绑定到每个属性
-  + 字符串联合的 Keys ， 他包含了要迭代的属性名集合
-  + 属性的结果类型
-
 ## 预定义
 
 + `Exclude<T, U>` -- 从T中剔除可以赋值给U的类型。
 + `Extract<T, U>` -- 提取T中可以赋值给U的类型。
-+ `NonNullable<T>` -- 从T中剔除null和undefined。
++ `NonNullable<T>` -- 从T中剔除 null 和 undefined。
 + `ReturnType<T>` -- 获取函数返回值类型。
 + `InstanceType<T>` -- 获取构造函数类型的实例类型。
 ```ts
@@ -1815,6 +1834,7 @@ function applyMixin(derivedCtor: any, baseCtors: any[]) {
 # 声明文件
 
 + 当使用第三方库时，我们需要引用它的声明文件，才能获得对应的代码补全、接口提示等功能。
++ [详细](http://ts.xcatliu.com/basics/declaration-files.html#%E6%96%B0%E8%AF%AD%E6%B3%95%E7%B4%A2%E5%BC%95)
 
 + 声明只能定义类型，切勿定义具体实现
 
@@ -1836,10 +1856,13 @@ function applyMixin(derivedCtor: any, baseCtors: any[]) {
 + `declare global` 扩展全局变量
 + `declare module` 扩展模块
 + `/// <reference />` 三斜线指令
+  + 在声明全局变量文件时,引用其他库类型使用
 
 + 声明并不会正真的定义一个变量，只是定义了一个类型
 + 会在编译结果中被删除
 + `.d.ts` 就是一个声明文件
+
++ 第三方类型不同步,可以使用声明合并为其全局变量添加上缺少的属性
 
 ## 在使用第三方库时
 

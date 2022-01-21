@@ -392,6 +392,72 @@
   + These houses
   + Those boys
 
+# 形容词 adj = adjective
+
++ [形容词](https://www.bilibili.com/video/BV1ja4y1e7KV?p=13)
++ 主要用来修饰**名词或代词**
++ 可以做 : 前置定语 , 表语 , 宾补
+
++ 普通形容词
+  + big(大的)
+  + green(绿的)
+  + happy(快乐的)
++ 复合形容词
+  + sky-blue(天蓝色的)
+  + good-looking(好看的)
+  + man-made(人造的)
+
++ 多个形容词的摆放顺序,用 and 也可以不用顺序
+  1. 冠词(a,an,the 物主代词 my, 数词 three,指示代词等)
+  2. 描绘性的形容词 beautiful
+  3. 表示形状(大小,长短,高矮)的形容词
+  4. 表示年龄或者新旧的形容词
+  5. 表示颜色
+  6. 表示出处来源
+  7. 表示材料,物质的形容词
+  8. 表示用途
++ __a beautiful,tall,young__ girl. 一个年轻漂亮,身材高挑的女孩子
++ my __nice small brown leather__ bag. 我漂亮的棕色小皮包
+
+## 作表语
+
++ 大部分形容词都可以做表语
++ 造句 : 主语 + be(系动词) + 形容词(表语)
+  + you are __rich__
+  + she is __busy__
+
+## 做前置定语
+
++ 大部分都可以做前置定语
++ 可以构成一个*短语*,不能直接造句
++ The __big__ house
++ My __small__ house
++ __cheap__ computer
+
++ I like beautiful girl 错
+  + 名词有形容词也需要加冠词
+  + I like the __beautiful__ girl
+  + I like the girl. 不需要形容词也是个完整的句子
+  + 形容词只是附加成分, 哪里有名词哪里就有定语
+
+## 作宾语补足语
+
++ 只有部分特定的及物动词后面才可以跟形容词做宾补
++ 如 : make(使,让) , keep(保持) , prove(证明是)
++ I make you rich.
++ We keep the room clean. 我们保持房间干净 
+
+## 比较级和最高级
+
++ 用法和普通形容词一样
+  + 在比较的时候需要变比较级
+  + 比如 : 什么比什么漂亮
++ 如 : 漂亮(原级) , 更漂亮(比较级) , 最漂亮(最高级)
++ 在单音节形容词后面 或 以 __er , ow , ure , le__ 结尾的双音节形容词
++ 结尾直接 + __er,est__ 或者 + __r,st__
+  + tall(高的) - taller(更高) - tallest(最高)
+  + gentle(温柔) - gentler(更温柔) - gentlest(最温柔)
+
 # 动词 v = verb
 
 + 不及物动词 -> __vi = intransitive verb__
@@ -399,9 +465,10 @@
 + 助动词 -> __aux.v = auxiliary verb__
 + 情态动词 -> __model verb__
 
-# 连接词 conj = conjunction
++ 表示动作或心理行为的词语
++ 按照用法可以分为 谓语动词 和 非谓语动词
 
-# 形容词 adj = adjective
+# 连接词 conj = conjunction
 
 # 副词 adv = adverb
 
