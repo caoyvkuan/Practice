@@ -962,6 +962,68 @@ type Flags = { [K in Keys]: boolean };
   + 字符串联合的 Keys ， 他包含了要迭代的属性名集合
   + 属性的结果类型
 
+## 分布式条件类型 Distributive Conditional Types
+
++ 对于属于裸类型参数的检查类型，条件类型会在实例化时期自动分发到联合类型上
+```ts
+type Naked<T> = T extends boolean ? "Y" : "N";
+type Wrapped<T> = [T] extends [boolean] ? "Y" : "N";
+
+//先分发到 Naked<number> | Naked<boolean>
+type Distributed = Naked<number | boolean>; // "N" | "Y"
+
+// 不会分发 直接是 [number | boolean] extends [boolean]
+type NotDistributed = Wrapped<number | boolean>; // "N"
+```
++ 裸类型参数，没有额外被接口/类型别名包裹过的，就像被 Wrapped 包裹后就不能再被称为裸类型参数。
++ 实例化，其实就是条件类型的判断过程.
+
+## infer
+
++ infer 是 inference 的缩写，通常的使用方式是 `infer R`，R 表示 待推断的类型。
++ 等待收集足够的信息后推断出类型
+```ts
+// 推断函数的返回类型
+// T 继承 (...args: any[]) => infer R
+// 成立就可以返回通过 infer 推断出的类型 R 
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
+
+```
+
+## is in 类型守卫 Type Guards
+
++ 通过 is 关键字 缩小联合类型的范围
+```ts
+type numOrStrProp = number | string;
+// 这种方式判断 numOrStrProp 返回的依旧会是 联合类型
+const isString = (arg: unknown): boolean => typeof arg === "string";
+
+// 通过 is 关键字实现将结果确定为 指定类型,以到达缩小类型范围的目的
+const isString = (arg: unknown): arg is string => typeof arg === "string";
+
+// 假值判断
+type Falsy = false | "" | 0 | null | undefined;
+const isFalsy = (val: unknown): val is Falsy => !val;
+```
+
++ in 关键字, 如同 `for ... in` 遍历对象的属性名
+```ts
+class A { a: string; useA(){} }
+class B { b: string; useB(){} }
+
+function useIt(arg: A | B): void {
+   // 通过 in 关键字 判断 指定属性是否在对象中
+   // 从而进行类型辨别
+  if ("a" in arg) {
+    arg.useA();
+  } else {
+    arg.useB();
+  }
+}
+```
+
+
+
 # 高级类型
 
 + 更加复杂的类型结构
