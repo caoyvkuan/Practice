@@ -6,18 +6,16 @@
 + [yarn](https://yarnpkg.com/)
   + [Learn](https://yarn.bootcss.com/docs/)
 
-## serve 虚拟服务器
-
-+ 可以运行一个服务器,可以用来运行打包后的页面,会开启一个虚拟服务器
-+ npm i -g serve
-+ serve pathName , 执行指定文件夹
-
 ## 日期处理
 
 1. dayjs
    + `yarn add dayjs`
    + [链接](https://www.npmjs.com/package/dayjs)
 2. moment
+
+## JSON格式化
+
++ slow-json-stringify
 
 ## PubSubJS 发布订阅
 
@@ -27,53 +25,42 @@
 
 + [链接](https://www.npmjs.com/package/pubsub-js)
 
-	```js
-	// 订阅
-	var token = PubSub.subscribe('MY TOPIC', callback(messageName,data))
-	
-	// 发布
-	PubSub.publish('MY TOPIC', data)
-	// 异步
-	PubSub.publishSync('MY TOPIC', 'hello world!')
-	
-	// 清除订阅
-	PubSub.unsubscribe(token);
-	// 清除使用指定函数的订阅
-	PubSub.unsubscribe(mySubscriber);
-	
-	// 清除消息名的订阅
-	PubSub.subscribe('a', myFunc1);
-	PubSub.subscribe('a.b', myFunc2);
-	PubSub.subscribe('a.b.c', myFunc3);
-	
-	PubSub.unsubscribe('a.b');
-	// 清除所有订阅
-	PubSub.clearAllSubscriptions()
-	
-	// 获取订阅
-	PubSub.getSubscriptions('token');
-	// 查看订阅数
-	PubSub.countSubscriptions('token')
-	```
-	
-	
+```js
+// 订阅
+var token = PubSub.subscribe('MY TOPIC', callback(messageName,data))
 
-## axios 网络请求
+// 发布
+PubSub.publish('MY TOPIC', data)
+// 异步
+PubSub.publishSync('MY TOPIC', 'hello world!')
 
-+ npm i axios
+// 清除订阅
+PubSub.unsubscribe(token);
+// 清除使用指定函数的订阅
+PubSub.unsubscribe(mySubscriber);
 
-## JSON-Server  请求测试服务
+// 清除消息名的订阅
+PubSub.subscribe('a', myFunc1);
+PubSub.subscribe('a.b', myFunc2);
+PubSub.subscribe('a.b.c', myFunc3);
 
-+ 安装 : npm install -g json-server
-+ 启动 : json-server --watch db.json
+PubSub.unsubscribe('a.b');
+// 清除所有订阅
+PubSub.clearAllSubscriptions()
 
-+ ![配置](./images/json-server.webp)
+// 获取订阅
+PubSub.getSubscriptions('token');
+// 查看订阅数
+PubSub.countSubscriptions('token')
+```
 
 ## Nano ID (id生成)
 
 + JS 唯一 id 生成器
 + `import { nanoid } from 'nanoid'`
 + yarn add nanoid
+
+
 
 ## Copy to clipboard 复制到剪切板
 
@@ -121,40 +108,40 @@ html2canvas(element).then(canvas => {
 
 + webpack 配置
 
-	```js
-	// 在 babel-loader 的 plugins 添加
-	plugins:[
-	    [
-	        'prismjs',
-	        { // 支持语言
-	            'languages': [
-	                'javascript',
-	                'css',
-	                'markup',
-	                'typescript',
-	                'tsconfig',
-	                'mongodb',
-	                'markdown',
-	                'scss',
-	                'jsx',
-	                'tsx'
-	            ],
-	            // 各种功能
-	            'plugins': [
-	                'line-numbers',
-	                'line-highlight',
-	                'autolinker',
-	                'show-language',
-	                'inline-color',
-	                'previewers',
-	                'match-braces'
-	            ],
-	            'theme': 'okaidia',
-	            'css': true
-	        }
-	    ],
-	]
-	```
+```js
+// 在 babel-loader 的 plugins 添加
+plugins:[
+      [
+         'prismjs',
+         { // 支持语言
+            'languages': [
+                  'javascript',
+                  'css',
+                  'markup',
+                  'typescript',
+                  'tsconfig',
+                  'mongodb',
+                  'markdown',
+                  'scss',
+                  'jsx',
+                  'tsx'
+            ],
+            // 各种功能
+            'plugins': [
+                  'line-numbers',
+                  'line-highlight',
+                  'autolinker',
+                  'show-language',
+                  'inline-color',
+                  'previewers',
+                  'match-braces'
+            ],
+            'theme': 'okaidia',
+            'css': true
+         }
+      ],
+]
+```
 
 + 使用
 
@@ -182,6 +169,25 @@ pres.forEach(pre => {
     });
 });
 ```
+
+# 请求与服务
+
+## axios 网络请求
+
++ npm i axios
+
+## JSON-Server  请求测试服务
+
++ 安装 : npm install -g json-server
++ 启动 : json-server --watch db.json
+
++ ![配置](./images/json-server.webp)
+
+## serve 虚拟服务器
+
++ 可以运行一个服务器,可以用来运行打包后的页面,会开启一个虚拟服务器
++ npm i -g serve
++ serve pathName , 执行指定文件夹
 
 # React
 

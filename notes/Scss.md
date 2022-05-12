@@ -77,14 +77,14 @@ $color: red;
 ```scss
 nav {
   border: {
-  style: solid;
-  width: 1px;
-  color: #ccc;
+    style: solid;
+    width: 1px;
+    color: #ccc;
   }
 
   border: 1px solid #ccc {
-  left: 0px;
-  right: 0px;
+    left: 0px;
+    right: 0px;
   }
 }
 // 同等与

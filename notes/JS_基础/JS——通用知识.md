@@ -1136,6 +1136,9 @@ Nice.TypeError = {
 + 语法
 + [参考](https://www.w3school.com.cn/jsref/jsref_obj_regexp.asp)
 
++ `.*? 可以在指定位置中断 .*` 的无条件匹配
+  + 如：qwertyuiop 匹配其中的 yui `/.*?t(.*?).p/`
+
 ## 匹配规则
 
 ### 字面量字符和元字符

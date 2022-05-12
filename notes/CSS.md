@@ -752,15 +752,6 @@ currentColor 80%,transparent 0);
   + line-through    中划线（删除线）
   + 下划线  `text-underline-offset || text-underline-position` 
 
-+ ```css
-  文本省略
-  overflow:hidden;
-  white-space:nowrap;
-  text-overflow:ellipsis;
-  ```
-
-  
-
 + **direction:rtl;** 文字方向
 
 + **vertical-align** 行内元素对齐方式
@@ -775,7 +766,7 @@ currentColor 80%,transparent 0);
 ```css
 /*	断字	*/
 word-wrap:break-word;
-/*	截短文本	让超出范围的文字以省略号显示	*/
+/* 截短文本	让超出范围的文字以省略号显示 */
 overflow: hidden;
 text-overflow: ellipsis; 
 white-space: no-wrap; 
@@ -988,139 +979,159 @@ filter: opacity(10%) blur(2px) sepia(35%);
 ## grid网格布局
 
 + grid布局是一个二维布局方法
+  + [教程](http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html)
 
 + 设为网格布局以后，容器子元素（项目）的
+  + `float`、`display: inline-block`、`display: table-cell`、`vertical-align`和`column-*`等设置都将失效
 
-+ `float`、`display: inline-block`、`display: table-cell`、`vertical-align`和`column-*`等设置都将失效
+### 父项属性
 
-+ 父项属性
++ grid-template 属性，grid 属性
++ `gird-template-columns 列    和 grid-template-rows  行`
+  + 网格布局提供了fr关键字（fraction 的缩写，意为"片段"）。如果两列的宽度分别为1fr和2fr，就表示后者是前者的两倍。
+  + repeat(重复次数,重复值( 可以是像素 ,百分比, 自适应  以及  fr单位)或模式)
+    + auto-fill 自动填充 - repeat(auto-fill,100px)
+  + minmax() 函数产生一个长度范围，表示长度就在这个范围之中。它接受两个参数，分别为最小值和最大值。
+    + grid-template-columns: 1fr 1fr minmax(100px, 1fr)
+  + auto 关键字
 
-  + `gird-template-columns 列    和 grid-template-rows  行`
++ 网格线的名称
+  + `grid-template-columns: [c1] 100px [c2] 100px [c3] auto [c4];`
+  + 网格布局允许同一根线有多个名字，比如 `[fifth-line row-5]`。
 
-    + 对网格进行二维划分  可以是像素 ,百分比, 自适应  以及  fr单位(网格剩余空间比例单位)
++ ` grid-auto-columns 属性， grid-auto-rows 属性`
++ 浏览器自动创建的多余网格的列宽和行高 `grid-auto-rows: 50px;`
++ 有时候网格的划分是很规律的, 如果要添加多个纵横网格时 ,可以利用`repeat()`语法进行简化
++ `grid-template-columns: 1fr 1fr minmax(100px, 1fr);` 
++ `minmax(100px, 1fr)表示列宽不小于 100px，不大于1fr`
 
-    + ` grid-auto-columns 属性， grid-auto-rows 属性`
+```css
+grid-template-columns: repeat(2, 100px 20px 80px); /* 重复设置模式 */
+grid-template-columns: repeat(auto-fill, 100px); /* auto-fill关键字表示自动填充 */
 
-      + 浏览器自动创建的多余网格的列宽和行高 `grid-auto-rows: 50px;`
+/*grid-template-columns属性和grid-template-rows属性里面，
+还可以使用方括号，指定每一根网格线的名字，方便以后的引用。*/
+.container {
+  display: grid;
+  grid-template-columns: [c1] 100px [c2] 100px [c3] auto [c4];
+  grid-template-rows: [r1] 100px [r2] 100px [r3] auto [r4];
+}
+```
++ grid-row-gap 属性，grid-column-gap 属性，grid-gap 属性
+  + 用于定义网格间的行列间距
+  + `grid-gap: <grid-row-gap> <grid-column-gap>;`
+  + 根据最新标准，上面三个属性名的grid-前缀已经删除
+  + grid-column-gap 和 grid-row-gap 写成column-gap 和 row-gap，grid-gap 写成gap。
 
-    + 有时候网格的划分是很规律的, 如果要添加多个纵横网格时 ,可以利用`repeat()`语法进行简化
++ `grid-template-areas 和 grid-template`
+```css
+.container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px;
+  grid-template-areas: 'a b c'
+                       'd e f'
+                       'g h i';
+  /* 多个单元格合并成一个区域的写法如下。 */
+  grid-template-areas: 'a a a'
+                       'b b b'
+                       'c c c';
+  /* 如果某些区域不需要利用，则使用"点"（.）表示。 */
+  grid-template-areas: 'a . c'
+                       'd . f'
+                       'g . i';
+每个区域的起始网格线，会自动命名为区域名-start，终止网格线自动命名为区域名-end。
+区域划分只能分长方形或正方形  其他图像无效   区域名字随便命名
+}
+```
++ grid-auto-flow 属性
+  + 划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格。默认的放置顺序是"先行后列"，即先填满第一行，再开始放入第二行。
+  + 这个顺序由grid-auto-flow属性决定，默认值是row，即"先行后列"。也可以将它设成column，变成"先列后行"。
+  + 还可以设成 row dense 和 column dense。
+  + 表示"先行后列"，并且尽可能紧密填满，尽量不出现空格。
 
-    + `minmax()`函数产生一个长度范围，表示长度就在这个范围之中。它接受两个参数，分别为最小值和最大值。
++ justify-items 属性，align-items 属性，place-items 属性
+  + justify-items 属性设置单元格内容的水平位置
+  + align-items属性设置单元格内容的垂直位置
+  + place-items 属性是 align-items 属性和 justify-items 属性的合并简写形式
+```css
+.container {
+  justify-items: start | end | center | stretch;
+  align-items: start | end | center | stretch;
+  place-items: <align-items> <justify-items>;
+}
+start：对齐单元格的起始边缘。
+end：对齐单元格的结束边缘。
+center：单元格内部居中。
+stretch：拉伸，占满单元格的整个宽度（默认值）。
+```
 
-      + `grid-template-columns: 1fr 1fr minmax(100px, 1fr);` 
-      + `minmax(100px, 1fr)表示列宽不小于 100px，不大于1fr`
++ justify-content 属性，align-content 属性，place-content 属性
+  + justify-content 属性是整个内容区域在容器里面的水平位置
+  + align-content 属性是整个内容区域的垂直位置
+```css
+.container {
+  justify-content: start | end | center | stretch | space-around | space-between | space-evenly;
+  align-content: start | end | center | stretch | space-around | space-between | space-evenly;
+  place-content: <align-content> <justify-content>
+}
+```
 
-    + ```css
-      为了方便表示比例关系，网格布局提供了fr关键字（fraction 的缩写，意为"片段"）。如果两列的宽度分别为1fr和2fr，就表示后者是前者的两倍。
-      /*	三行四列布局	*/
-      display: grid;
-              /*	每行的行高	*/		/*	1fr 1fr  平分为 2行	*/
-      grid-template-rows: 100px auto 25%;
-      grid-template-rows: repeat(3,1fr);/*平均的3行 	*/
-      					/*	每列的列宽	*/
-      grid-template-columns: 100px 100px 200px 100px;
-      
-      grid-template-columns: repeat(2, 100px 20px 80px); /* 重复设置模式 */
-      grid-template-columns: repeat(auto-fill, 100px); /* auto-fill关键字表示自动填充 */
-      
-      /*grid-template-columns属性和grid-template-rows属性里面，
-      还可以使用方括号，指定每一根网格线的名字，方便以后的引用。*/
-      .container {
-        display: grid;
-        grid-template-columns: [c1] 100px [c2] 100px [c3] auto [c4];
-        grid-template-rows: [r1] 100px [r2] 100px [r3] auto [r4];
-      }
-      ```
++ grid-auto-columns 属性，grid-auto-rows 属性
+  + 有时候，一些项目的指定位置，在现有网格的外部。比如网格只有3列，但是某一个项目指定在第5行。这时，浏览器会自动生成多余的网格，以便放置项目。
+  + grid-auto-columns 属性和 grid-auto-rows 属性用来设置，浏览器自动创建的多余网格的列宽和行高。
 
-  + `grid-template-areas 和 grid-template`
+### 子项属性
 
-    + area 是区域的意思,`grid-template-areas` 就是给网格划分区域的. 
++ n 行 m 列的父网格容器右 n+1 根水平网格线   m+1 根垂直网格线
++ grid-column-start 属性，
++ grid-column-end 属性，
++ grid-row-start 属性，
++ grid-row-end 属性
++ 项目的位置是可以指定的，具体方法就是指定项目的四个边框，分别定位在哪根网格线。
++ 这四个属性的值还可以使用span关键字，表示"跨越"，即左右边框（上下边框）之间跨越多少个网格。
++ grid-column 属性，grid-row 属性 为简写
+```css
+.item-1 {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-column-start: span 2;
+  grid-column: <start-line> / <end-line>;
+  grid-row: <start-line> / <end-line>;
+}
 
-    + 此时grid子项要使用`grid-area`属性指定其隶属于那个区
+.item-1 {
+  background: #b03532;
+  grid-column: 1 / 3;
+  grid-row: 1 / 3;
+}
+/* 等同于 */
+.item-1 {
+  background: #b03532;
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2;
+}
+```
 
-    + `grid-template` 是 `gird-template-columns grid-template-rows grid-template-areas` 的缩写
++ grid-area 属性
+  + grid-area属性指定项目放在哪一个区域。
 
-    + ```css
-      grid-template-rows: repeat(5,1fr);
-      grid-template-columns: repeat(5,1fr);
-      grid-template-areas: 
-      "a1 a1 a1" 
-      "a2 a2 a3" 
-      "a2 a2 a3";
-      如果某些区域不需要利用，则使用"点"（.）表示。
-      grid-template-areas: 'a . c'
-                           'd . f'
-                           'g . i';
-      /*注意，区域的命名会影响到网格线。每个区域的起始网格线，
-      会自动命名为区域名-start，终止网格线自动命名为区域名-end。
-      
-      比如，区域名为header，则起始位置的水平网格线和垂直网格线叫做header-start，
-      终止位置的水平网格线和垂直网格线叫做header-end。*/
-      /*	区域划分只能分长方形或正方形  其他图像无效   区域名字随便命名	*/
-      grid-template: 
-      		"a1 a1 a1" 1fr
-      		"a2 a2 a3" 1fr
-      		"a2 a2 a3" 1fr
-      		/1fr 1fr 1fr;
-      	}
-      ```
-
-  + `grid-auto-flow` 网格排列顺序  默认是 row 即"先行后列" 也可以将它设成`column`，变成"先列后行"。
-
-    + 还可以设成`row dense`和`column dense`。这两个值主要用于，某些项目指定位置以后，剩下的项目怎么自动放置
-    + 像第一图的情况  修改设置，设为`row dense`，表示"先行后列"，并且尽可能紧密填满，尽量不出现空格。
-    + ![bg2019032513](E:/Github/Practice/notes/images/bg2019032513.png) ![bg2019032514](E:/Github/Practice/notes/images/bg2019032514.png)
-
-  + `grid-column-gap 和grid-row-gap`
-
-    + 用来定义网格间隙的尺寸
-
-    + `grid-gap` 属性是`grid-row-gap 和 grid-column-gap` 的简写
-
-      + ```css
-        grid-gap: <grid-row-gap> <grid-column-gap>;
-        ```
-
-  + `justify-items 和 align-items`
-
-    + `justify-items 水平方向   align-items 垂直方向`
-    + 网格的内容 相对于网格的位置
-    + 属性: `stretch |  Start  |  end  |  center `
-    + 简写 : ` place-items: align-items justify-items;`
-
-  + `justify-content  和 align-content` 
-
-    + `justify-content 水平方向   align-content 垂直方向`
-    + 是整个内容区域在容器里面的位置    在网格没有铺满容器的情况下有效
-      + 取值: `stretch(默认) | start | end | center | space-between | space-around | space-evenly`
-    + 简写 :`place-content: <align-content> <justify-content>`
-
-+ 子项属性
-
-  + n行m列的父网格容器右 n+1根水平网格线   m+1根垂直网格线
-    + `grid-column-start:2;` 和 `grid-column-end:3;`  决定列的起始位置和结束位置
-    + `grid-row-start:2;` 和 `grid-row-end:3;`         决定行的起始位置和结束位置
-    + `grid-column-end 和 grid-row-end`    这2个属性有  `span 1` 值    表示要占几个网格
-    + `grid-column: 2 / 3 ; 是 grid-column-start:2;  和 grid-column-end:3;`  的简写
-    + `grid-row: 2 / span 1; 是 grid-row-start:2; 和 grid-row-end: span 1;`  的简写
-  + 子元素占据的位置一般由父元素规划区域子元素选择就好,
-  + `grid-area:3 / 2 / 4 / 4 ;`  这个比上面的方法好
-    + 第一个值是水平的起始位置
-    + 第二个值是垂直的起始位置
-    + 第三个值是水平的结束位置
-    + 第四个值是垂直的结束位置
-    + 还能指定区域名字
-  + `justify-self 从左至右 和 align-self 从上至下 ` 针对单独一个网格位置调整
-  + 简写`place-self: align  justify ;` 
-
-+ 简写  先找行在找列
++ justify-self 属性，align-self 属性，place-self 属性
+  + justify-self 属性设置单元格内容的水平位置
+  + align-self属性设置单元格内容的垂直位置
+```CSS
+.item {
+  justify-self: start | end | center | stretch;
+  align-self: start | end | center | stretch;
+  place-self: <align-self> <justify-self>;
+}
+```
 
 ## 分栏布局
 
 + 像报纸一样的排版
-
   + 栏数和宽度只能设置一个
-  + 改变viewport宽度会动态改变列数
+  + 改变 viewport 宽度会动态改变列数
 
 + columu-count : 分栏的个数
 
@@ -1438,12 +1449,12 @@ div{
 
   + CSS属性前缀法
 
-    + |        前缀         |    浏览器    |
-      | :-----------------: | :----------: |
-      |          _          |     IE6      |
-      |      + or   *       | IE6  -  IE7  |
-      | \9     加在值的后面 | IE6  ~  IE9  |
-      | \0     加在值的后面 | IE8  ~  IE11 |
+    |          +          |     前缀     | 浏览器 |
+    | :-----------------: | :----------: |
+    |          _          |     IE6      |
+    |      + or   *       | IE6  -  IE7  |
+    | \9     加在值的后面 | IE6  ~  IE9  |
+    | \0     加在值的后面 | IE8  ~  IE11 |
 
   + 选择器前缀法
 
