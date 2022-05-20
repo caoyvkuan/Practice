@@ -630,9 +630,17 @@
   + I read books every day
   + I don't read books every day
 
-# 数词 num = numerals
-
 # 副词 adv = adverbs
+
++ 副词是修饰动词,形容词,副词的词语
+  + 有时也可修饰数词,介词,连词,名词或全句
+
++ 时间,地点,方式副词主要做状语
++ 程度副词用来修饰形容词和方式副词
++ 频度副词也做状语,但位置不一样
+
+
+# 数词 num = numerals
 
 # 介词 prep = prepositions
 

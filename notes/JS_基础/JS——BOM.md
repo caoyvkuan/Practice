@@ -746,6 +746,8 @@ frames.myframe === myFrame // true
 
 # API
 
++ https://mp.weixin.qq.com/s/Z8svAPdFxlSNugbOCrMEQw
+
 ## IntersectionObserver
 
 + 交叉观察器
@@ -817,6 +819,10 @@ var observer = new IntersectionObserver(
   opts
 );
 ```
+
+## MutationObserver
+
++ 一个可以监听 DOM 结构变化的接口。当 DOM 对象树发生任何变动时，MutationObserver 会得到通知。
 
 
 # Navigator 对象，Screen 对象。
