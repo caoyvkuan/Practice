@@ -46,7 +46,7 @@
 
 + ssh-agent -s -> 设置
 + ssh-add ~/.ssh/id_rsa  -> 添加秘钥
-+ 添加秘钥失败 -> 
++ 添加秘钥失败 ->
   + 输入eval `ssh-agent -s`
   + 再输入 eval `ssh-agent -s`
 + 然后在测试链接
@@ -194,9 +194,9 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 
 + reset
   + git reflog -> 可以查看能够重置的位置
-  + git reset --soft HEAD~(HEAD-hash) 
+  + git reset --soft HEAD~(HEAD-hash)
     + -> 重置到目标 hash 的版本,并会带着 HEAD 指针一同跳过去,分支也会一同移动
-  + git reset [--mixed] HEAD~ 
+  + git reset [--mixed] HEAD~
     + -> 带着分支一起动 HEAD,且动了暂存区
   + git reset --head HEAD~
     + -> 动 HEAD 与分支, 动暂存区且动工作区
@@ -254,10 +254,10 @@ yarn-error.log*
 *.sln
 
 #忽略跟踪(提交代码时，忽略某一个文件不提交，即某个文件不被版本控制)
-git update-index --assume-unchanged file  
+git update-index --assume-unchanged file
 
 #恢复跟踪
-git update-index --no-assume-unchanged file  
+git update-index --no-assume-unchanged file
 
-#FILE是目标文件路径  
+#FILE是目标文件路径
 ```

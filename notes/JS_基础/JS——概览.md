@@ -698,11 +698,13 @@ newAdd(5) // 20   新的add函数只需要传入参数 y 就行了， x已经被
 使用注意点
 //（1）每一次返回一个新函数
 //bind()方法每运行一次，就返回一个新函数，这会产生一些问题。比如，监听事件的时候，不能写成下面这样。
-element.removeEventListener('click', o.m.bind(o));
+element.addEventListener('click', o.m.bind(o));
 //上面代码中，click事件绑定bind()方法生成的一个匿名函数。这样会导致无法取消绑定，所以下面的代码是无效的。
+element.removeEventListener('click', o.m.bind(o));
+
+//应该写成这样
 var listener = o.m.bind(o);
 element.addEventListener('click', listener);
-//应该写成这样
 
 //（2）结合回调函数使用
 //回调函数是 JavaScript 最常用的模式之一，但是一个常见的错误是，将包含this的方法直接当作回调函数。解决方法就是使用bind()方法，将counter.inc()绑定counter。

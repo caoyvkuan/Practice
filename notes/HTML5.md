@@ -226,27 +226,38 @@ myHero {
 
   + `type=""` 取值
 
-  + ```html
-    <input type="number" min="0" max="20">	控制数值的大小范围
-    <input type="range" step="5" value="5">	滑动条 同样可控制数值大小 step 指定值的间隔	初始值5
-    <input type="password">	密码
-    <input type="submit" value="Send">	提交按钮	value 按钮上显示的文字
-    <input type="reset">	重置按钮
-    <input type="hidden">	隐藏域
-    <input type="radio" name="radio"> 单选按钮  需要name多个使用同一个name才能实现单选
-    type="email"	邮箱地址	只能输入合法的电子邮箱
-    type="url"		网址
-    type="tel"		电话
-    type="search" 	搜索框 普通文本类型	type="text"
-    type="color"	颜色选择器
-    type="date"		日期选择控件   type="datetime"
-    type="month"	年和月份	type="week"	年和第几周		type="time"		显示时间
-    radio:	单选
-    	属性:
-    		name让单选形成一组,发挥单选的作用,每组的name属性值一样
-    		
-    checkbox  复选框	checked	默认选中<input type="checkbox" checked >
-    ```
+```html
+<input type="number" min="0" max="20">	控制数值的大小范围
+// 去掉 输入框上的箭头
+<style>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type='number']{
+  -moz-appearance: textfield;
+}
+</style>
+
+<input type="range" step="5" value="5">	滑动条 同样可控制数值大小 step 指定值的间隔	初始值5
+<input type="password">	密码
+<input type="submit" value="Send">	提交按钮	value 按钮上显示的文字
+<input type="reset">	重置按钮
+<input type="hidden">	隐藏域
+<input type="radio" name="radio"> 单选按钮  需要name多个使用同一个name才能实现单选
+type="email"	邮箱地址	只能输入合法的电子邮箱
+type="url"		网址
+type="tel"		电话
+type="search" 	搜索框 普通文本类型	type="text"
+type="color"	颜色选择器
+type="date"		日期选择控件   type="datetime"
+type="month"	年和月份	type="week"	年和第几周		type="time"		显示时间
+radio:	单选
+  属性:
+    name让单选形成一组,发挥单选的作用,每组的name属性值一样
+    
+checkbox  复选框	checked	默认选中<input type="checkbox" checked >
+```
 
 + **select**下拉列表
 

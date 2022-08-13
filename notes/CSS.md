@@ -220,7 +220,7 @@
 + `calc()` 计算
 + `clamp(min,cur,max)` 限制最大和最小值，当中间值超过最大或最小值时会采用相应的值
 
-## 文字对其
+## 文字对齐
 
 + 问题 : 在布局的时候需要将字数不同的行对其
 
@@ -725,7 +725,7 @@ currentColor 80%,transparent 0);
 
 + **writing-mode** 文本方向
 
-+ **text-orientation** 
++ **text-orientation** 文字朝向
 
 + **line-height** 行高
 
@@ -982,8 +982,11 @@ filter: opacity(10%) blur(2px) sepia(35%);
   + `float`、`display: inline-block`、`display: table-cell`、`vertical-align`和`column-*`等设置都将失效
 
 ### 父项属性
+### 区域划分
 
 + grid-template 属性，grid 属性
+  + grid-template-columns、grid-template-rows 和grid-template-areas 三个属性的合并简写
+
 + `gird-template-columns 列    和 grid-template-rows  行`
   + 网格布局提供了fr关键字（fraction 的缩写，意为"片段"）。如果两列的宽度分别为1fr和2fr，就表示后者是前者的两倍。
   + repeat(重复次数,重复值( 可以是像素 ,百分比, 自适应  以及  fr单位)或模式)
@@ -1014,11 +1017,6 @@ grid-template-columns: repeat(auto-fill, 100px); /* auto-fill关键字表示自�
   grid-template-rows: [r1] 100px [r2] 100px [r3] auto [r4];
 }
 ```
-+ grid-row-gap 属性，grid-column-gap 属性，grid-gap 属性
-  + 用于定义网格间的行列间距
-  + `grid-gap: <grid-row-gap> <grid-column-gap>;`
-  + 根据最新标准，上面三个属性名的grid-前缀已经删除
-  + grid-column-gap 和 grid-row-gap 写成column-gap 和 row-gap，grid-gap 写成gap。
 
 + `grid-template-areas 和 grid-template`
 ```css
@@ -1041,11 +1039,22 @@ grid-template-columns: repeat(auto-fill, 100px); /* auto-fill关键字表示自�
 区域划分只能分长方形或正方形  其他图像无效   区域名字随便命名
 }
 ```
+
+### 排列与间距
+
++ grid-row-gap 属性，grid-column-gap 属性，grid-gap 属性
+  + 用于定义网格间的行列间距
+  + `grid-gap: <grid-row-gap> <grid-column-gap>;`
+  + 根据最新标准，上面三个属性名的grid-前缀已经删除
+  + grid-column-gap 和 grid-row-gap 写成column-gap 和 row-gap，grid-gap 写成gap。
+
 + grid-auto-flow 属性
   + 划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格。默认的放置顺序是"先行后列"，即先填满第一行，再开始放入第二行。
   + 这个顺序由grid-auto-flow属性决定，默认值是row，即"先行后列"。也可以将它设成column，变成"先列后行"。
   + 还可以设成 row dense 和 column dense。
   + 表示"先行后列"，并且尽可能紧密填满，尽量不出现空格。
+
+### 对其方式
 
 + justify-items 属性，align-items 属性，place-items 属性
   + justify-items 属性设置单元格内容的水平位置
