@@ -864,7 +864,7 @@ document.body.clientHeight
    3. 该属性可读写，常用来设置某个节点的内容。
    4. 它能改写所有元素节点的内容，包括 <HTML> 和 <body> 元素。
    5. 包含 HTML 标签，会被解析成为节点对象插入 DOM。
-6. 如果插入的是文本，最好用 textContent 属性代替innerHTML。
++ 如果插入的是文本，最好用 textContent 属性代替innerHTML。
 2. Element.outerHTML
    1. Element.outerHTML 属性返回一个字符串，表示当前元素节点的所有 HTML 代码，包括该元素本身和所有子元素。
    2. outerHTML 属性是可读写的，对它进行赋值，等于替换掉当前元素。

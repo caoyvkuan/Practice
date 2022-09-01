@@ -1919,6 +1919,8 @@ function applyMixin(derivedCtor: any, baseCtors: any[]) {
 + `declare module` 扩展模块
 + `/// <reference />` 三斜线指令
   + 在声明全局变量文件时,引用其他库类型使用
+  + path 指定对另一个文件的依赖
+  + types 指定对另一个库的依赖
 
 + 声明并不会正真的定义一个变量，只是定义了一个类型
 + 会在编译结果中被删除

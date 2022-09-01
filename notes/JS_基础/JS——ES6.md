@@ -1407,8 +1407,11 @@ run(g);
 + 代理器，在目标前拦截操作，外部访问该目标都必须通过代理器，可以对外界的访问进行过滤和改写
 ```js
 var obj = new Proxy({}, {
+  // receiver = Proxy
   get: function (target, propKey, receiver) {
     console.log(`getting ${propKey}!`);
+    // 绑定 receiver 是为了 对象中有 getter 会跳过 proxy
+    // 将对象中的 getter 绑定 this 为 proxy
     return Reflect.get(target, propKey, receiver);
   },
   set: function (target, propKey, value, receiver) {
@@ -1433,7 +1436,7 @@ obj.count = 1
 + ES6 原生提供 Proxy 构造函数，用来生成 Proxy 实例。
 + 注意，要使得 Proxy 起作用，必须针对 Proxy 实例（上例是 proxy 对象）进行操作，
 ```js
-var proxy = new Proxy(target, handler);
+var proxy = new Proxy(target, handlerObj);
 /* 
   Proxy 对象的所有用法，都是上面这种形式，不同的只是 handler 参数的写法。
   new Proxy() 表示生成一个 Proxy 实例

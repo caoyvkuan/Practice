@@ -1044,7 +1044,8 @@ console.log(o5==o8);    //false
 
 ## 函数绑定
 
-+ 函数绑定要创建一个函数,可以在特定的this环境中已指定参数调用另一个函数,该技巧常常和回调函数于事件处理程序一起使用,以便在将函数作为变量传递的同时保留代码执行环境
++ 函数绑定要创建一个函数,可以在特定的this环境中已指定参数调用另一个函数
+该技巧常常和回调函数于事件处理程序一起使用,以便在将函数作为变量传递的同时保留代码执行环境
 
 + ```js
   //这个事件触发的提示为 undefined  而不是 "Event Handled",因为this指向的是按钮
@@ -1086,21 +1087,20 @@ console.log(o5==o8);    //false
 + 创建多个闭包可能会令代码变得难于理解和调试
 
 + 使用bind()方法,接收一个函数和一个环境
+```js
+function bind(fn, context) {
+  return function () {
+    return fn.apply(context, arguments);
+  };
+}
+//在 bind() 中创建了一个闭包, 闭包使用apply()调用传入的函数,并给apply()传递context对象和参数, 这里使用的  arguments 对象是内部函数的,而非bind方法的,当调用返回的函数时,它会在给定环境中执行被传入的函数并给出所有参数
+btn.addEventListener("click", bind(handler.handleClick, handler), false);
 
-  + ```js
-    function bind(fn, context) {
-    	return function () {
-    		return fn.apply(context, arguments);
-    	};
-    }
-    //在 bind() 中创建了一个闭包, 闭包使用apply()调用传入的函数,并给apply()传递context对象和参数, 这里使用的  arguments 对象是内部函数的,而非bind方法的,当调用返回的函数时,它会在给定环境中执行被传入的函数并给出所有参数
-    btn.addEventListener("click", bind(handler.handleClick, handler), false);
-    
-    //ES5原生的bind方法
-    btn.addEventListener("click", handler.handleClick.bind(handler), false);
-    
-    //会占用更多内存,同时也因为多重函数调用速度会慢一点
-    ```
+//ES5原生的bind方法
+btn.addEventListener("click", handler.handleClick.bind(handler), false);
+
+//会占用更多内存,同时也因为多重函数调用速度会慢一点
+ ```
 
 ## 函数柯里化
 

@@ -150,12 +150,6 @@ React.cloneElement(
 + 相同的 ref 将添加到克隆后的新元素中。
 + 引入此 API 是为了替换已弃用的 React.addons.cloneWithProps()。
 
-## x.createFactory()
-
-+ ` React.createFactory(type) `
-+ 此辅助函数已废弃，建议使用 JSX 或直接调用 React.createElement() 来替代它。
-+ 返回用于生成指定类型 React 元素的函数。与 React.createElement() 相似的是，类型参数既可以是标签名字符串（像是 'div' 或 'span'），也可以是 React 组件 类型 （class 组件或函数组件），或是 React fragment 类型。
-
 ## x.isValidElement()
 
 + ` React.isValidElement(object) `
@@ -245,8 +239,8 @@ const FancyButton = React.forwardRef((props, ref) => (
 const ref = React.createRef();
 <FancyButton ref={ref}>Click me!</FancyButton>;
 ```
-+ 在上述的示例中，React 会将 <FancyButton ref={ref}> 元素的 ref 作为第二个参数传递给 React.forwardRef 函数中的渲染函数。该渲染函数会将 ref 传递给 <button ref={ref}> 元素。
-+ 因此，当 React 附加了 ref 属性之后，ref.current 将直接指向 <button> DOM 元素实例。
++ 在上述的示例中，React 会将 `<FancyButton ref={ref}>` 元素的 ref 作为第二个参数传递给 React.forwardRef 函数中的渲染函数。该渲染函数会将 ref 传递给 `<button ref={ref}>` 元素。
++ 因此，当 React 附加了 ref 属性之后，ref.current 将直接指向 `<button>` DOM 元素实例。
 
 ## x.lazy
 
@@ -255,7 +249,7 @@ const ref = React.createRef();
 // 这个组件是动态加载的
 const SomeComponent = React.lazy(() => import('./SomeComponent'));
 ```
-+ 请注意，渲染 lazy 组件依赖该组件渲染树上层的 <React.Suspense> 组件。
++ 请注意，渲染 lazy 组件依赖该组件渲染树上层的 `<React.Suspense>` 组件。
 + 这是指定加载指示器（loading indicator）的方式。
 + 使用 React.lazy 的动态引入特性需要 JS 环境支持 Promise。
 + 在 IE11 及以下版本的浏览器中需要通过引入 polyfill 来使用该特性。
@@ -263,7 +257,7 @@ const SomeComponent = React.lazy(() => import('./SomeComponent'));
 ## x.Suspense
 
 + React.Suspense 可以指定加载指示器（loading indicator），以防其组件树中的某些子组件尚未具备渲染条件。
-+ 目前，懒加载组件是 <React.Suspense> 支持的唯一用例：
++ 目前，懒加载组件是 `<React.Suspense>` 支持的唯一用例：
 ```jsx
 // 该组件是动态加载的
 const OtherComponent = React.lazy(() => import('./OtherComponent'));
@@ -280,8 +274,8 @@ function MyComponent() {
 }
 ```
 + 请注意，lazy 组件可以位于 Suspense 组件树的深处——它不必包装树中的每一个延迟加载组件。
-+ 最佳实践是将 <Suspense> 置于你想展示加载指示器（loading indicator）的位置，而 lazy() 则可被放置于任何你想要做代码分割的地方。
-+ React.lazy() 和 <React.Suspense> 尚未在 ReactDOMServer 中支持。
++ 最佳实践是将 `<Suspense>` 置于你想展示加载指示器（loading indicator）的位置，而 lazy() 则可被放置于任何你想要做代码分割的地方。
++ React.lazy() 和 `<React.Suspense>` 尚未在 ReactDOMServer 中支持。
 
 # React.Component
 
@@ -532,7 +526,7 @@ componentDidUpdate(prevProps) {
 + 它应返回一个对象来更新 state，如果返回 null 则不更新任何内容。
 
 + 此方法适用于罕见的用例，即 state 的值在任何时候都取决于 props。
-+ 例如，实现 <Transition> 组件可能很方便，该组件会比较当前组件与下一组件，以决定针对哪些组件进行转场动画。
++ 例如，实现 `<Transition>` 组件可能很方便，该组件会比较当前组件与下一组件，以决定针对哪些组件进行转场动画。
 + [详情](https://react.docschina.org/docs/react-component.html#static-getderivedstatefromprops)
 
 ### getSnapshotBeforeUpdate()
@@ -577,7 +571,7 @@ componentDidUpdate(prevProps) {
 
 # ReactDOM
 
-+ 使用一个 <script/> 标签引入 React ,所有的顶层 API 都能在全局 ReactDOM 上调用
++ 使用一个 `<script/>` 标签引入 React ,所有的顶层 API 都能在全局 ReactDOM 上调用
 + ES6 和 npm `import ReactDOM from 'react-dom'`
 + ES5 和 npm `var ReactDOM = require('react-dom')`
 
@@ -856,8 +850,7 @@ function Example(){
     // 可以在这里取消订阅等操作
     ChatAPI.unsubscribeFromFriendStatus(props.friend.id, handleStatusChange);
   }
-  })
-
+  }, [依赖参数])
 
   return <h1></h1>
 }
@@ -978,12 +971,12 @@ const isOnline = useFriendStatus(props.friend.id);
 + [链接](https://react.docschina.org/docs/hooks-reference.html#usecontext)
   + `const value = useContext(MyContext);`
   + 接收一个 context 对象（React.createContext 的返回值）并返回该 context 的当前值。
-  + 当前的 context 值由上层组件中距离当前组件最近的 <MyContext.Provider> 的 value prop 决定。
+  + 当前的 context 值由上层组件中距离当前组件最近的 `<MyContext.Provider>` 的 value prop 决定。
 
-+ 当组件上层最近的 <MyContext.Provider> 更新时，该 Hook 会触发重渲染，并使用最新传递给 MyContext provider 的 context value 值。
++ 当组件上层最近的 `<MyContext.Provider>` 更新时，该 Hook 会触发重渲染，并使用最新传递给 MyContext provider 的 context value 值。
 
 + useContext(MyContext) 只是让你能够读取 context 的值以及订阅 context 的变化。
-+ 你仍然需要在上层组件树中使用 <MyContext.Provider> 来为下层组件提供 context。
++ 你仍然需要在上层组件树中使用 `<MyContext.Provider>` 来为下层组件提供 context。
 
 + 使用这个也就免除了需要利用 MyContext.Consumer 组件 来读取 context 值的过程
 ```jsx

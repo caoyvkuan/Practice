@@ -1,3 +1,36 @@
+# Vite
+
++ `npm i Vite -D`
++ `npx vite` 启动
+
+```sh
+# npm 6.x
+npm create vite@latest my-vue-app --template vue
+
+# npm 7+, extra double-dash is needed:
+npm create vite@latest my-vue-app -- --template vue
+
+# yarn
+yarn create vite my-vue-app --template vue
+
+# pnpm
+pnpm create vite my-vue-app --template vue
+```
+
++ Vite 速度快的原因
+  + 会对 node_modules 中的包进行预打包
+
+## Vue
+
+```ts
+// 类型声明
+declare module '*.vue' {
+//   import { DefineComponent } from "vue"
+//   const App: DefineComponent<{}, {}, any>
+//   export default App
+}
+```
+
 # Webpack
 
 + [文档](https://www.webpackjs.com/concepts/)
@@ -131,12 +164,8 @@ plugins:[ // 配置位置
   + html-webpack-plugin
   + 压缩设置 这个插件的配置
 
-+ 图片资源打包 loader
-  + url-loader  处理不了 html 中的 img 图片
-  + file-loader 可不用
++ 图片资源打包 loade
   + html-loader 处理 html 文件的 img 图片 (负责引入 img,从而可以被 url-loader 处理)
-
-+ 打包其他资源 : file-loader
 
 ## 处理 CSS
 
@@ -153,12 +182,15 @@ plugins:[ // 配置位置
       // 也就是数组中越靠后的越先执行
       // 创建 style 标签,将 js 中的样式资源插入到 页面 head 标签中
       'style-loader',
+
+      // 利用插件 mini-css-extract-plugin 将 css 形成单独的文件
+      MiniCssExtractPlugin.loader,
+
       // 将 css 文件变成 commonjs 模块加载到 js 中,里面内容是样式字符串
-      'css-loader'
+      'css-loader',
    ]
 },
 ```
-+ 利用插件 mini-css-extract-plugin 将 css 形成单独的文件
 + css 兼容性处理 loader: postcss -> postcss-loader postcss-preset-env
 + 压缩 css plugin: optimize-css-assets-webpack-plugin 插件
 ```js
@@ -286,7 +318,43 @@ import '@babel/polyfill'
 }
 ```
 
+## 处理 其他资源
+
++ 使用 asset module type 取代 url-loader
+  + asset/resource = file-loader
+  + asset/inline = url-loader
+  + asset/source = raw-loader
+  + asset - 自动选择
+```js
+{
+   // loader
+   {
+      test: /\.(jpe?g|png|gif|svg)$/,
+      type: 'asset',
+      generator: {
+         filename: 'img/[name]_[hash:6][ext]'
+      },
+      parser: {
+         dataUrlCondition: {
+            maxSize: 100 * 1024
+         }
+      }
+   },
+   {
+      test: /\.(eot|ttf|woff2)$/,
+      type: 'asset/resource',
+      generator: {
+         filename: 'font/[name]_[hash:6][ext]'
+      }
+   }
+
+}
+```
+
 # 基础 config
+
++ production and development environment 分离
++ 通过分不同的配置文件 或 设置环境变量
 
 + 配置文件 webpack.config.js
 ```js
@@ -310,9 +378,17 @@ const CopyPlugin = require('copy-webpack-plugin');
 process.env_NODE_ENV = 'development'
 
 module.exports = {
+   // mode : modeString
+   mode: 'development', // 两个模式不能一起写
+   // mode:'production'
+
+   // 默认为 eval , source-map 用于更好的处理错误
+   devtool: 'source-map',
+
    // webpack 配置
    // 入口文件 entry: stringPath
    entry: './src/index.js',
+
    // 输出 output: configObject
    output: {
       // 输出文件名 filename : StringFileName
@@ -321,6 +397,22 @@ module.exports = {
       // __dirname 是 nodejs 的变量,代表当前文件的目录绝对路径
       path: resolve(__dirname, 'build')
    },
+
+   resolve:{
+      // 别名
+      alias: {
+         '@': resolve(__dirname, './src')
+      },
+
+      // 需要自动搜索后缀的文件
+      // 数组中配置的, 在引用时可以省略后缀名
+      extensions: ['js', 'ts', 'json', 'jsx', 'vue'],
+      // default: .wasm, .mjs, .js, .json
+
+      // 如果是文件夹, 则默认搜索 index 文件
+      mainFiles: ['index']
+   }
+
    // loader 的配置 module : configObject
    // 1.下载 , 2.使用
    module: {
@@ -438,16 +530,20 @@ module.exports = {
        // 清除打包目录中的文件
       new CleanWebpackPlugin(),
       // 复制静态文件
-      new CopyPlugin({
+      production && new CopyPlugin({
            patterns: [
               {
-                  from: Root('public/favicon.ico'),
-                  to: Root('dist')
+                  from: Root('public'),
+                  // to: Root('dist'),
+                  globOptions:{
+                     ignore: ['**/index.html']
+                  }
               }
           ]
       }),
       // html-webpack-plugin
       new HtmlWebpackPlugin({
+         
          // 默认打包的是一个空的HTML ,且引入了打包输出的所有资源
          // 需要有解构就需要配置
          // template 设置模板 html
@@ -459,15 +555,20 @@ module.exports = {
             removeComments:true
          }
       }),
+      // webpack 内置 definePlugin 可以定义 HTMl 模板中的变量
+      new DefinePlugin({
+         BASE_URL: '"./public"'
+      }),
       new MiniCssExtractPlugin({
          // 指定输出 css 文件的目录以及名字
          filename:'css/main.css'
       }),
       new OptimizeCssAssetsWebpackPlugin()
    ],
-   // mode : modeString
-   mode: 'development', // 两个模式不能一起写
-   // mode:'production'
+
+   // 监听文件变化, 重新打包
+   // watch: true, // 或者使用 --watch 命令
+
    // 开发服务器 devServer 用来自动化构建
    // 特点 : 只会在内存中编译打包不会有任何输出
    // 启动 devServer 指令为:npx webpack-dev-server
@@ -560,19 +661,24 @@ devServer: {
     * [inline-|hidden-|eval-][nosources-][cheap-[module]]source-map
     * source-map 外部
     *    准确提示错误代码的准确信息 和 源代码错误的位置
+    * 
     * inline-source-map  将 map 文件内联到 js 文件中,内联的构建速度更快
     *    准确提示错误代码的准确信息 和 源代码错误的位置
+    * 
     * hidden-source-map  外部
     *    错误代码的错误原因,只能提示到构建后代码的错误位置
+    * 
     * eval-source-map  每一个 js 文件内联一个 map 文件
     *    准确提示错误代码的准确信息 和 源代码错误的位置,多一个文件的唯一 hash 值
+    * 
     * nosources-source-map: 外部, 可以隐藏源代码
     *    能够找到错误代码的准确信息,但是没有任何源代码的
+    * 
     * cheap-source-map: 外部
     *    错误代码的信息,但是提示的是一整行代码的错误,不会精确到一行中错误代码的位置
-    * cheap-module-source-map:
     * 
-    * 开发环境: 速度快,调试更友好 推荐使用 -> eval-source-map (脚手架默认)
+    * cheap-module-source-map:
+    *    开发环境: 速度快,调试更友好 推荐使用 -> eval-source-map (脚手架默认)
     *    速度快(eval>inline>cheap)
     *       eval-cheap-source-map
     *       eval-source-map
@@ -899,53 +1005,80 @@ const AddAssetHtmlWebpackPlugin = require('add-asset-html-webpack-plugin');
 
 # 配置
 
++ npx i webpack webpack-cli
+
 ## devServer
 
-+ 开发服务器 devServer 作用:
-  + 自动编译
-  + 自动打开浏览器
-  + 自动刷新浏览器
-  + 需要下载 : webpack-dev-server 包 , 需要通过 npx 启动 npx webpack server
-  + 需要下载 : webpack-server 包 , 需要通过 npx 启动 npx webpack server
++ 开发服务器 devServer 作用: HMR
+  + 需要下载 : webpack-dev-server 包
+  + 通过 npx 启动 npx webpack server
 ```js
 {
    entry:'...',
    target: 'web', //解决不自动刷新问题
+   target: 'node', // 在 node 环境中
+
    devServer: {
-   // 项目构建后的路径 , 运行代码的目录
-   contentBase: resolve(__dirname, 'build'),
-   // 监视 contentBase 目录下所有文件的变化,一旦文件变化就会 reload
-   watchContentBase:true,
-   watchOptions:{
-      // 需要忽略监视的文件
-      ignored:/node_modules/
-   }
-   // 启动 gzip 压缩
-   compress: true,
-   // 端口号
-   port: 3000,
-   // 自动打开浏览器,为本机默认浏览器
-   open: true,
-   hot: true,
-   // 域名
-   host:'localhost',
-   // 不要显示启动服务器日志信息
-   clientLogLevel:'none',
-   // 除了一些基本的启动信息外,其他内容都不要显示
-   quiet:true,
-   // 如果出错了,不要全屏提示
-   overlay:false,
-   // 服务器代理 --> 解决开发环境跨域问题
-   proxy:{
-      // 一旦 devServer(5000) 服务器接收到 /api/xxx 的请求,就会吧请求转发到 target 目标服务器
-      '/api':{
-         target:'http://localhost:3000',
-         pathRewrite:{ // 重写路径
-            '^/api':''
+
+      // 服务引用静态资源目录
+      contentBase: resolve(__dirname, 'public'),
+      // 在服务运行时, 如果没有复制静态资源就可以这样指定静态资源路径 如 ./ico 就会去 public 目录寻找
+      // 如没有使用 CopyPlugin 时
+
+      // 热更新
+      hot: true,
+      /* 启用 HMR
+         cli 都会提供相应的 loader 进行处理,不需要手动
+
+         import './js'
+         module.hot && module.hot.accept('./js', ()=>{
+            // 更新回调
+         })
+      */
+
+      // 端口号, 默认 8080
+      port: 3000,
+
+      // 自动打开浏览器,为本机默认浏览器
+      open: true,
+      
+      // 域名
+      host:'localhost', // 0.0.0.0 其他位置可以访问
+      // 如想用手机测试时, 访问时使用电脑局域网 ip:port
+
+      // 不要显示启动服务器日志信息
+      clientLogLevel:'none',
+
+      // 除了一些基本的启动信息外,其他内容都不要显示
+      quiet:true,
+     
+
+      watchContentBase:true,
+      watchOptions:{
+         // 需要忽略监视的文件
+         ignored:/node_modules/
+      }
+
+      // 启动 gzip 压缩
+      compress: true,
+
+      // 如果出错了,不要全屏提示
+      overlay:false,
+      
+      // 服务器代理 --> 解决开发环境跨域问题
+      proxy:{
+         // 通过 devServer(5000) 服务器代理转发
+         // /api/xxx 的请求,会转发到 target 目标服务器
+         '/api':{ // axios.get('/api/getData')
+            target:'http://localhost:3000',
+            pathRewrite:{ // 重写路径
+               '^/api':''
+            },
+            secure: true, // 默认不接收 不带证书的域名
+            ChangeOrigin: true
          }
       }
    }
-}
 }
 ```
 

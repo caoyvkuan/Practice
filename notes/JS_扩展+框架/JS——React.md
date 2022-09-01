@@ -22,7 +22,7 @@
 
 ### 将一个元素渲染为 DOM
 
-+ 假设你的 HTML 文件某处有一个 <div>
++ 假设你的 HTML 文件某处有一个 `<div>`
 + ` <div id="root"></div> `
 + 我们将其称为“根” DOM 节点，因为该节点内的所有内容都将由 React DOM 管理。
 + 仅使用 React 构建的应用通常只有单一的根 DOM 节点。
@@ -450,7 +450,7 @@ return(
 + 可以通过使用 {} 在 JSX 内构建一个元素集合
 
 + 使用 Javascript 中的 map() 方法来遍历 numbers 数组。
-+ 将数组中的每个元素变成 <li> 标签，最后我们将得到的数组赋值给 listItems：
++ 将数组中的每个元素变成 `<li>` 标签，最后我们将得到的数组赋值给 listItems：
 ```jsx
 const numbers = [1, 2, 3, 4, 5];
 const listItems = numbers.map((number) =>
@@ -514,7 +514,7 @@ const listItems = numbers.map((number) =>
 + 一个好的经验法则是：在 map() 方法中的元素需要设置 key 属性。
 
 + 元素的 key 只有放在就近的数组上下文中才有意义
-+ 比方说，如果你提取出一个 ListItem 组件，你应该把 key 保留在数组中的这个 <ListItem /> 元素上，而不是放在 ListItem 组件中的 <li> 元素上。
++ 比方说，如果你提取出一个 ListItem 组件，你应该把 key 保留在数组中的这个 <ListItem /> 元素上，而不是放在 ListItem 组件中的 `<li>` 元素上。
 ```jsx
 // 错误！你不需要在这里指定 key：
 <li key={value.toString()} ></li>
@@ -595,7 +595,7 @@ function NumberList(props) {
 
 ### 受控组件
 
-+ 在 HTML 中，表单元素（如<input>、 <textarea> 和 <select>）之类的表单元素通常自己维护 state，并根据用户输入进行更新。
++ 在 HTML 中，表单元素`（如<input>、 <textarea> 和 <select>）`之类的表单元素通常自己维护 state，并根据用户输入进行更新。
 + 而在 React 中，可变状态（mutable state）通常保存在组件的 state 属性中，并且只能通过使用 setState()来更新。
 + 我们可以把两者结合起来，使 React 的 state 成为“唯一数据源”。
 + 渲染表单的 React 组件还控制着用户输入过程中表单发生的操作。
@@ -638,14 +638,14 @@ class NameForm extends React.Component {
 
 ### textarea 标签
 
-+ 在 HTML 中, <textarea> 元素通过其子元素定义其文本
-+ 而在 React 中，<textarea> 使用 value 属性代替。
++ 在 HTML 中, `<textarea>` 元素通过其子元素定义其文本
++ 而在 React 中，`<textarea>` 使用 value 属性代替。
 + ` <textarea value={this.state.value} onChange={this.handleChange} /> `
 + 请注意，this.state.value 初始化于构造函数中，因此文本区域默认有初值。
 
 ### select 标签
 
-+ 在 HTML 中，<select> 创建下拉列表标签。例如，如下 HTML 创建了水果相关的下拉列表
++ 在 HTML 中，`<select>` 创建下拉列表标签。例如，如下 HTML 创建了水果相关的下拉列表
 ```jsx
 <select>
   <option value="grapefruit">葡萄柚</option>
@@ -763,8 +763,8 @@ handleInputChange(dataType,e){
 + 有些组件无法提前知晓它们子组件的具体内容。在 Sidebar（侧边栏）和 Dialog（对话框）等展现通用容器（box）的组件中特别容易遇到这种情况。
 
 + 建议这些组件使用一个特殊的 children prop 来将他们的子组件传递到渲染结果中
-+ <FancyBorder> JSX 标签中的所有内容都会作为一个 children prop 传递给 FancyBorder 组件。
-+ 因为 FancyBorder 将 {props.children} 渲染在一个 <div> 中，被传递的这些子组件最终都会出现在输出结果中。
++ `<FancyBorder>` JSX 标签中的所有内容都会作为一个 children prop 传递给 FancyBorder 组件。
++ 因为 FancyBorder 将 {props.children} 渲染在一个 `<div>` 中，被传递的这些子组件最终都会出现在输出结果中。
 ```jsx
 function FancyBorder(props) {
   return (
@@ -879,7 +879,8 @@ import React, { lazy, Suspense } from 'react'
 // lazy 传入一个函数 返回一个 组件的引入
 // 需要利用懒加载的都可以使用这种方式
 const Home = lazy(() => import('./pages/Home'));
-const Learning = lazy(() => import('./pages/Learning'));
+// 修改打包后的名字
+const Learning = lazy(() => import(/*webpackChunkName:"about"*/'./pages/Learning'));
 const Lose = lazy(() => import('./pages/Lose404'));
 
 // 在路由组件没被加载的时候需要显示一个默认显示的 组件
@@ -1199,7 +1200,7 @@ class My extends React.component{
 
 # JSX
 
-+ `  const element = <h1>Hello, world!</h1>;  `
++ `const element = <h1>Hello, world!</h1>;`
 + 这被称为 JSX，是一个 JavaScript 的语法扩展。 既不是 HTML 也不是字符串
 ```jsx
 const name = 'Josh Perez';
@@ -1233,7 +1234,7 @@ const element = <h1>Hello, {name}</h1>;
 + 你可以通过使用引号，来将属性值指定为字符串字面量：
 + `  const element = <div tabIndex="0"></div>;  `
 + 也可以使用大括号，来在属性值中插入一个 JavaScript 表达式：
-+ `  const element = <img src={user.avatarUrl}></img>;  `
++ `const element = <img src={user.avatarUrl} />;`
 + 不能同时在使用两种方式
 
 ## 使用 JSX 指定子元素
@@ -1285,7 +1286,7 @@ const element = {
 ### 在 JSX 类型中使用点语法
 
 + 在 JSX 中，你也可以使用点语法来引用一个 React 组件。
-+ 例如，如果 MyComponents.DatePicker 是一个组件，你可以在 JSX 中直接使用：`<MyComponents.DatePicker />`
++ 例如，如果 MyComponents.DatePicker 是一个组件，你可以在 JSX 中直接使用：``<MyComponents.DatePicker />``
 
 ### 用户定义组件必须要大写开头
 
@@ -1301,16 +1302,16 @@ const element = {
 ## JSX 中的 Props
 
 + 有多种方式可以在 JSX 中指定 props。
-+ 传入字符串可以使用两种方法 `<MyComponent message="&lt;3" />    message={'<3'}  `
++ 传入字符串可以使用两种方法 ``<MyComponent message="&lt;3" /> // message={'<3'}``
 + Props 默认值为 “True” `<MyTextBox autocomplete />` 这样会默认传入 true `autocomplete={true}`
 + 属性的展开：如果已经有了一个 props 对象，可以使用展开运算符 ... 来在 JSX 中传递整个 props 对象。
-  + `<Greeting {...props} />` 
+  + ``<Greeting {...props} />`` 
   + 保留需要的，其他继续传递
   + `const { kind, ...other } = props;   {...other}`
 
 ### JavaScript 表达式作为 Props
 
-+ 可以把包裹在 {} 中的 JavaScript 表达式作为一个 prop 传递给 JSX 元素。`<MyComponent foo={1 + 2 + 3 + 4} />`
++ 可以把包裹在 {} 中的 JavaScript 表达式作为一个 prop 传递给 JSX 元素。``<MyComponent foo={1 + 2 + 3 + 4} />``
 + if 语句以及 for 循环不是 JavaScript 表达式，所以不能在 JSX 中直接使用。
 + 但是可以在外部完成赋值的操作然后在加入到 JSX 中
 
@@ -1545,7 +1546,7 @@ render() {
 
 ### Context.Provider
 
-+ ` <MyContext.Provider value={/* 某个值 */}> `
++ ``<MyContext.Provider value={/* 某个值 */}>``
 + 每个 Context 对象都会返回一个 Provider React 组件，它允许消费组件订阅 context 的变化。
 
 + Provider 接收一个 value 属性，传递给消费组件。
@@ -2219,7 +2220,7 @@ MyComponent.propTypes = {
 + 与 Fragment 一样，StrictMode 不会渲染任何可见的 UI。
 + 它为其后代元素触发额外的检查和警告。
 + 严格模式检查仅在开发模式下运行；它们不会影响生产构建。
-+ 使用 `<React.StrictMode>` 标签来嵌套住需要检查的组件，任何部分都可以使用
++ 使用 ``<React.StrictMode>`` 标签来嵌套住需要检查的组件，任何部分都可以使用
 
 + StrictMode 目前有助于：
   + 识别不安全的生命周期

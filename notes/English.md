@@ -225,9 +225,11 @@
 + 名词的定义,各种东西的名称都叫**名词**
 
 + 名词分类
-  
   + 普通
   + 专有
+
++ 不可数名词, 在特指的某些情况下也是可数的
+  + 专有名词同样如此
 
 + 复合名词 -> 名词(不能变化) + 名词(决定 可数 或 不可数)
   
@@ -277,6 +279,7 @@
 
 + 人名、地名、各种机构、组织、术语
   + 专有名词可以单独使用
+  + 专有名词 __首字母大写__
 
 ## 复数形式
 
@@ -369,7 +372,11 @@
     + 普通名词单数不能单独使用
       + My friend's (需要加限定词 My 才可以构成所有格)
       + The Doctor's
-  + 没生命的名词用 __of + 无生命名词__
+    + and 表示共有, 只需后面加 s
+      + N and Y's bed - N和Y 共有的床
+    + and 表示各自, 都要加 s
+      + N's and Y's beds - N和Y 各自的床
+  + 没生命的名词用 __of + 无生命名词__, 表示名词的性质特征
     + 可数名词不可直接用, 需要加限定词
     + _the_ center __of the city__(城市的中心)
     + 所有格做后置定语-修饰的-名词-都需要加-定冠词(_the_ prices)
@@ -387,6 +394,7 @@
   + 人称代词
   + 物主代词
   + 反身代词
+  + 强调代词
   + 相互代词
   + 指示代词
   + 不定代词
@@ -458,21 +466,111 @@
 ## 指示代词
 
 + 可以作 : 主语 , 宾语 , 表语 , 定语
-
 + 单数 - 复数
-  
-  + this(这个) - these(这些)
-  + that(那个) - those(那些)
+  + this(这个) - these(这些) - 指示较近的人或物
+  + that(那个) - those(那些) - 指示较远的人或物
 
 + 单数形式可以修饰单数,也可以修饰不可数名词
-  
   + This computer 这台电脑
   + This water 这水 / 这些水
-
 + 复数形式,只能修饰可数名词复数
-  
   + These houses
   + Those boys
+
+## 反身 & 强调
+
++ self 自己, 用来称呼自己
++ myself
++ ourself
++ yourself - yourselves
++ himself
++ herself
++ itself
++ themselves
+
++ The rabbit washed __himself__. - 反身代词
++ The rabbit washed the carrots __himself__. - 强调代词
+  + 用于强调是自己做的这件事
++ The rabbit will do it himself.
+
+## 相互
+
++ 相互,彼此
++ each other - 两者之间
+  + We should help __each other__.
++ one another - 三者或以上
+
+## 不定
+
++ 用以描述, 不确定的人/物
++ 形容词修饰不定代词要后置
+
++ many - 许多, 修饰可数名词复数
++ much - 许多, 修饰不可数名词
++ a few - (肯定)一些, 可数
+  + few - (否定)几乎没有
++ a little - (肯定)一些, 不可数
+  + little - (否定)几乎没有
++ 一些
+  + some - 用在肯定句, 想要正面肯定的回答时, 可以用在疑问句
+    + Would you like some coffee?
+  + any - 用在否定句/疑问句, 表示任何一个时, 可以用在肯定句
+
++ each / every - 表示每, 后接单数
+  + each carrot / every carrot
+  + each 可以做代词, 单独做主语, 两个或以上的每一个
+  + every + 名词, 不可单独做主语, 三个或以上的每一个
+
++ either - 两者中的每一个, 谓语用单数
++ either - 两者中每一个都不
+  + Either of the carrots is good.
+
++ 都, 全部
+  + both - 两者 都
+  + all - 三者及以上 都
+
++ other + 名词 - 另外的, 其他的 
++ the other - 特指两者中的另一个
++ another - 泛指三个及以上的另一个
+
++ one, it - 代指
+
++ 复合不定代词
+  + everyone / everybody / everything
+  + someone / somebody / something
+  + anyone / anybody / anything
+  + no one / nobody / nothing
+
+## 疑问
+
++ 只带未知的人/物
++ 谁: Who - whom - 主格与宾格的区别
+  + Who saw the rabbit? - 谁看见了兔子?
+  + Whom did the rabbit see? - 兔子看见谁了?
+  + 一般情况也可以用 who 取代 whom, 除了做介词宾语时
+
++ what - 什么
++ which - 哪一个
++ whose - 谁的
+
+## 连接
+
++ 用以引导 主语/宾语/表语 从句, ever 表示强调
+  + Who - whoever
+  + whom - whomever
+  + whose
+  + what - whatever
+    + What he said isn't true. - 他说的话不是真的
+  + which - whichever
+
+## 关系
+
++ 专用于定语从句
+  + who - whom
+  + whose
+  + which
+  + that
+  + as
 
 # 形容词 adj = adjectives
 
@@ -516,11 +614,19 @@
   + you are __rich__
   + she is __busy__
 
++ 一些以 a 开头的形容词, 只做表语, 不能做前置定语
++ 但有时可以做后置定语
+  + alive, asleep, alone
+  + 做定语替换为: living, sleeping, lonely
++ 某些表示身体状况的同样如此
+  + 表语: ill / well , 定语: sick / healthy
+
 ## 做前置定语
 
 + 大部分都可以做前置定语
-
 + 可以构成一个*短语*,不能直接造句
++ 多个形容词顺序
+  + 限定词 特征 尺寸 形状 新旧 颜色 来源 材料 名词
 
 + The __big__ house
 
@@ -535,6 +641,14 @@
   + I like the girl. 不需要形容词也是个完整的句子
   + 形容词只是附加成分, 哪里有名词哪里就有定语
 
+## 后置定语
+
++ 修饰 不定代词 时
++ 形容词短语作定语
+  + carrots __good for the rabbit__
+  + the __rabbit (that is) eager to eat carrots__
+  + the __rabbit (that is) busy eating carrots__
+
 ## 作宾语补足语
 
 + 只有部分特定的及物动词后面才可以跟形容词做宾补
@@ -542,16 +656,64 @@
 + I make you rich.
 + We keep the room clean. 我们保持房间干净
 
+## 复合形容词
+
++ 形容词 + 形容词/现在分词/过去分词
+  + new-born - 新生
+  + good-looking - 好看
++ 副词 + ...
+  + all-round - 全面的
+  + hard-working - 努力的
+  + recently-built - 最近建成的
++ 形容词/数词 + 名词 - 往往需要名词 + ed(一般用以修饰人/动物才加)
+  + 往往用于修饰 人/动物, 因为人或动物才能用 whose
+  + 白发的: a white-haired man = a man whose hair is white
+  + 好心的, 善良的: a kind-hearted woman - a woman whose heart is kind
++ 名词 + ...
+  + snow-white - 雪白 = a rabbit that is white like snow
+  + carrot-eating - 吃胡萝卜的
+  + heart-broken - 心碎的
+
+## 做状语
+
++ The rabbit came home, __tired and hungry__
+
 ## 比较级和最高级
 
 + 用法和普通形容词一样
   + 在比较的时候需要变比较级
   + 比如 : 什么比什么漂亮
-+ 如 : 漂亮(原级) , 更漂亮(比较级) , 最漂亮(最高级)
-+ 在单音节形容词后面 或 以 __er , ow , ure , le__ 结尾的双音节形容词
-+ 结尾直接 + __er,est__ 或者 + __r,st__
++ 如 : 
+  + 漂亮(原级)
+  + 更漂亮(比较级) - more
+  + 最漂亮(最高级) - most
++ 一般结尾直接 + __er/est__
   + tall(高的) - taller(更高) - tallest(最高)
   + gentle(温柔) - gentler(更温柔) - gentlest(最温柔)
++ 有些以 e 结尾的词 + __r/st__
++ 辅音字母 + y 结尾, + __y 变 i + er/est__
++ 重读闭音节, __+ 双写词尾辅音字母 + er/est__
++ 多音节/部分双音节词, __词前 + more/most__
++ 不规则
+  + good - better - best
+  + bad - worse - worst
+  + many - more - most
+  + little - less - least
+
++ 比较: bigger than ...
++ 倍数: three times bigger than ...
++ 一样: as...as... / three times as...as...
++ 越来越: prettier and prettier / more and more beautiful
++ 越..., 就越...
+  + the + 比较级(原因) + 补充内容, the 比较级(结果) + 内容
+  + The more carrots the rabbit eats, the smarter he will become
++ 省略: 依靠语境 - The more, the better - 越多越好
+
++ 最高级: 一般用 __in + 地点__ 或 __of + 所属范围__ 限定范围
+  + 形容词前加序数词表示 第几最
+  + 形容词最高级修饰名词, 前面一般都 + the , 表特指
+  + I am most NB __in my home__
+  + I am the most excellent __one of my classroom__
 
 # 动词 v = verbs
 
@@ -571,7 +733,79 @@
 
 + 非谓语动词可以作: 主语,宾语,宾补,表语,定语,状语
 
-## 谓语动词
+## 祈使语气
+
++ 多用于 命令/请求
++ Rabbit, eat the carrot!
++ Please, give me thumbs-up!
+
++ 窍门
+  + 用第二人 "你" 用一般现在时态
+  + 去掉 "你", 并保证动词原形
+
++ You eat the carrot! - Eat the carrot!
++ You don't eat it! - Don't eat it!
++ You are quiet! - be quiet!
++ You never give up! - Never give up!
+
+## 使役
+
++ 通常表达如 `使, 让, 令 等`
++ make - 让(驱使), let - 让(允许)
++ have - 给某人 任务/责任 做..., get - 说服/鼓励 某人做某事
+  + I'll have the wolf wash the dishes. 我会让狼洗盘子
+  + I had someone wash my car. - I had my car washed.
+  + = My car was washed (by someone) as I wanted.
+
+## 虚拟语气 - subjunctive
+
++ 用法一: 表示 不可能的 假设
++ 与现实相反的, 或是 主观意愿
+  + 条件句: 过去式/were
+  + 主句: would + 动词原形
++ 与将来实事相反(或几率非常小的事)
+  + 条件句: should (shall) + 动词原形
+  + 主句: would + 动词原形
++ 与过去实事相反(不可能发生的事)
+  + 条件句: had + 过去分词
+  + 主句: would have + 过去分词
+
++ 用法二: 表达愿望, 请求, 建议, 命令 等
++ 即希望 某个动作/事件 发生, wish / hope
++ 对现在的愿望: wish + 动词过去式/were
+  + I __wish__ that I __were__ a rabbit.
++ 对过去的愿望: wish + had/would have + 过去分词
+  + I __wish__ that I __had eaten__ the carrot.
++ 对将来的愿望: wish + should/would/could/might + 动词原形
+  + I __wish__ that I __could eat__ the carrot.
++ 其他动词
+  + __would rather__ 用法 = wish
+    + I would rather that you hadn't eaten the carrot.
+  + __demand, suggest, insist, order...__
+    + 这几个后面接 __should + 动词原形__
+    + I __order__ that you (should) give me a carrot.
+      + 这里 should 可以省略
+    + I __ordered__ that you (should) give me a carrot.
+    + 宾语从句: I suggest that you (should) eat a carrot.
+    + 主语从句: it is suggested that you (should) eat a carrot.
+    + 主语补语/表语从句: The suggestion is that you (should) eat a carrot.
+    + It is (high) time that you ate a carrot.
+
++ 如果我看到兔子, 我将要咬它
++ if I see the rabbit __now__, I __will__ bite him.
+  + 在英语中不能这样表达, 因为 will 表示的是确信会发生的事
+  + now 也是一个明确的时间, 都是在客观的描述实事
+
++ 将时间往前推一个时间段, 与现在实事相反, **动词变过去式**
++ if I __saw__ the rabbit now, I __would__ bite him.
+  + 这里的过去式, 并非描述过去发生的事情
+  + 而是一个主观意愿, 想象的假设
+
++ 表示与过去实事相反, 动词 使用过去完成时态
++ 如: 早知道如此, 当时我就该做那件事
++ If I __had seen__ the rabbit __a few days ago__, I __would have bitten__ him.
+
+# 谓语动词
 
 + 实义动词
   
@@ -651,6 +885,7 @@
 + Should, must, have to(不得不), dare(敢)
 + Needn't(不必), had better(最好)
 + Ought to = should, Be able to = can
++ used to, be about to
 
 + 如: can speak, can look after
   + must go, should find
@@ -702,6 +937,7 @@
 ### ought to - 应该
 
 + 只有肯定句和否定句 - should 更常用
++ 语气比 should 强
 + 否定句: ought not to
 
 ### should - 应该
@@ -753,7 +989,9 @@
 + You'd better take a nap after lunch
 + 固定写法, had 不能写成 have / has
 
-## 动词不定式
+# 非谓语动词
+
+## 动词不定式 infinitive
 
 + 谓语动词和非谓语动词, 动词不定式就是 **非谓语动词** 的格式
 + 当一个动词不做谓语, 而是做主语, 表语, 宾语, 状语...,就叫非谓语动词
@@ -909,7 +1147,7 @@
 + My Mother told me __to come back early__.
 
 + 特殊情况, 跟的动词不定式 to 要省略, help 可以不省略
-  + make, let, have, see, hear
+  + make, let, have, see, hear, find
   + watch, notice, feel, observe
   + listen to, look at, help
 
@@ -1009,6 +1247,7 @@
 + practice(se 是英式动词, ce 做名词, 美式动词名词都用 ce)
 + escape, miss, pardon, imagine, risk
 + put off, leave off, appreciate, keep
++ insist on, give up, feel like
 
 + I enjoy listening to music.
 + Did you finish reading the book?
@@ -1120,6 +1359,79 @@
   + 不定式: , 主动语态
     + He needs to repair his computer.
 
+## 现在分词
+
++ 与动名词的作用不一样
++ She is charming
++ The story is interesting
++ The game is exciting
+
++ 主要区别
+  + 动名词: 在句中的作用就是名词, 可以与主语互换
+  + 不包含 进行 的意思
+  + 修饰名词时表示用途: a swimming suit - 泳衣
+    + My hobby is swimming.
+    + Swimming is my hobby.
+  + 现在分词: 在句中的作用是说明主语性质, 不能与主语互换
+  + 可以含有正在进行动作的意思
+  + 修饰名词的事件性质或状态: a swimming boy - 正在游泳的男孩
+    + The story is interesting.
+    + Interesting is the story. - 这明显不对
+
++ 动名词: a sleeping pill = a pill for __sleeping__
+  + 这里的 sleeping 作用是名词
++ 现在分词: a sleeping rabbit != a rabbit for sleeping
+  + 这里的 sleeping 作用是形容词
+
++ 作宾补时
+  + 不定式: 强调动作已经发生了
+  + 现在分词: 强调动作正在进行中
+
+## 过去分词
+
++ 构成 - 动词过去式
++ 作用: 定语(可看做形容词), 表语(被动), 状语
++ 过去分词短语作定语, 要放到被修饰的名词之后 (后置定语)
+  + The carrot cake eaten by the rabbit is delicious.
+
++ 使用 现在分词(主动) 还是 过去分词(被动), 主要是分清 主动 和 被动
+
++ 表语 - rabbit 被某物引起了兴趣 - 有被动含义
+  + The rabbit is interested in growing carrots.
+  + 这兔子被...吸引了 - 这兔子对种萝卜感兴趣
+
++ The story is __interesting(主动)__.
+  + 这故事让...感兴趣 - 这故事是有趣的
++ frighten - 使害怕
+  + The rabbit was frightened. - 被动
+    + 兔子被...吓到了 - 兔子很害怕
+  + The rabbit was frightening. - 主动
+    + 兔子使...害怕 - 这兔子很可怕
+
++ 状语 - 地点, 原因, 条件
+  + Seen from the hill, the carrot field looks beautiful.
+  + Born in a rabbit family, the rabbit has been growing carrots all his life.
+  + Given another chance, the rabbit would go to the wolf's party.
+
+## 独立主格
+
++ 通过 现在分词 和 过去分词 省略从句
+
++ 从句: Because he was invited by the wolf, the rabbit decided to go to the party.
++ 过去分词: Invited by the wolf, the rabbit decided to go to the party.
+  + 通过过去分词简化, 只拥有一个谓语
+
++ 从句: Because the wolf invited him, ~.
++ 独立主格: The wolf (独立主格) inviting (现在分词) him, ~
+
++ 从句: If the weather permits, ~.
++ 独立主格: The weather permitting, ~
+
++ After the work was finished, ~
++ The work finished, ~.
+
++ The rabbit
+
 # 冠词 art = articles
 
 + 冠词是一种虚词, 没有词义(中文可能有意思), 不能单独使用
@@ -1181,6 +1493,11 @@
   + 此时此刻的状态 (主系表)
   + today 只能用在主系表结构中,因为主谓宾表示的是不会轻易改变的状态
   + 解说 or 描述: 情节,比赛... 都用一般现在时
+
++ 实事陈述
+  + I eat rice. - rice 不可数, 表示种类
++ 表达习惯/重复动作
++ 标记预计发生的事 - 相当于陈述实事
 
 ### 主系表
 
@@ -1348,7 +1665,7 @@
 
 ## 一般将来时
 
-+ 即将要发生的事情或动作
++ 即将要发生的事情或动作, 比较确信要将要发生
 
 + 都是助动词 没有意思
   
@@ -1511,6 +1828,82 @@
 + I have bought the book
   + 强调过去买过, 已经不需要买了
 
+## Present Perfect Progressive Tense
+
++ **` have/has been ing `**
+  + I __have been drinking__ water.
+    + 我已经喝水了,但还要再喝点
+  + she has been thinking of me.
+    + 她已经想我一段时间了, 还要再继续想一段时间
+    + 她一直在想我
+
++ 表示完成了某事, 还要接着做
++ 翻译: 一直在做某事
+
+## Past Progressive Tense
+
++ **` was/were ing `**
+  + She was thinking of me
+
++ 强调 某个动作 在某个时间是在进行中的
+
+## Past Perfect Tense
+
++ **` had 过去分词 `**
+  + I had eaten 5 carrots for __lunch yesterday (B)__,
+  + so I wasn't hungry at all __yesterday afternoon (A)__.
+  + 已经吃过了, 所以 B 对 A 产生了影响
+
++ 表达过去 某一点对另一点的影响
+
+## Past Perfect Progressive Tense
+
++ **` had been ing `**
+  + You __had been watching__ my video.
+
++ 表示 过去已经完成了某事, 但还继续做了一段时间
+
+## Future Progressive Tense
+
++ **` will be ing `**
+  + I __will be sleeping__ this night.
+
++ 将来某个时间, 某个动作是在进行的过程中
+
+## rarely used
+
+## Future Perfect Tense
+
++ **` will have 过去分词 `**
+  + I __will have watched__ this video tomorrow
+
++ 表示在未来某个时间, 我将会完成某事
+
+## Future Perfect Progressive Tense
+
++ **` will have been ing `**
+  + I __will have been thinking__ of you.
+
++ 在将来某事个事件点已经完成, 且还会 proceed
+
+## Simple Past Future Tense
+
++ **` would 动词原型 `**
++ **` was/were going to 动词原型 `**
+  + I knew you __would watch__ my video.
+
+## Past Future Progressive Tense
+
++ **` would be ing `**
+
+## Past Future Perfect Tense
+
++ **` would have 过去分词 `**
+
+## Past Future Perfect Progressive Tense
+
++ **` would have been ing `**
+
 ## 时间状语
 
 + 三年后
@@ -1530,9 +1923,9 @@
 
 # 副词 adv = adverbs
 
-+ 副词是修饰动词,形容词,副词的词语
-  
-  + 有时也可修饰数词,介词,连词,名词或全句
++ 副词是修饰 动词, 形容词, 副词 的词语
+  + 有时也可修饰 数词, 介词, 连词, 名词 或 全句
++ 句子成分: 状语, 定语
 
 + 时间,地点,方式副词主要做状语
 
@@ -1549,42 +1942,33 @@
 ## 时间
 
 + 不同的时间副词使用在不同的时态中
+  + 一般位于句尾, 有时会为了表示强调放在 句首
+  + 也有些会放动词前, 如: already
 
 + now - 此时此刻 - 一般用在**一般现在进行时中**
-  
   + 特殊情况特殊对待
 
 + soon - 很快 - 主要用在**一般将来时态**
-
 + every day - 每天 - 用在**一般现在时**,也可用在将来或过去时态
-
 + today - 今天 - 主要用在**一般过去时和一般将来时**
-  
   + 一般现在时态只能用主系表结构
 
 + tonight - 今晚 - 用法如今天
-
 + tomorrow - 明天 - 用于一般将来时态
-
 + yesterday - 昨天 - 用于一般过去时态
-
 + early(早期的) 和 late(晚期的) - 可以直接用在一般现在,过去,将来时态
-  
   + 且后面可以加一个时间状语
   + he goes to school early
   + I get up (early/late) every morning 早上起得(很早/很晚)
 
 + just now - 刚才 - 一般过去时
-
 + 后置定语 - yesterday, today, tomorrow ,tonight
-  
   + the meeting today is very important. 今天的会以很重要
   + the lesson tomorrow is easy. 明天的课很容易
   + I don't know the meeting yesterday 我不知道昨天的会议
     + 这里的 yesterday 表示后置定语, 所以不用过去时
 
 + this/that + 时间名词单数
-  
   + this 用法如 today - that 用在一般过去时态
   + this morning 今天早晨
   + that morning 那天早晨
@@ -1592,10 +1976,7 @@
 ## 地点
 
 + 主要做地点状语
-
-+ 没有时态限制
-  
-  + I am fishing __here__. 我正在这里钓鱼
+  + 一般位于句尾, 有时会为了表示强调放在 句首
 
 + 后置定语
   
@@ -1624,7 +2005,7 @@
 + 大多数方式副词由 - **形容词 + ly** - 构成
 
 + 方式副词只能放在动作的句子后做方式状语
-  
+  + 有些也可放在句首 或 居中
   + I love you __very much__ 我非常爱你
   + I eat apples __happily__ 我开心的吃苹果
   + She cried __suddenly__ 她突然哭了
@@ -1648,7 +2029,7 @@
 + 程度副词相当于一种限定词的作用
   
   + 主要修饰形容词和方式副词
-  + 放在**形容词或方式副词**的前面
+  + 一般放在**形容词或方式副词**的前面
   + very good 非常好
   + so good 很好
   + too bad 太差
@@ -1674,16 +2055,15 @@
 ## 频度
 
 + always 总是, often 经常, usually 通常
-
 + sometimes 有时候, seldom 很少, just 刚刚
-
 + Occasionally 偶尔, never 从不
 
 + 频度副词也做状语, 但是位置不一样
 
 + **频度副词放实义动词前**
-  
++ be 动词/助动词/情态动词 之后
   + I __often__ eat rice 我经常吃米饭
+  + I _will_ __always__ _love_ you
 
 + 主谓宾 - 修饰谓语
   
@@ -1700,6 +2080,18 @@
 + high 高的, deep 深的, hard 艰难的
 + Early 早的, fast 快的, pretty 漂亮的
 + enough 足够的 ......
+
+## 其他副词
+
++ 疑问副词
+  + How 对方式提问
+  + Where 对地点提问
+  + When 对时间提问
+  + Why 对原因提问
+
++ 链接副词和关系副词 引导从句
++ 句子副词
+  + 一般放开头, 用逗号隔开
 
 ## 比较级和最高级
 
@@ -1846,7 +2238,7 @@
    + in class 在课堂上
    + in bed 在床上,躺在床上,卧病在床
 
-3. 表时间 , 在某年 , 某月 , 季节 , 世纪
+3. 表时间(大范围) , 在某年 , 某月 , 季节 , 世纪
    
    + In 2000 - 在 2000 年
      + 不需要加 years, 加 years 表示多少年后
@@ -1885,9 +2277,10 @@
      + in a low voice - 低声说
 
 7. In + 表示范围,领域,关系的名词 = 在...方面
-   
    + 基本做状语
    + that country is rich in natural resources
+   + in progress - 在进行(状态)中
+   + in a dilemma - 处于进退两难的境地中
 
 8. 表示运动或动作的方向,进,入,朝
    
@@ -1908,7 +2301,7 @@
      + at the bus stop - 在公共汽车站牌
      + at the door - 在门口
 
-2. 表示时间 - 在...时刻
+2. 表示时间(准确的时间点) - 在...时刻
    
    + at + 表示事件概念的词
    + at 19:59 - 在 19点 59 分
@@ -1957,6 +2350,9 @@
 
 ### on
 
++ Dinner is on me. - 晚餐我付钱 - 为晚餐付钱的重任在我身上
+  + The burden of paying for dinner is on me.
+
 1. 位置 - 在...上面
    
    + on + 表示物体的名词或代词
@@ -1972,7 +2368,7 @@
   + at or near a place 在，接近（某地）
   + a town on the coast 沿海的城镇
 
-2. 时间 - 在...时候
+2. 时间(小范围) - 在...时候
    
    + on + 表时间的名词 , 一般是指**一天内**的时间
      + 在**某一日**, 星期几, 日期 或某日的 上午, 下午...
@@ -1994,10 +2390,11 @@
      + on the night of May 5 - 在五月五号的夜晚
 
 3. 表示状态 - 处于...状态
-   
    + 基本为固定介词短语
    + on duty - 值班,之日
    + on fire - 着火
+   + on a diet - 在节食
+   + on drugs - 吃药
 
 4. 表示关系 - 用法与 about 相同, 正式用语
 
@@ -2406,6 +2803,7 @@
 4. (原因)由于, 因为
    + 多数为固定搭配
    + his face turned red with anger - 他的脸气的通红
+   + the rabbit is shaking with clod - 兔子冷得发抖
 
 5. (时间)与..同时, 随着
    + with these words she went out - 说完这些话,她就出去了
@@ -2481,6 +2879,8 @@
      + 主要作表语
      + it is near 2023 - 快到 2023 年了
 
++ near > by/beside/next to
+
 ### past
 
 1. 几点过几分 - 只能表示半个小时内
@@ -2524,6 +2924,8 @@
   + I am the poorest among all my friends - 我是我所有朋友当中最穷的
 
 ### against
+
++ 与...相反
 
 + 倚靠
   + against + sth/sb - 表示 倚靠着某人某物
@@ -2614,7 +3016,7 @@
 
 ### during
 
-1. 在...期间, 在...的时候
+1. 在...期间, 在...的时候 - 持续
    + during + 一个表示特定时间的名词(含有一段时间)
    + during Spring Festival
    + during the winter
@@ -2639,9 +3041,20 @@
   + 用法和 in 差不多, 但是 inside 表达 在...内部 的意思更强烈
   + inside my computer - 在我的电脑里面
 
+### over
+
++ 在...上面 - 特指正上方
+  + 接触时: 覆盖
+  + 未接触: 在...上方
+  + 移动: 越过上空
+
+### above
+
++ 在...上方 (高出平面即可)
+
 ### under
 
-1. (位置)在...下面, 在...之下
+1. (位置)在...下面, 在...之下, (正下方)
    + under + 位置 - 强调正下方
    + under the table - 桌子下
    + under the bed - 床下
@@ -2665,8 +3078,7 @@
 
 ### below
 
-+ (位置)在...之下
-  
++ (位置)在...之下 (低于平面)
   + 用法如 before
 
 + (数量,程度,价值,位次,能力,年龄)低于, 在..以下
@@ -2731,13 +3143,176 @@
   + 一般跟 表示 比较远的位置的词语
   + beyond the hill - 在山的那一边
 
++ It's beyond me. - 我无法理解 - 这在我能理解的事情之外
+  + It is beyond the things that I can understand.
+
+### opposite
+
++ 在...对面
+  + Our school is opposite my house.
+
 ### in front of
 
 + 在...前面
   + 用法与 before 同义
   + 作 地点,后置,表语
 
++ in the front of
+  + 在...前部
+  + 也就是在某个位置的前半部分, 而不是这整个位置的前面
+
 ## 常用介词结尾
+
+# 从句 subordinate Clause
+
++ 原理
+  + 一个句子 A (subordinate) 成了 一个整局 B (Main) 的 ingredient
+
++ 分类, 句子成分除了 谓语 其他都可以
+  + 宾语: I saw __that the rabbit ate a carrot__.
+  + 形容词/定语/关系 从句
+  + 名词 - 主语/宾语/表语/同位语/宾语补语 从句
+  + 副词/状语从句
+
++ 形容词/定语/关系 从句的作用就是限定 性质/范围
+  + I have a head which is round.
+    + 我有好几个头, 其中一个是圆的
++ 还有非限定性的, 仅做补充信息, 即时删除也不会影响句意
+  + I have a head, which is round.
+    + 我有一个头, 而这个头是圆的.
+  + My head (, which is big,) is useful when it rains
+  + 非限定性还能代指一整句话
+    + The rabbit ate the carrot, which was not surprising.
+
+## 形容词/定语/关系从句
+
++ a _tasty_ carrot.
+
++ 关系词
++ 关系代词
+  + that, which, who, whom, whose
+  + a carrot __that I bought__.
+  + a carrot __that the rabbit ate.__.
+  + a teacher __who is a rabbit__.
+  + a teacher __whom I saw yesterday__.
+  + The food __which the teacher likes__ is a carrot.
+  + The teacher __whose favorite food is carrot__ is a rabbit.
++ 关系副词
+  + where, why, when = at/for/on which
+  + the place __where the rabbit ate the carrot__.
+  + the reason __why the rabbit ate the carrot__.
+  + That was the day when .
+
++ that - which
+  + that: 先行词是 唯一/多选一 的
+  + which: 多选一
+
+## 名词从句
+
++ 主语/宾语/表语/同位语/宾语补语 从句
++ 主语从句要 以 引导词开头
+  + Whether, where, when, how, who, what, that
+  + 引导词 that 可能省略
+
++ 主语 - the fact is obvious
+  + __That I like animation__ is apparent.
+  + 添加形式主语: it is apparent __that I like animation__.
+
++ 宾语 - 时态基本要一致, 除了客观事实
+  + I saw that she played games in my bedroom.
+  + 否定加在主句中
+    + I don't think (that) she likes me.
+  + 而不是在从句中, 虽然意思是一样的, 但英语中不这么用
+    + I think (that) she doesn't like me.
+
++ be 形容词 that
+  + I __am sure that__ there's a book on the table.
+    + = __confirm that__
+  + I __am happy that__ there's a cap on the bed.
+    + ~ __like that__
+  + I __am afraid that__ she isn't beside me
+    + = __fear that__
+
++ 表语从句 - 从句属于单数用 is/三单格式
+  + The problem _is_ __that__ I am very hungry.
+  + it _seems_ that she likes me.
+  + it _feels_ that she likes me.
+
++ 同位语
+  + The _fact_ __that she likes me__ didn't surprise me.
+  + The _question_ __whether she likes me__ is on my mind.
+  + I have no _idea_ __who likes me__.
+
++ 补语
+  + You can call me __what you like__
+
+## 副词/状语从句
+
+1. 时间
+   + 在某一时间点前: __before__
+     + she was asleep __before I was excited__.
+     + __before I was excited__, she was asleep.
+   + 在某一时间点之中(当时): __when, while, as__
+     + when: 时间点
+     + while: 时间段
+     + as: 同时
+   + 在某一时间点之后: __after__
+   + 从之前某一时间点开始算: __since__
+   + 直到之后某一时间点: __until__
+   + 一...就...: as soon as
+   + 下次: the next time
+2. 地点
+   + __where__ + '强调形式'
+   + she is sleeping __where she likes bedroom__
+   + 与形容词从句的区别就是, 直接表示地点, 没有进行修饰
+   + 强调形式: __wherever, anywhere, everywhere__
+     + wherever: 不管 哪里
+     + everywhere: 所有 地方
+     + anywhere: 任何 地方
+3. 比较
+   + 更...: 形容词比较级 __than__ 从句
+     + she is bigger __than__ another (is).
+     + She loves me __more than__ I love her
+   + 同样得...: __as ... as ...__
+     + she is as tall as me. - 口语表达
+       + = she is as tall as I am. - 正式表达
+   + 越...越...: __the (比较级) ..., the (比较级)...__
+     + __The more__ you practice English, __the more fluent__ you become.
+4. 条件(句)
+   + 条件句中, 从句总是比主句前一个时态
+   + 条件句一般为描述信息, 没有时态的变化, 虚拟语气中才会有
+     + 因为时态会将信息确定, 而 条件句是不确定的
+   + 引导词 __if, unless, provided, as long as, in case__
+   + __if she likes me__, I will sleep with her
+   + I'll sleep with her __if she likes me__
+5. 让步
+   + 即使..., 也...
+   + __even__ - 假设, although/(even) though - 实事
+   + __no matter__ - 不管,不论/ regardless of
+   + even if I see a carrot, I will not eat it.
+6. 方式
+   + __as if__ 好似/好像 ...
+     + I feel good as if I have girlfriends.
+   + __as...__ 像...一样
+     + Eat the carrot as I do.
+     + Leave the carrot as it is.
+7. 原因 - because (因果) > since (众所周知) > as (显而易见)
+   + because 可以在主句前后, 后两个只能在主句之前
+   + I want her __because I like her__.
+   + __Since she likes me__, she can sleep with me.
+   + As you were not here, we ate the carrot without you.
+   + for 也可以表示因果, 构成复合句, 而不是复杂句/从句
+     + because 表示直接因果, for 表示推测因果
+8. 目的
+   + 更好体现目的性
+     + can, could, may, might, should, would
+   + I save money __so that__ I can buy computer.
+   + __so that__ 不能放在句首
+9.  结果
+    + __so that__ / so...that... / such...that...
+    + The temperature was low __so that__ the lake froze.
+    + I ate so many carrots for lunch that I felt sick afterwards.
+    + so 后接形容词, such 后接 名词
 
 # 句型
 
@@ -2788,6 +3363,7 @@
     + 不翻译为: 这首歌在中国被唱了, 不符合逻辑
     + 而是: 在中国唱这首歌. 作为主动语态翻译
 + by 是一个介词, 在被动语态里面意思是 被, 但是一般不翻译
+  + by 一般接动作的执行者
   + By + 单词(代词), 作状语
   + An apple is eaten.
     + 一个苹果被吃了
@@ -2795,7 +3371,7 @@
     + 我吃了一个苹果 (一个苹果被我吃了)
 
 + 构成方式
-  + 助动词 be + **及物动词** 的过去分词, 不及物动词不行
+  + 助动词 be + **及物动词过去分词** 不及物动词不行
   + 这里的 **助动词 be** 没有意思
   + 时态变化
   + 一般现在: is/am/are 过去分词
@@ -3051,6 +3627,20 @@
 + 疑问词做介词宾语
 + Which city are you in?
 
+## 倒装句
+
++ 通常就是吧谓语提前
+
++ 完全倒装 - 谓语动词完全在主语前
+  + 副词, 介词短语, 表语
+  + Seated on the ground is a group of rabbit.
++ 部分倒装 - 仅助动词提前
+  + 带否定意义, 句首有only, if...should..., 固定句型
++ 形式倒装 - 谓语不提前
+  + 感叹句, 比较级句型, however...引导的让步状语从句, as
+
+
+
 # 后缀 - 词性
 
 ## 形容词后缀
@@ -3104,9 +3694,34 @@
 
 # 数词 num = numerals
 
++ 基数词
+  + 整10一般 + ty
+  + 序数一般 + th, 整十 fortieth t i e t h
++ 序数词一般要加 the 表示特指, 有其他代词修饰就不需要 the
+  + first, scend, third, 其他 + th
+
 # 感叹词 int = interjections
 
 # 连接词 conj = conjunctions
+
++ 并列连词: 把处于同等,并列 的语法地位的 单词/词组/句子 连起来
+  + and, both...and..., not only...but also. - 表并列关系
+  + neither...nor... - 表否定
+  + or, either...or..., or else, otherwise - 选择关系
+  + but, yet - 转折
+  + so, therefore, for - 因果
++ 从属连词: 用于链接 主句和从句
+  + that - 主语, 宾语, 表语, 同位语
+  + 状语
+    + 时间: when, while, as, before, after, until, since
+    + 地点: where, wherever
+    + 比较: than, as
+    + 条件: if, unless
+    + 让步: although, though, even though/if, while
+    + 方式: as, as if/though
+    + 原因: because, since, as
+    + 目的: in order that, so (that)
+    + 结果: so/such...that..., so
 
 # 词根词缀
 
