@@ -6,7 +6,7 @@
 
 <!-- 基本使用 -->
 <script>
-  // 传入配置对象
+  // 传入配置对象 
   const app = Vue.createApp({
     template: `
       <h2> {{counter}} </h3>
@@ -61,9 +61,19 @@ export default {
 // scoped 限制 css 生效范围
 // lang 指定 css 预处理器
 <style scoped lang="sass">
-
 </style>
+```
 
+## nextTick
+
++ 相当于 React setState 中的回调函数
++ 在状态和DOM更新后触发
+```js
+import { nextTick } from 'vue'
+
+nextTick(()=>{
+  // ...
+})
 ```
 
 # Options API
@@ -321,7 +331,7 @@ export default {
   + < @click="handleClick($event, any, ...)" />
 
 + modifier
-  + 按下回车触发: < @keydown.enter="handleEnter" />
+  + 按下回车触发: < @keyDown.enter="handleEnter" />
 
 ## v-for
 
@@ -455,7 +465,6 @@ const Head = {
 <template #hh='slotProps'>
   {{slotProps.item}}
 </template>
-
 ```
 
 ## dynamic
@@ -1158,19 +1167,21 @@ const child = {
 {
   beforeCreated(){ },
   created(){ },
-  beforeMount(){ },
-  mounted(){ },
-  beforeUpdate(){ },
-  updated(){ },
-  beforeUnmount(){ },
-  unmount(){ }
+  beforeMount(){ }, // onBeforeMount
+  mounted(){ }, // onMounted
+  beforeUpdate(){ }, // onBeforeUpdate
+  updated(){ }, // onUpdated
+  beforeUnmount(){ }, // onBeforeUnmount
+  unmount(){ } // onUnmounted
 }
 
 // in keep-alive
 {
-  activated(){ /* 激活时 */ },
-  deactivated(){ /* 取消激活时 */ }
+  activated(){ /* 激活时 */ }, // onActivated
+  deactivated(){ /* 取消激活时 */ } // onDeactivated
 }
+
+// onErrorCaptured 捕获错误
 ```
 
 # hooks
@@ -1228,6 +1239,8 @@ function useMousePosition(target = Window) {
 ```
 
 # build Vue
+
++ `npm init vue@3`
 
 + 直接 引入 `vue.js` 使用， 打包
   + 需要使用特定的 vue 版本才能解析 template

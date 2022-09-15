@@ -169,11 +169,11 @@ class Weather extends React.Component{
 
 ### setState 两种写法
 
-+ `setState(stateChange,[callback])`
++ `setState(stateChange[,callback])`
   + stateChange : 改变状态的对象
-  + + callback -> 这个回调会在 state 更新完毕且页面更新后才会被调用
+  + callback -> 这个回调会在 state 更新完毕且页面更新后才会被调用
 
-+ `setState(updater,[callback])`
++ `setState(updater[,callback])`
   + updater 函数为返回一个 stateChange 对象的函数
   + updater 可以接受到 state 和 props -> (state,props) => stateChange
 

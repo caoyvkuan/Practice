@@ -20,6 +20,21 @@ pnpm create vite my-vue-app --template vue
 + Vite 速度快的原因
   + 会对 node_modules 中的包进行预打包
 
+## 额外设置
+
++ 客户端类型支持, 如 svg
+```ts
+// d.ts 中
+/// <reference types="vite/client" />
+
+// 或 tsconfig 中
+{
+  "compilerOptions": {
+    "types": ["vite/client"]
+  }
+}
+```
+
 ## Vue
 
 ```ts
@@ -30,6 +45,127 @@ declare module '*.vue' {
 //   export default App
 }
 ```
+
+# 项目配置
+
+## .editorconfig
+
++ 项目编码规范, 使不同编辑器使用统一的编码风格
++ vscode 需要安装插件 EditorConfig for VS Code
+```
+# http://editorconfig.org
+
+root = true
+
+[*] # 表示所有文件适用
+charset = utf-8 # 设置文件字符集为 utf-8
+indent_style = space # 缩进风格 (tab | space)
+indent_size = 3 # 缩进大小
+end_of_line = crlf # 控制换行类型(lf [Unix] | cr [Mac] | crlf [Window])
+trim_trailing_whitespace = true # 去除行首的任意空白字符
+insert_final_newline = true # 始终在文件末尾插入一个新行
+
+[*.md] # 表示仅 md 文件使用一下规则
+max_line_length = off
+insert_final_newline = false
+trim_trailing_whitespace = false
+```
+
+## prettier
+
++ 格式化 - `npm i prettier -D`
++ `.prettierrc` 文件
+  + useTabs - 是否使用 tab 键
+  + tabWidth - 空格数
+  + printWidth - 每行代码的长度
+  + singleQuote - 使用单引号, 还是双引号, true 为单引号
+  + trailingComma - 多行输入的尾逗号是否添加
+  + semi - 句尾是否要加分号, 默认为 true
++ vscode 插件 - Prettier - Code formatter
++ 添加脚本, 格式化所有文件 `"prettier": "prettier --write ."`
+```json
+{
+   "useTabs": false,
+   "tabWidth": 3,
+   "printWidth": 80,
+   "singleQuote": true,
+   "trailingComma": "none",
+   "semi": false
+}
+```
+
++ `.prettierignore` - 忽略文件, 放置不必要的格式化
+```
+/dist/*
+.local
+.output.js
+/node_modules/**
+
+**/*.svg
+**/*.sh
+
+/public/*
+```
+
+## ESlint
+
++ `.eslintrc.js`
+```js
+module.exports = {
+   root: true,
+   extends: [
+      'plugin:vue/vue3-essential',
+      'eslint:recommended',
+      '@vue/eslint-config-typescript/recommended',
+      '@vue/eslint-config-prettier',
+      'plugin:prettier/recommended' // 让 ESLint 使用 prettier 规范
+   ],
+   parserOptions: {
+      ecmaVersion: 'latest'
+   }
+}
+```
+
+## Husky
+
++ 可以拦截 git 命令, 在提交之前进行 ESLint 操作, 让代码提交时符合规范
++ `npx husky-init && npm install`
++ 在 `.husky` 文件夹中的 `pre-commit` 运行的脚本改为运行 ESLint, `npm lint`
+
+## commitizen
+
++ 规范 git commit 提交信息
++ `npm i -D commitizen`
++ `npx commitizen init cz-conventional-changelog --save-dev --save-exact`
+
++ 使用 npx cz 进行提交, 而不是 git commit, 可以配置为 `"commit":"cz"` 脚本
++ 提交 type
+  + feat : 新增特性
+  + fix : 修复 bug
+  + docs : 修改文档
+  + style : 代码格式样式修改
+  + refactor : 代码重构
+  + perf : 改善性能
+  + test : 测试
+  + build : 变更项目构建或外部依赖
+  + ci : 更改持续集成软件的配置文件
+  + chore : 变更构建流程或辅助工具
+  + revert : 代码回退
++ 表述影响范围
++ 描述
+
+## commitlint
+
++ 提交信息验证
++ `pnpm add -D @commitlint/config-conventional @commitlint/cli`
++ 创建 `commitlint.config.js` 配置文件
+```js
+export default {
+   extends: ['@commitlint/config-conventional']
+}
+```
++ 使用 husky 生成 commit-msg 文件
++ `npx husky add .husky/commit-msg "npx --no-install commitlint --edit $1"`
 
 # Webpack
 
@@ -164,7 +300,7 @@ plugins:[ // 配置位置
   + html-webpack-plugin
   + 压缩设置 这个插件的配置
 
-+ 图片资源打包 loade
++ 图片资源打包 loader
   + html-loader 处理 html 文件的 img 图片 (负责引入 img,从而可以被 url-loader 处理)
 
 ## 处理 CSS

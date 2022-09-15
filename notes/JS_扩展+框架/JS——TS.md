@@ -8,20 +8,35 @@
 + ES6 新增 Symbol
 + ES10 新增 BigInt
 
----
-
 + 类型定义方式
 ```ts
 // 基本格式
 let VariableName : Type = Value;
-// 例如
+// 例如, 类型名词用小写, 大写为字符包装类型
 let str: string = 'string';
+
+// 进制数
+let num: number = 100 | 0x1f | 0b01 | 0o17
 ```
 
 + 注意
   + 原始包装类型对象不能赋值给原始数据类型.
   + 如 : new Boolean() , 创建的是一个对象,并不是原始类型
   + 所以 new Boolean() 不能赋值给 boolean 类型的变量,其他包装类型也是一样的
+
+## 非空断言 !
+
++ `const a = b!` - 通过在变量后加 ! 进行非空断言
+
+## 字面量推理
+
++ 通过 as const 可以让对象中推理的类型形成只读的字面量
+```ts
+const obj = {
+   url: '',
+   method: 'GET'
+} as const
+```
 
 # 类型
 
@@ -31,18 +46,8 @@ let str: string = 'string';
   + 当 ts 不确定联合类型的准确类型时，只能够访问共有的方法，否则会报错
   + 被赋值时也会采用类型推论进行推断
 ---
-+ 数值 ：number
-  + 数值 二进制、八进制、十进制、十六进制都支持
-  + ` let num: number = 10; `
----
 + 字面量 ：是什么就只能赋值什么
   + ` let a:'a' = 'a'; `
----
-+ 字符串 ：string
-  + ` let name: string = 'doge'; `
----
-+ 布尔值 ： boolean
-  + ` let isDone: boolean = false; `
 ---
 + 数组 ： `Array<any>`
 + 元组 ：`[number, string]`
@@ -225,7 +230,7 @@ cat as any as Fish
 + 主要作用就是帮助 TypeScript 在没有明确指出类型的位置会提供帮助类型
 + 泛型就使用了 类型推论
 + 如果变量未指定类型，但是有初始化操作就会进行类型推论
-  + `const a = 'string'` 这就会被推论为  `String` 类型
+  + `const a = 'string'` a 就会被推论为  `String` 类型
 
 ## 类型兼容性
 
@@ -540,7 +545,8 @@ animal = rhino;
 animal = employee; // 错误: Animal 与 Employee 不兼容.
 ```
 
-+ 简洁的语法
+## 简洁的属性语法
+
 ```ts
 class A{
    // 直接在 constructor 声明部分完成属性的赋值
@@ -625,7 +631,7 @@ class Car implements Alarm, Light {
 
 + 不同于接口,抽象类可以包含实现的细节
 + 通过 abstract 来进行定义一个抽象类或是方法
-+ 抽象类不能够直接创造实例（不允许实例化）进行使用吗，而必须由派生类继承
++ 抽象类不能够直接创造实例（不允许实例化）进行使用，而必须由派生类继承
 > 抽象类中的抽象方法不包含具体实现并且必须在派生类中实现。 抽象方法的语法与接口方法相似。
 >
 > > 两者都是定义方法签名但不包含方法体。
@@ -658,6 +664,11 @@ test.move();
 test.say();
 test.send(); //Error 方法在抽象类中不存在
 ```
+
+## 多态
+
++ 父类引用指向子类对象
++ 
 
 # function 函数
 
@@ -1161,7 +1172,7 @@ function area(s: Shape) {
 ## 多态的 this 类型
 
 + 多态的 this类型表示的是某个包含类或接口的 子类型。
-+ 这被称做 F-bounded多态性。 它能很容易的表现连贯接口间的继承
++ 这被称做 F-bounded 多态性。 它能很容易的表现连贯接口间的继承
 
 ## 预定义
 
@@ -1897,6 +1908,8 @@ function applyMixin(derivedCtor: any, baseCtors: any[]) {
 
 + 当使用第三方库时，我们需要引用它的声明文件，才能获得对应的代码补全、接口提示等功能。
 + [详细](http://ts.xcatliu.com/basics/declaration-files.html#%E6%96%B0%E8%AF%AD%E6%B3%95%E7%B4%A2%E5%BC%95)
++ [GitHub](https://github.com/DefinitelyTyped/DefinitelyTyped/)
++ [TypeSearch](https://www.typescriptlang.org/dt/search?search=)
 
 + 声明只能定义类型，切勿定义具体实现
 
@@ -1955,6 +1968,21 @@ declare namespace jQuery {
     enum EventType {
         CustomClick
     }
+}
+```
+
+## 声明其他资源
+
++ 如图片, 或其他资源
+```ts
+declare module '*.jpg'
+declare module '*.jpeg'
+declare module '*.png'
+declare module '*.gif'
+declare module '*.svg'
+declare module '*.vue' {
+   import { DefineComponent } from "vue"
+   export default DefineComponent<{}, {}, any>
 }
 ```
 

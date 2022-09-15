@@ -2720,7 +2720,7 @@ for (let [,value] of map) {/* ...*/}
 const { SourceMapConsumer, SourceNode } = require("source-map");
 ```
 
-# 数据类型
+# ES6 数据类型
 
 + `bigint` 用于任意长度的整数。
 + `symbol` 用于唯一的标识符。

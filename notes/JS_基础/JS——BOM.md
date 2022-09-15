@@ -1264,6 +1264,25 @@ navigator.languages  // ["en-US", "en", "zh-CN", "zh", "zh-TW"]
 
 + https://wangdoc.com/javascript/bom/history.html
 
++ History 对象保存了当前窗口访问过的所有页面网址
+  + `.length` : 当前窗口访问过的网址数量
+  + `.state` : History 堆栈最上层的状态值
+
++ 方法
+  + back() : 返回上一个页面
+  + forward() : 移动到下一个网页
+  + go(number) : 1 = forward , -1 = back
+  + pushState(state, title, url) : 在历史中添加一条记录
+    + state : 一个与添加的记录相关联的状态对象
+    + title : 页面标题, 可以填空字符串
+    + 跨域网址会报错
+    + 地址栏会改变, 但是不会触发刷新
+  + replaceState() : 用来修改 History 对象的当前记录
+    + 用法同 pushState
+
++ history 对象发生改变就会触发 popstate 事件
+
+
 # Location 对象
 
 + Location 对象是浏览器提供的原生对象，提供 URL 相关的信息和操作方法。通过 window.location 和 document.location 属性，可以拿到这个对象。

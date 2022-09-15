@@ -503,10 +503,6 @@ controller.abort(); // 取消
 console.log(signal.aborted); // true
 ```
 
-
-
-
-
 ## 配置对象 OptionObj
 
 + `fetch()`的第一个参数是 URL，还可以接受第二个参数，作为配置对象，定制发出的 HTTP 请求。
@@ -520,18 +516,18 @@ const response = await fetch(url, {
   },
   body: 'foo=bar&lorem=ipsum', // POST 请求的数据体
   referrer: "about:client",
-    // referrer 属性用于设定 fetch() 请求的 referer 标头。
-	// 这个属性可以为任意字符串，也可以设为空字符串（即不发送 referer 标头）。
+    // referrer 属性用于设定 fetch() 请求的 referrer 标头。
+	// 这个属性可以为任意字符串，也可以设为空字符串（即不发送 referrer 标头）。
   referrerPolicy: "no-referrer-when-downgrade",
-    /* referrerPolicy属性用于设定Referer标头的规则。可能的取值如下：
-    	no-referrer-when-downgrade：默认值，总是发送Referer标头，除非从 HTTPS 页面请求 HTTP 资源时不发送。
-        no-referrer：不发送Referer标头。
-        origin：Referer标头只包含域名，不包含完整的路径。
-        origin-when-cross-origin：同源请求Referer标头包含完整的路径，跨域请求只包含域名。
-        same-origin：跨域请求不发送Referer，同源请求发送。
-        strict-origin：Referer标头只包含域名，HTTPS 页面请求 HTTP 资源时不发送Referer标头。
-        strict-origin-when-cross-origin：同源请求时Referer标头包含完整路径，跨域请求时只包含域名，HTTPS 页面请求 HTTP 资源时不发送该标头。
-        unsafe-url：不管什么情况，总是发送Referer标头。
+    /* referrerPolicy属性用于设定Referrer标头的规则。可能的取值如下：
+    	no-referrer-when-downgrade：默认值，总是发送Referrer标头，除非从 HTTPS 页面请求 HTTP 资源时不发送。
+        no-referrer：不发送Referrer标头。
+        origin：Referrer标头只包含域名，不包含完整的路径。
+        origin-when-cross-origin：同源请求Referrer标头包含完整的路径，跨域请求只包含域名。
+        same-origin：跨域请求不发送Referrer，同源请求发送。
+        strict-origin：Referrer标头只包含域名，HTTPS 页面请求 HTTP 资源时不发送Referrer标头。
+        strict-origin-when-cross-origin：同源请求时Referrer标头包含完整路径，跨域请求时只包含域名，HTTPS 页面请求 HTTP 资源时不发送该标头。
+        unsafe-url：不管什么情况，总是发送Referrer标头。
     */
   mode: "cors", 
     /* mode 指定请求的模式。可能的取值如下：

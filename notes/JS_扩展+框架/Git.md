@@ -95,9 +95,10 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 + 创建空的远程仓库 -> 得到仓库链接
 
 + git remote -v -> 查看版本
-+ git remote add origin url -> 设置仓库的别名
++ git remote add origin url -> 设置仓库的别名,让本地仓库匹配远程仓库
 + git init -> 创建本地仓库, add commit 然后提交到远程仓库
 
++ git push -u origin "master"
 + git pull origin master -> 提交指定分支到远程仓库
   + 且如果远程没有目标分支,就会创建新的远程分支
 + git clone url -> 克隆远程仓库到本地 : 会自动生成跟踪的分支
