@@ -1078,3 +1078,16 @@ const memoizedValue = useMemo(computeExpensiveValue, [a, b]);
 ```
 + 如果没有提供依赖项数组，useMemo 在每次渲染时都会计算新的值；
 + 计算量如果很小的计算函数，也可以选择不使用 useMemo，因为这点优化并不会作为性能瓶颈的要点，反而可能使用错误还会引起一些性能问题。
+
+### useImperativeHandle
+
++ 通过 ref 暴露一些东西给父组件
++ 与 forwardRef 一起使用
+```js
+useImperativeHandle(ref, () => ({
+  focus: () => {
+    // 在父组件中可以通过 ref 访问此对象中定义的东西
+    inputRef.current.focus();
+  }
+}));
+```

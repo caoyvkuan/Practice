@@ -1428,6 +1428,330 @@ var a =s.replace(r,f);  //执行过滤替换
 console.log(a);   // &#60;meta charset=&#34;utf-8&#34;&#62;
 ```
 
+# ES6 RegExP 的扩展
+
++ RegExp.prototype.flags
++ 会返回正则表达式的修饰符。
+
+## RegExp 构造函数
+
++ 在 ES5 中 RegExp 构造函数的参数有两种情况
+```js
+//第一种情况是，参数是字符串，这时第二个参数表示正则表达式的修饰符（flag）。
+var regex = new RegExp('xyz', 'i');
+// 等价于
+var regex = /xyz/i;
+
+//第二种情况是，参数是一个正则表示式，这时会返回一个原有正则表达式的拷贝。
+var regex = new RegExp(/xyz/i);
+// 等价于
+var regex = /xyz/i;
+
+//ES5 不允许此时使用第二个参数添加修饰符，否则会报错
+var regex = new RegExp(/xyz/, 'i');
+// Uncaught TypeError: Cannot supply flags when constructing one RegExp from another
+
+//ES6 改变了这种行为。
+new RegExp(/abc/ig, 'i').flags
+// "i"
+//原有正则对象的修饰符是ig，它会被第二个参数i覆盖。
+```
+
+## 字符串的正则方法
+
++ 字符串对象共有 4 个方法，可以使用正则表达式：
+  + match()、replace()、search() 和 split()。
+
++ ES6 将这 4 个方法，在语言内部全部调用 RegExp 的实例方法
++ 从而做到所有与正则相关的方法，全都定义在 RegExp 对象上。
+
++ String.prototype.match 调用 RegExp.prototype[Symbol.match]
++ String.prototype.replace 调用 RegExp.prototype[Symbol.replace]
++ String.prototype.search 调用 RegExp.prototype[Symbol.search]
++ String.prototype.split 调用 RegExp.prototype[Symbol.split]
+
+## u 修饰符
+
++ ES6 增加了 u 修饰符 ，含义为“Unicode 模式”。 用来正确处理大于\uFFFF的 Unicode 字符。
++ 可以正确处理四个字节的 UTF-16 编码
+
++ RegExp.prototype.unicode 属性
++ 正则实例对象新增 unicode 属性，表示是否设置了u 修饰符。
+
++ 一旦加上u修饰符号，就会修改下面这些正则表达式的行为。
+
+1. 点字符
+   + 点（.）字符在正则表达式中，含义是除了换行符以外的任意单个字符。
+   + 对于码点大于 0xFFFF 的 Unicode 字符，点字符不能识别，必须加上 u 修饰符。
+   + 如匹配 UTF-16 的汉字时不加就无法识别， 在 UTF-16 中汉字占4个字节  UTF-8 占三个字节同样无法识别
+
+2. Unicode 字符表示法
+   + ES6 新增了使用大括号表示 Unicode 字符，这种表示法在正则表达式中必须加上 u 修饰符，才能识别当中的大括号，否则会被解读为量词。
+```js
+/\u{61}/.test('a') // false
+/\u{61}/u.test('a') // true
+/\u{20BB7}/u.test('𠮷') // true
+//如果不加u修饰符，正则表达式无法识别\u{61}这种表示法，只会认为这匹配 61 个连续的u。
+```
+
+3. 量词
+   + 使用 u 修饰符后，所有量词都会正确识别码点大于0xFFFF的 Unicode 字符。
+```js
+/a{2}/.test('aa') // true
+/a{2}/u.test('aa') // true
+/𠮷{2}/.test('𠮷𠮷') // false
+/𠮷{2}/u.test('𠮷𠮷') // true
+```
+
+4. 预定义模式
+   + u 修饰符也影响到预定义模式，能否正确识别码点大于 0xFFFF 的 Unicode 字符。
+   + \S 是预定义模式，匹配所有非空白字符。
+   + 只有加了u修饰符，它才能正确匹配码点大于 0xFFFF 的 Unicode 字符。
+```js
+//利用这一点，可以写出一个正确返回字符串长度的函数。
+function codePointLength(text) {
+  var result = text.match(/[\s\S]/gu);
+  return result ? result.length : 0;
+}
+var s = '𠮷𠮷';
+s.length // 4
+codePointLength(s) // 2
+```
+
+5. i 修饰符
+   + 有些 Unicode 字符的编码不同，但是字型很相近，比如，\u004B 与 \u212A 都是大写的 K。
+   + 不加u修饰符，就无法识别非规范的 K 字符。
+
+6. 转义
+   + 没有 u 修饰符的情况下，正则中没有定义的转义（如逗号的转义\,）无效，而在 u 模式会报错。
+```js
+/\,/ // /\,/
+/\,/u // 报错
+//没有u修饰符时，逗号前面的反斜杠是无效的，加了u修饰符就报错。
+```
+
+## y 修饰符
+
++ ES6 还为正则表达式添加了y修饰符，叫做“粘连”（sticky）修饰符。
+
++ RegExp.prototype.sticky 属性
++ 表示是否设置了 y 修饰符。
+
++ y修饰符的作用与g修饰符类似，也是全局匹配，后一次匹配都从上一次匹配成功的下一个位置开始。
++ 不同之处在于，g修饰符只要剩余位置中存在匹配就可，而y修饰符确保匹配必须从剩余的第一个位置开始，这也就是“粘连”的涵义。
+```js
+var s = 'aaa_aa_a';
+var r1 = /a+/g;
+var r2 = /a+/y;
+r1.exec(s) // ["aaa"]
+r2.exec(s) // ["aaa"]
+r1.exec(s) // ["aa"]
+r2.exec(s) // null
+//保证每次都能头部匹配，y修饰符就会返回结果了。
+var r = /a+_/y;
+r.exec(s) // ["aaa_"]
+r.exec(s) // ["aa_"]
+```
+
++ y 修饰符同样遵守 lastIndex 属性，但是要求必须在 lastIndex 指定的位置发现匹配。
+
+## s 修饰符：dotAll 模式
+
++ 行终止符
+  + 就是该字符表示一行的终结。以下四个字符属于“行终止符”。
+  + U+000A 换行符（\n）
+  + U+000D 回车符（\r）
+  + U+2028 行分隔符（line separator）
+  + U+2029 段分隔符（paragraph separator）
++ ES2018 引入s修饰符，使得.可以匹配任意单个字符。
++ 这被称为 dotAll 模式，即点（dot）代表一切字符。
++ 所以，正则表达式还引入了一个 dotAll 属性，返回一个布尔值，表示该正则表达式是否处在 dotAll 模式。
++ /s 修饰符和多行修饰符 /m 不冲突，两者一起使用的情况下，. 匹配所有字符，而 ^ 和 $ 匹配每一行的行首和行尾。
+
+## 后行断言
+
++ JavaScript 语言的正则表达式，只支持先行断言
++ ES2018 引入后行断言
++ “先行断言”指的是，x 只有在 y 前面才匹配，必须写成 /x(?=y)/。
++ 比如，只匹配百分号之前的数字，要写成 /\d+(?=%)/
++ “先行否定断言”指的是 x 只有不在 y 前面才匹配，必须写成/x(?!y)/。
++ 只匹配不在百分号之前的数字，要写成 /\d+(?!%)/。
+
++ “后行断言”正好与“先行断言”相反，x 只有在 y 后面才匹配，必须写成/(?<=y)x/。
++ 只匹配美元符号之后的数字，要写成 /(?<=\$)\d+/
++ “后行否定断言”则与“先行否定断言”相反，x 只有不在 y 后面才匹配必须写成 /(?<!y)x/
++ 比如，只匹配不在美元符号后面的数字，要写成 /(?<!\$)\d+/。
+
+## Unicode 属性类
+
++ ES2018 引入了一种新的类的写法 \p{...} 和 \P{...}，允许正则表达式匹配符合 Unicode 某种属性的所有字符。
++ \p{Script=Greek} 指定匹配一个希腊文字母，所以匹配 π 成功。
++ \p{Number} 甚至能匹配罗马数字。
++ \P{…} 是 \p{…} 的反向匹配，即匹配不满足条件的字符。
++ 注意，这两种类只对 Unicode 有效，所以使用的时候一定要加上u修饰符。如果不加u修饰符，正则表达式使用\p和\P会报错，ECMAScript 预留了这两个类。
+```js
+//例子
+// 匹配所有空格
+\p{White_Space}
+
+// 匹配各种文字的所有字母，等同于 Unicode 版的 \w
+[\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}]
+
+// 匹配各种文字的所有非字母的字符，等同于 Unicode 版的 \W
+[^\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}]
+
+// 匹配 Emoji
+/\p{Emoji_Modifier_Base}\p{Emoji_Modifier}?|\p{Emoji_Presentation}|\p{Emoji}\uFE0F/gu
+
+// 匹配所有的箭头字符
+const regexArrows = /^\p{Block=Arrows}+$/u;
+regexArrows.test('←↑→↓↔↕↖↗↘↙⇏⇐⇑⇒⇓⇔⇕⇖⇗⇘⇙⇧⇩') // true
+```
+
+## 具名组匹配
+
++ 正则表达式使用圆括号进行组匹配。
+```js
+const RE_DATE = /(\d{4})-(\d{2})-(\d{2})/;
+//正则表达式里面有三组圆括号。使用exec方法，就可以将这三组匹配结果提取出来。
+const matchObj = RE_DATE.exec('1999-12-31');
+const year = matchObj[1]; // 1999
+const month = matchObj[2]; // 12
+const day = matchObj[3]; // 31
+```
+
++ 组匹配的一个问题是，每一组的匹配含义不容易看出来，而且只能用数字序号（比如matchObj[1]）引用，要是组的顺序变了，引用的时候就必须修改序号。
++ ES2018 引入了具名组匹配（Named Capture Groups），允许为每一个组匹配指定一个名字，既便于阅读代码，又便于引用。
++ 如果具名组没有匹配，那么对应的 groups 对象属性会是 undefined。
++ 设置的键名始终存在
+```js
+const RE_DATE = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+//“具名组匹配”在圆括号内部，模式的头部添加“问号 + 尖括号 + 组名”（?<year>）
+//然后就可以在 exec 方法返回结果的 groups 属性上引用该组名。
+//同时，数字序号（matchObj[1]）依然有效。
+const matchObj = RE_DATE.exec('1999-12-31');
+const year = matchObj.groups.year; // 1999
+const month = matchObj.groups.month; // 12
+const day = matchObj.groups.day; // 31
+```
+
+### 解构赋值和替换
+
++ 有了具名组匹配以后，可以使用解构赋值直接从匹配结果上为变量赋值。
+```js
+let {groups: {one, two}} = /^(?<one>.*):(?<two>.*)$/u.exec('foo:bar');
+one  // foo
+two  // bar
+
+//字符串替换时，使用$<组名>引用具名组。
+let re = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/u;
+
+'2015-01-02'.replace(re, '$<day>/$<month>/$<year>')
+// '02/01/2015'
+//replace方法的第二个参数是一个字符串，而不是正则表达式。
+
+/**
+ * replace方法的第二个参数也可以是函数，该函数的参数序列如下。
+ * */
+'2015-01-02'.replace(re, (
+   matched, // 整个匹配结果 2015-01-02
+   capture1, // 第一个组匹配 2015
+   capture2, // 第二个组匹配 01
+   capture3, // 第三个组匹配 02
+   position, // 匹配开始的位置 0
+   S, // 原字符串 2015-01-02
+   groups // 具名组构成的一个对象 {year, month, day}
+ ) => {
+ let {day, month, year} = groups;
+ return `${day}/${month}/${year}`;
+});
+```
+
+## 引用
+
++ 如果要在正则表达式内部引用某个“具名组匹配”，可以使用 [\k<组名>] 的写法。
+```js
+const RE_TWICE = /^(?<word>[a-z]+)!\k<word>$/; //数字引用（\1）依然有效。可以同时使用
+RE_TWICE.test('abc!abc') // true
+RE_TWICE.test('abc!ab') // false
+```
+
+## 正则匹配索引
+
++ 正则匹配结果的开始位置和结束位置，目前获取并不是很方便。
++ 正则实例的 exec() 方法，返回结果有一个 index 属性，可以获取整个匹配结果的开始位置，但是如果包含组匹配，每个组匹配的开始位置，很难拿到。
++ 现在有一个第三阶段提案，为 exec() 方法的返回结果加上 indices 属性，在这个属性上面可以拿到匹配的开始位置和结束位置。
+```js
+const text = 'zabbcdef';
+const re = /ab/;
+const result = re.exec(text);
+
+result.index // 1
+result.indices // [ [1, 3] ]
+//注意，开始位置包含在匹配结果之中，但是结束位置不包含在匹配结果之中。
+//比如，匹配结果为ab，分别是原始字符串的第1位和第2位，那么结束位置就是第3位。
+
+//如果正则表达式包含组匹配，那么indices属性对应的数组就会包含多个成员，提供每个组匹配的开始位置和结束位置。
+const re = /ab+(cd)/;
+const result = re.exec(text);
+
+result.indices // [ [ 1, 6 ], [ 4, 6 ] ]
+//正则表达式包含一个组匹配，那么indices属性数组就有两个成员
+//第一个成员是整个匹配结果（abbcd）的开始位置和结束位置，第二个成员是组匹配（cd）的开始位置和结束位置。
+
+//如果正则表达式包含具名组匹配，indices属性数组还会有一个groups属性。该属性是一个对象，可以从该对象获取具名组匹配的开始位置和结束位置。
+const re = /ab+(?<Z>cd)/;
+const result = re.exec(text);
+
+result.indices.groups // { Z: [ 4, 6 ] }
+```
+
+## String.prototype.matchAll()
+
++ 如果一个正则表达式在字符串里面有多个匹配，现在一般使用 g 修饰符或 y 修饰符，在循环里面逐一取出。
+```js
+var regex = /t(e)(st(\d?))/g;
+var string = 'test1test2test3';
+
+var matches = [];
+var match;
+while (match = regex.exec(string)) {
+  matches.push(match);
+}
+
+matches
+// [
+//   ["test1", "e", "st1", "1", index: 0, input: "test1test2test3"],
+//   ["test2", "e", "st2", "2", index: 5, input: "test1test2test3"],
+//   ["test3", "e", "st3", "3", index: 10, input: "test1test2test3"]
+// ]
+//while循环取出每一轮的正则匹配，一共三轮。
+```
+
++ ES2020 增加了 String.prototype.matchAll() 方法，可以一次性取出所有匹配。
++ 不过，它返回的是一个遍历器（Iterator），而不是数组。
+```js
+const string = 'test1test2test3';
+const regex = /t(e)(st(\d?))/g;
+
+for (const match of string.matchAll(regex)) {
+  console.log(match);
+}
+// ["test1", "e", "st1", "1", index: 0, input: "test1test2test3"]
+// ["test2", "e", "st2", "2", index: 5, input: "test1test2test3"]
+// ["test3", "e", "st3", "3", index: 10, input: "test1test2test3"]
+// 由于string.matchAll(regex)返回的是遍历器，所以可以用 for...of 循环取出。
+//相对于返回数组，返回遍历器的好处在于，如果匹配结果是一个很大的数组，那么遍历器比较节省资源。
+//遍历器转为数组是非常简单的，使用...运算符和Array.from()方法就可以了。
+
+// 转为数组的方法一
+[...string.matchAll(regex)]
+
+// 转为数组的方法二
+Array.from(string.matchAll(regex))
+```
+
+
 # 客户端检测
 
 ## 能力检测

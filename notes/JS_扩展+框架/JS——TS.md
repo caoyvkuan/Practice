@@ -2,6 +2,12 @@
 
 + [内置对象类型](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects)
 
+```ts
+// 类型导入
+import type { } from 'type'
+import { type Type } from 'type'
+```
+
 ## 原始数据类型
 
 + boolean 、number 、string 、null 、undefined
@@ -40,7 +46,7 @@ const obj = {
 
 # 类型
 
-+ 联合类型 
++ 联合类型
   + 且 `{ name:string } & { age:number }`
   + 或 ` number | string`
   + 当 ts 不确定联合类型的准确类型时，只能够访问共有的方法，否则会报错
@@ -114,10 +120,10 @@ function error(message: string): never {
 ```ts
 // 数组 有两种方式，一、指定元素类型的数组，二、泛型数组
 // 一、
-let list: number[] = [1, 2, 3]; 
+let list: number[] = [1, 2, 3];
 let list: any[] = [1, 'two', { three：3 }];
 // 二、
-let list: Array<number> = [1, 2, 3]; 
+let list: Array<number> = [1, 2, 3];
 
 // 元组 Tuple 可以指定数组不同位置的类型
 let arr: [string, number] = ['type', 2];
@@ -358,9 +364,9 @@ function createSquare(config: SquareConfig) {
    // ...
 }
 // 这样的拼写错误是会引发错误的，尽管你是想传输该属性
-let mySquare = createSquare({ colour: "red", width: 100 });
+let mySquare = createSquare({ color: "red", width: 100 });
 // 通过类型断言来绕开错误
-let mySquare = createSquare({ colour: "red", width: 100 } as SquareConfig);
+let mySquare = createSquare({ color: "red", width: 100 } as SquareConfig);
 ```
 
 ## 函数类型
@@ -668,7 +674,7 @@ test.send(); //Error 方法在抽象类中不存在
 ## 多态
 
 + 父类引用指向子类对象
-+ 
++
 
 # function 函数
 
@@ -996,7 +1002,7 @@ type NotDistributed = Wrapped<number | boolean>; // "N"
 ```ts
 // 推断函数的返回类型
 // T 继承 (...args: any[]) => infer R
-// 成立就可以返回通过 infer 推断出的类型 R 
+// 成立就可以返回通过 infer 推断出的类型 R
 type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any;
 
 ```
@@ -1180,7 +1186,7 @@ function area(s: Shape) {
 + `Extract<T, U>` -- 提取T中可以赋值给U的类型。
 + `NonNullable<T>` -- 从T中剔除 null 和 undefined。
 + `ReturnType<T>` -- 获取函数返回值类型。
-+ `InstanceType<T>` -- 获取构造函数类型的实例类型。
++ `InstanceType<T>` -- + typeof 获取构造函数类型的实例类型。
 ```ts
 type T00 = Exclude<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "b" | "d"
 type T01 = Extract<"a" | "b" | "c" | "d", "a" | "c" | "f">;  // "a" | "c"
@@ -1641,7 +1647,7 @@ function color(value: string) { // 这是一个装饰器工厂
     }
 }
 
-// 使用 
+// 使用
 @color;
 ```
 + 多个装饰器应用在同一个声明上时，
@@ -1912,6 +1918,7 @@ function applyMixin(derivedCtor: any, baseCtors: any[]) {
 + [TypeSearch](https://www.typescriptlang.org/dt/search?search=)
 
 + 声明只能定义类型，切勿定义具体实现
++ 全局声明文件, 不能包含 导出或导入语句
 
 + `declare var` 声明全局变量
   + 同时也可以使用 let 和 const
@@ -2012,7 +2019,7 @@ declare module '*.vue' {
       // 编译后模块化的的方案
       "jsx": "preserve",
       "experimentalDecorators": true,
-      "module": "ES6",
+      "module": "ES6", // 使用的模块化方案
       // 用来指定项目中使用的库
       // 一般不写,默认是在浏览器的运行环境中使用的运行环境
       // "lib": [
@@ -2032,6 +2039,10 @@ declare module '*.vue' {
          // 因为 * 所以不论写什么都是可以匹配的， ./src/components/Test 找到后就不会继续找了
          // 如果没找到就会继续寻找 ./src/pages/components/Test 从数组依次往后寻找
       },
+      // 解析使用的类型
+      "types": [],
+      // 在项目中可以使用那些库的类型
+      "lib": [],
       // 编译后的输出目录
       "outDir": "./dist",
       // 输出的文件,将全局作用域代码合并为一个文件,模块化只支持 amd 和 system 模块化方案
@@ -2056,6 +2067,17 @@ declare module '*.vue' {
       "noImplicitThis": true,
       // 严格检查类型的空值
       "strictNullChecks": true,
+      // 辅助导入功能
+      "importHelpers": true,
+      // 按照 node 的模式解析模块
+      "moduleResolution": "node",
+      // 跳过对一些库的类型检测
+      "skipLibCheck": true,
+      // 模块载入方式能否混合使用
+      "esModuleInterop": true,
+      "allowSyntheticDefaults": true,
+      // 映射文件
+      "sourceMap": true,
    }
 }
 ```

@@ -74,6 +74,11 @@ PubSub.countSubscriptions('token')
 + copy('Text');
 + [链接](https://www.npmjs.com/package/copy-to-clipboard)
 
+## 加密
+
++ crypto-js
++ jsonwebtoken
+
 ## 不可变数据
 
 1. immutable

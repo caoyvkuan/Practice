@@ -2778,12 +2778,14 @@ export function f() {};
 function f() {}
 export {f};
 ```
+
 + 另外，export 语句输出的接口，与其对应的值是动态绑定关系，即通过该接口，可以取到模块内部实时的值。
 ```js
 export var foo = 'bar';
 setTimeout(() => foo = 'baz', 500);
 // 输出变量 foo，值为 bar，500 毫秒之后变成 baz。
 ```
+
 + 这一点与 CommonJS 规范完全不同。CommonJS 模块输出的是值的缓存，不存在动态更新
 
 + export 命令可以出现在模块的任何位置，只要处于模块顶层就可以。
@@ -2798,6 +2800,10 @@ foo()
 ```
 
 ## import 命令
+
++ import.meta 属性, 提供了当前模块的一些元信息, 只能在模块内部使用
+  + import.meta.url - 当前模块的路径
+  + scriptElement 浏览器中才有, 返回加载模块的那个 `<script>` 元素
 
 + 使用 export 命令定义了模块的对外接口以后，其他 JS 文件就可以通过 import 命令加载这个模块。
 ```js

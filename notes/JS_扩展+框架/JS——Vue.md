@@ -6,7 +6,7 @@
 
 <!-- 基本使用 -->
 <script>
-  // 传入配置对象 
+  // 传入配置对象
   const app = Vue.createApp({
     template: `
       <h2> {{counter}} </h3>
@@ -31,6 +31,14 @@
   // 挂载
   app.mount("#app");
 </script>
+```
+
+## TypeScript
+
+```ts
+// 获取组件实例类型
+type Instance = InstanceType<typeof Component>
+
 ```
 
 ## 组件化
@@ -574,16 +582,25 @@ export default {
 ```js
 // 默认绑定组件中的 modelValue
 <MyInput v-model='data' />
+// 相当于
+<MyInput
+  :modelValue="data"
+  @update:modelValue="newValue => data = newValue" />
+
 // 传多个  v-model, 以及自定义 name
 <MyInput v-model='data' v-model:title='title' />
-// 相当于
-<MyInput 
-  v-model='data' 
-  @update:model-value='message = $event' />
+// 多个时 v-model 的名字就是传入 props 时的值名字
+
 
 // 组件模板
 // 方式一 原生方式
-<input :value='modelValue' @input='input' />
+<input
+  :value='modelValue'
+  // 绑定方法
+  @input='input'
+  // 利用 Vue 特性
+  @input="$emit('update:modelValue', $event.target.value)"
+/>
 // 方式二 搭配 computed
 <input v-model='value' />
 
@@ -609,7 +626,6 @@ const MyInput =  {
     }
   }
 }
-
 ```
 
 ## transition
@@ -720,7 +736,7 @@ export default {
   components:{ /* 注册组件 */ },
   /** parameter
    * props: Object
-   * context: { 
+   * context: {
    *  attrs: 非 props 的属性
    *  slots: 插槽
    *  emit: 访问 this.$emit
@@ -880,6 +896,45 @@ const emit = defineEmits<{
 }>()
 ```
 
++ emits 使用
+```js
+// 父组件进行监听注册, 等待子组件发生事件后运行指定回调函数
+// 可以使用修饰符 .once 等
+<MyComponent @some-event="callback" />
+
+// 子组件发射事件
+const emit = defineEmits(['inFocus', 'submit'])
+// 发射事件
+emit('submit')
+emit('submit', parameter)
+
+// 对参数进行校验
+const emit = defineEmits({
+  // 没有校验
+  click: null,
+
+  // 校验 submit 事件
+  submit: ({ email, password }) => {
+    if (email && password) {
+      return true
+    } else {
+      console.warn('Invalid submit event payload!')
+      return false
+    }
+  }
+})
+```
+
+## defineExpose
+
++ 暴露一些东西到组件实例中
+```js
+defineExpose({
+  a,
+  b
+})
+```
+
 ## 生命周期
 
 ```js
@@ -1006,7 +1061,7 @@ const { foo, bar } = toRefs(state);
 ## Plugin
 
 + 插件是一个对象, 必须包含一个 install 函数
-+ 也可以是一个函数
++ 也可以是一个函数, 函数也会得到一个 app 对象作为参数
 ```js
 const plugin = {
   install(app){
@@ -1064,7 +1119,7 @@ export default {
   + 禁止继承, Object: `inheritAttrs: false`
   + 多个根节点, 需要显示绑定
 + 非 Poops 属性
-  + 使用: `< :custom="$attr.data" />` 
+  + 使用: `< :custom="$attr.data" />`
 ```js
 <Component title='Hello' description='World!' />
 <Component :="Object" />

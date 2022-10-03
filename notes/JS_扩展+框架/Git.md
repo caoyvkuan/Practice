@@ -84,6 +84,14 @@
 + 删除别名
 + git config --global --unset alias.别名
 
++ crlf 与 lf 配置
++ git config --global core.autocrlf true|input|false
+  + true 提交时转换为 lf , 拉取时转换为 crlf
+  + input 提交时转换, 检出时转换
+  + false 都不转换
++ git config --global core.safecrlf true|false|warn
+  + 是否允许混合换行符, true 拒绝混合换行符的文件
+
 ```cmd
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 ```
